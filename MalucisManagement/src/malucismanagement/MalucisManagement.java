@@ -26,7 +26,8 @@ public class MalucisManagement extends Application {
 
     public static void main(String[] args) {
         
-        if(Banco.conectar())
+        launch(args);
+        /*if(Banco.conectar())
            launch(args);
         else{
             
@@ -44,6 +45,6 @@ public class MalucisManagement extends Application {
                 }
             }
             System.exit(0);
-        }
+        }*/
     }
 }
