@@ -10,7 +10,7 @@ public class ConsultaAPI {
     
     public static String consultaCep(String cep) {
         
-        StringBuffer dados = new StringBuffer();
+        StringBuilder dados = new StringBuilder();
         
         try {
             
@@ -20,6 +20,7 @@ public class ConsultaAPI {
             con.setDoInput(true);
             con.setDoOutput(true);
             con.setAllowUserInteraction(false);
+            con.addRequestProperty("User-Agent", "Mozilla");
             
             InputStream in = con.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
