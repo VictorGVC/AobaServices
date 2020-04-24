@@ -25,7 +25,7 @@
       </Pane>
       <Pane prefHeight="316.0" prefWidth="500.0">
          <children>
-            <JFXTextField fx:id="tEndereco" labelFloat="true" layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="291.0" promptText="Endereço" />
+            <JFXTextField fx:id="tRua" labelFloat="true" layoutX="14.0" layoutY="62.0" prefHeight="25.0" prefWidth="291.0" promptText="Rua" />
             <JFXTextField fx:id="tTelefone" labelFloat="true" layoutX="168.0" layoutY="109.0" prefHeight="25.0" prefWidth="132.0" promptText="Telefone" />
             <ImageView fx:id="ivLogo" fitHeight="94.0" fitWidth="135.0" layoutX="341.0" layoutY="43.0" onMouseClicked="#clkAddLogo" pickOnBounds="true" preserveRatio="true">
                <image>

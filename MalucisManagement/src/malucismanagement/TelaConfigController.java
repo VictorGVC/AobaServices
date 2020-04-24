@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +19,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import malucismanagement.util.ConsultaAPI;
 import malucismanagement.util.MaskFieldUtil;
+import org.json.JSONObject;
 
 public class TelaConfigController implements Initializable {
 
@@ -29,8 +32,6 @@ public class TelaConfigController implements Initializable {
     private ImageView ivLogo;
     @FXML
     private VBox painel;
-    @FXML
-    private JFXTextField tEndereco;
     @FXML
     private JFXTextField tTelefone;
     @FXML
@@ -43,6 +44,8 @@ public class TelaConfigController implements Initializable {
     private JFXTextField tUf;
     @FXML
     private JFXTextField tCidade;
+    @FXML
+    private JFXTextField tRua;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,6 +68,25 @@ public class TelaConfigController implements Initializable {
 
     @FXML
     private void evtBotaoDigitado(KeyEvent event) {
+        
+        if(tCep.getText().length() == 8){
+            
+            Task task = new Task<Void>() {
+            @Override
+            protected Void call() {
+                
+                String json_str = ConsultaAPI.consultaCep(tCep.getText());
+                JSONObject my_obj = new JSONObject(json_str);
+                
+                tRua.setText(my_obj.getString("logradouro"));
+                tCidade.setText(my_obj.getString("localidade"));
+                tUf.setText(my_obj.getString("uf"));
+                    
+                return null;
+            }
+        };
+        new Thread(task).start();
+        }
     }
 
     @FXML
