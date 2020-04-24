@@ -36,9 +36,9 @@
             <Label layoutX="14.0" layoutY="155.0" text="Cor Primária" />
             <Label layoutX="14.0" layoutY="221.0" text="Cor Secundária" />
             <JFXColorPicker fx:id="cpPrimaria" layoutX="13.0" layoutY="172.0" prefWidth="132.0" />
-            <JFXTextField fx:id="tCep" layoutX="12.0" layoutY="18.0" onKeyTyped="#evtBotaoDigitado" promptText="CEP" />
-            <JFXTextField fx:id="tUf" layoutX="168.0" layoutY="18.0" prefHeight="25.0" prefWidth="135.0" promptText="UF" />
-            <JFXTextField fx:id="tCidade" layoutX="12.0" layoutY="109.0" promptText="Cidade" />
+            <JFXTextField fx:id="tCep" labelFloat="true" layoutX="12.0" layoutY="18.0" onKeyTyped="#evtBotaoDigitado" promptText="CEP" />
+            <JFXTextField fx:id="tUf" labelFloat="true" layoutX="168.0" layoutY="18.0" prefHeight="25.0" prefWidth="135.0" promptText="UF" />
+            <JFXTextField fx:id="tCidade" labelFloat="true" layoutX="12.0" layoutY="109.0" promptText="Cidade" />
          </children>
       </Pane>
       <Pane prefHeight="33.0" prefWidth="500.0">

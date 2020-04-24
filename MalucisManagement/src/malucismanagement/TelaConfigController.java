@@ -78,9 +78,9 @@ public class TelaConfigController implements Initializable {
                 String json_str = ConsultaAPI.consultaCep(tCep.getText());
                 JSONObject my_obj = new JSONObject(json_str);
                 
-                tRua.setText(my_obj.getString("logradouro"));
-                tCidade.setText(my_obj.getString("localidade"));
-                tUf.setText(my_obj.getString("uf"));
+                tRua.setText(my_obj.getString("address"));
+                tCidade.setText(my_obj.getString("city"));
+                tUf.setText(my_obj.getString("state"));
                     
                 return null;
             }

@@ -14,7 +14,7 @@ public class ConsultaAPI {
         
         try {
             
-            URL url = new URL("https://viacep.com.br/ws/" + cep + "/json/");
+            URL url = new URL("http://apps.widenet.com.br/busca-cep/api/cep.json?code=" + cep);
             URLConnection con = url.openConnection();
             
             con.setDoInput(true);
