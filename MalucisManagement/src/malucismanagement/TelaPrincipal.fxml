@@ -42,7 +42,7 @@
                   <Insets />
                </VBox.margin>
                <items>
-                  <Button mnemonicParsing="false" onAction="#clkConfiguracoes" prefHeight="25.0" prefWidth="24.0" style="-fx-background-image: url('icons\config.png'); -fx-background-position: center center; -fx-background-repeat: no-repeat; -fx-background-color: transparent;" />
+                  <Button mnemonicParsing="false" onAction="#clkConfiguracoes" prefHeight="25.0" prefWidth="24.0" style="-fx-background-image: url('icons/config.png'); -fx-background-position: center center; -fx-background-repeat: no-repeat; -fx-background-color: transparent;" />
                </items>
             </ToolBar>
          </children>
