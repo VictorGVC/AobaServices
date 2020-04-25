@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -67,23 +68,31 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void evtBotaoDigitado(KeyEvent event) {
         
-        if(tCep.getText().length() == 9){
+        if(tCep.getText().length() == 8){
             
-            String cep = tCep.getText().replaceAll("\\-", "");
-            malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
-            malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
-
-            try {
+            Task task = new Task<Void>() {
                 
-                malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
+                @Override
+                protected Void call() {
+                    
+                    String cep = tCep.getText().replaceAll("\\-", "");
+                    malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
+                    malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
 
-                tUf.setText(result.getUf());
-                tRua.setText(result.getEnd());
-                tCidade.setText(result.getCidade());
-            }
-            catch (Exception e){
-                JOptionPane.showMessageDialog(null, "ERRO ao buscar CEP " + e, "ERRO", JOptionPane.ERROR_MESSAGE);
-            }
+                    try {
+
+                        malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
+
+                        tUf.setText(result.getUf());
+                        tRua.setText(result.getEnd());
+                        tCidade.setText(result.getCidade());
+                    }
+                    catch (Exception e) {}
+                    
+                    return null;
+                }
+            };
+            new Thread(task).start();
         }
     }
 
