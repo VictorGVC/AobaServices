@@ -1,6 +1,7 @@
 package malucismanagement;
 
 import com.jfoenix.controls.JFXColorPicker;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +45,10 @@ public class TelaConfigController implements Initializable {
     private JFXTextField tCidade;
     @FXML
     private JFXTextField tRua;
+    @FXML
+    private JFXComboBox<String> cbFonte;
+    @FXML
+    private JFXColorPicker cpFonte;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

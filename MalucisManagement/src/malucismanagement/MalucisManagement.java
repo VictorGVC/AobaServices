@@ -6,6 +6,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import malucismanagement.db.banco.Banco;
@@ -18,6 +19,7 @@ public class MalucisManagement extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
         Scene scene = new Scene(root);
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setScene(scene);
         stage.setTitle("Papelaria Maluci");
         stage.setMaximized(true);
