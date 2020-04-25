@@ -19,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import javax.swing.JOptionPane;
 import malucismanagement.util.MaskFieldUtil;
 
 public class TelaConfigController implements Initializable {

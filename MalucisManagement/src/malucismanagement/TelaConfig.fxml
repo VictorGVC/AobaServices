@@ -43,7 +43,7 @@
       </Pane>
       <Pane prefHeight="33.0" prefWidth="500.0">
          <children>
-            <JFXButton layoutX="226.0" layoutY="4.0" onAction="#clkBtSalvar" text="Salvar" />
+            <JFXButton alignment="CENTER_RIGHT" layoutX="218.0" layoutY="4.0" onAction="#clkBtSalvar" prefHeight="25.0" prefWidth="57.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Salvar" textAlignment="CENTER" />
          </children>
       </Pane>
    </children>

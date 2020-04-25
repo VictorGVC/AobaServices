@@ -24,13 +24,12 @@ public class DALParametrizacao {
         
         try {
             
-            PreparedStatement st = Banco.con.getConnect().prepareStatement("UPDATE Parametrizacao SET par_foto = ?");
+            PreparedStatement st = Banco.con.getConnect().prepareStatement("UPDATE Parametrizacao SET par_logo = ?");
             
             st.setBytes(1, p.getLogo());
             st.execute();
             
             return true;
-           
         }
         catch(Exception e) {
             System.out.println(e);
