@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,8 +18,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import javax.swing.JOptionPane;
 import malucismanagement.util.MaskFieldUtil;
-import org.json.JSONObject;
 
 public class TelaConfigController implements Initializable {
 
@@ -68,6 +67,24 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void evtBotaoDigitado(KeyEvent event) {
         
+        if(tCep.getText().length() == 9){
+            
+            String cep = tCep.getText().replaceAll("\\-", "");
+            malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
+            malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
+
+            try {
+                
+                malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
+
+                tUf.setText(result.getUf());
+                tRua.setText(result.getEnd());
+                tCidade.setText(result.getCidade());
+            }
+            catch (Exception e){
+                JOptionPane.showMessageDialog(null, "ERRO ao buscar CEP " + e, "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     @FXML
@@ -75,6 +92,7 @@ public class TelaConfigController implements Initializable {
         
         Image img;
         FileChooser fc = new FileChooser();
+        
         fc.setTitle("Open Resource File");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg"));
         arq = fc.showOpenDialog(null);

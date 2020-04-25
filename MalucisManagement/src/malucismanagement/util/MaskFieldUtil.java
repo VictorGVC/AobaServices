@@ -194,26 +194,18 @@ public abstract class MaskFieldUtil {
         MaskFieldUtil.maxField(textField, 14);
         textField.lengthProperty().addListener((observableValue, number, number2) -> {
             
-            try {
+            String value = textField.getText();
+            value = value.replaceAll("[^0-9]", "");
+            int tam = value.length();
+            value = value.replaceFirst("(\\d{2})(\\d)", "($1)$2");
+            value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
+            if (tam > 10) {
                 
-                String value = textField.getText();
-                
-                value = value.replaceAll("[^0-9]", "");
-                
-                int tam = value.length();
-                
-                value = value.replaceFirst("(\\d{2})(\\d)", "($1)$2");
-                value = value.replaceFirst("(\\d{4})(\\d)", "$1-$2");
-                if (tam > 10) {
-                    
-                    value = value.replaceAll("-", "");
-                    value = value.replaceFirst("(\\d{5})(\\d)", "$1-$2");
-                }
-                textField.setText(value);
-                MaskFieldUtil.positionCaret(textField);
-
-            } 
-            catch (Exception ex) {}
+                value = value.replaceAll("-", "");
+                value = value.replaceFirst("(\\d{5})(\\d)", "$1-$2");
+            }
+            textField.setText(value);
+            MaskFieldUtil.positionCaret(textField);
         }
         );
     }
@@ -229,12 +221,8 @@ public abstract class MaskFieldUtil {
             value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
             value = value.replaceFirst("(\\d{3})(\\d)", "$1.$2");
             value = value.replaceFirst("(\\d{3})(\\d)", "$1-$2");
-            try {
-                
-                textField.setText(value);
-                MaskFieldUtil.positionCaret(textField);
-            }
-            catch(Exception ex){}
+            textField.setText(value);
+            MaskFieldUtil.positionCaret(textField);
         }
         );
     }

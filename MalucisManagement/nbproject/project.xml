@@ -11,6 +11,9 @@
                 <dependency dependsOn="jar" target="profile"/>
                 <dependency dependsOn="jar" target="run"/>
             </extension>
+            <extension file="jaxws-build.xml" id="jaxws">
+                <dependency dependsOn="wsimport-client-generate" target="-pre-pre-compile"/>
+            </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>MalucisManagement</name>
