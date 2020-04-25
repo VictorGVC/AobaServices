@@ -57,14 +57,12 @@
          </padding>
       </HBox>
    </bottom>
-   <left>
-      <VBox prefHeight="422.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="211.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </VBox>
-   </left>
    <center>
-      <Pane prefHeight="421.0" prefWidth="565.0" BorderPane.alignment="CENTER" />
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="ivLogo" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+            <Pane prefHeight="422.0" prefWidth="569.0" />
+         </children>
+      </HBox>
    </center>
 </BorderPane>

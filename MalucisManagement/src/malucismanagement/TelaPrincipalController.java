@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
@@ -18,6 +19,8 @@ public class TelaPrincipalController implements Initializable {
     
     @FXML
     private BorderPane pnprincipal;
+    @FXML
+    private ImageView ivLogo;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -29,13 +32,8 @@ public class TelaPrincipalController implements Initializable {
     {
         if(on){
             
-            FadeTransition ft = new FadeTransition(Duration.millis(500), spnprincipal); 
-            spnprincipal.setStyle("-fx-background-image: url('icons/pub.jpg');-fx-background-position: center center;"
-                    + "-fx-background-repeat: no-repeat;");
+            FadeTransition ft = new FadeTransition(Duration.millis(500), spnprincipal);
         }
-        else
-            spnprincipal.setStyle("-fx-background-image: url('icons/pub.jpg');-fx-background-position: center center;"
-                    + "-fx-background-repeat: no-repeat;");
     }
     
     @FXML
