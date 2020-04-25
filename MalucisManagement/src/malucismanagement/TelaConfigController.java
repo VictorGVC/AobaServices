@@ -19,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import malucismanagement.util.ConsultaAPI;
 import malucismanagement.util.MaskFieldUtil;
 import org.json.JSONObject;
 
@@ -69,24 +68,6 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void evtBotaoDigitado(KeyEvent event) {
         
-        if(tCep.getText().length() == 8){
-            
-            Task task = new Task<Void>() {
-            @Override
-            protected Void call() {
-                
-                String json_str = ConsultaAPI.consultaCep(tCep.getText());
-                JSONObject my_obj = new JSONObject(json_str);
-                
-                tRua.setText(my_obj.getString("address"));
-                tCidade.setText(my_obj.getString("city"));
-                tUf.setText(my_obj.getString("state"));
-                    
-                return null;
-            }
-        };
-        new Thread(task).start();
-        }
     }
 
     @FXML
