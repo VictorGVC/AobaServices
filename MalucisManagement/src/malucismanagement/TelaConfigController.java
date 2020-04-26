@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -63,10 +64,10 @@ public class TelaConfigController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        List<String> list = new ArrayList();
+        List<String> list = listaFontes();
         
         fadeout();
-        list = listaFontes();
+        retornaConfig();
         cbFonte.setItems(FXCollections.observableArrayList(list));
     } 
 
@@ -92,6 +93,14 @@ public class TelaConfigController implements Initializable {
         list.add("Times New Roman");
         
         return list;
+    }
+    
+    private void retornaConfig() {
+        
+        cpPrimaria.setValue(Color.BLUE);
+        cpSecundaria.setValue(Color.BLUE);
+        cbFonte.setValue("");
+        cpFonte.setValue(Color.BLUE);
     }
     
     @FXML
