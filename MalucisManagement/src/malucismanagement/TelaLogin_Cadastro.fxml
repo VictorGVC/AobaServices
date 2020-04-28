@@ -19,9 +19,9 @@
    <children>
       <JFXTabPane prefHeight="539.0" prefWidth="669.0" style="-fx-background-color: #7681B3;" tabMinWidth="258.0" AnchorPane.leftAnchor="0.0">
          <tabs>
-            <Tab style="-fx-background-color: #6F73D2;" text="Login">
+            <Tab fx:id="tablogin" style="-fx-background-color: #6F73D2;" text="Login">
                <content>
-                  <FlowPane alignment="CENTER" prefHeight="306.0" prefWidth="366.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
+                  <FlowPane fx:id="flplogin" alignment="CENTER" prefHeight="306.0" prefWidth="366.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
                      <children>
                         <FlowPane prefHeight="327.0" prefWidth="306.0" style="-fx-border-radius: 5px; -fx-border-color: white; -fx-background-radius: 5px; -fx-background-color: white;">
                            <children>
@@ -38,7 +38,7 @@
                                           <JFXTextField layoutX="88.0" layoutY="118.0" promptText="Usuário" />
                                        </children>
                                     </Pane>
-                                    <JFXButton alignment="CENTER" onAction="#clkBtSalvar" prefHeight="26.0" prefWidth="526.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
+                                    <JFXButton fx:id="btlogin" alignment="CENTER" onAction="#clkBtSalvar" prefHeight="26.0" prefWidth="526.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -84,7 +84,7 @@
                                           <Label layoutX="132.0" layoutY="94.0" text="Dados pessoais" />
                                        </children>
                                     </Pane>
-                                    <JFXButton alignment="CENTER" onAction="#clkBtSalvar" prefHeight="40.0" prefWidth="658.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
+                                    <JFXButton fx:id="btcadastro" alignment="CENTER" onAction="#clkBtSalvar" prefHeight="40.0" prefWidth="658.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
