@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="482.0" prefWidth="669.0" stylesheets="@../estilos/login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaLogin_CadastroController">
+<AnchorPane id="AnchorPane" prefHeight="482.0" prefWidth="669.0" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaLogin_CadastroController">
    <children>
       <JFXTabPane prefHeight="506.0" prefWidth="669.0" style="-fx-background-color: #7681B3;" tabMinWidth="258.0" AnchorPane.leftAnchor="0.0">
          <tabs>
