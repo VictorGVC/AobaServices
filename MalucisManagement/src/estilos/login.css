@@ -1,13 +1,9 @@
 .tab
 {
-    -fx-pref-width: 257;
+    -fx-pref-width: 328;
 }
 
 .tab-header-background
 {
     -fx-background-color: #6F73D2;
-}
-.flowpane
-{
-    -fx-border-radius: 100px;
 }
