@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="316.0" prefWidth="524.0" stylesheets="@../estilos/login.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="malucismanagement.TelaLogin_CadastroController">
+   <children>
+      <JFXTabPane prefHeight="337.0" prefWidth="524.0" style="-fx-background-color: 6F73D2;" tabMinWidth="258.0" AnchorPane.leftAnchor="0.0">
+         <tabs>
+            <Tab style="-fx-background-color: #6F73D2;" text="Login">
+               <content>
+                  <FlowPane prefHeight="300.0" prefWidth="510.0">
+                     <children>
+                        <VBox fx:id="painel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="526.0">
+                           <children>
+                              <Pane prefHeight="263.0" prefWidth="517.0">
+                                 <children>
+                                    <ImageView fitHeight="52.0" fitWidth="43.0" layoutX="243.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icons/login.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXTextField layoutX="196.0" layoutY="168.0" promptText="Senha" />
+                                    <JFXTextField layoutX="197.0" layoutY="107.0" promptText="Usuário" />
+                                 </children>
+                              </Pane>
+                              <JFXButton alignment="CENTER" onAction="#clkBtSalvar" prefHeight="26.0" prefWidth="526.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="34.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../icons/confirm.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab style="-fx-background-color: #6F73D2;" text="Cadastro">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </children>
+</AnchorPane>
