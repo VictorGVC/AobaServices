@@ -6,8 +6,12 @@
 package malucismanagement;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,6 +38,8 @@ public class TelaLogin_CadastroController implements Initializable {
     private VBox painel;
     @FXML
     private JFXButton btlogin;
+    @FXML
+    private JFXComboBox<?> cbcargo;
 
     /**
      * Initializes the controller class.
@@ -45,6 +51,7 @@ public class TelaLogin_CadastroController implements Initializable {
 
     @FXML
     private void clkBtSalvar(ActionEvent event) {
+        
     }
     
 }

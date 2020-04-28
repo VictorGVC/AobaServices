@@ -37,22 +37,22 @@
                                           </ImageView>
                                           <JFXTextField layoutX="481.0" layoutY="182.0" promptText="Senha" />
                                           <JFXTextField layoutX="481.0" layoutY="133.0" promptText="Usuário" />
-                                          <JFXComboBox layoutX="481.0" layoutY="235.0" prefHeight="25.0" prefWidth="134.0" promptText="Cargo" />
-                                          <JFXComboBox layoutX="49.0" layoutY="284.0" prefHeight="25.0" prefWidth="135.0" promptText="Sexo" />
+                                          <JFXComboBox fx:id="cbcargo" layoutX="481.0" layoutY="228.0" prefHeight="25.0" prefWidth="134.0" promptText="Cargo" />
+                                          <JFXComboBox layoutX="49.0" layoutY="278.0" prefHeight="25.0" prefWidth="135.0" promptText="Sexo" />
                                           <JFXTextField layoutX="49.0" layoutY="135.0" promptText="Nome" />
                                           <JFXTextField layoutX="49.0" layoutY="184.0" promptText="Telefone" />
-                                          <JFXDatePicker layoutX="49.0" layoutY="338.0" prefHeight="28.0" prefWidth="147.0" promptText="data de nascimento" />
+                                          <JFXDatePicker layoutX="49.0" layoutY="325.0" prefHeight="28.0" prefWidth="147.0" promptText="data de nascimento" />
                                           <JFXTextField layoutX="49.0" layoutY="237.0" promptText="Email" />
                                           <Label layoutX="76.0" layoutY="93.0" text="Dados Pessoais" />
-                                          <JFXTextField layoutX="260.0" layoutY="340.0" promptText="Rua" />
-                                          <JFXTextField layoutX="260.0" layoutY="284.0" promptText="Bairro" />
+                                          <JFXTextField layoutX="260.0" layoutY="278.0" promptText="Rua" />
+                                          <JFXTextField layoutX="260.0" layoutY="228.0" promptText="Bairro" />
                                           <Line endX="-24.0" endY="257.0" layoutX="247.0" layoutY="108.0" startX="-24.0" startY="2.0" />
                                           <Line endX="-100.0" endY="255.0" layoutX="539.0" layoutY="110.0" startX="-100.0" />
                                           <Label layoutX="303.0" layoutY="93.0" text="Endereço" />
                                           <Label layoutX="503.0" layoutY="102.0" text="Dados Cadastrais" />
                                           <JFXTextField layoutX="260.0" layoutY="133.0" promptText="CEP" />
                                           <JFXTextField layoutX="260.0" layoutY="182.0" promptText="Cidade" />
-                                          <JFXTextField layoutX="261.0" layoutY="237.0" />
+                                          <JFXTextField layoutX="260.0" layoutY="326.0" promptText="Numero" />
                                        </children>
                                     </Pane>
                                     <JFXButton fx:id="btcadastro" alignment="CENTER" onAction="#clkBtSalvar" prefHeight="40.0" prefWidth="658.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
