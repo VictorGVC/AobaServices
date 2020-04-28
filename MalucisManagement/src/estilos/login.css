@@ -7,3 +7,7 @@
 {
     -fx-background-color: #6F73D2;
 }
+.flowpane
+{
+    -fx-border-radius: 100px;
+}

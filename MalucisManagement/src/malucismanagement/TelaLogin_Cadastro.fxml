@@ -13,46 +13,50 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="316.0" prefWidth="524.0" stylesheets="@../estilos/login.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="malucismanagement.TelaLogin_CadastroController">
+<AnchorPane id="AnchorPane" prefHeight="539.0" prefWidth="669.0" stylesheets="@../estilos/login.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="malucismanagement.TelaLogin_CadastroController">
    <children>
-      <JFXTabPane prefHeight="337.0" prefWidth="524.0" style="-fx-background-color: 6F73D2;" tabMinWidth="258.0" AnchorPane.leftAnchor="0.0">
+      <JFXTabPane prefHeight="539.0" prefWidth="669.0" style="-fx-background-color: #7681B3;" tabMinWidth="258.0" AnchorPane.leftAnchor="0.0">
          <tabs>
             <Tab style="-fx-background-color: #6F73D2;" text="Login">
                <content>
-                  <FlowPane prefHeight="300.0" prefWidth="510.0">
+                  <FlowPane alignment="CENTER" prefHeight="306.0" prefWidth="366.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
                      <children>
-                        <VBox fx:id="painel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="526.0">
+                        <FlowPane prefHeight="327.0" prefWidth="306.0" style="-fx-border-radius: 5px; -fx-border-color: white; -fx-background-radius: 5px; -fx-background-color: white;">
                            <children>
-                              <Pane prefHeight="263.0" prefWidth="517.0">
+                              <VBox fx:id="painel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="310.0" style="-fx-border-radius: 50px;">
                                  <children>
-                                    <ImageView fitHeight="52.0" fitWidth="43.0" layoutX="243.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../icons/login.png" />
-                                       </image>
-                                    </ImageView>
-                                    <JFXTextField layoutX="196.0" layoutY="168.0" promptText="Senha" />
-                                    <JFXTextField layoutX="197.0" layoutY="107.0" promptText="Usuário" />
+                                    <Pane prefHeight="294.0" prefWidth="425.0" style="-fx-border-radius: 25; -fx-background-radius: 25px;">
+                                       <children>
+                                          <ImageView fitHeight="52.0" fitWidth="43.0" layoutX="134.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/login.png" />
+                                             </image>
+                                          </ImageView>
+                                          <JFXTextField layoutX="88.0" layoutY="189.0" promptText="Senha" />
+                                          <JFXTextField layoutX="88.0" layoutY="118.0" promptText="Usuário" />
+                                       </children>
+                                    </Pane>
+                                    <JFXButton alignment="CENTER" onAction="#clkBtSalvar" prefHeight="26.0" prefWidth="526.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <graphic>
+                                          <ImageView fitHeight="34.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/verifica.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
                                  </children>
-                              </Pane>
-                              <JFXButton alignment="CENTER" onAction="#clkBtSalvar" prefHeight="26.0" prefWidth="526.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <graphic>
-                                    <ImageView fitHeight="34.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../icons/confirm.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </FlowPane>
                      </children>
                   </FlowPane>
                </content>
             </Tab>
-            <Tab style="-fx-background-color: #6F73D2;" text="Cadastro">
+            <Tab text="Cadastro">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
