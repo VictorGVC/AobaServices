@@ -8,10 +8,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -23,11 +27,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import javax.imageio.ImageIO;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.util.ManipularImagem;
@@ -60,14 +65,23 @@ public class TelaConfigController implements Initializable {
     private JFXComboBox<String> cbFonte;
     @FXML
     private JFXColorPicker cpFonte;
+    @FXML
+    private Pane pnsecundario;
+    @FXML
+    private Pane pnprimario;
+    @FXML
+    private Pane pnsecundario2;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         List<String> list = listaFontes();
-        
+   
         fadeout();
-        retornaConfig();
+        /*try {
+            retornaConfig();
+        }
+        catch (IOException ex) {}*/
         cbFonte.setItems(FXCollections.observableArrayList(list));
     } 
 
@@ -95,12 +109,25 @@ public class TelaConfigController implements Initializable {
         return list;
     }
     
-    private void retornaConfig() {
+    private void retornaConfig() throws IOException {
         
-        cpPrimaria.setValue(Color.BLUE);
-        cpSecundaria.setValue(Color.BLUE);
-        cbFonte.setValue("");
-        cpFonte.setValue(Color.BLUE);
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        BufferedImage bimg = null;
+        InputStream is = dal.getFoto();
+        
+        cpPrimaria.setValue(Color.web(p.getCorprimaria()));
+        cpSecundaria.setValue(Color.web(p.getCorsecundaria()));
+        cbFonte.setValue(p.getFonte());
+        cpFonte.setValue(Color.web(p.getFonte()));
+        bimg = ImageIO.read(is);
+        if(bimg != null)
+            ivLogo.setImage(SwingFXUtils.toFXImage(bimg, null));
+        tCep.setText(p.getCep());
+        tCidade.setText(p.getCidade());
+        tUf.setText(p.getUf());
+        tRua.setText(p.getRua());
+        tTelefone.setText(p.getTelefone());
     }
     
     @FXML
@@ -133,9 +160,9 @@ public class TelaConfigController implements Initializable {
             new Thread(task).start();
         }
     }
-
+    
     @FXML
-    private void clkAddLogo(MouseEvent event) throws FileNotFoundException {
+    private void clkBtAbrirImg(ActionEvent event) throws FileNotFoundException {
         
         Image img;
         FileChooser fc = new FileChooser();
@@ -146,6 +173,12 @@ public class TelaConfigController implements Initializable {
         file = new FileInputStream(arq);
         if(arq != null)
             ivLogo.setImage(new Image(file));
+    }
+
+    @FXML
+    private void clkBtRemoverImg(ActionEvent event) {
+        
+        ivLogo.setImage(null);
     }
     
     @FXML
