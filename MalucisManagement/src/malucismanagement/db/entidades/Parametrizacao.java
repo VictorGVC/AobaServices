@@ -7,7 +7,7 @@ public class Parametrizacao {
     
     public Parametrizacao() {}
 
-    public Parametrizacao(String corprimaria, String corsecundaria, String fonte, String corfonte, String telefone, String rua, String cep, String uf, String cidade, byte[] logo) {
+    public Parametrizacao(String corprimaria, String corsecundaria, String fonte, String corfonte, String telefone, String rua, String cep, String uf, String cidade) {
         this.corprimaria = corprimaria;
         this.corsecundaria = corsecundaria;
         this.fonte = fonte;
@@ -17,7 +17,6 @@ public class Parametrizacao {
         this.cep = cep;
         this.uf = uf;
         this.cidade = cidade;
-        this.logo = logo;
     }
 
     public String getCorprimaria() {

@@ -2,30 +2,41 @@ package malucismanagement;
 
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import malucismanagement.db.dal.DALParametrizacao;
+import malucismanagement.db.entidades.Parametrizacao;
+import malucismanagement.util.ManipularImagem;
 import malucismanagement.util.MaskFieldUtil;
 
 public class TelaConfigController implements Initializable {
 
-    File arq;
-    FileInputStream file;
+    private File arq;
+    private FileInputStream file;
     
     @FXML
     private ImageView ivLogo;
@@ -53,7 +64,11 @@ public class TelaConfigController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        List<String> list = listaFontes();
+        
         fadeout();
+        retornaConfig();
+        cbFonte.setItems(FXCollections.observableArrayList(list));
     } 
 
     private void fadeout() {
@@ -68,7 +83,26 @@ public class TelaConfigController implements Initializable {
         ft.setToValue(1);
         ft.play();
     }
-
+    
+    private List<String> listaFontes() {
+        
+        List<String> list = new ArrayList();
+        
+        list.add("Arial");
+        list.add("Calibri");
+        list.add("Times New Roman");
+        
+        return list;
+    }
+    
+    private void retornaConfig() {
+        
+        cpPrimaria.setValue(Color.BLUE);
+        cpSecundaria.setValue(Color.BLUE);
+        cbFonte.setValue("");
+        cpFonte.setValue(Color.BLUE);
+    }
+    
     @FXML
     private void evtBotaoDigitado(KeyEvent event) {
         
@@ -117,6 +151,46 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void clkBtSalvar(ActionEvent event) {
         
+        Parametrizacao p = new Parametrizacao(cpPrimaria.toString(), cpSecundaria.toString(), 
+                cbFonte.getValue(), cpFonte.toString(), tTelefone.getText(), tRua.getText(), 
+                tCep.getText(), tUf.getText(), tCidade.getText());
+        DALParametrizacao dal = new DALParametrizacao();
+        BufferedImage bimg = null;
+        
+        bimg = SwingFXUtils.fromFXImage(ivLogo.getImage(), bimg);
+        p.setLogo(ManipularImagem.getImgBytes(bimg));
+        if(true){
+            
+            if (dal.gravar(p)){
+                
+                if(dal.gravarFoto(p)){
+                    
+                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
+                }
+                else{
+                    
+                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Salvar!")));
+                }
+            }
+        }
+        else{
+            
+            if (dal.alterar(p)){
+                
+                if(dal.gravarFoto(p)){
+                    
+                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
+                }
+                else{
+                    
+                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Alterar!")));
+                }
+            }
+        }
     }
     
     @FXML
