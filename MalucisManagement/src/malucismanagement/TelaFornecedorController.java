@@ -4,7 +4,15 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,19 +45,49 @@ public class TelaFornecedorController implements Initializable {
     @FXML
     private JFXButton btFiltrarFornecedor;
     @FXML
-    private JFXComboBox<?> cbFiltro;
+    private JFXComboBox<String> cbFiltro;
     @FXML
     private JFXTextField txPesquisar;
     @FXML
     private JFXButton btRemoverFornecedor;
     @FXML
     private TableView<?> tvFornecedores;
+    
 
     Boolean flag = true; 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        CarregaCBFiltro();
+        LimpaTelaCadastro();
+    }
+
+    private void LimpaTelaCadastro(){
+        txCNPJ.clear();
+        txEmail.clear();
+        txIE.clear();
+        txNomeForcenedor.clear();
+        txTelefone.clear();
+        txTipo.clear();
+    }
+    
+    private void LimpaTelaTabela(){
+        txPesquisar.clear();
+        cbFiltro.getSelectionModel().clearSelection();
+    }
+    
+    private void CarregaCBFiltro(){
+        ObservableList<String> itens;
+        itens = FXCollections.observableArrayList();
+
+        itens.add("Fornecedor");
+        itens.add("CNPJ");
+        itens.add("IE");
+        itens.add("Telefone");
+        itens.add("Email");
+        itens.add("Tipo");
         
-    }    
+        cbFiltro.setItems(itens);
+    }
 
     @FXML
     private void SalvarFornecedor(ActionEvent event) {
@@ -68,12 +106,7 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void CancelarFornecedor(ActionEvent event) {
-        txCNPJ.clear();
-        txEmail.clear();
-        txIE.clear();
-        txNomeForcenedor.clear();
-        txTelefone.clear();
-        txTipo.clear();
+        LimpaTelaCadastro();
     }
 
     @FXML
@@ -84,8 +117,7 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void CancelarFiltro(ActionEvent event) {
-        txPesquisar.clear();
-        cbFiltro.getSelectionModel().clearSelection();
+        LimpaTelaTabela();
     }
 
     @FXML
