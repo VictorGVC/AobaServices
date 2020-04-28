@@ -14,8 +14,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -37,6 +35,8 @@ import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.util.ManipularImagem;
 import malucismanagement.util.MaskFieldUtil;
+import malucismanagement.util.SQLException_Exception;
+import malucismanagement.util.SigepClienteException;
 
 public class TelaConfigController implements Initializable {
 
@@ -44,33 +44,33 @@ public class TelaConfigController implements Initializable {
     private FileInputStream file;
     
     @FXML
-    private ImageView ivLogo;
+    private VBox pnprincipal;
     @FXML
-    private VBox painel;
+    private Pane pncabecalho;
     @FXML
-    private JFXTextField tTelefone;
+    private Pane pndados;
     @FXML
-    private JFXColorPicker cpSecundaria;
+    private JFXTextField trua;
     @FXML
-    private JFXColorPicker cpPrimaria;
+    private JFXTextField ttelefone;
     @FXML
-    private JFXTextField tCep;
+    private ImageView ivlogo;
     @FXML
-    private JFXTextField tUf;
+    private JFXColorPicker cpsecundaria;
     @FXML
-    private JFXTextField tCidade;
+    private JFXColorPicker cpprimaria;
     @FXML
-    private JFXTextField tRua;
+    private JFXTextField tcep;
     @FXML
-    private JFXComboBox<String> cbFonte;
+    private JFXTextField tuf;
     @FXML
-    private JFXColorPicker cpFonte;
+    private JFXTextField tcidade;
     @FXML
-    private Pane pnsecundario;
+    private JFXComboBox<String> cbfonte;
     @FXML
-    private Pane pnprimario;
+    private JFXColorPicker cpfonte;
     @FXML
-    private Pane pnsecundario2;
+    private Pane pnrodape;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -82,16 +82,16 @@ public class TelaConfigController implements Initializable {
             retornaConfig();
         }
         catch (IOException ex) {}*/
-        cbFonte.setItems(FXCollections.observableArrayList(list));
+        cbfonte.setItems(FXCollections.observableArrayList(list));
     } 
 
     private void fadeout() {
         
-        MaskFieldUtil.cepField(tCep);
-        MaskFieldUtil.maxField(tUf, 2);
-        MaskFieldUtil.foneField(tTelefone);
+        MaskFieldUtil.cepField(tcep);
+        MaskFieldUtil.maxField(tuf, 2);
+        MaskFieldUtil.foneField(ttelefone);
         
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), painel);
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
         
         ft.setFromValue(0);
         ft.setToValue(1);
@@ -116,49 +116,18 @@ public class TelaConfigController implements Initializable {
         BufferedImage bimg = null;
         InputStream is = dal.getFoto();
         
-        cpPrimaria.setValue(Color.web(p.getCorprimaria()));
-        cpSecundaria.setValue(Color.web(p.getCorsecundaria()));
-        cbFonte.setValue(p.getFonte());
-        cpFonte.setValue(Color.web(p.getFonte()));
+        cpprimaria.setValue(Color.web(p.getCorprimaria()));
+        cpsecundaria.setValue(Color.web(p.getCorsecundaria()));
+        cbfonte.setValue(p.getFonte());
+        cpfonte.setValue(Color.web(p.getFonte()));
         bimg = ImageIO.read(is);
         if(bimg != null)
-            ivLogo.setImage(SwingFXUtils.toFXImage(bimg, null));
-        tCep.setText(p.getCep());
-        tCidade.setText(p.getCidade());
-        tUf.setText(p.getUf());
-        tRua.setText(p.getRua());
-        tTelefone.setText(p.getTelefone());
-    }
-    
-    @FXML
-    private void evtBotaoDigitado(KeyEvent event) {
-        
-        if(tCep.getText().length() == 8){
-            
-            Task task = new Task<Void>() {
-                
-                @Override
-                protected Void call() {
-                    
-                    String cep = tCep.getText().replaceAll("\\-", "");
-                    malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
-                    malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
-
-                    try {
-
-                        malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
-
-                        tUf.setText(result.getUf());
-                        tRua.setText(result.getEnd());
-                        tCidade.setText(result.getCidade());
-                    }
-                    catch (Exception e) {}
-                    
-                    return null;
-                }
-            };
-            new Thread(task).start();
-        }
+            ivlogo.setImage(SwingFXUtils.toFXImage(bimg, null));
+        tcep.setText(p.getCep());
+        tcidade.setText(p.getCidade());
+        tuf.setText(p.getUf());
+        trua.setText(p.getRua());
+        ttelefone.setText(p.getTelefone());
     }
     
     @FXML
@@ -172,25 +141,56 @@ public class TelaConfigController implements Initializable {
         arq = fc.showOpenDialog(null);
         file = new FileInputStream(arq);
         if(arq != null)
-            ivLogo.setImage(new Image(file));
+            ivlogo.setImage(new Image(file));
     }
 
     @FXML
     private void clkBtRemoverImg(ActionEvent event) {
         
-        ivLogo.setImage(null);
+        ivlogo.setImage(null);
+    }
+    
+    @FXML
+    private void evtBotaoDigitado(KeyEvent event) {
+        
+        if(tcep.getText().length() == 8){
+            
+            Task task = new Task<Void>() {
+                
+                @Override
+                protected Void call() {
+                    
+                    String cep = tcep.getText().replaceAll("\\-", "");
+                    malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
+                    malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
+
+                    try {
+
+                        malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
+
+                        tuf.setText(result.getUf());
+                        trua.setText(result.getEnd());
+                        tcidade.setText(result.getCidade());
+                    }
+                    catch (SQLException_Exception | SigepClienteException e) {}
+                    
+                    return null;
+                }
+            };
+            new Thread(task).start();
+        }
     }
     
     @FXML
     private void clkBtSalvar(ActionEvent event) {
         
-        Parametrizacao p = new Parametrizacao(cpPrimaria.toString(), cpSecundaria.toString(), 
-                cbFonte.getValue(), cpFonte.toString(), tTelefone.getText(), tRua.getText(), 
-                tCep.getText(), tUf.getText(), tCidade.getText());
+        Parametrizacao p = new Parametrizacao(cpprimaria.toString(), cpsecundaria.toString(), 
+                cbfonte.getValue(), cpfonte.toString(), ttelefone.getText(), trua.getText(), 
+                tcep.getText(), tuf.getText(), tcidade.getText());
         DALParametrizacao dal = new DALParametrizacao();
         BufferedImage bimg = null;
         
-        bimg = SwingFXUtils.fromFXImage(ivLogo.getImage(), bimg);
+        bimg = SwingFXUtils.fromFXImage(ivlogo.getImage(), bimg);
         p.setLogo(ManipularImagem.getImgBytes(bimg));
         if(true){
             
@@ -198,12 +198,12 @@ public class TelaConfigController implements Initializable {
                 
                 if(dal.gravarFoto(p)){
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
                 }
                 else{
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Salvar!")));
                 }
             }
@@ -214,12 +214,12 @@ public class TelaConfigController implements Initializable {
                 
                 if(dal.gravarFoto(p)){
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
                 }
                 else{
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Alterar!")));
                 }
             }
