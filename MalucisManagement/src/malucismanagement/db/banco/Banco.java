@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
@@ -22,6 +23,7 @@ public class Banco {
     static public boolean conectar() {
         
         con = new Conexao(); 
+        
         return con.conectar("jdbc:postgresql://localhost/", "malucidb", "postgres" ,"postgres123");    
     }
     
@@ -66,7 +68,7 @@ public class Banco {
             statement.close();
             con.close();
         }
-        catch(Exception e) {  
+        catch(IOException | ClassNotFoundException | SQLException e) {  
 
             System.out.println(e.getMessage()); 
             return false;
@@ -89,7 +91,7 @@ public class Banco {
             statement.close();
             con.close();
         }
-        catch(Exception e) {
+        catch(SQLException e) {
             
             System.out.println(e.getMessage()); 
             return false;

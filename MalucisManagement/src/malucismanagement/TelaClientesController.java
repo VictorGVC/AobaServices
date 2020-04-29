@@ -27,11 +27,9 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -117,7 +115,7 @@ public class TelaClientesController implements Initializable {
         
         fadeout();
         setMascaras();
-        setParametros();
+        //setParametros();
         initColTb();
         listaSexo();
         listaCategoria();

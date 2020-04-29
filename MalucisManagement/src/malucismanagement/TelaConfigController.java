@@ -97,7 +97,7 @@ public class TelaConfigController implements Initializable {
             retornaConfig();
         }
         catch (IOException ex) {}*/
-        setParametros();
+        //setParametros();
         setMascaras();
         listaFontes();
     }    
