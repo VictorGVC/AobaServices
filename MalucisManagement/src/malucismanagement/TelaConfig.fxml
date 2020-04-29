@@ -16,7 +16,7 @@
    <children>
       <Pane fx:id="pncabecalho" prefHeight="63.0" prefWidth="520.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="216.0" layoutY="23.0" text="Configurações">
+            <Label fx:id="lbconfig" alignment="CENTER" contentDisplay="CENTER" layoutX="216.0" layoutY="23.0" text="Configurações">
                <font>
                   <Font size="14.0" />
                </font>
@@ -34,24 +34,24 @@
             <JFXTextField fx:id="trua" labelFloat="true" layoutX="15.0" layoutY="247.0" prefHeight="25.0" prefWidth="289.0" promptText="Rua" />
             <JFXTextField fx:id="ttelefone" labelFloat="true" layoutX="339.0" layoutY="247.0" prefHeight="25.0" prefWidth="165.0" promptText="Telefone" />
             <ImageView fx:id="ivlogo" fitHeight="124.0" fitWidth="165.0" layoutX="341.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" />
-            <Label layoutX="410.0" layoutY="26.0" text="Logo" />
+            <Label fx:id="lblogo" layoutX="410.0" layoutY="26.0" text="Logo" />
             <JFXColorPicker fx:id="cpsecundaria" layoutX="16.0" layoutY="128.0" prefWidth="132.0" />
-            <Label layoutX="16.0" layoutY="43.0" text="Cor Primária" />
-            <Label layoutX="17.0" layoutY="111.0" text="Cor Secundária" />
+            <Label fx:id="lbcp" layoutX="16.0" layoutY="43.0" text="Cor Primária" />
+            <Label fx:id="lbcs" layoutX="17.0" layoutY="111.0" text="Cor Secundária" />
             <JFXColorPicker fx:id="cpprimaria" layoutX="15.0" layoutY="60.0" prefWidth="132.0" />
             <JFXTextField fx:id="tcep" labelFloat="true" layoutX="15.0" layoutY="201.0" onKeyTyped="#evtBotaoDigitado" prefHeight="25.0" prefWidth="132.0" promptText="CEP" />
             <JFXTextField fx:id="tuf" labelFloat="true" layoutX="339.0" layoutY="201.0" prefHeight="25.0" prefWidth="165.0" promptText="UF" />
             <JFXTextField fx:id="tcidade" labelFloat="true" layoutX="167.0" layoutY="201.0" prefHeight="25.0" prefWidth="135.0" promptText="Cidade" />
             <JFXComboBox fx:id="cbfonte" labelFloat="true" layoutX="170.0" layoutY="60.0" prefHeight="25.0" prefWidth="135.0" promptText="Fonte" />
-            <Label layoutX="171.0" layoutY="111.0" text="Cor Fonte" />
+            <Label fx:id="lbcf" layoutX="171.0" layoutY="111.0" text="Cor Fonte" />
             <JFXColorPicker fx:id="cpfonte" layoutX="171.0" layoutY="128.0" prefWidth="132.0" />
-            <JFXButton layoutX="341.0" layoutY="153.0" onAction="#clkBtAbrirImg" prefHeight="25.0" prefWidth="89.0" text="Abrir Imagem" />
-            <JFXButton layoutX="441.0" layoutY="153.0" onAction="#clkBtRemoverImg" prefHeight="25.0" prefWidth="65.0" text="Remover" />
+            <JFXButton fx:id="btabririmg" layoutX="341.0" layoutY="153.0" onAction="#clkBtAbrirImg" prefHeight="25.0" prefWidth="89.0" text="Abrir Imagem" />
+            <JFXButton fx:id="btremoverimg" layoutX="441.0" layoutY="153.0" onAction="#clkBtRemoverImg" prefHeight="25.0" prefWidth="65.0" text="Remover" />
          </children>
       </Pane>
       <Pane fx:id="pnrodape" prefHeight="48.0" prefWidth="520.0">
          <children>
-            <JFXButton alignment="CENTER_RIGHT" layoutX="223.0" layoutY="6.0" onAction="#clkBtSalvar" prefHeight="33.0" prefWidth="74.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Salvar" textAlignment="CENTER">
+            <JFXButton fx:id="btsalvar" alignment="CENTER_RIGHT" layoutX="223.0" layoutY="6.0" onAction="#clkBtSalvar" prefHeight="33.0" prefWidth="74.0" style="-fx-background-image: url('icons/save.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Salvar" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font></JFXButton>

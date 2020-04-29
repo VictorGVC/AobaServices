@@ -27,12 +27,16 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALCliente;
+import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Cliente;
+import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.util.MaskFieldUtil;
 import malucismanagement.util.SQLException_Exception;
 import malucismanagement.util.SigepClienteException;
@@ -112,6 +116,8 @@ public class TelaClientesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         fadeout();
+        setMascaras();
+        setParametros();
         initColTb();
         listaSexo();
         listaCategoria();
@@ -119,6 +125,88 @@ public class TelaClientesController implements Initializable {
     }    
 
     private void fadeout() {
+        
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
+        
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.play();
+    }
+    
+    private void setParametros() {
+        
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
+        if(p.getCorprimaria() != null){
+            
+            pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            tvclientes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+        }
+        if(p.getCorsecundaria()!= null){
+            
+            pnbotoes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            pnfiltros.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+        }
+        if(p.getFonte() != null){
+            
+            btnovo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btalterar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btapagar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btconfirmar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btcancelar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btvoltar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            tcod.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcpf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cbsexo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            dpdatanasc.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            temail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            trua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tnumero.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tbairro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            cbcategoria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tfiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            tvclientes.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+        }
+        if(p.getCorfonte() != null){
+            
+            btnovo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btalterar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btapagar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btconfirmar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btcancelar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btvoltar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            tcod.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tnome.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcpf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cbsexo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            dpdatanasc.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            temail.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            ttelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcep.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            trua.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tnumero.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tbairro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcidade.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tuf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            cbcategoria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tfiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            tvclientes.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+        }
+    }
+    
+    private void setMascaras() {
         
         MaskFieldUtil.maxField(tnome, 30);
         MaskFieldUtil.cpfField(tcpf);
@@ -130,12 +218,6 @@ public class TelaClientesController implements Initializable {
         MaskFieldUtil.maxField(tbairro, 40);
         MaskFieldUtil.maxField(tcidade, 30);
         MaskFieldUtil.maxField(tuf, 2);
-        
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
-        
-        ft.setFromValue(0);
-        ft.setToValue(1);
-        ft.play();
     }
     
     private void initColTb() {
@@ -476,20 +558,32 @@ public class TelaClientesController implements Initializable {
         
         if(cbcategoria.getSelectionModel().getSelectedIndex() != -1){
             
-            if(cbcategoria.getSelectionModel().getSelectedIndex() == 0)
-                carregaTabela("UPPER(cli_cod) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-            else if(cbcategoria.getSelectionModel().getSelectedIndex() == 1)
-                carregaTabela("UPPER(cli_nome) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-            else if(cbcategoria.getSelectionModel().getSelectedIndex() == 2)
-                carregaTabela("UPPER(cli_cpf) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-            else if(cbcategoria.getSelectionModel().getSelectedIndex() == 3)
-                carregaTabela("UPPER(cli_email) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-            else if(cbcategoria.getSelectionModel().getSelectedIndex() == 4)
-                carregaTabela("UPPER(cli_fone) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-            else if(cbcategoria.getSelectionModel().getSelectedIndex() == 5)
-                carregaTabela("UPPER(cli_cep) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-            else if(cbcategoria.getSelectionModel().getSelectedIndex() == 6)
-                carregaTabela("UPPER(cli_rua) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+            switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
+                
+                case 0:
+                    carregaTabela("UPPER(cli_cod) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                case 1:
+                    carregaTabela("UPPER(cli_nome) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                case 2:
+                    carregaTabela("UPPER(cli_cpf) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                case 3:
+                    carregaTabela("UPPER(cli_email) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                case 4:
+                    carregaTabela("UPPER(cli_fone) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                case 5:
+                    carregaTabela("UPPER(cli_cep) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                case 6:
+                    carregaTabela("UPPER(cli_rua) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                default:
+                    break;
+            }
         }
     } 
 

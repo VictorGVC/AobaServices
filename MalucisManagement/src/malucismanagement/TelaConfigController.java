@@ -1,5 +1,6 @@
 package malucismanagement;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
@@ -71,6 +72,22 @@ public class TelaConfigController implements Initializable {
     private JFXColorPicker cpfonte;
     @FXML
     private Pane pnrodape;
+    @FXML
+    private Label lbconfig;
+    @FXML
+    private Label lblogo;
+    @FXML
+    private Label lbcp;
+    @FXML
+    private Label lbcs;
+    @FXML
+    private Label lbcf;
+    @FXML
+    private JFXButton btabririmg;
+    @FXML
+    private JFXButton btremoverimg;
+    @FXML
+    private JFXButton btsalvar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,33 +97,18 @@ public class TelaConfigController implements Initializable {
             retornaConfig();
         }
         catch (IOException ex) {}*/
+        setParametros();
+        setMascaras();
         listaFontes();
-    } 
-
+    }    
+    
     private void fadeout() {
-        
-        MaskFieldUtil.cepField(tcep);
-        MaskFieldUtil.maxField(tcidade, 30);
-        MaskFieldUtil.maxField(tuf, 2);
-        MaskFieldUtil.maxField(trua, 60);
-        MaskFieldUtil.foneField(ttelefone);
         
         FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
         
         ft.setFromValue(0);
         ft.setToValue(1);
         ft.play();
-    }
-    
-    private void listaFontes() {
-        
-        List<String> list = new ArrayList();
-        
-        list.add("Arial");
-        list.add("Calibri");
-        list.add("Times New Roman");
-        
-        cbfonte.setItems(FXCollections.observableArrayList(list));
     }
     
     private void retornaConfig() throws IOException {
@@ -128,6 +130,86 @@ public class TelaConfigController implements Initializable {
         tuf.setText(p.getUf());
         trua.setText(p.getRua());
         ttelefone.setText(p.getTelefone());
+    }
+
+    private void setParametros() {
+        
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
+        if(p.getCorprimaria() != null){
+            
+            pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+        }
+        if(p.getCorsecundaria()!= null){
+            
+            pncabecalho.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            pnrodape.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+        }
+        if(p.getFonte() != null){
+            
+            lbconfig.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            lbcp.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cpprimaria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cbfonte.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lblogo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbcs.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cpsecundaria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbcf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cpfonte.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btabririmg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btremoverimg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            trua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            btsalvar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+        }
+        if(p.getCorfonte() != null){
+            
+            lbconfig.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            lbcp.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cpprimaria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cbfonte.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lblogo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lbcs.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cpsecundaria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lbcf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cpfonte.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btabririmg.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btremoverimg.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcep.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcidade.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tuf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            trua.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            ttelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            btsalvar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+        }
+    } 
+    
+    private void setMascaras() {
+        
+        MaskFieldUtil.cepField(tcep);
+        MaskFieldUtil.maxField(tcidade, 30);
+        MaskFieldUtil.maxField(tuf, 2);
+        MaskFieldUtil.maxField(trua, 60);
+        MaskFieldUtil.foneField(ttelefone);
+    }
+    
+    private void listaFontes() {
+        
+        List<String> list = new ArrayList();
+        
+        list.add("Arial");
+        list.add("Calibri");
+        list.add("Times New Roman");
+        
+        cbfonte.setItems(FXCollections.observableArrayList(list));
     }
     
     @FXML
