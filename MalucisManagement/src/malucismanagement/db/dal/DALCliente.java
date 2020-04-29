@@ -61,43 +61,46 @@ public class DALCliente {
         return Banco.getCon().manipular("DELETE FROM Cliente WHERE cli_cod=" + c.getCodigo());
     }
     
-//    public Cliente get(int cod) {
-//        
-//        Produto aux = null;
-//        ResultSet rs = Banco.getCon().consultar("select * from produto where prod_id="+cod);
-//        try 
-//        {
-//            if(rs.next())
-//            {
-//                aux = new Produto(rs.getInt("prod_id"),new DALCategoria().get(rs.getInt("cat_id")),new DALUnidade().get(rs.getInt("uni_id")),rs.getString("prod_nome"),rs.getDouble("prod_preco"),rs.getString("prod_descr"));
-//            }
-//        } 
-//        catch (SQLException ex) 
-//        {
-//            
-//        }
-//        return aux;
-//    }
-//    
-//    public List<Cliente> get(String filtro) {
-//        
-//        String sql="select * from produto";
-//        if(!filtro.isEmpty())
-//            sql+=" where "+filtro;
-//        List <Cliente> aux = new ArrayList();
-//        ResultSet rs = Banco.getCon().consultar(sql);
-//        try 
-//        {
-//            while(rs.next())
-//            {
-//                aux.add(new Produto(rs.getInt("prod_id"),new DALCategoria().get(rs.getInt("cat_id")),new DALUnidade().get(rs.getInt("uni_id")),rs.getString("prod_nome"),rs.getDouble("prod_preco"),rs.getString("prod_descr")));
-//            }
-//        } 
-//        catch (SQLException ex) 
-//        {
-//            
-//        }
-//        
-//        return aux;
-//    }
+    public Cliente get(int cod) {
+        
+        Cliente aux = null;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Cliente WHERE cli_cod=" + cod);
+        
+        try{
+            
+            if(rs.next())
+                aux = new Cliente(rs.getInt("cli_cod"),rs.getInt("cli_numero"),(Character)rs.getObject("cli_sexo"),
+                        rs.getString("cli_nome"),rs.getString("cli_cpf"),rs.getString("cli_email"),
+                        rs.getString("cli_fone"),rs.getString("cli_cep"),rs.getString("cli_rua"),
+                        rs.getString("cli_bairro"),rs.getString("cli_cidade"),rs.getString("cli_uf"),
+                        rs.getDate("cli_datanasc").toLocalDate());
+        } 
+        catch(SQLException ex) {}
+        
+        return aux;
+    }
+    
+    public List<Cliente> get(String filtro) {
+        
+        String sql = "SELECT * FROM Cliente";
+        
+        if(!filtro.isEmpty())
+            sql += " WHERE " + filtro;
+        
+        List <Cliente> aux = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar(sql);
+        
+        try {
+            
+            while(rs.next())
+                aux.add(new Cliente(rs.getInt("cli_cod"),rs.getInt("cli_numero"),(Character)rs.getObject("cli_sexo"),
+                        rs.getString("cli_nome"),rs.getString("cli_cpf"),rs.getString("cli_email"),
+                        rs.getString("cli_fone"),rs.getString("cli_cep"),rs.getString("cli_rua"),
+                        rs.getString("cli_bairro"),rs.getString("cli_cidade"),rs.getString("cli_uf"),
+                        rs.getDate("cli_datanasc").toLocalDate()));
+        } 
+        catch (SQLException ex) {}
+        
+        return aux;
+    }
 }

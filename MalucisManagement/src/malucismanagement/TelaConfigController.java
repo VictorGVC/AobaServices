@@ -75,20 +75,20 @@ public class TelaConfigController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        List<String> list = listaFontes();
-   
         fadeout();
         /*try {
             retornaConfig();
         }
         catch (IOException ex) {}*/
-        cbfonte.setItems(FXCollections.observableArrayList(list));
+        listaFontes();
     } 
 
     private void fadeout() {
         
         MaskFieldUtil.cepField(tcep);
+        MaskFieldUtil.maxField(tcidade, 30);
         MaskFieldUtil.maxField(tuf, 2);
+        MaskFieldUtil.maxField(trua, 60);
         MaskFieldUtil.foneField(ttelefone);
         
         FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
@@ -98,7 +98,7 @@ public class TelaConfigController implements Initializable {
         ft.play();
     }
     
-    private List<String> listaFontes() {
+    private void listaFontes() {
         
         List<String> list = new ArrayList();
         
@@ -106,7 +106,7 @@ public class TelaConfigController implements Initializable {
         list.add("Calibri");
         list.add("Times New Roman");
         
-        return list;
+        cbfonte.setItems(FXCollections.observableArrayList(list));
     }
     
     private void retornaConfig() throws IOException {

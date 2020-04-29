@@ -1,17 +1,17 @@
 package malucismanagement.db.entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Cliente {
     
     private int codigo, numero;
     private char sexo;
     private String nome, cpf, email, telefone, cep, rua, bairro, cidade, uf; 
-    private Date datanasc;
+    private LocalDate datanasc;
 
     public Cliente() {}
 
-    public Cliente(int codigo, int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, Date datanasc) {
+    public Cliente(int codigo, int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, LocalDate datanasc) {
         this.codigo = codigo;
         this.numero = numero;
         this.sexo = sexo;
@@ -27,7 +27,7 @@ public class Cliente {
         this.datanasc = datanasc;
     }
 
-    public Cliente(int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, Date datanasc) {
+    public Cliente(int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, LocalDate datanasc) {
         this.numero = numero;
         this.sexo = sexo;
         this.nome = nome;
@@ -138,11 +138,11 @@ public class Cliente {
         this.uf = uf;
     }
 
-    public Date getDatanasc() {
+    public LocalDate getDatanasc() {
         return datanasc;
     }
 
-    public void setDatanasc(Date datanasc) {
+    public void setDatanasc(LocalDate datanasc) {
         this.datanasc = datanasc;
     }
 }

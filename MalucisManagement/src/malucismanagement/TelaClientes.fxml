@@ -57,15 +57,15 @@
                   </JFXTextField>
                </children>
             </Pane>
-            <TableView fx:id="tvclientes" prefHeight="358.0" prefWidth="798.0">
+            <TableView fx:id="tvclientes" onMouseClicked="#clkTabela" prefHeight="358.0" prefWidth="798.0">
                <columns>
-                  <TableColumn fx:id="colnome" prefWidth="134.0" text="Nome" />
-                  <TableColumn fx:id="colcpf" prefWidth="91.0" text="CPF" />
-                  <TableColumn fx:id="colemail" prefWidth="120.0" text="E-Mail" />
-                  <TableColumn fx:id="coltelefone" prefWidth="105.0" text="Telefone" />
-                  <TableColumn fx:id="colrua" prefWidth="193.0" text="Rua" />
-                  <TableColumn fx:id="colnumero" prefWidth="26.0" text="Nº" />
-                  <TableColumn fx:id="colcidade" prefWidth="128.0" text="Cidade" />
+                  <TableColumn fx:id="colcodigo" prefWidth="49.0" text="Código" />
+                  <TableColumn fx:id="colnome" prefWidth="164.0" text="Nome" />
+                  <TableColumn fx:id="colcpf" prefWidth="75.0" text="CPF" />
+                  <TableColumn fx:id="colemail" prefWidth="138.0" text="E-Mail" />
+                  <TableColumn fx:id="coltelefone" prefWidth="95.0" text="Telefone" />
+                  <TableColumn fx:id="colcep" prefWidth="84.0" text="CEP" />
+                  <TableColumn fx:id="colrua" prefWidth="192.0" text="Rua" />
                </columns>
             </TableView>
          </children>
