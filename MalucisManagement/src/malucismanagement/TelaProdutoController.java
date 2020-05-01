@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,7 +35,7 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private JFXButton btFiltrarProduto;
     @FXML
-    private JFXComboBox<?> cbFiltro;
+    private JFXComboBox<String> cbFiltro;
     @FXML
     private JFXTextField txPesquisar;
     @FXML
@@ -60,6 +62,18 @@ public class TelaProdutoController implements Initializable {
             dal.alterar(p);
             flag = true;
         }
+    }
+    
+    private void CarregaCBFiltro(){
+        ObservableList<String> itens;
+        itens = FXCollections.observableArrayList();
+
+        itens.add("Produto");
+        itens.add("Preço");
+        itens.add("Quantidade");
+        itens.add("Categoria");
+        
+        cbFiltro.setItems(itens);
     }
 
     @FXML
