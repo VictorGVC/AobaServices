@@ -63,7 +63,7 @@
             <TableColumn fx:id="ColProduto" prefWidth="295.0" text="Produto" />
             <TableColumn fx:id="ColPreco" prefWidth="180.0" text="Preço" />
             <TableColumn fx:id="ColQtd" prefWidth="236.0" text="Quantidade" />
-            <TableColumn fx:id="ColCat" prefWidth="340.0" text="Categoria" />
+            <TableColumn fx:id="ColCat" prefWidth="264.0" text="Categoria" />
          </columns>
       </TableView>
       <JFXButton fx:id="btEditarFornecedor" layoutX="343.0" layoutY="396.0" onAction="#EditarProduto" text="Editar" textFill="WHITE">

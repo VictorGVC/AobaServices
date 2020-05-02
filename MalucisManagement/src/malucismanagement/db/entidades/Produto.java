@@ -1,19 +1,26 @@
 package malucismanagement.db.entidades;
 
 public class Produto {
-    int pro_cod,pro_quantidade,cat;
+    int pro_cod,pro_quantidade,cat_cod;
     double pro_preco;
     String pro_nome;
-    
+
     public Produto() {
     }
 
-    public Produto(int pro_cod, int pro_quantidade, double pro_preco, String pro_nome, int cat) {
+    public Produto(int pro_cod, int pro_quantidade, int cat_cod, double pro_preco, String pro_nome) {
         this.pro_cod = pro_cod;
         this.pro_quantidade = pro_quantidade;
+        this.cat_cod = cat_cod;
         this.pro_preco = pro_preco;
         this.pro_nome = pro_nome;
-        this.cat = cat;
+    }
+
+    public Produto(int pro_quantidade, int cat_cod, double pro_preco, String pro_nome) {
+        this.pro_quantidade = pro_quantidade;
+        this.cat_cod = cat_cod;
+        this.pro_preco = pro_preco;
+        this.pro_nome = pro_nome;
     }
 
     public int getPro_cod() {
@@ -32,6 +39,14 @@ public class Produto {
         this.pro_quantidade = pro_quantidade;
     }
 
+    public int getCat_cod() {
+        return cat_cod;
+    }
+
+    public void setCat_cod(int cat_cod) {
+        this.cat_cod = cat_cod;
+    }
+
     public double getPro_preco() {
         return pro_preco;
     }
@@ -47,12 +62,6 @@ public class Produto {
     public void setPro_nome(String pro_nome) {
         this.pro_nome = pro_nome;
     }
-
-    public int getCat() {
-        return cat;
-    }
-
-    public void setCat(int cat) {
-        this.cat = cat;
-    }
+    
+    
 }

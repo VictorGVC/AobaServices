@@ -19,7 +19,7 @@ public class DALProduto {
         sql = sql.replaceAll("#1",p.getPro_nome());
         sql = sql.replaceAll("#2", "" + p.getPro_preco());
         sql = sql.replaceAll("#3", "" + p.getPro_quantidade());
-        sql = sql.replaceAll("#4", ""+p.getCat());
+        sql = sql.replaceAll("#4", ""+p.getCat_cod());
         return Banco.getCon().manipular(sql);
     }
     
@@ -31,7 +31,7 @@ public class DALProduto {
         sql = sql.replaceAll("#1",p.getPro_nome());
         sql = sql.replaceAll("#2", "" + p.getPro_preco());
         sql = sql.replaceAll("#3", "" + p.getPro_quantidade());
-        sql = sql.replaceAll("#4", ""+p.getCat());
+        sql = sql.replaceAll("#4", ""+p.getCat_cod());
         
         return Banco.getCon().manipular(sql);
     }
@@ -49,8 +49,8 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_preco")),
-                        rs.getString("pro_nome"),Integer.parseInt(rs.getString("cat_cod")));
+                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_cat")),Double.parseDouble(rs.getString("pro_preco")),
+                        rs.getString("pro_nome"));
                 lista.add(p);
             }
         } catch (Exception e) {
@@ -66,8 +66,8 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_preco")),
-                        rs.getString("pro_nome"),Integer.parseInt(rs.getString("pro_cat")));
+                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_cat")),Double.parseDouble(rs.getString("pro_preco")),
+                        rs.getString("pro_nome"));
                 lista.add(p);
             }
         } catch (Exception e) {
@@ -83,8 +83,8 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_preco")),
-                        rs.getString("pro_nome"),Integer.parseInt(rs.getString("pro_cat")));
+                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_cat")),Double.parseDouble(rs.getString("pro_preco")),
+                        rs.getString("pro_nome"));
                 lista.add(p);
             }
         } catch (Exception e) {
@@ -100,8 +100,8 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_preco")),
-                        rs.getString("pro_nome"),Integer.parseInt(rs.getString("pro_cat")));
+                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_cat")),Double.parseDouble(rs.getString("pro_preco")),
+                        rs.getString("pro_nome"));
                 lista.add(p);
             }
         } catch (Exception e) {
@@ -117,8 +117,8 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_preco")),
-                        rs.getString("pro_nome"),Integer.parseInt(rs.getString("pro_cat")));
+                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),Integer.parseInt(rs.getString("pro_cat")),Double.parseDouble(rs.getString("pro_preco")),
+                        rs.getString("pro_nome"));
                 lista.add(p);
             }
         } catch (Exception e) {
@@ -132,13 +132,9 @@ public class DALProduto {
         DALCategoriaProduto DALct = new DALCategoriaProduto();
         
         try {
-            ResultSet rs = DALct.getCategoriaProduto(NomeCat);
+            int cod = DALct.getCategoriaProduto(NomeCat);
         
-            if(rs == null)
-                return -1;
-            else{
-                return Integer.parseInt(rs.getString("cat_codigo"));
-            }
+                return cod;
         } 
         catch (SQLException ex) {}
         

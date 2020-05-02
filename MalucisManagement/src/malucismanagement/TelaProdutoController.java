@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALProduto;
 import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Produto;
@@ -66,9 +68,10 @@ public class TelaProdutoController implements Initializable {
     }    
 
     @FXML
-    private void SalvarProduto(ActionEvent event) {
-        Produto p = new Produto(0/*Pegar o cod do produto*/,Integer.parseInt(txQtdEstoque.getText()),Double.parseDouble(txPreco.getText()),
-        txNomeProduto.getText(),Integer.parseInt("1"/*Pegar o cod da categoria selecionada*/));
+    private void SalvarProduto(ActionEvent event) throws SQLException {
+        DALCategoriaProduto dalct = new DALCategoriaProduto();
+        Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),dalct.getCategoriaProduto(cbCategoria.getValue().toString()),Double.parseDouble(txPreco.getText()),
+        txNomeProduto.getText());
         
         DALProduto dal = new DALProduto();
         if(flag)
@@ -142,7 +145,7 @@ public class TelaProdutoController implements Initializable {
         txNomeProduto.setText(linha.getPro_nome());
         txPreco.setText(""+linha.getPro_preco());
         txQtdEstoque.setText(""+linha.getPro_quantidade());
-        cbCategoria.getSelectionModel().select(linha.getCat());
+        cbCategoria.getSelectionModel().select(linha.getCat_cod());
     }
 
     @FXML

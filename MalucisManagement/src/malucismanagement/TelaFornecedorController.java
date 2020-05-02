@@ -108,8 +108,8 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void SalvarFornecedor(ActionEvent event) {
-        Fornecedor novo = new Fornecedor(Integer.parseInt(txIE.getText()),Integer.parseInt(txCNPJ.getText()),Integer.parseInt(txTelefone.getText()),
-                txTipo.getText(),txNomeForcenedor.getText(),txEmail.getText());
+        Fornecedor novo = new Fornecedor(txTipo.getText(),txNomeForcenedor.getText(),txEmail.getText(),txIE.getText(),
+                txCNPJ.getText(),txTelefone.getText());
         DALFornecedores dal = new DALFornecedores();
         if(flag)
             dal.gravar(novo);
@@ -218,7 +218,7 @@ public class TelaFornecedorController implements Initializable {
     private void RemoverFornecedor(ActionEvent event) {
         DALFornecedores dal = new DALFornecedores();
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
-        dal.excluir(linha.getFor_cod());
+        dal.excluir(linha.getFor_cnpj());
     }
     
 }

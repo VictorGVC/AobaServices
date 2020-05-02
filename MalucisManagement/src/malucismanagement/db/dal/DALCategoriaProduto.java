@@ -1,6 +1,7 @@
 package malucismanagement.db.dal;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.CategoriaProduto;
 
@@ -32,19 +33,19 @@ public class DALCategoriaProduto {
         return Banco.getCon().manipular(sql);
     }
     
-    public ResultSet getCategoriaProduto(String nome){
+    public int getCategoriaProduto(String nome) throws SQLException{
         String sql = "SELECT * FROM CategoriaProduto ct WHERE ct.cat_nome = "+nome;
         CategoriaProduto ct = null;
         ResultSet rs = Banco.getCon().consultar(sql);
         
-        return rs;
+        return Integer.parseInt(rs.getString("cat_cod"));
     }
     
-    public ResultSet getCategoriaProduto(int cod){
+    public String getCategoriaProduto(int cod) throws SQLException{
         String sql = "SELECT * FROM CategoriaProduto ct WHERE ct.cat_cod = "+cod;
         CategoriaProduto ct = null;
         ResultSet rs = Banco.getCon().consultar(sql);
         
-        return rs;
+        return rs.getString("cat_nome");
     }
 }

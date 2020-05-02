@@ -25,7 +25,7 @@ public class DALFornecedores {
     public boolean alterar(Fornecedor f) {
         
          String sql = "UPDATE Fornecedores SET "
-                + "for_nome='#1', for_cnpj='#2', for_ie='#3', for_telefone='#4', for_email='#5', for_tipo='#6' WHERE for_cod = "+f.getFor_cod();
+                + "for_nome='#1', for_cnpj='#2', for_ie='#3', for_telefone='#4', for_email='#5', for_tipo='#6' WHERE for_cnpj = "+f.getFor_cnpj();
         
         sql = sql.replaceAll("#1",f.getFor_nome());
         sql = sql.replaceAll("#2", "" + f.getFor_cnpj());
@@ -37,8 +37,8 @@ public class DALFornecedores {
         return Banco.getCon().manipular(sql);
     }
     
-    public boolean excluir(int codigo){
-        String sql = "DELETE FROM Fornecedores f WHERE f.for_cod ="+codigo;
+    public boolean excluir(String cnpj){
+        String sql = "DELETE FROM Fornecedores f WHERE f.for_cnpj ="+cnpj;
         
         return Banco.getCon().manipular(sql);
     }
@@ -50,8 +50,8 @@ public class DALFornecedores {
         
         try {
             while(rs.next()){
-                f = new Fornecedor(Integer.parseInt(rs.getString("for_cod")),Integer.parseInt(rs.getString("for_ie")),Integer.parseInt(rs.getString("for_cnpj")),
-                        Integer.parseInt(rs.getString("for_telefone")),rs.getString("for_yipo"),rs.getString("for_nome"),rs.getString("for_email"));
+                f = new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_ie"),
+                        rs.getString("for_cnpj"),rs.getString("for_telefone"));
                 lista.add(f);
             }
         } catch (Exception e) {
@@ -67,8 +67,8 @@ public class DALFornecedores {
         
         try {
             while(rs.next()){
-                f = new Fornecedor(Integer.parseInt(rs.getString("for_cod")),Integer.parseInt(rs.getString("for_ie")),Integer.parseInt(rs.getString("for_cnpj")),
-                        Integer.parseInt(rs.getString("for_telefone")),rs.getString("for_yipo"),rs.getString("for_nome"),rs.getString("for_email"));
+                f = new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_ie"),
+                        rs.getString("for_cnpj"),rs.getString("for_telefone"));
                 lista.add(f);
             }
         } catch (Exception e) {
@@ -84,8 +84,8 @@ public class DALFornecedores {
         
         try {
             while(rs.next()){
-                f = new Fornecedor(Integer.parseInt(rs.getString("for_cod")),Integer.parseInt(rs.getString("for_ie")),Integer.parseInt(rs.getString("for_cnpj")),
-                        Integer.parseInt(rs.getString("for_telefone")),rs.getString("for_yipo"),rs.getString("for_nome"),rs.getString("for_email"));
+                f = new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_ie"),
+                        rs.getString("for_cnpj"),rs.getString("for_telefone"));
                 lista.add(f);
             }
         } catch (Exception e) {
@@ -101,8 +101,8 @@ public class DALFornecedores {
         
         try {
             while(rs.next()){
-                f = new Fornecedor(Integer.parseInt(rs.getString("for_cod")),Integer.parseInt(rs.getString("for_ie")),Integer.parseInt(rs.getString("for_cnpj")),
-                        Integer.parseInt(rs.getString("for_telefone")),rs.getString("for_yipo"),rs.getString("for_nome"),rs.getString("for_email"));
+                f = new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_ie"),
+                        rs.getString("for_cnpj"),rs.getString("for_telefone"));
                 lista.add(f);
             }
         } catch (Exception e) {
@@ -118,8 +118,8 @@ public class DALFornecedores {
         
         try {
             while(rs.next()){
-                f = new Fornecedor(Integer.parseInt(rs.getString("for_cod")),Integer.parseInt(rs.getString("for_ie")),Integer.parseInt(rs.getString("for_cnpj")),
-                        Integer.parseInt(rs.getString("for_telefone")),rs.getString("for_yipo"),rs.getString("for_nome"),rs.getString("for_email"));
+                f = new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_ie"),
+                        rs.getString("for_cnpj"),rs.getString("for_telefone"));
                 lista.add(f);
             }
         } catch (Exception e) {
@@ -135,8 +135,8 @@ public class DALFornecedores {
         
         try {
             while(rs.next()){
-                f = new Fornecedor(Integer.parseInt(rs.getString("for_cod")),Integer.parseInt(rs.getString("for_ie")),Integer.parseInt(rs.getString("for_cnpj")),
-                        Integer.parseInt(rs.getString("for_telefone")),rs.getString("for_yipo"),rs.getString("for_nome"),rs.getString("for_email"));
+                f = new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_ie"),
+                        rs.getString("for_cnpj"),rs.getString("for_telefone"));
                 lista.add(f);
             }
         } catch (Exception e) {
@@ -152,8 +152,8 @@ public class DALFornecedores {
         
         try {
             while(rs.next()){
-                f = new Fornecedor(Integer.parseInt(rs.getString("for_cod")),Integer.parseInt(rs.getString("for_ie")),Integer.parseInt(rs.getString("for_cnpj")),
-                        Integer.parseInt(rs.getString("for_telefone")),rs.getString("for_yipo"),rs.getString("for_nome"),rs.getString("for_email"));
+                f = new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_ie"),
+                        rs.getString("for_cnpj"),rs.getString("for_telefone"));
                 lista.add(f);
             }
         } catch (Exception e) {
