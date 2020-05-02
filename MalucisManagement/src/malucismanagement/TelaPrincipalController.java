@@ -67,7 +67,7 @@ public class TelaPrincipalController implements Initializable {
         
         try {
             
-            Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("TelaClientes.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }

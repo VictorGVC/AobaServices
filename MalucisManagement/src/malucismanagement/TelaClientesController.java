@@ -238,7 +238,7 @@ public class TelaClientesController implements Initializable {
         btalterar.setDisable(!b);
         btnovo.setDisable(!b);
       
-        carregaTabela("");
+        //carregaTabela("");
     }
     
     private void carregaTabela(String filtro) {
