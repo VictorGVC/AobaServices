@@ -88,12 +88,13 @@
       </AnchorPane>
       <TableView fx:id="tvFornecedores" layoutX="20.0" layoutY="21.0" prefHeight="336.0" prefWidth="1052.0">
          <columns>
-            <TableColumn prefWidth="221.0" text="Fornecedor" />
-            <TableColumn prefWidth="157.0" text="CNPJ" />
-            <TableColumn prefWidth="179.0" text="Inscrição Estadual" />
-            <TableColumn prefWidth="142.0" text="Telefone" />
-            <TableColumn minWidth="3.0" prefWidth="223.0" text="Email" />
-            <TableColumn minWidth="0.0" prefWidth="129.0" text="Tipo" />
+            <TableColumn fx:id="ColCodigo" prefWidth="79.0" text="Codigo" />
+            <TableColumn fx:id="ColFornecedor" prefWidth="201.0" text="Fornecedor" />
+            <TableColumn fx:id="ColCNPJ" prefWidth="162.0" text="CNPJ" />
+            <TableColumn fx:id="ColIE" prefWidth="169.0" text="Inscrição Estadual" />
+            <TableColumn fx:id="ColTelefone" prefWidth="169.0" text="Telefone" />
+            <TableColumn fx:id="ColEmail" minWidth="3.0" prefWidth="167.0" text="Email" />
+            <TableColumn fx:id="ColTipo" minWidth="0.0" prefWidth="104.0" text="Tipo" />
          </columns>
       </TableView>
       <JFXButton fx:id="btEditarFornecedor" layoutX="343.0" layoutY="396.0" onAction="#EditarFornecedor" text="Editar" textFill="WHITE">

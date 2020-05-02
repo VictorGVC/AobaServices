@@ -1,8 +1,18 @@
 package malucismanagement.db.entidades;
 
 public class Fornecedor {
-    int for_inscestadual,for_cnpj,for_telefone;
+    int for_inscestadual,for_cnpj,for_telefone, for_cod;
     String for_tipo,for_nome,for_email;
+
+    public Fornecedor(int for_cod ,int for_inscestadual, int for_cnpj, int for_telefone, String for_tipo, String for_nome, String for_email) {
+        this.for_cod = for_cod;
+        this.for_inscestadual = for_inscestadual;
+        this.for_cnpj = for_cnpj;
+        this.for_telefone = for_telefone;
+        this.for_tipo = for_tipo;
+        this.for_nome = for_nome;
+        this.for_email = for_email;
+    }
 
     public Fornecedor(int for_inscestadual, int for_cnpj, int for_telefone, String for_tipo, String for_nome, String for_email) {
         this.for_inscestadual = for_inscestadual;
@@ -11,6 +21,14 @@ public class Fornecedor {
         this.for_tipo = for_tipo;
         this.for_nome = for_nome;
         this.for_email = for_email;
+    }
+
+    public int getFor_cod() {
+        return for_cod;
+    }
+
+    public void setFor_cod(int for_cod) {
+        this.for_cod = for_cod;
     }
 
     public Fornecedor() {
