@@ -1,5 +1,6 @@
 package malucismanagement;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
@@ -14,8 +15,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
@@ -37,6 +36,8 @@ import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.util.ManipularImagem;
 import malucismanagement.util.MaskFieldUtil;
+import malucismanagement.util.SQLException_Exception;
+import malucismanagement.util.SigepClienteException;
 
 public class TelaConfigController implements Initializable {
 
@@ -44,69 +45,70 @@ public class TelaConfigController implements Initializable {
     private FileInputStream file;
     
     @FXML
-    private ImageView ivLogo;
+    private VBox pnprincipal;
     @FXML
-    private VBox painel;
+    private Pane pncabecalho;
     @FXML
-    private JFXTextField tTelefone;
+    private Pane pndados;
     @FXML
-    private JFXColorPicker cpSecundaria;
+    private JFXTextField trua;
     @FXML
-    private JFXColorPicker cpPrimaria;
+    private JFXTextField ttelefone;
     @FXML
-    private JFXTextField tCep;
+    private ImageView ivlogo;
     @FXML
-    private JFXTextField tUf;
+    private JFXColorPicker cpsecundaria;
     @FXML
-    private JFXTextField tCidade;
+    private JFXColorPicker cpprimaria;
     @FXML
-    private JFXTextField tRua;
+    private JFXTextField tcep;
     @FXML
-    private JFXComboBox<String> cbFonte;
+    private JFXTextField tuf;
     @FXML
-    private JFXColorPicker cpFonte;
+    private JFXTextField tcidade;
     @FXML
-    private Pane pnsecundario;
+    private JFXComboBox<String> cbfonte;
     @FXML
-    private Pane pnprimario;
+    private JFXColorPicker cpfonte;
     @FXML
-    private Pane pnsecundario2;
+    private Pane pnrodape;
+    @FXML
+    private Label lbconfig;
+    @FXML
+    private Label lblogo;
+    @FXML
+    private Label lbcp;
+    @FXML
+    private Label lbcs;
+    @FXML
+    private Label lbcf;
+    @FXML
+    private JFXButton btabririmg;
+    @FXML
+    private JFXButton btremoverimg;
+    @FXML
+    private JFXButton btsalvar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        List<String> list = listaFontes();
-   
         fadeout();
         /*try {
             retornaConfig();
         }
         catch (IOException ex) {}*/
-        cbFonte.setItems(FXCollections.observableArrayList(list));
-    } 
-
+        //setParametros();
+        setMascaras();
+        listaFontes();
+    }    
+    
     private void fadeout() {
         
-        MaskFieldUtil.cepField(tCep);
-        MaskFieldUtil.maxField(tUf, 2);
-        MaskFieldUtil.foneField(tTelefone);
-        
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), painel);
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
         
         ft.setFromValue(0);
         ft.setToValue(1);
         ft.play();
-    }
-    
-    private List<String> listaFontes() {
-        
-        List<String> list = new ArrayList();
-        
-        list.add("Arial");
-        list.add("Calibri");
-        list.add("Times New Roman");
-        
-        return list;
     }
     
     private void retornaConfig() throws IOException {
@@ -116,49 +118,98 @@ public class TelaConfigController implements Initializable {
         BufferedImage bimg = null;
         InputStream is = dal.getFoto();
         
-        cpPrimaria.setValue(Color.web(p.getCorprimaria()));
-        cpSecundaria.setValue(Color.web(p.getCorsecundaria()));
-        cbFonte.setValue(p.getFonte());
-        cpFonte.setValue(Color.web(p.getFonte()));
+        cpprimaria.setValue(Color.web(p.getCorprimaria()));
+        cpsecundaria.setValue(Color.web(p.getCorsecundaria()));
+        cbfonte.setValue(p.getFonte());
+        cpfonte.setValue(Color.web(p.getFonte()));
         bimg = ImageIO.read(is);
         if(bimg != null)
-            ivLogo.setImage(SwingFXUtils.toFXImage(bimg, null));
-        tCep.setText(p.getCep());
-        tCidade.setText(p.getCidade());
-        tUf.setText(p.getUf());
-        tRua.setText(p.getRua());
-        tTelefone.setText(p.getTelefone());
+            ivlogo.setImage(SwingFXUtils.toFXImage(bimg, null));
+        tcep.setText(p.getCep());
+        tcidade.setText(p.getCidade());
+        tuf.setText(p.getUf());
+        trua.setText(p.getRua());
+        ttelefone.setText(p.getTelefone());
+    }
+
+    private void setParametros() {
+        
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
+        if(p.getCorprimaria() != null){
+            
+            pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+        }
+        if(p.getCorsecundaria()!= null){
+            
+            pncabecalho.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            pnrodape.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+        }
+        if(p.getFonte() != null){
+            
+            lbconfig.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            lbcp.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cpprimaria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cbfonte.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lblogo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbcs.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cpsecundaria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbcf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cpfonte.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btabririmg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btremoverimg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            trua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            btsalvar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+        }
+        if(p.getCorfonte() != null){
+            
+            lbconfig.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            lbcp.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cpprimaria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cbfonte.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lblogo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lbcs.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cpsecundaria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lbcf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cpfonte.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btabririmg.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btremoverimg.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcep.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcidade.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tuf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            trua.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            ttelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            btsalvar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+        }
+    } 
+    
+    private void setMascaras() {
+        
+        MaskFieldUtil.cepField(tcep);
+        MaskFieldUtil.maxField(tcidade, 30);
+        MaskFieldUtil.maxField(tuf, 2);
+        MaskFieldUtil.maxField(trua, 60);
+        MaskFieldUtil.foneField(ttelefone);
     }
     
-    @FXML
-    private void evtBotaoDigitado(KeyEvent event) {
+    private void listaFontes() {
         
-        if(tCep.getText().length() == 8){
-            
-            Task task = new Task<Void>() {
-                
-                @Override
-                protected Void call() {
-                    
-                    String cep = tCep.getText().replaceAll("\\-", "");
-                    malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
-                    malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
-
-                    try {
-
-                        malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
-
-                        tUf.setText(result.getUf());
-                        tRua.setText(result.getEnd());
-                        tCidade.setText(result.getCidade());
-                    }
-                    catch (Exception e) {}
-                    
-                    return null;
-                }
-            };
-            new Thread(task).start();
-        }
+        List<String> list = new ArrayList();
+        
+        list.add("Arial");
+        list.add("Calibri");
+        list.add("Times New Roman");
+        
+        cbfonte.setItems(FXCollections.observableArrayList(list));
     }
     
     @FXML
@@ -172,25 +223,56 @@ public class TelaConfigController implements Initializable {
         arq = fc.showOpenDialog(null);
         file = new FileInputStream(arq);
         if(arq != null)
-            ivLogo.setImage(new Image(file));
+            ivlogo.setImage(new Image(file));
     }
 
     @FXML
     private void clkBtRemoverImg(ActionEvent event) {
         
-        ivLogo.setImage(null);
+        ivlogo.setImage(null);
+    }
+    
+    @FXML
+    private void evtBotaoDigitado(KeyEvent event) {
+        
+        if(tcep.getText().length() == 8){
+            
+            Task task = new Task<Void>() {
+                
+                @Override
+                protected Void call() {
+                    
+                    String cep = tcep.getText().replaceAll("\\-", "");
+                    malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
+                    malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
+
+                    try {
+
+                        malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
+
+                        tuf.setText(result.getUf());
+                        trua.setText(result.getEnd());
+                        tcidade.setText(result.getCidade());
+                    }
+                    catch (SQLException_Exception | SigepClienteException e) {}
+                    
+                    return null;
+                }
+            };
+            new Thread(task).start();
+        }
     }
     
     @FXML
     private void clkBtSalvar(ActionEvent event) {
         
-        Parametrizacao p = new Parametrizacao(cpPrimaria.toString(), cpSecundaria.toString(), 
-                cbFonte.getValue(), cpFonte.toString(), tTelefone.getText(), tRua.getText(), 
-                tCep.getText(), tUf.getText(), tCidade.getText());
+        Parametrizacao p = new Parametrizacao(cpprimaria.toString(), cpsecundaria.toString(), 
+                cbfonte.getValue(), cpfonte.toString(), ttelefone.getText(), trua.getText(), 
+                tcep.getText(), tuf.getText(), tcidade.getText());
         DALParametrizacao dal = new DALParametrizacao();
         BufferedImage bimg = null;
         
-        bimg = SwingFXUtils.fromFXImage(ivLogo.getImage(), bimg);
+        bimg = SwingFXUtils.fromFXImage(ivlogo.getImage(), bimg);
         p.setLogo(ManipularImagem.getImgBytes(bimg));
         if(true){
             
@@ -198,12 +280,12 @@ public class TelaConfigController implements Initializable {
                 
                 if(dal.gravarFoto(p)){
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
                 }
                 else{
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Salvar!")));
                 }
             }
@@ -214,12 +296,12 @@ public class TelaConfigController implements Initializable {
                 
                 if(dal.gravarFoto(p)){
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
                 }
                 else{
                     
-                    JFXSnackbar sb = new JFXSnackbar(painel); 
+                    JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Alterar!")));
                 }
             }

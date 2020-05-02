@@ -33,22 +33,5 @@
         <delete dir="${build.generated.dir}/jax-wsCache/AtendeCliente"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/malucismanagement/util"/>
     </target>
-    <target name="wsimport-client-AtendeCliente_1" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/AtendeCliente_1"/>
-        <property name="wsdl-AtendeCliente_1" location="xml-resources/web-service-references/AtendeCliente_1/wsdl/apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AtendeCliente_1" destdir="${build.generated.dir}/jax-wsCache/AtendeCliente_1" wsdl="${wsdl-AtendeCliente_1}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="https://apphom.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl" xnocompile="true" xendorsed="true" package="malucismanagement.util">
-            <depends file="${wsdl-AtendeCliente_1}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/AtendeCliente_1"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/AtendeCliente_1">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-AtendeCliente_1" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/AtendeCliente_1"/>
-        <delete dir="${build.generated.sources.dir}/jax-ws/malucismanagement/util"/>
-    </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-AtendeCliente, wsimport-client-AtendeCliente_1"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-AtendeCliente"/>
 </project>

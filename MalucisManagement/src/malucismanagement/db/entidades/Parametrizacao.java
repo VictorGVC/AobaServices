@@ -98,6 +98,4 @@ public class Parametrizacao {
     public void setLogo(byte[] logo) {
         this.logo = logo;
     }
-    
-    
 }

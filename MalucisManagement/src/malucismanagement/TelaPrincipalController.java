@@ -1,5 +1,6 @@
 package malucismanagement;
 
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +22,8 @@ public class TelaPrincipalController implements Initializable {
     private BorderPane pnprincipal;
     @FXML
     private ImageView ivLogo;
+    @FXML
+    private JFXButton btclientes;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,6 +53,21 @@ public class TelaPrincipalController implements Initializable {
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
+            efeito(true);
+            pnprincipal.setCenter(root);
+        }
+        catch (IOException ex){
+            
+            System.out.println(ex);
+        }
+    }
+
+    @FXML
+    private void clkBtClientes(ActionEvent event) {
+        
+        try {
+            
+            Parent root = FXMLLoader.load(getClass().getResource("TelaClientes.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }
