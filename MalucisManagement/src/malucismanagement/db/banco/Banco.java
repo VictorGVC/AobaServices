@@ -24,7 +24,7 @@ public class Banco {
         
         con = new Conexao(); 
         
-        return con.conectar("jdbc:postgresql://localhost/", "malucidb", "postgres" ,"postgres123");    
+        return con.conectar("jdbc:postgresql://localhost/", "malucidb", "postgres", "postgres123");    
     }
     
     public static void realizaBackupRestauracao(String arqlote) {
@@ -57,10 +57,10 @@ public class Banco {
         try {
             
             Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost/"+BD;
-            Connection con = DriverManager.getConnection(url, "postgres","postgres123");
+            String url = "jdbc:postgresql://localhost/" + BD;
+            Connection con = DriverManager.getConnection(url, "postgres", "postgres123");
             Statement statement = con.createStatement();
-            RandomAccessFile arq=new RandomAccessFile(script, "r");
+            RandomAccessFile arq = new RandomAccessFile(script,"r");
             
             while(arq.getFilePointer() < arq.length()) 
                  statement.addBatch(arq.readLine());
@@ -82,7 +82,7 @@ public class Banco {
         try {
             
             String url = "jdbc:postgresql://localhost/";
-            Connection con = DriverManager.getConnection(url,"postgres","postgres123");
+            Connection con = DriverManager.getConnection(url, "postgres", "postgres123");
             Statement statement = con.createStatement();
             
             statement.execute("CREATE DATABASE " + BD + " WITH OWNER = postgres ENCODING = 'UTF8' "

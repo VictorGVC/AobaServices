@@ -1,17 +1,36 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package malucismanagement.db.entidades;
 
 import java.time.LocalDate;
 
-public class Cliente {
-    
-    private int numero;
-    private char sexo;
-    private String nome, cpf, email, telefone, cep, rua, bairro, cidade, uf; 
+/**
+ *
+ * @author HITRON
+ */
+public class Funcionario {
+    private int numero, nivel;
+    private char sexo, ativo;
+    private String nome, cpf, email, telefone, cep, rua, bairro, cidade, uf, login; 
     private LocalDate datanasc;
 
-    public Cliente() {}
+    public char getAtivo() {
+        return ativo;
+    }
 
-    public Cliente(int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, LocalDate datanasc) {
+    public void setAtivo(char ativo) {
+        this.ativo = ativo;
+    }
+    
+    public boolean isAtivo(char ativo)
+    {
+        return ativo == 'S';
+    }
+
+    public Funcionario(int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, String login, LocalDate datanasc, char ativo,int nivel) {
         this.numero = numero;
         this.sexo = sexo;
         this.nome = nome;
@@ -23,10 +42,13 @@ public class Cliente {
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
+        this.login = login;
         this.datanasc = datanasc;
+        this.ativo = ativo;
+        this.nivel = nivel;
     }
 
-    public Cliente(int numero, char sexo, String nome, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, LocalDate datanasc) {
+    public Funcionario(int numero, char sexo, String nome, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, String login, LocalDate datanasc, char ativo,int nivel) {
         this.numero = numero;
         this.sexo = sexo;
         this.nome = nome;
@@ -37,7 +59,17 @@ public class Cliente {
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
+        this.login = login;
         this.datanasc = datanasc;
+        this.ativo = ativo;
+        this.nivel = nivel;
+    }
+
+    public Funcionario(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Funcionario() {
     }
 
     public int getNumero() {
@@ -128,6 +160,14 @@ public class Cliente {
         this.uf = uf;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     public LocalDate getDatanasc() {
         return datanasc;
     }
@@ -135,4 +175,13 @@ public class Cliente {
     public void setDatanasc(LocalDate datanasc) {
         this.datanasc = datanasc;
     }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
+    }
+    
 }
