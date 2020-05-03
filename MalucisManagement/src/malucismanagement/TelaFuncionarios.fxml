@@ -23,7 +23,7 @@
                <children>
                   <JFXButton fx:id="btalterar" onAction="#clkBtAlterar" text="Alterar" />
                   <JFXButton fx:id="btapagar" onAction="#clkBtApagar" text="Apagar" />
-                  <JFXButton fx:id="btapagar1" onAction="#clkBtApagar" text="Ativar/Desativar" />
+                  <JFXButton fx:id="btapagar1" onAction="#clkBtAtivar" text="Ativar/Desativar" />
                   <JFXButton fx:id="btconfirmar" onAction="#clkBtConfirmar" text="Confirmar" />
                   <JFXButton fx:id="btcancelar" onAction="#clkBtCancelar" text="Cancelar" />
                   <JFXButton fx:id="btvoltar" onAction="#clkBtVoltar" text="Voltar" />

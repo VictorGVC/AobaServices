@@ -77,12 +77,42 @@ public class DALFuncionario {
     
     public boolean apagar(Funcionario f) 
     {
-        return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario=" + f.getLogin());
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
+                + "WHERE l.log_usuario !=" + f.getLogin());
+        int cont = 0;
+        try{
+            
+            if(rs.next())
+                cont++;
+        } 
+        catch(SQLException ex) 
+        {
+            System.out.println(ex);
+        }
+        if(cont > 0)
+            return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario=" + f.getLogin());
+        else 
+            return false;
     }
     
     public boolean desativar(Funcionario f) 
     {    
-        return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario=" + f.getLogin());
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
+                + "WHERE l.log_usuario !=" + f.getLogin());
+        int cont = 0;
+        try{
+            
+            if(rs.next())
+                cont++;
+        } 
+        catch(SQLException ex) 
+        {
+            System.out.println(ex);
+        }
+        if(cont > 0)
+            return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario=" + f);
+        else 
+            return false;
     }
     
     public boolean ativar(Funcionario f) 
@@ -106,7 +136,10 @@ public class DALFuncionario {
                         rs.getString("l.log_usuario"), rs.getDate("c.cli_datanasc").toLocalDate(), 
                         rs.getString("l.log_ativo").charAt(0), rs.getInt("l.log_nivel"));
         } 
-        catch(SQLException ex) {}
+        catch(SQLException ex) 
+        {
+            System.out.println(ex);
+        }
         
         return aux;
     }
@@ -132,7 +165,10 @@ public class DALFuncionario {
                         rs.getString("l.log_usuario"), rs.getDate("c.cli_datanasc").toLocalDate(), 
                         rs.getString("l.log_ativo").charAt(0), rs.getInt("l.log_nivel")));
         } 
-        catch (SQLException ex) {}
+        catch(SQLException ex) 
+        {
+            System.out.println(ex);
+        }
         
         return aux;
     }

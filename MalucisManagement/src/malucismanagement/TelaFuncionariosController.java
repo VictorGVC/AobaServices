@@ -12,7 +12,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -491,12 +490,14 @@ public class TelaFuncionariosController implements Initializable {
             a.showAndWait();
             cbCargo.requestFocus();
         }
-        else{
-            
-            try {
+        else
+        {    
+            try 
+            {
                 id = tcpf.getText();
             } 
-            catch (NumberFormatException e) {
+            catch (NumberFormatException e) 
+            {
                 id = "";
             }
             
@@ -513,37 +514,21 @@ public class TelaFuncionariosController implements Initializable {
                     dpdatanasc.getValue(), colativo.getCellData(tvclientes.getSelectionModel().getSelectedIndex()).charAt(0),
                     cbCargo.getSelectionModel().getSelectedIndex());
             DALFuncionario dal = new DALFuncionario();
-
-            if(pnpesquisa.isDisable()){
-                
-                if (dal.gravar(f,txsenha.getText()))
-                {    
-                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
-                }
-                else{
-                    
-                    a.setContentText("Problemas ao Gravar!");
-                    a.showAndWait();
-                }
+            
+            if (dal.alterar(f,txsenha.getText()))
+            {
+                JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
             }
             else
             {
-                if (dal.alterar(f,txsenha.getText())){
-                    
-                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
-                }
-                else{
-                    
-                    a.setContentText("Problemas ao Alterar!");
-                    a.showAndWait();
-                }
+                a.setContentText("Problemas ao Alterar!");
+                a.showAndWait();
             }
-            estado(true);
-            limparCampos();
-            pnpesquisa.setDisable(false);
         }
+        estado(true);
+        limparCampos();
+        pnpesquisa.setDisable(false);
     }
 
     @FXML
@@ -658,6 +643,20 @@ public class TelaFuncionariosController implements Initializable {
                 
             }
         }
+    }
+
+    @FXML
+    private void clkBtAtivar(ActionEvent event) 
+    {
+        if(tvclientes.getSelectionModel().getSelectedIndex() != -1)
+        {
+            DALFuncionario dal = new DALFuncionario();
+            if(colativo.getCellData(tvclientes.getSelectionModel().getSelectedIndex()) == "S")
+                dal.desativar(tvclientes.getSelectionModel().getSelectedItem());
+            else
+                dal.ativar(tvclientes.getSelectionModel().getSelectedItem());
+        }
+        
     }
     
 }
