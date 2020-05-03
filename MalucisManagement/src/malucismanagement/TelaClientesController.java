@@ -60,6 +60,8 @@ public class TelaClientesController implements Initializable {
     @FXML
     private Pane pndados;
     @FXML
+    private JFXTextField tcpf;
+    @FXML
     private JFXTextField tnome;
     @FXML
     private JFXTextField ttelefone;
@@ -74,8 +76,6 @@ public class TelaClientesController implements Initializable {
     @FXML
     private JFXDatePicker dpdatanasc;
     @FXML
-    private JFXTextField tcpf;
-    @FXML
     private JFXTextField tcep;
     @FXML
     private JFXTextField temail;
@@ -83,8 +83,6 @@ public class TelaClientesController implements Initializable {
     private JFXTextField tcidade;
     @FXML
     private JFXTextField tuf;
-    @FXML
-    private JFXTextField tcod;
     @FXML
     private VBox pnpesquisa;
     @FXML
@@ -96,11 +94,9 @@ public class TelaClientesController implements Initializable {
     @FXML
     private TableView<Cliente> tvclientes;
     @FXML
-    private TableColumn<Cliente, String> colcodigo;
+    private TableColumn<Cliente, String> colcpf;
     @FXML
     private TableColumn<Cliente, String> colnome;
-    @FXML
-    private TableColumn<Cliente, String> colcpf;
     @FXML
     private TableColumn<Cliente, String> colemail;
     @FXML
@@ -155,9 +151,8 @@ public class TelaClientesController implements Initializable {
             btcancelar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btvoltar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
-            tcod.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             tcpf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             cbsexo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             dpdatanasc.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             temail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
@@ -183,9 +178,8 @@ public class TelaClientesController implements Initializable {
             btcancelar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
             btvoltar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
             
-            tcod.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tnome.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
             tcpf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tnome.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
             cbsexo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
             dpdatanasc.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
             temail.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
@@ -220,9 +214,8 @@ public class TelaClientesController implements Initializable {
     
     private void initColTb() {
         
-        colcodigo.setCellValueFactory(new PropertyValueFactory("cod"));
-        colnome.setCellValueFactory(new PropertyValueFactory("nome"));
         colcpf.setCellValueFactory(new PropertyValueFactory("cpf"));
+        colnome.setCellValueFactory(new PropertyValueFactory("nome"));
         colemail.setCellValueFactory(new PropertyValueFactory("email"));
         coltelefone.setCellValueFactory(new PropertyValueFactory("fone"));
         colcep.setCellValueFactory(new PropertyValueFactory("cep"));
@@ -265,9 +258,8 @@ public class TelaClientesController implements Initializable {
         
         List<String> list = new ArrayList();
         
-        list.add("Codigo");
-        list.add("Nome");
         list.add("CPF");
+        list.add("Nome");
         list.add("E-Mail");
         list.add("Telefone");
         list.add("CEP");
@@ -348,24 +340,24 @@ public class TelaClientesController implements Initializable {
     @FXML
     private void clkBtConfirmar(ActionEvent event) {
         
-        int cod;
+        String id;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
-        if(tnome.getText().isEmpty()){
-            
-            a.setContentText("Nome deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tnome.requestFocus();
-        }
-        else if(tcpf.getText().isEmpty()){
+        if(tcpf.getText().isEmpty()){
             
             a.setContentText("CPF deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             tcpf.requestFocus();
+        }
+        else if(tnome.getText().isEmpty()){
+            
+            a.setContentText("Nome deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            tnome.requestFocus();
         }
         else if(cbsexo.getSelectionModel().getSelectedIndex() == -1){
             
@@ -450,10 +442,10 @@ public class TelaClientesController implements Initializable {
         else{
             
             try {
-                cod = Integer.parseInt(tcod.getText());
+                id = tcpf.getText();
             } 
             catch (NumberFormatException e) {
-                cod = 0;
+                id = "";
             }
             
             char sexo = ' ';
@@ -463,9 +455,9 @@ public class TelaClientesController implements Initializable {
             else if(cbsexo.getSelectionModel().getSelectedIndex() == 1)
                 sexo = 'F';
             
-            Cliente c = new Cliente(cod, Integer.parseInt(tnumero.getText()), sexo,
-                                         tnome.getText(), 
-                                         tcpf.getText(),
+            Cliente c = new Cliente(Integer.parseInt(tnumero.getText()), sexo,
+                                         tnome.getText(),
+                                         id,
                                          temail.getText(),
                                          ttelefone.getText(),
                                          tcep.getText(),
@@ -559,24 +551,21 @@ public class TelaClientesController implements Initializable {
             switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
                 
                 case 0:
-                    carregaTabela("UPPER(cli_cod) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(cli_cpf) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 1:
                     carregaTabela("UPPER(cli_nome) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 2:
-                    carregaTabela("UPPER(cli_cpf) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-                    break;
-                case 3:
                     carregaTabela("UPPER(cli_email) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
-                case 4:
+                case 3:
                     carregaTabela("UPPER(cli_fone) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
-                case 5:
+                case 4:
                     carregaTabela("UPPER(cli_cep) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
-                case 6:
+                case 5:
                     carregaTabela("UPPER(cli_rua) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 default:
@@ -594,9 +583,8 @@ public class TelaClientesController implements Initializable {
                 
                 Cliente c = (Cliente)tvclientes.getSelectionModel().getSelectedItem();
                 
-                tcod.setText("" + c.getCodigo());
-                tnome.setText(c.getNome());
                 tcpf.setText(c.getCpf());
+                tnome.setText(c.getNome());
                 if(c.getSexo() == 'M')
                     cbsexo.getSelectionModel().selectFirst();
                 else if(c.getSexo() == 'F')

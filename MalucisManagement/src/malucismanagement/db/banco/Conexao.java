@@ -48,7 +48,7 @@ public class Conexao {
     
     public boolean manipular(String sql) { // inserir, alterar,excluir   
         
-        boolean executou=false;
+        boolean executou = false;
         
         try {
             
@@ -78,7 +78,7 @@ public class Conexao {
             
             rs = statement.executeQuery(sql);
         }
-        catch ( SQLException sqlex ) {
+        catch (SQLException sqlex) {
             
             erro = "Erro: " + sqlex.toString();
             rs = null;
@@ -89,7 +89,7 @@ public class Conexao {
     
     public int getMaxPK(String tabela, String chave) {
         
-        String sql = "select max(" + chave + ") from " + tabela;
+        String sql = "SELECT MAX(" + chave + ") FROM " + tabela;
         int max = 0;
         ResultSet rs = consultar(sql);
         
@@ -108,7 +108,6 @@ public class Conexao {
     }
     
     public Connection getConnect() {
-        
         return connect;
     }
 }
