@@ -7,7 +7,6 @@ package malucismanagement.db.dal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
@@ -81,26 +80,31 @@ public class DALFuncionario {
         return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario=" + f.getLogin());
     }
     
-    public boolean Desativar(Funcionario f) 
+    public boolean desativar(Funcionario f) 
     {    
         return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario=" + f.getLogin());
+    }
+    
+    public boolean ativar(Funcionario f) 
+    {    
+        return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'S' WHERE log_usuario=" + f.getLogin());
     }
     
     public Funcionario get(String id) {
         
         Funcionario aux = null;
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM Cliente c INNER JOIN Login l"
-                + "ON l.cli_id = c.cli_id WHERE log_usuario=" + id);
+                + "ON l.cli_id = c.cli_id WHERE l.log_usuario=" + id);
         
         try{
             
             if(rs.next())
-                aux = new Funcionario(rs.getInt("cli_numero"), rs.getString("cli_sexo").charAt(0), 
-                        rs.getString("cli_nome"), rs.getString("cli_id"), rs.getString("cli_email"),
-                        rs.getString("cli_email"), rs.getString("cli_cep"), rs.getString("cli_rua"),
-                        rs.getString("cli_bairro"), rs.getString("cli_cidade"), rs.getString("cli_uf"),
-                        rs.getString("log_usuario"), rs.getDate("cli_datanasc").toLocalDate(), 
-                        rs.getString("log_ativo").charAt(0), rs.getInt("log_nivel"));
+                aux = new Funcionario(rs.getInt("c.cli_numero"), rs.getString("c.cli_sexo").charAt(0), 
+                        rs.getString("c.cli_nome"), rs.getString("c.cli_id"), rs.getString("c.cli_email"),
+                        rs.getString("c.cli_email"), rs.getString("c.cli_cep"), rs.getString("c.cli_rua"),
+                        rs.getString("c.cli_bairro"), rs.getString("c.cli_cidade"), rs.getString("c.cli_uf"),
+                        rs.getString("l.log_usuario"), rs.getDate("c.cli_datanasc").toLocalDate(), 
+                        rs.getString("l.log_ativo").charAt(0), rs.getInt("l.log_nivel"));
         } 
         catch(SQLException ex) {}
         
@@ -110,7 +114,7 @@ public class DALFuncionario {
     public List<Funcionario> getL(String filtro) {
         
         String sql = "SELECT * FROM Cliente c RIGHT JOIN Login l "
-                + "ON l.cli_id = cli_id";
+                + "ON l.cli_id = c.cli_id";
         
         if(!filtro.isEmpty())
             sql += " WHERE " + filtro;
@@ -121,12 +125,12 @@ public class DALFuncionario {
         try {
             
             while(rs.next())
-                aux.add(new Funcionario(rs.getInt("cli_numero"), rs.getString("cli_sexo").charAt(0), 
-                        rs.getString("cli_nome"), rs.getString("cli_id"), rs.getString("cli_email"),
-                        rs.getString("cli_email"), rs.getString("cli_cep"), rs.getString("cli_rua"),
-                        rs.getString("cli_bairro"), rs.getString("cli_cidade"), rs.getString("cli_uf"),
-                        rs.getString("log_usuario"), rs.getDate("cli_datanasc").toLocalDate(), 
-                        rs.getString("log_ativo").charAt(0), rs.getInt("log_nivel")));
+                aux.add(new Funcionario(rs.getInt("c.cli_numero"), rs.getString("c.cli_sexo").charAt(0), 
+                        rs.getString("c.cli_nome"), rs.getString("c.cli_id"), rs.getString("c.cli_email"),
+                        rs.getString("c.cli_email"), rs.getString("c.cli_cep"), rs.getString("c.cli_rua"),
+                        rs.getString("c.cli_bairro"), rs.getString("c.cli_cidade"), rs.getString("c.cli_uf"),
+                        rs.getString("l.log_usuario"), rs.getDate("c.cli_datanasc").toLocalDate(), 
+                        rs.getString("l.log_ativo").charAt(0), rs.getInt("l.log_nivel")));
         } 
         catch (SQLException ex) {}
         

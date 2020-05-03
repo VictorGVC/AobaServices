@@ -8,6 +8,7 @@ package malucismanagement;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.List;
@@ -52,7 +53,7 @@ public class TelaLogin_CadastroController implements Initializable {
     @FXML
     private JFXTextField txcep;
     @FXML
-    private JFXTextField txsenha;
+    private JFXPasswordField txsenha;
     @FXML
     private JFXTextField txcpf;
     @FXML
@@ -69,6 +70,8 @@ public class TelaLogin_CadastroController implements Initializable {
     private JFXTextField txcidade;
     @FXML
     private JFXTextField txnumero;
+    @FXML
+    private JFXPasswordField txsenhac;
 
     /**
      * Initializes the controller class.

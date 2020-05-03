@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
@@ -35,7 +36,6 @@
                                                 <Image url="@../icons/ativacao.png" />
                                              </image>
                                           </ImageView>
-                                          <JFXTextField fx:id="txsenha" layoutX="481.0" layoutY="182.0" promptText="Senha" />
                                           <JFXTextField fx:id="txusuario" layoutX="481.0" layoutY="133.0" promptText="Usuário" />
                                           <JFXComboBox fx:id="cbcargo" layoutX="481.0" layoutY="228.0" prefHeight="25.0" prefWidth="134.0" promptText="Cargo" />
                                           <JFXComboBox fx:id="cbsexo" layoutX="49.0" layoutY="278.0" prefHeight="25.0" prefWidth="135.0" promptText="Sexo" />
@@ -54,6 +54,7 @@
                                           <JFXTextField fx:id="txcidade" layoutX="260.0" layoutY="182.0" promptText="Cidade" />
                                           <JFXTextField fx:id="txnumero" layoutX="260.0" layoutY="326.0" promptText="Numero" />
                                           <JFXTextField fx:id="txcpf" layoutX="49.0" layoutY="374.0" promptText="CPF" />
+                                          <JFXPasswordField fx:id="txsenhac" layoutX="481.0" layoutY="184.0" promptText="Senha" />
                                        </children>
                                     </Pane>
                                     <JFXButton alignment="CENTER" onAction="#clkBtCadastro" prefHeight="40.0" prefWidth="658.0" style="-fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
@@ -91,8 +92,8 @@
                                                 <Image url="@../icons/login.png" />
                                              </image>
                                           </ImageView>
-                                          <JFXTextField fx:id="txsenha" layoutX="88.0" layoutY="189.0" promptText="Senha" />
                                           <JFXTextField fx:id="txusuario" layoutX="88.0" layoutY="118.0" promptText="Usuário" />
+                                          <JFXPasswordField fx:id="txsenha" layoutX="88.0" layoutY="197.0" promptText="Senha" />
                                        </children>
                                     </Pane>
                                     <JFXButton alignment="CENTER" onAction="#clkBtLogin" prefHeight="26.0" prefWidth="526.0" style="-fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
