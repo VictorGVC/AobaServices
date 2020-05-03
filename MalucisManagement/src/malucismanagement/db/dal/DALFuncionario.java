@@ -78,7 +78,7 @@ public class DALFuncionario {
     public boolean apagar(Funcionario f) 
     {
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
-                + "WHERE l.log_usuario !=" + f.getLogin());
+                + "WHERE log_usuario !=" + f.getLogin());
         int cont = 0;
         try{
             
@@ -98,7 +98,7 @@ public class DALFuncionario {
     public boolean desativar(Funcionario f) 
     {    
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
-                + "WHERE l.log_usuario !=" + f.getLogin());
+                + "WHERE log_usuario !=" + f.getLogin());
         int cont = 0;
         try{
             
@@ -172,4 +172,22 @@ public class DALFuncionario {
         
         return aux;
     }
+    
+    public boolean valida(String login, String senha)
+    {
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
+                + "WHERE log_usuario = " + login + " AND log_senha = "+ senha);
+        int cont = 0;
+        try{
+            
+            if(rs.next())
+                cont++;
+        } 
+        catch(SQLException ex) 
+        {
+            System.out.println(ex);
+        }
+        return cont == 1;
+    }
+    
 }

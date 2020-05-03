@@ -105,12 +105,15 @@ public class TelaLogin_CadastroController implements Initializable {
     }
 
     @FXML
-    private void clkBtCadastro(ActionEvent event) {
+    private void clkBtCadastro(ActionEvent event) 
+    {
         
     }
 
     @FXML
-    private void clkBtLogin(ActionEvent event) {
+    private void clkBtLogin(ActionEvent event) 
+    {
+        
     }
     
 }
