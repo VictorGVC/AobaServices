@@ -13,12 +13,24 @@ import java.time.LocalDate;
  */
 public class Funcionario {
     private int numero, nivel;
-    private char sexo;
+    private char sexo, ativo;
     private String nome, cpf, email, telefone, cep, rua, bairro, cidade, uf, login; 
     private LocalDate datanasc;
-    private boolean ativo;
 
-    public Funcionario(int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, String login, LocalDate datanasc, boolean ativo,int nivel) {
+    public char getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(char ativo) {
+        this.ativo = ativo;
+    }
+    
+    public boolean isAtivo(char ativo)
+    {
+        return ativo == 'S';
+    }
+
+    public Funcionario(int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, String login, LocalDate datanasc, char ativo,int nivel) {
         this.numero = numero;
         this.sexo = sexo;
         this.nome = nome;
@@ -36,7 +48,7 @@ public class Funcionario {
         this.nivel = nivel;
     }
 
-    public Funcionario(int numero, char sexo, String nome, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, String login, LocalDate datanasc, boolean ativo,int nivel) {
+    public Funcionario(int numero, char sexo, String nome, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, String login, LocalDate datanasc, char ativo,int nivel) {
         this.numero = numero;
         this.sexo = sexo;
         this.nome = nome;
@@ -162,14 +174,6 @@ public class Funcionario {
 
     public void setDatanasc(LocalDate datanasc) {
         this.datanasc = datanasc;
-    }
-
-    public boolean isAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;
     }
 
     public int getNivel() {
