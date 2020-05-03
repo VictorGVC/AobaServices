@@ -8,12 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALProduto;
@@ -57,20 +60,24 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private TableColumn<Produto, Integer> ColQtd;
     @FXML
-    private TableColumn<CategoriaProduto, String> ColCat;
+    private TableColumn<Produto, String> ColCat;
     @FXML
     private TableColumn<Produto, Integer> ColCod;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        CarregaTabela();
+        try {
+            CarregaTabela();
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         CarregaCBFiltro();
     }    
 
     @FXML
     private void SalvarProduto(ActionEvent event) throws SQLException {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
-        Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),dalct.getCategoriaProduto(cbCategoria.getValue().toString()),Double.parseDouble(txPreco.getText()),
+        Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),cbCategoria.getValue().toString(),Double.parseDouble(txPreco.getText()),
         txNomeProduto.getText());
         
         DALProduto dal = new DALProduto();
@@ -83,11 +90,12 @@ public class TelaProdutoController implements Initializable {
         CarregaTabela();
     }
     
-    private void CarregaTabela(){
+    private void CarregaTabela() throws SQLException{
         tvProdutos.getItems().clear();
         DALProduto dal = new DALProduto();
+        DALCategoriaProduto dalct = new DALCategoriaProduto();
         ObservableList<Produto> lista = dal.getProdutos();
-           tvProdutos.setItems(lista); 
+        tvProdutos.setItems(lista);
     }
     
     private void CarregaTabelaProduto(){
@@ -145,7 +153,8 @@ public class TelaProdutoController implements Initializable {
         txNomeProduto.setText(linha.getPro_nome());
         txPreco.setText(""+linha.getPro_preco());
         txQtdEstoque.setText(""+linha.getPro_quantidade());
-        cbCategoria.getSelectionModel().select(linha.getCat_cod());
+        int index = cbCategoria.getItems().indexOf(linha.getCat_cod());
+        cbCategoria.getSelectionModel().select(index);
     }
 
     @FXML
@@ -170,7 +179,7 @@ public class TelaProdutoController implements Initializable {
     }
 
     @FXML
-    private void RemoverProduto(ActionEvent event) {
+    private void RemoverProduto(ActionEvent event) throws SQLException {
         DALProduto dal = new DALProduto();
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
         dal.excluir(linha.getPro_cod());
