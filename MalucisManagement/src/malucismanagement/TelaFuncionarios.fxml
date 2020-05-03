@@ -43,8 +43,9 @@
                   <JFXTextField fx:id="tuf" labelFloat="true" layoutX="735.0" layoutY="195.0" prefHeight="32.0" prefWidth="48.0" promptText="UF" unFocusColor="BLACK" />
                   <JFXTextField fx:id="tcod" disable="true" labelFloat="true" layoutX="14.0" layoutY="15.0" prefHeight="29.0" prefWidth="100.0" promptText="Código" />
                   <Line endX="-11.0" endY="106.0" layoutX="639.0" layoutY="77.0" startX="-11.0" startY="-57.0" />
-                  <JFXTextField layoutX="639.0" layoutY="60.0" promptText="Login" />
-                  <JFXTextField layoutX="639.0" layoutY="107.0" promptText="Senha" />
+                  <JFXTextField layoutX="639.0" layoutY="41.0" promptText="Login" />
+                  <JFXTextField layoutX="639.0" layoutY="91.0" promptText="Senha" />
+                  <JFXComboBox layoutX="639.0" layoutY="142.0" prefHeight="25.0" prefWidth="135.0" promptText="Cargo" />
                </children>
             </Pane>
          </children>
@@ -66,9 +67,10 @@
                   <TableColumn fx:id="colcodigo" prefWidth="49.0" text="Código" />
                   <TableColumn prefWidth="117.0" text="Login" />
                   <TableColumn fx:id="colnome" prefWidth="164.0" text="Nome" />
-                  <TableColumn fx:id="colcpf" prefWidth="208.0" text="CPF" />
-                  <TableColumn fx:id="coltelefone" minWidth="8.0" prefWidth="122.0" text="Telefone" />
-                  <TableColumn prefWidth="137.0" text="Data de Nascimento" />
+                  <TableColumn fx:id="colcpf" prefWidth="161.0" text="CPF" />
+                  <TableColumn fx:id="coltelefone" minWidth="8.0" prefWidth="130.0" text="Telefone" />
+                  <TableColumn prefWidth="139.0" text="Data de Nascimento" />
+                  <TableColumn prefWidth="37.0" text="ativo" />
                </columns>
             </TableView>
          </children>
