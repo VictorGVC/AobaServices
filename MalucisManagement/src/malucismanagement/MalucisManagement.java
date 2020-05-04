@@ -28,10 +28,7 @@ public class MalucisManagement extends Application {
 
     public static void main(String[] args) {
         if(Banco.conectar())
-        {
-            JOptionPane.showMessageDialog(null, "Conexão criada com sucesso, o sistema será reiniciado");
             launch(args);
-        }
         else
         {
             JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());

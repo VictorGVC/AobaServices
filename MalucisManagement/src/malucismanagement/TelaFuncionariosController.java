@@ -134,6 +134,7 @@ public class TelaFuncionariosController implements Initializable {
         initializeSexo();
         initializeCategoria();
         initializeCargo();
+        initializeColunas();
         estado(true);
         //setParametros();
     }   
@@ -149,12 +150,12 @@ public class TelaFuncionariosController implements Initializable {
     
     private void initializeColunas() {
         
-        colcpf.setCellValueFactory(new PropertyValueFactory("cpf"));
-        colnome.setCellValueFactory(new PropertyValueFactory("nome"));
-        colemail.setCellValueFactory(new PropertyValueFactory("email"));
-        coltelefone.setCellValueFactory(new PropertyValueFactory("telefone"));
-        colativo.setCellValueFactory(new PropertyValueFactory("ativo"));
-        collogin.setCellValueFactory(new PropertyValueFactory("login"));
+        colcpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        colnome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colemail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        coltelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+        colativo.setCellValueFactory(new PropertyValueFactory<>("ativo"));
+        collogin.setCellValueFactory(new PropertyValueFactory<>("login"));
     }
     
     private void initializeSexo()
@@ -304,22 +305,22 @@ public class TelaFuncionariosController implements Initializable {
         MaskFieldUtil.maxField(tcidade, 30);
         MaskFieldUtil.maxField(tuf, 2);
     }
-
-    @FXML
-    private void clkBtAlterar(ActionEvent event) 
-    {
-        estado(false);
-        pnpesquisa.setDisable(false);
-    }
     
-    private void carregaTabela(String filtro) {
-        
+    private void carregaTabela(String filtro) 
+    {
         DALFuncionario dal = new DALFuncionario();
         List<Funcionario> res = dal.getL(filtro);
         ObservableList<Funcionario> modelo;
         
         modelo = FXCollections.observableArrayList(res);
         tvclientes.setItems(modelo);
+    }
+
+    @FXML
+    private void clkBtAlterar(ActionEvent event) 
+    {
+        estado(false);
+        pnpesquisa.setDisable(false);
     }
 
     @FXML
