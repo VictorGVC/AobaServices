@@ -3,22 +3,30 @@ package malucismanagement;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import static malucismanagement.TelaPrincipalController.efeito;
 import malucismanagement.db.dal.DALFornecedores;
 import malucismanagement.db.entidades.Fornecedor;
 import malucismanagement.util.MaskFieldUtil;
@@ -70,6 +78,12 @@ public class TelaFornecedorController implements Initializable {
     private TableColumn<Fornecedor, String> ColEmail;
     @FXML
     private TableColumn<Fornecedor, String> ColTipo;
+    @FXML
+    private Button btExit;
+    @FXML
+    private AnchorPane pnprincipal;
+    @FXML
+    private AnchorPane pnsecundario;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MaskFieldUtil.cnpjField(txCNPJ);
@@ -224,17 +238,35 @@ public class TelaFornecedorController implements Initializable {
     private void FiltrarFornecedor(ActionEvent event) {
         DALFornecedores dal = new DALFornecedores();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Fornecedor")
+        {
             CarregaTabelaFornecedorNome();
+            LimpaTelaTabela();
+            }            
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "CNPJ")
+            {
             CarregaTabelaCNPJ();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "IE")
-            CarregaTabelaIE();
+            {
+                CarregaTabelaIE();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Telefone")
+            {
             CarregaTabelaTelefone();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Email")
+            {
             CarregaTabelaEmail();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Tipo")
+            {
             CarregaTabelaTipo();
+            LimpaTelaTabela();
+            }
     }
 
     @FXML
@@ -242,6 +274,20 @@ public class TelaFornecedorController implements Initializable {
         DALFornecedores dal = new DALFornecedores();
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
         dal.excluir(linha.getFor_cnpj());
+        CarregaTabelaFornecedor();
+    }
+
+    @FXML
+    private void clkbtExit(ActionEvent event) {
+        try {
+            
+            Parent root = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
+            efeito(true);
+        }
+        catch (IOException ex){
+            
+            System.out.println(ex);
+        }
     }
     
 }

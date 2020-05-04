@@ -91,7 +91,8 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private void SalvarProduto(ActionEvent event) throws SQLException {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
-        Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),cbCategoria.getValue().toString(),Double.parseDouble(txPreco.getText()),
+        String cat = cbCategoria.getValue().toString();
+        Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),cat,Double.parseDouble(txPreco.getText().replace(",", ".")),
         txNomeProduto.getText());
         
         DALProduto dal = new DALProduto();
@@ -148,7 +149,7 @@ public class TelaProdutoController implements Initializable {
     private void CarregaTabelaPreco(){
         tvProdutos.getItems().clear();
         DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosPreco(Double.parseDouble(txPesquisar.getText())));
+        ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosPreco(Double.parseDouble(txPesquisar.getText().replace(",", "."))));
         tvProdutos.setItems(lista); 
     }
     
@@ -195,25 +196,34 @@ public class TelaProdutoController implements Initializable {
     }
 
     @FXML
-    private void CancelarFiltro(ActionEvent event) {
+    private void CancelarFiltro(ActionEvent event) throws SQLException {
         LimpaTelaTabela();
+        CarregaTabela();
     }
-    
-    
-
     @FXML
     private void FiltrarProduto(ActionEvent event) throws SQLException {
         DALProduto dal = new DALProduto();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Produto")
+        {
             CarregaTabelaProduto();
+            LimpaTelaTabela();
+        }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Preco")
-            CarregaTabelaPreco();
+            {
+                CarregaTabelaPreco();
+                LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Quantidade")
-            CarregaTabelaQtd();
+            {
+                CarregaTabelaQtd();
+                LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Categoria")
-            CarregaTabelaCategoria();
+            {
+                CarregaTabelaCategoria();
+                LimpaTelaTabela();
+            }
             
-        
     }
 
     @FXML
