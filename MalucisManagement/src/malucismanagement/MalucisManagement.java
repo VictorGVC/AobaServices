@@ -27,16 +27,17 @@ public class MalucisManagement extends Application {
     }
 
     public static void main(String[] args) {
-        
-        launch(args);
-        /*if(Banco.conectar())
-           launch(args);
-        else{
-            
+        if(Banco.conectar())
+        {
+            JOptionPane.showMessageDialog(null, "Conexão criada com sucesso, o sistema será reiniciado");
+            launch(args);
+        }
+        else
+        {
             JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());
             
-            if(JOptionPane.showConfirmDialog(null, "Deseja criar uma nova conexão?") == JOptionPane.YES_OPTION){
-                
+            if(JOptionPane.showConfirmDialog(null, "Deseja criar uma nova conexão?") == JOptionPane.YES_OPTION)
+            {
                 if(!Banco.criarBD("malucidb"))
                     JOptionPane.showMessageDialog(null, "Não foi possivel criar uma nova conexão");
                 else{
@@ -47,6 +48,6 @@ public class MalucisManagement extends Application {
                 }
             }
             System.exit(0);
-        }*/
+        }
     }
 }

@@ -213,7 +213,7 @@ public class TelaFuncionariosController implements Initializable {
         btapagar.setDisable(!b);
         btalterar.setDisable(!b);
       
-        //carregaTabela("");
+        carregaTabela("");
     }
     
     private void setParametros() 

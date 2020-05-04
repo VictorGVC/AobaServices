@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 public class TelaPrincipalController implements Initializable {
@@ -24,6 +25,12 @@ public class TelaPrincipalController implements Initializable {
     private ImageView ivLogo;
     @FXML
     private JFXButton btclientes;
+    @FXML
+    private HBox pndados;
+    @FXML
+    private HBox pnbotoes;
+    @FXML
+    private JFXButton btclientes1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -68,6 +75,21 @@ public class TelaPrincipalController implements Initializable {
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaClientes.fxml"));
+            efeito(true);
+            pnprincipal.setCenter(root);
+        }
+        catch (IOException ex){
+            
+            System.out.println(ex);
+        }
+    }
+
+    @FXML
+    private void clkBtFuncionarios(ActionEvent event) 
+    {
+        try {
+            
+            Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }

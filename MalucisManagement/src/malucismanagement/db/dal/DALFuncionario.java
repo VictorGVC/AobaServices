@@ -146,7 +146,7 @@ public class DALFuncionario {
     
     public List<Funcionario> getL(String filtro) {
         
-        String sql = "SELECT * FROM Cliente c RIGHT JOIN Login l "
+        String sql = "SELECT * FROM CLIENTE c RIGHT JOIN Login l "
                 + "ON l.cli_id = c.cli_id";
         
         if(!filtro.isEmpty())

@@ -81,6 +81,7 @@ public class Conexao {
         catch (SQLException sqlex) {
             
             erro = "Erro: " + sqlex.toString();
+            System.out.println(erro);
             rs = null;
         }
         
