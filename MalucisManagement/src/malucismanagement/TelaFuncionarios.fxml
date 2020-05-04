@@ -64,7 +64,7 @@
                   </JFXTextField>
                </children>
             </Pane>
-            <TableView fx:id="tvclientes" onMouseClicked="#clkTabela" prefHeight="355.0" prefWidth="798.0">
+            <TableView fx:id="tvclientes" onMouseClicked="#clkTabela" prefHeight="355.0" prefWidth="798.0" scaleShape="false">
                <columns>
                   <TableColumn fx:id="collogin" prefWidth="138.0" text="Usuário" />
                   <TableColumn fx:id="colnome" prefWidth="227.0" text="Nome" />
