@@ -217,7 +217,7 @@ public class TelaClientesController implements Initializable {
         colcpf.setCellValueFactory(new PropertyValueFactory("cpf"));
         colnome.setCellValueFactory(new PropertyValueFactory("nome"));
         colemail.setCellValueFactory(new PropertyValueFactory("email"));
-        coltelefone.setCellValueFactory(new PropertyValueFactory("fone"));
+        coltelefone.setCellValueFactory(new PropertyValueFactory("telefone"));
         colcep.setCellValueFactory(new PropertyValueFactory("cep"));
         colrua.setCellValueFactory(new PropertyValueFactory("rua"));
     }
@@ -231,7 +231,7 @@ public class TelaClientesController implements Initializable {
         btalterar.setDisable(!b);
         btnovo.setDisable(!b);
       
-        //carregaTabela("");
+        carregaTabela("");
     }
     
     private void carregaTabela(String filtro) {
