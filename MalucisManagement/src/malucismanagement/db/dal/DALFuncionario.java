@@ -46,78 +46,100 @@ public class DALFuncionario {
         return Banco.getCon().manipular(sql);
     }
     
-    public boolean alterar(Funcionario f,String senha) 
+    public boolean alterar(Funcionario f,String senhaa, String senhan,String usua, String cpfa) 
     {
-        String sql = "UPDATE Login SET log_usuario='#1', log_nivel= #2, log_senha='#3'"
-                + "WHERE log_usuario=" + f.getLogin();
+        String sql = null;
+        if(valida(usua,senhaa))
+        {
+            if(!senhan.isEmpty())
+                sql = "UPDATE Login SET log_usuario='#1', log_nivel= #2, log_senha='#3', cli_id = '#4'"
+                    + "WHERE cli_id = '" + cpfa + "'; ";
+            else
+                sql = "UPDATE Login SET log_usuario='#1',  cli_id = '#4', log_nivel= #2 "
+                    + "WHERE cli_id ='" + cpfa + "'; ";
+
+            sql = sql.replaceAll("#1", "" + f.getLogin());
+            sql = sql.replaceAll("#2", "" + f.getNivel());
+            sql = sql.replaceAll("#4", "" + f.getCpf());
+            sql = sql.replaceAll("#3", senhan);
+            
+            sql += "UPDATE Cliente SET cli_nome='#1', cli_sexo='#2', cli_datanasc='#3', "
+                    + "cli_email='#4', cli_fone='#5', cli_cep='#6', cli_rua='#7', cli_numero='#8', cli_bairro='#9', "
+                    + "cli_cidade='&1', cli_uf='&2', cli_id='&3' WHERE cli_id='" + f.getCpf() + "'; ";
+
+            sql = sql.replaceAll("#1", "" + f.getNome());
+            sql = sql.replaceAll("#2", "" + f.getSexo());
+            sql = sql.replaceAll("#3", "" + f.getDatanasc().toString());
+            sql = sql.replaceAll("#4", "" + f.getEmail());
+            sql = sql.replaceAll("#5", "" + f.getTelefone());
+            sql = sql.replaceAll("#6", "" + f.getCep());
+            sql = sql.replaceAll("#7", "" + f.getRua());
+            sql = sql.replaceAll("#8", "" + f.getNumero());
+            sql = sql.replaceAll("#9", "" + f.getBairro());
+            sql = sql.replaceAll("&1", "" + f.getCidade());
+            sql = sql.replaceAll("&2", "" + f.getUf());
+            sql = sql.replaceAll("&3", "" + f.getCpf());
+            
+            
+        }
         
-        sql = sql.replaceAll("#1", "" + f.getLogin());
-        sql = sql.replaceAll("#2", "" + f.getNivel());
-        sql = sql.replaceAll("#3", senha);
-        
-        
-        sql += "UPDATE Cliente SET cli_nome='#1', cli_sexo='#2', cli_datanasc='#3', "
-                + "cli_email='#4', cli_fone='#5', cli_cep='#6', cli_rua='#7', cli_numero='#8', cli_bairro='#9', "
-                + "cli_cidade='#10', cli_uf='#11' WHERE cli_id=" + f.getCpf();
-        
-        sql = sql.replaceAll("#1", "" + f.getNome());
-        sql = sql.replaceAll("#2", "" + f.getSexo());
-        sql = sql.replaceAll("#3", "" + f.getDatanasc().toString());
-        sql = sql.replaceAll("#4", "" + f.getEmail());
-        sql = sql.replaceAll("#5", "" + f.getTelefone());
-        sql = sql.replaceAll("#6", "" + f.getCep());
-        sql = sql.replaceAll("#7", "" + f.getRua());
-        sql = sql.replaceAll("#8", "" + f.getNumero());
-        sql = sql.replaceAll("#9", "" + f.getBairro());
-        sql = sql.replaceAll("#10", "" + f.getCidade());
-        sql = sql.replaceAll("#11", "" + f.getUf());
         
         return Banco.getCon().manipular(sql);
     }
     
     public boolean apagar(Funcionario f) 
     {
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
-                + "WHERE log_usuario !=" + f.getLogin());
-        int cont = 0;
-        try{
-            
-            if(rs.next())
-                cont++;
-        } 
-        catch(SQLException ex) 
+        if(f.getNivel() == 0)
         {
-            System.out.println(ex);
+            ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
+                + "WHERE log_usuario !='" + f.getLogin() + "' AND log_ativo = 'S'");
+            int cont = 0;
+            try{
+
+                if(rs.next())
+                    cont++;
+            } 
+            catch(SQLException ex) 
+            {
+                System.out.println(ex);
+            }
+            if(cont > 0)
+                return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario='" + f.getLogin() + "'");
+            else 
+                return false;
         }
-        if(cont > 0)
-            return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario=" + f.getLogin());
-        else 
-            return false;
+        else
+            return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'");
     }
     
     public boolean desativar(Funcionario f) 
     {    
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
-                + "WHERE log_usuario !=" + f.getLogin());
-        int cont = 0;
-        try{
-            
-            if(rs.next())
-                cont++;
-        } 
-        catch(SQLException ex) 
+        if(f.getNivel() == 0)
         {
-            System.out.println(ex);
+            ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
+                + "WHERE log_usuario !='" + f.getLogin()+"' AND log_ativo = 'S'");
+            int cont = 0;
+            try{
+
+                if(rs.next())
+                    cont++;
+            } 
+            catch(SQLException ex) 
+            {
+                System.out.println(ex);
+            }
+            if(cont > 0)
+                return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'");
+            else 
+                return false;
         }
-        if(cont > 0)
-            return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario=" + f);
-        else 
-            return false;
+        else
+            return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'");
     }
     
     public boolean ativar(Funcionario f) 
     {    
-        return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'S' WHERE log_usuario=" + f.getLogin());
+        return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'S' WHERE log_usuario='" + f.getLogin()+"'");
     }
     
     public Funcionario get(String id) {
@@ -160,7 +182,7 @@ public class DALFuncionario {
             while(rs.next())
                 aux.add(new Funcionario(rs.getInt("cli_numero"), rs.getString("cli_sexo").charAt(0), 
                         rs.getString("cli_nome"), rs.getString("cli_id"), rs.getString("cli_email"),
-                        rs.getString("cli_email"), rs.getString("cli_cep"), rs.getString("cli_rua"),
+                        rs.getString("cli_fone"), rs.getString("cli_cep"), rs.getString("cli_rua"),
                         rs.getString("cli_bairro"), rs.getString("cli_cidade"), rs.getString("cli_uf"),
                         rs.getString("log_usuario"), rs.getDate("cli_datanasc").toLocalDate(), 
                         rs.getString("log_ativo").charAt(0), rs.getInt("log_nivel")));
@@ -176,7 +198,7 @@ public class DALFuncionario {
     public boolean valida(String login, String senha)
     {
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
-                + "WHERE log_usuario = " + login + " AND log_senha = "+ senha);
+                + "WHERE log_usuario = '" + login + "' AND log_senha = '"+ senha +"'");
         int cont = 0;
         try{
             
