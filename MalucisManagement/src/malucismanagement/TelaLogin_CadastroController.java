@@ -19,6 +19,7 @@ import javafx.collections.ObservableListBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -72,6 +73,8 @@ public class TelaLogin_CadastroController implements Initializable {
     private JFXTextField txnumero;
     @FXML
     private JFXPasswordField txsenhac;
+    @FXML
+    private JFXTextField txusuarioc;
 
     /**
      * Initializes the controller class.
@@ -113,7 +116,28 @@ public class TelaLogin_CadastroController implements Initializable {
     @FXML
     private void clkBtLogin(ActionEvent event) 
     {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         
+        if(txusuario.getText().isEmpty())
+        {
+            a.setContentText("CPF deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txusuario.requestFocus();
+        }
+        else if(txsenha.getText().isEmpty())
+        {
+            a.setContentText("Nome deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txsenha.requestFocus();
+        }
+        else
+        {
+            
+        }
     }
     
 }

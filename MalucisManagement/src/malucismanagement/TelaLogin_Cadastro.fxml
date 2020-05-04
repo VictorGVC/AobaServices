@@ -36,7 +36,7 @@
                                                 <Image url="@../icons/ativacao.png" />
                                              </image>
                                           </ImageView>
-                                          <JFXTextField fx:id="txusuario" layoutX="481.0" layoutY="133.0" promptText="Usuário" />
+                                          <JFXTextField fx:id="txusuarioc" layoutX="481.0" layoutY="133.0" promptText="Usuário" />
                                           <JFXComboBox fx:id="cbcargo" layoutX="481.0" layoutY="228.0" prefHeight="25.0" prefWidth="134.0" promptText="Cargo" />
                                           <JFXComboBox fx:id="cbsexo" layoutX="49.0" layoutY="278.0" prefHeight="25.0" prefWidth="135.0" promptText="Sexo" />
                                           <JFXTextField fx:id="txnome" layoutX="49.0" layoutY="135.0" promptText="Nome" />
