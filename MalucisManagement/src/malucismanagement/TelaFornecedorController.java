@@ -224,17 +224,35 @@ public class TelaFornecedorController implements Initializable {
     private void FiltrarFornecedor(ActionEvent event) {
         DALFornecedores dal = new DALFornecedores();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Fornecedor")
+        {
             CarregaTabelaFornecedorNome();
+            LimpaTelaTabela();
+            }            
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "CNPJ")
+            {
             CarregaTabelaCNPJ();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "IE")
-            CarregaTabelaIE();
+            {
+                CarregaTabelaIE();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Telefone")
+            {
             CarregaTabelaTelefone();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Email")
+            {
             CarregaTabelaEmail();
+            LimpaTelaTabela();
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Tipo")
+            {
             CarregaTabelaTipo();
+            LimpaTelaTabela();
+            }
     }
 
     @FXML
@@ -242,6 +260,7 @@ public class TelaFornecedorController implements Initializable {
         DALFornecedores dal = new DALFornecedores();
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
         dal.excluir(linha.getFor_cnpj());
+        CarregaTabelaFornecedor();
     }
     
 }
