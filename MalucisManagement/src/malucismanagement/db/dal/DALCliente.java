@@ -34,21 +34,22 @@ public class DALCliente {
     
     public boolean alterar(Cliente c) {
         
-        String sql = "UPDATE Cliente SET cli_nome='#1', cli_sexo='#2', cli_datanasc='#3', "
-                + "cli_email='#4', cli_fone='#5', cli_cep='#6', cli_rua='#7', cli_numero='#8', cli_bairro='#9', "
-                + "cli_cidade='#10', cli_uf='#11' WHERE cli_id=" + c.getCpf();
+        String sql = "UPDATE Cliente SET cli_id='#1' cli_nome='#2', cli_sexo='#3', cli_datanasc='#4', "
+                + "cli_email='#5', cli_fone='#6', cli_cep='#7', cli_rua='#8', cli_numero='#9', cli_bairro='#10', "
+                + "cli_cidade='#11', cli_uf='#12' WHERE cli_id=" + c.getCpf();
         
-        sql = sql.replaceAll("#1", "" + c.getNome());
-        sql = sql.replaceAll("#2", "" + c.getSexo());
-        sql = sql.replaceAll("#3", "" + c.getDatanasc().toString());
-        sql = sql.replaceAll("#4", "" + c.getEmail());
-        sql = sql.replaceAll("#5", "" + c.getTelefone());
-        sql = sql.replaceAll("#6", "" + c.getCep());
-        sql = sql.replaceAll("#7", "" + c.getRua());
-        sql = sql.replaceAll("#8", "" + c.getNumero());
-        sql = sql.replaceAll("#9", "" + c.getBairro());
-        sql = sql.replaceAll("#10", "" + c.getCidade());
-        sql = sql.replaceAll("#11", "" + c.getUf());
+        sql = sql.replaceAll("#1", "" + c.getCpf());
+        sql = sql.replaceAll("#2", "" + c.getNome());
+        sql = sql.replaceAll("#3", "" + c.getSexo());
+        sql = sql.replaceAll("#4", "" + c.getDatanasc().toString());
+        sql = sql.replaceAll("#5", "" + c.getEmail());
+        sql = sql.replaceAll("#6", "" + c.getTelefone());
+        sql = sql.replaceAll("#7", "" + c.getCep());
+        sql = sql.replaceAll("#8", "" + c.getRua());
+        sql = sql.replaceAll("#9", "" + c.getNumero());
+        sql = sql.replaceAll("#10", "" + c.getBairro());
+        sql = sql.replaceAll("#11", "" + c.getCidade());
+        sql = sql.replaceAll("#12", "" + c.getUf());
         
         return Banco.getCon().manipular(sql);
         
@@ -59,7 +60,7 @@ public class DALCliente {
         return Banco.getCon().manipular("DELETE FROM Cliente WHERE cli_id=" + c.getCpf());
     }
     
-    public Cliente get(int id) {
+    public Cliente getCli(String id) {
         
         Cliente aux = null;
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM Cliente WHERE cli_id=" + id);
@@ -78,7 +79,7 @@ public class DALCliente {
         return aux;
     }
     
-    public List<Cliente> get(String filtro) {
+    public List<Cliente> getListCli(String filtro) {
         
         String sql = "SELECT * FROM Cliente";
         

@@ -237,7 +237,7 @@ public class TelaClientesController implements Initializable {
     private void carregaTabela(String filtro) {
         
         DALCliente dal = new DALCliente();
-        List<Cliente> res = dal.get(filtro);
+        List<Cliente> res = dal.getListCli(filtro);
         ObservableList<Cliente> modelo;
         
         modelo = FXCollections.observableArrayList(res);
