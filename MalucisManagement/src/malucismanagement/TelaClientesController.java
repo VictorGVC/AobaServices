@@ -248,7 +248,7 @@ public class TelaClientesController implements Initializable {
         
         List<String> list = new ArrayList();
         
-        list.add("Maculino");
+        list.add("Masculino");
         list.add("Feminino");
         
         cbsexo.setItems(FXCollections.observableArrayList(list));
