@@ -18,8 +18,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import malucismanagement.db.dal.DALFornecedores;
 import malucismanagement.db.entidades.Fornecedor;
+import malucismanagement.util.MaskFieldUtil;
 
 public class TelaFornecedorController implements Initializable {
 
@@ -57,23 +59,39 @@ public class TelaFornecedorController implements Initializable {
 
     Boolean flag = true; 
     @FXML
-    private TableColumn<?, ?> ColCodigo;
+    private TableColumn<Fornecedor, String> ColFornecedor;
     @FXML
-    private TableColumn<?, ?> ColFornecedor;
+    private TableColumn<Fornecedor, String>ColCNPJ;
     @FXML
-    private TableColumn<?, ?> ColCNPJ;
+    private TableColumn<Fornecedor, String> ColIE;
     @FXML
-    private TableColumn<?, ?> ColIE;
+    private TableColumn<Fornecedor, String> ColTelefone;
     @FXML
-    private TableColumn<?, ?> ColTelefone;
+    private TableColumn<Fornecedor, String> ColEmail;
     @FXML
-    private TableColumn<?, ?> ColEmail;
-    @FXML
-    private TableColumn<?, ?> ColTipo;
+    private TableColumn<Fornecedor, String> ColTipo;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        MaskFieldUtil.cnpjField(txCNPJ);
+        MaskFieldUtil.foneField(txTelefone);
+        MaskFieldUtil.maxField(txIE, 13);
+        MaskFieldUtil.maxField(txCNPJ, 19);
+        MaskFieldUtil.maxField(txNomeForcenedor, 50);
+        MaskFieldUtil.maxField(txTipo, 20);
+        MaskFieldUtil.numericField(txIE);
+        initColumn();
+        CarregaTabelaFornecedor();
         CarregaCBFiltro();
         LimpaTelaCadastro();
+    }
+    
+    private void initColumn(){
+        ColCNPJ.setCellValueFactory(new PropertyValueFactory("for_cnpj"));
+        ColEmail.setCellValueFactory(new PropertyValueFactory("for_email"));
+        ColFornecedor.setCellValueFactory(new PropertyValueFactory("for_nome"));
+        ColIE.setCellValueFactory(new PropertyValueFactory("for_inscestadual"));
+        ColTelefone.setCellValueFactory(new PropertyValueFactory("for_telefone"));
+        ColTipo.setCellValueFactory(new PropertyValueFactory("for_tipo"));
     }
 
     private void LimpaTelaCadastro(){
@@ -110,15 +128,24 @@ public class TelaFornecedorController implements Initializable {
     private void SalvarFornecedor(ActionEvent event) {
         Fornecedor novo = new Fornecedor(txTipo.getText(),txNomeForcenedor.getText(),txEmail.getText(),txIE.getText(),
                 txCNPJ.getText(),txTelefone.getText());
+        String auxCNPJ = txCNPJ.getText();
         DALFornecedores dal = new DALFornecedores();
         if(flag)
-            dal.gravar(novo);
+        {
+            if(dal.gravar(novo))
+                LimpaTelaCadastro();
+        }  
         else
         {
-            dal.alterar(novo);
-            flag = true;
+            if(dal.alterar(novo,auxCNPJ)){
+                flag = true;
+                LimpaTelaCadastro();
+            }
         }
-            
+        
+        LimpaTelaCadastro();
+        CarregaTabelaFornecedor();
+        
     }
 
     @FXML
@@ -141,67 +168,63 @@ public class TelaFornecedorController implements Initializable {
     @FXML
     private void CancelarFiltro(ActionEvent event) {
         LimpaTelaTabela();
+        CarregaTabelaFornecedor();
     }
     
     private void CarregaTabelaFornecedor(){
         tvFornecedores.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = dal.getFornecedoresNome(txPesquisar.getText());
-        for (int i = 0; i < lista.size(); i++) {
-           tvFornecedores.setItems(lista); 
-        }
+        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedores());
+        tvFornecedores.setItems(lista);
+    }
+    
+    private void CarregaTabelaFornecedorNome(){
+        tvFornecedores.getItems().clear();
+        DALFornecedores dal = new DALFornecedores();
+        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresNome(txPesquisar.getText()));
+        tvFornecedores.setItems(lista);
     }
     
     private void CarregaTabelaCNPJ(){
         tvFornecedores.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = dal.getFornecedoresCNPJ(Integer.parseInt(txPesquisar.getText()));
-        for (int i = 0; i < lista.size(); i++) {
-           tvFornecedores.setItems(lista); 
-        }
+        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresCNPJ(txPesquisar.getText()));
+        tvFornecedores.setItems(lista);
     }
     
     private void CarregaTabelaIE(){
         tvFornecedores.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = dal.getFornecedoresIE(Integer.parseInt(txPesquisar.getText()));
-        for (int i = 0; i < lista.size(); i++) {
-           tvFornecedores.setItems(lista); 
-        }
+        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresIE(txPesquisar.getText()));
+        tvFornecedores.setItems(lista);
     }
     
     private void CarregaTabelaTelefone(){
         tvFornecedores.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = dal.getFornecedoresTelefone(Integer.parseInt(txPesquisar.getText()));
-        for (int i = 0; i < lista.size(); i++) {
-           tvFornecedores.setItems(lista); 
-        }
+        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresTelefone(txPesquisar.getText()));
+        tvFornecedores.setItems(lista);
     }
     
     private void CarregaTabelaEmail(){
         tvFornecedores.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = dal.getFornecedoresEmail(txPesquisar.getText());
-        for (int i = 0; i < lista.size(); i++) {
-           tvFornecedores.setItems(lista); 
-        }
+        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresEmail(txPesquisar.getText()));
+        tvFornecedores.setItems(lista);
     }
     
     private void CarregaTabelaTipo(){
         tvFornecedores.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = dal.getFornecedoresTipo(txPesquisar.getText());
-        for (int i = 0; i < lista.size(); i++) {
-           tvFornecedores.setItems(lista); 
-        }
+        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresTipo(txPesquisar.getText()));
+        tvFornecedores.setItems(lista);
     }
 
     @FXML
     private void FiltrarFornecedor(ActionEvent event) {
         DALFornecedores dal = new DALFornecedores();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Fornecedor")
-            CarregaTabelaFornecedor();
+            CarregaTabelaFornecedorNome();
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "CNPJ")
             CarregaTabelaCNPJ();
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "IE")

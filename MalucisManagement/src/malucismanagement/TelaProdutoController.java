@@ -18,10 +18,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALProduto;
 import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Produto;
+import malucismanagement.util.MaskFieldUtil;
 
 public class TelaProdutoController implements Initializable {
 
@@ -36,7 +38,7 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private JFXButton btCancelarProduto;
     @FXML
-    private JFXComboBox<?> cbCategoria;
+    private JFXComboBox<String> cbCategoria;
     @FXML
     private JFXButton btEditarFornecedor;
     @FXML
@@ -66,13 +68,25 @@ public class TelaProdutoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        MaskFieldUtil.monetaryField(txPreco);
+        MaskFieldUtil.numericField(txQtdEstoque);
+        MaskFieldUtil.maxField(txNomeProduto, 50);
+        initColumn();
         try {
+            CarregaCBCategoria();
             CarregaTabela();
         } catch (SQLException ex) {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         CarregaCBFiltro();
     }    
+    
+    private void CarregaCBCategoria(){
+        tvProdutos.getItems().clear();
+        DALCategoriaProduto dal = new DALCategoriaProduto();
+        ObservableList<String> lista = FXCollections.observableArrayList(dal.getCategoriaProduto());
+        cbCategoria.setItems(lista);
+    }
 
     @FXML
     private void SalvarProduto(ActionEvent event) throws SQLException {
@@ -82,47 +96,73 @@ public class TelaProdutoController implements Initializable {
         
         DALProduto dal = new DALProduto();
         if(flag)
-            dal.gravar(p);
+        {
+            if(dal.gravar(p))
+                LimpaTelaCadastro();
+        }
         else{
-            dal.alterar(p);
-            flag = true;
+            if(dal.alterar(p)){
+                LimpaTelaCadastro();
+                flag = true;
+            }
         }
         CarregaTabela();
+    }
+    
+    private void LimpaTelaCadastro(){
+        txNomeProduto.clear();
+        txPreco.clear();
+        txQtdEstoque.clear();
+        cbCategoria.getSelectionModel().clearSelection();
+        
+        flag = true;
+    }
+    
+    private void LimpaTelaTabela(){
+        txPesquisar.clear();
+        cbFiltro.getSelectionModel().clearSelection();
+    }
+    
+    private void initColumn(){
+        ColCat.setCellValueFactory(new PropertyValueFactory("cat_cod"));
+        ColCod.setCellValueFactory(new PropertyValueFactory("pro_cod"));
+        ColPreco.setCellValueFactory(new PropertyValueFactory("pro_preco"));
+        ColProduto.setCellValueFactory(new PropertyValueFactory("pro_nome"));
+        ColQtd.setCellValueFactory(new PropertyValueFactory("pro_quantidade"));
     }
     
     private void CarregaTabela() throws SQLException{
         tvProdutos.getItems().clear();
         DALProduto dal = new DALProduto();
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = dal.getProdutos();
+        ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutos());
         tvProdutos.setItems(lista);
     }
     
     private void CarregaTabelaProduto(){
         tvProdutos.getItems().clear();
         DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosNome(txPesquisar.getText());
-        tvProdutos.setItems(lista); 
+        ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosNome(txPesquisar.getText()));
+        tvProdutos.setItems(lista);
     }
     
     private void CarregaTabelaPreco(){
         tvProdutos.getItems().clear();
         DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosPreco(Double.parseDouble(txPesquisar.getText()));
+        ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosPreco(Double.parseDouble(txPesquisar.getText())));
         tvProdutos.setItems(lista); 
     }
     
     private void CarregaTabelaQtd(){
         tvProdutos.getItems().clear();
         DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosQtd(Integer.parseInt(txPesquisar.getText()));
+        ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosQtd(Integer.parseInt(txPesquisar.getText())));
         tvProdutos.setItems(lista); 
     }
     
-    private void CarregaTabelaCategoria(){
+    private void CarregaTabelaCategoria() throws SQLException{
         tvProdutos.getItems().clear();
         DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosCategoria(dal.getCodCat(txPesquisar.getText()));
+        ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosCategoria(txPesquisar.getText()));
         tvProdutos.setItems(lista); 
     }
     
@@ -140,10 +180,7 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void CancelarProduto(ActionEvent event) {
-        txNomeProduto.clear();
-        txPreco.clear();
-        txQtdEstoque.clear();
-        cbCategoria.getSelectionModel().clearSelection();
+        LimpaTelaCadastro();
     }
 
     @FXML
@@ -159,12 +196,13 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void CancelarFiltro(ActionEvent event) {
-        txPesquisar.clear();
-        cbFiltro.getSelectionModel().clearSelection();
+        LimpaTelaTabela();
     }
+    
+    
 
     @FXML
-    private void FiltrarProduto(ActionEvent event) {
+    private void FiltrarProduto(ActionEvent event) throws SQLException {
         DALProduto dal = new DALProduto();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Produto")
             CarregaTabelaProduto();

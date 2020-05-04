@@ -2,6 +2,8 @@ package malucismanagement.db.dal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import static javafx.collections.FXCollections.observableArrayList;
 import static javafx.collections.FXCollections.observableList;
 import javafx.collections.ObservableList;
@@ -30,12 +32,13 @@ public class DALProduto {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
         String sql = "UPDATE Produto SET "
-                + "pro_nome='#1', pro_preco='#2', pro_quantidade='#3', cat_cod='#4' WHERE pro_cod="+p.getPro_cod();
+                + "pro_cod = '#1', pro_nome='#2', pro_preco='#3', pro_quantidade='#4', cat_cod='#5' WHERE pro_cod="+p.getPro_cod();
         
-        sql = sql.replaceAll("#1",p.getPro_nome());
-        sql = sql.replaceAll("#2", "" + p.getPro_preco());
-        sql = sql.replaceAll("#3", "" + p.getPro_quantidade());
-        sql = sql.replaceAll("#4", "" + dalct.getCategoriaProduto(p.getCat_cod()));
+        sql = sql.replaceAll("#1","" + p.getPro_cod());
+        sql = sql.replaceAll("#2",p.getPro_nome());
+        sql = sql.replaceAll("#3", "" + p.getPro_preco());
+        sql = sql.replaceAll("#4", "" + p.getPro_quantidade());
+        sql = sql.replaceAll("#5", "" + dalct.getCategoriaProduto(p.getCat_cod()));
         
         return Banco.getCon().manipular(sql);
     }
@@ -46,17 +49,32 @@ public class DALProduto {
         return Banco.getCon().manipular(sql);
     }
     
-    public ObservableList<Produto> getProdutos(){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto");
+    public List<Produto> getProdutos(){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+                + "p.cat_cod = ct.cat_cod");
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
+                }
+        } catch (Exception e) {
+        }
+        
+        return lista;
+    }
+    
+    public List<Produto> getProdutosNome(String nome){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto WHERE pro_nome like '"+nome+"'");
+        
+        try {
+            while(rs.next()){
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_quantidade")),ctdal.getCategoriaProduto(Integer.parseInt(rs.getString("cat_cod"))),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
         }
@@ -64,17 +82,15 @@ public class DALProduto {
         return lista;
     }
     
-    public ObservableList<Produto> getProdutosNome(String nome){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE pro_nome = "+nome);
+    public List<Produto> getProdutosPreco(Double preco){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto WHERE pro_nome ="+preco);
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_quantidade")),ctdal.getCategoriaProduto(Integer.parseInt(rs.getString("cat_cod"))),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
         }
@@ -82,17 +98,15 @@ public class DALProduto {
         return lista;
     }
     
-    public ObservableList<Produto> getProdutosPreco(Double preco){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE pro_preco = "+preco);
+    public List<Produto> getProdutosQtd(int qtd){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto WHERE pro_nome ="+qtd);
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_quantidade")),ctdal.getCategoriaProduto(Integer.parseInt(rs.getString("cat_cod"))),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
         }
@@ -100,35 +114,15 @@ public class DALProduto {
         return lista;
     }
     
-    public ObservableList<Produto> getProdutosQtd(int qtd){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE pro_quantidade = "+qtd);
+    public List<Produto> getProdutosCategoria(String Categoria) throws SQLException{
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto WHERE pro_nome ="+ctdal.getCategoriaProduto(Categoria));
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
-            }
-        } catch (Exception e) {
-        }
-        
-        return lista;
-    }
-    
-    public ObservableList<Produto> getProdutosCategoria(int Categoria){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE cat_cod = "+Categoria);
-        
-        try {
-            while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_quantidade")),ctdal.getCategoriaProduto(Integer.parseInt(rs.getString("cat_cod"))),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
         }

@@ -31,6 +31,10 @@ public class TelaPrincipalController implements Initializable {
     private HBox pnbotoes;
     @FXML
     private JFXButton btclientes1;
+    @FXML
+    private JFXButton btProduto;
+    @FXML
+    private JFXButton btFornecedor;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -90,6 +94,34 @@ public class TelaPrincipalController implements Initializable {
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
+            efeito(true);
+            pnprincipal.setCenter(root);
+        }
+        catch (IOException ex){
+            
+            System.out.println(ex);
+        }
+    }
+
+    @FXML
+    private void clkBtProduto(ActionEvent event) {
+        try {
+            
+            Parent root = FXMLLoader.load(getClass().getResource("TelaProduto.fxml"));
+            efeito(true);
+            pnprincipal.setCenter(root);
+        }
+        catch (IOException ex){
+            
+            System.out.println(ex);
+        }
+    }
+
+    @FXML
+    private void clkBtFornecedor(ActionEvent event) {
+        try {
+            
+            Parent root = FXMLLoader.load(getClass().getResource("TelaFornecedor.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }
