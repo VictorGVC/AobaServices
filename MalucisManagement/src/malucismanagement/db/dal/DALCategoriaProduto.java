@@ -2,6 +2,8 @@ package malucismanagement.db.dal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.CategoriaProduto;
 
@@ -34,8 +36,7 @@ public class DALCategoriaProduto {
     }
     
     public int getCategoriaProduto(String nome) throws SQLException{
-        String sql = "SELECT * FROM CategoriaProduto ct WHERE ct.cat_nome = "+nome;
-        CategoriaProduto ct = null;
+        String sql = "SELECT * FROM CategoriaProduto ct WHERE ct.cat_nome like '"+nome+"'";
         ResultSet rs = Banco.getCon().consultar(sql);
         
         return Integer.parseInt(rs.getString("cat_cod"));
@@ -43,9 +44,23 @@ public class DALCategoriaProduto {
     
     public String getCategoriaProduto(int cod) throws SQLException{
         String sql = "SELECT * FROM CategoriaProduto ct WHERE ct.cat_cod = "+cod;
-        CategoriaProduto ct = null;
         ResultSet rs = Banco.getCon().consultar(sql);
         
         return rs.getString("cat_nome");
+    }
+    
+    public List<String> getCategoriaProduto(){
+        List <String> lista = new ArrayList();
+        String sql = "SELECT * FROM CategoriaProduto";
+        CategoriaProduto ct = null;
+        ResultSet rs = Banco.getCon().consultar(sql);
+        try {
+            while(rs.next()){
+                lista.add(rs.getString("cat_nome"));
+            }
+        } catch (Exception e) {
+        }
+        
+        return lista;
     }
 }
