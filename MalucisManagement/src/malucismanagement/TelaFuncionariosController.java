@@ -162,7 +162,7 @@ public class TelaFuncionariosController implements Initializable {
     {
         List<String> list = new ArrayList();
         
-        list.add("Maculino");
+        list.add("Masculino");
         list.add("Feminino");
         
         cbsexo.setItems(FXCollections.observableArrayList(list));
@@ -530,6 +530,7 @@ public class TelaFuncionariosController implements Initializable {
         estado(true);
         limparCampos();
         pnpesquisa.setDisable(false);
+        carregaTabela("");
     }
 
     @FXML

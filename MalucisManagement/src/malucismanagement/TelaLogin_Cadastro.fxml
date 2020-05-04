@@ -19,9 +19,9 @@
 
 <AnchorPane id="AnchorPane" fx:id="pnprincipal" prefHeight="532.0" prefWidth="669.0" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaLogin_CadastroController">
    <children>
-      <JFXTabPane prefHeight="538.0" prefWidth="669.0" style="-fx-background-color: #7681B3;" tabMinWidth="258.0" AnchorPane.leftAnchor="0.0">
+      <JFXTabPane fx:id="pntab" prefHeight="538.0" prefWidth="669.0" style="-fx-background-color: #7681B3;" tabMinWidth="258.0" AnchorPane.leftAnchor="0.0">
          <tabs>
-            <Tab text="Cadastro">
+            <Tab fx:id="tabcadastro" text="Cadastro">
                <content>
                   <FlowPane alignment="CENTER" prefHeight="493.0" prefWidth="669.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
                      <children>
@@ -42,14 +42,14 @@
                                           <JFXTextField fx:id="txnome" layoutX="49.0" layoutY="135.0" promptText="Nome" />
                                           <JFXTextField fx:id="txtelefone" layoutX="49.0" layoutY="184.0" promptText="Telefone" />
                                           <JFXDatePicker fx:id="dtpnascimento" layoutX="49.0" layoutY="325.0" prefHeight="28.0" prefWidth="147.0" promptText="data de nascimento" />
-                                          <JFXTextField layoutX="49.0" layoutY="228.0" promptText="Email" />
-                                          <Label layoutX="76.0" layoutY="93.0" text="Dados Pessoais" />
+                                          <JFXTextField fx:id="txemail" layoutX="49.0" layoutY="228.0" promptText="Email" />
+                                          <Label fx:id="lblpessoal" layoutX="76.0" layoutY="93.0" text="Dados Pessoais" />
                                           <JFXTextField fx:id="txrua" layoutX="260.0" layoutY="278.0" promptText="Rua" />
                                           <JFXTextField fx:id="txbairro" layoutX="260.0" layoutY="228.0" promptText="Bairro" />
                                           <Line endX="-24.0" endY="302.0" layoutX="247.0" layoutY="108.0" startX="-24.0" />
                                           <Line endX="-100.0" endY="302.0" layoutX="539.0" layoutY="110.0" startX="-100.0" />
-                                          <Label layoutX="303.0" layoutY="93.0" text="Endereço" />
-                                          <Label layoutX="503.0" layoutY="102.0" text="Dados Cadastrais" />
+                                          <Label fx:id="lblendereco" layoutX="303.0" layoutY="93.0" text="Endereço" />
+                                          <Label fx:id="lblcadastro" layoutX="503.0" layoutY="102.0" text="Dados Cadastrais" />
                                           <JFXTextField fx:id="txcep" layoutX="260.0" layoutY="133.0" promptText="CEP" />
                                           <JFXTextField fx:id="txcidade" layoutX="260.0" layoutY="182.0" promptText="Cidade" />
                                           <JFXTextField fx:id="txnumero" layoutX="260.0" layoutY="326.0" promptText="Numero" />
@@ -57,7 +57,7 @@
                                           <JFXPasswordField fx:id="txsenhac" layoutX="481.0" layoutY="184.0" promptText="Senha" />
                                        </children>
                                     </Pane>
-                                    <JFXButton alignment="CENTER" onAction="#clkBtCadastro" prefHeight="40.0" prefWidth="658.0" style="-fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
+                                    <JFXButton fx:id="btcadastro" alignment="CENTER" onAction="#clkBtCadastro" prefHeight="40.0" prefWidth="658.0" style="-fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -79,7 +79,7 @@
             </Tab>
             <Tab fx:id="tablogin" style="-fx-background-color: #6F73D2;" text="Login">
                <content>
-                  <FlowPane fx:id="flplogin" alignment="CENTER" prefHeight="306.0" prefWidth="366.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
+                  <FlowPane fx:id="pnlogin" alignment="CENTER" prefHeight="306.0" prefWidth="366.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
                      <children>
                         <FlowPane prefHeight="327.0" prefWidth="306.0" style="-fx-border-radius: 5px; -fx-border-color: white; -fx-background-radius: 5px; -fx-background-color: white;">
                            <children>
@@ -96,7 +96,7 @@
                                           <JFXPasswordField fx:id="txsenha" layoutX="88.0" layoutY="197.0" promptText="Senha" />
                                        </children>
                                     </Pane>
-                                    <JFXButton alignment="CENTER" onAction="#clkBtLogin" prefHeight="26.0" prefWidth="526.0" style="-fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
+                                    <JFXButton fx:id="btlogin" alignment="CENTER" onAction="#clkBtLogin" prefHeight="26.0" prefWidth="526.0" style="-fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
