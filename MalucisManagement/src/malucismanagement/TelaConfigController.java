@@ -93,12 +93,18 @@ public class TelaConfigController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
         fadeout();
-        try {
-            retornaConfig();
+        if(p != null){
+            
+            try {
+                retornaConfig();
+            }
+            catch (IOException ex) {}
+            setParametros();
         }
-        catch (IOException ex) {}
-        setParametros();
         setMascaras();
         listaFontes();
     }    
