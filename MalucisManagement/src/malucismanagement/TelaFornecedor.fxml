@@ -22,6 +22,12 @@
                   <Font size="17.0" />
                </font>
             </JFXButton>
+            <JFXButton fx:id="btCancelarFornecedor" layoutX="555.0" layoutY="206.0" onAction="#CancelarFornecedor" prefHeight="38.0" prefWidth="105.0" text="Cancelar">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </JFXButton>
+            <Button fx:id="btExit" layoutX="524.0" layoutY="250.0" mnemonicParsing="false" onAction="#clkbtExit" style="-fx-background-color: invisible;" />
             <JFXTextField fx:id="txNomeForcenedor" layoutX="310.0" layoutY="93.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Fornecedor" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
@@ -82,12 +88,6 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXButton fx:id="btCancelarFornecedor" layoutX="555.0" layoutY="206.0" onAction="#CancelarFornecedor" prefHeight="38.0" prefWidth="105.0" text="Cancelar">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </JFXButton>
-            <Button fx:id="btExit" layoutX="524.0" layoutY="250.0" mnemonicParsing="false" onAction="#clkbtExit" style="-fx-background-color: invisible;" />
             <ImageView fitHeight="29.0" fitWidth="36.0" layoutX="526.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icons/Voltar.png" />
@@ -105,24 +105,24 @@
             <TableColumn fx:id="ColTipo" minWidth="0.0" prefWidth="94.0" text="Tipo" />
          </columns>
       </TableView>
+      <JFXButton fx:id="btRemoverFornecedor" layoutX="252.0" layoutY="396.0" onAction="#RemoverFornecedor" text="Remover">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </JFXButton>
       <JFXButton fx:id="btEditarFornecedor" layoutX="343.0" layoutY="396.0" onAction="#EditarFornecedor" text="Editar">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btCancelarFiltro" layoutX="807.0" layoutY="395.0" onAction="#CancelarFiltro" text="Cancelar">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </JFXButton>
-      <JFXButton fx:id="btFiltrarFornecedor" layoutX="695.0" layoutY="394.0" onAction="#FiltrarFornecedor" text="Confirmar">
          <font>
             <Font size="17.0" />
          </font>
       </JFXButton>
       <JFXComboBox fx:id="cbFiltro" layoutX="443.0" layoutY="401.0" prefHeight="25.0" prefWidth="91.0" promptText="Filtro" unFocusColor="WHITE" />
       <JFXTextField fx:id="txPesquisar" layoutX="545.0" layoutY="401.0" promptText="Pesquisar" unFocusColor="WHITE" />
-      <JFXButton fx:id="btRemoverFornecedor" layoutX="252.0" layoutY="396.0" onAction="#RemoverFornecedor" text="Remover">
+      <JFXButton fx:id="btFiltrarFornecedor" layoutX="695.0" layoutY="394.0" onAction="#FiltrarFornecedor" text="Confirmar">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </JFXButton>
+      <JFXButton fx:id="btCancelarFiltro" layoutX="807.0" layoutY="395.0" onAction="#CancelarFiltro" text="Cancelar">
          <font>
             <Font size="17.0" />
          </font>

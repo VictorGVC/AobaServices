@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pnprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="799.0" style="-fx-background-image: url('icons/pub.jpg'); -fx-background-position: center center; -fx-background-repeat: no-repeat;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
+<BorderPane fx:id="pnprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="799.0" style="-fx-background-image: url('icons/pub.jpg'); -fx-background-position: center center; -fx-background-repeat: no-repeat;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
    <top>
       <VBox prefHeight="69.0" prefWidth="799.0" BorderPane.alignment="CENTER">
          <children>
@@ -25,7 +25,11 @@
                         <MenuItem mnemonicParsing="false" text="Logout" />
                     </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Cadastros" />
+                  <Menu mnemonicParsing="false" text="Cadastros">
+                     <items>
+                        <MenuItem fx:id="miFornecedores" mnemonicParsing="false" onAction="#clkOpenFornecedores" text="Fornecedores" />
+                        <MenuItem fx:id="miProduto" mnemonicParsing="false" onAction="#clkOpenProduto" text="Produtos" />
+                     </items></Menu>
                   <Menu mnemonicParsing="false" text="Relatórios" />
                   <Menu mnemonicParsing="false" text="Ferramentas">
                      <items>
@@ -76,16 +80,6 @@
                      </font>
                   </JFXButton>
                   <JFXButton fx:id="btclientes" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkBtClientes" prefHeight="30.0" prefWidth="160.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Clientes">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btProduto" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkBtProduto" prefHeight="30.0" prefWidth="160.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Produto">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btFornecedor" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkBtFornecedor" prefHeight="30.0" prefWidth="160.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Fornecedor">
                      <font>
                         <Font size="14.0" />
                      </font>
