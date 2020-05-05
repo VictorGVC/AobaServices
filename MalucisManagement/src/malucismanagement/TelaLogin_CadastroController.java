@@ -12,6 +12,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,9 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -30,6 +33,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import static malucismanagement.TelaPrincipalController.efeito;
 import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
@@ -442,8 +446,26 @@ public class TelaLogin_CadastroController implements Initializable {
         {
             if(dal.valida(txusuario.getText(), txsenha.getText()))
             {
-                TelaPrincipalController.spnprincipal.setCenter(null);
-                TelaPrincipalController.efeito(false);
+                DALParametrizacao dalp = new DALParametrizacao();
+                Parametrizacao p = dalp.getConfig();
+                if(p == null)
+                {
+                    try 
+                    {
+                        Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
+                        efeito(true);
+                        TelaPrincipalController.spnprincipal.setCenter(root);
+                    }
+                    catch (IOException ex){
+
+                        System.out.println(ex);
+                    }
+                }
+                else
+                {
+                    TelaPrincipalController.spnprincipal.setCenter(null);
+                    TelaPrincipalController.efeito(false);
+                }
             }
             else
             {

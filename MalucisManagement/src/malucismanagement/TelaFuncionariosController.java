@@ -60,7 +60,6 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btalterar;
     @FXML
     private JFXButton btapagar;
-    @FXML
     private JFXButton btapagar1;
     @FXML
     private JFXButton btconfirmar;
@@ -128,6 +127,8 @@ public class TelaFuncionariosController implements Initializable {
     private String Usuario;
     private String cpf;
     private char ativo;
+    @FXML
+    private JFXButton btativdesativ;
 
     public char getAtivo() {
         return ativo;
@@ -234,7 +235,8 @@ public class TelaFuncionariosController implements Initializable {
         btcancelar.setDisable(b);
         btapagar.setDisable(!b);
         btalterar.setDisable(!b);
-      
+        btativdesativ.setDisable(!b);
+                
         carregaTabela("");
     }
     
