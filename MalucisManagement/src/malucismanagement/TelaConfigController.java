@@ -93,10 +93,10 @@ public class TelaConfigController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         fadeout();
-        /*try {
+        try {
             retornaConfig();
         }
-        catch (IOException ex) {}*/
+        catch (IOException ex) {}
         //setParametros();
         setMascaras();
         listaFontes();
@@ -118,10 +118,10 @@ public class TelaConfigController implements Initializable {
         BufferedImage bimg = null;
         InputStream is = dal.getFoto();
         
-        cpprimaria.setValue(Color.web(p.getCorprimaria()));
-        cpsecundaria.setValue(Color.web(p.getCorsecundaria()));
+        cpprimaria.setValue(hex2Rgb(p.getCorprimaria()));
+        cpsecundaria.setValue(hex2Rgb(p.getCorsecundaria()));
         cbfonte.setValue(p.getFonte());
-        cpfonte.setValue(Color.web(p.getFonte()));
+        cpfonte.setValue(hex2Rgb(p.getCorfonte()));
         bimg = ImageIO.read(is);
         if(bimg != null)
             ivlogo.setImage(SwingFXUtils.toFXImage(bimg, null));
@@ -212,6 +212,13 @@ public class TelaConfigController implements Initializable {
         cbfonte.setItems(FXCollections.observableArrayList(list));
     }
     
+    public static Color hex2Rgb(String colorStr) {
+        
+        return Color.rgb(Integer.valueOf(colorStr.substring(1, 3), 16),
+                Integer.valueOf(colorStr.substring(3, 5), 16),
+                Integer.valueOf(colorStr.substring(5, 7), 16));
+    }
+    
     @FXML
     private void clkBtAbrirImg(ActionEvent event) throws FileNotFoundException {
         
@@ -266,8 +273,9 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void clkBtSalvar(ActionEvent event) {
         
-        Parametrizacao p = new Parametrizacao(cpprimaria.toString(), cpsecundaria.toString(), 
-                cbfonte.getValue(), cpfonte.toString(), ttelefone.getText(), trua.getText(), 
+        Parametrizacao p = new Parametrizacao("#" + cpprimaria.getValue().toString().substring(2, 8), 
+                "#" + cpsecundaria.getValue().toString().substring(2, 8), cbfonte.getValue(), 
+                "#" + cpfonte.getValue().toString().substring(2, 8), ttelefone.getText(), trua.getText(), 
                 tcep.getText(), tuf.getText(), tcidade.getText());
         DALParametrizacao dal = new DALParametrizacao();
         BufferedImage bimg = null;
