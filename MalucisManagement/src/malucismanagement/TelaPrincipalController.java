@@ -38,11 +38,12 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private JFXButton btclientes1;
     @FXML
-    private JFXButton btProduto;
+    private MenuItem miFornecedores;
     @FXML
     private JFXButton btFornecedor;
     
     static Funcionario sessao = new Funcionario();
+    private MenuItem miProduto;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) 
@@ -127,22 +128,24 @@ public class TelaPrincipalController implements Initializable {
         }
     }
 
+
     @FXML
-    private void clkBtProduto(ActionEvent event) {
-        try {
-            
-            Parent root = FXMLLoader.load(getClass().getResource("TelaProduto.fxml"));
+    private void clkChamaLogin(ActionEvent event) 
+    {
+        try 
+        {    
+            Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }
-        catch (IOException ex){
-            
+        catch (IOException ex)
+        {
             System.out.println(ex);
         }
     }
 
     @FXML
-    private void clkBtFornecedor(ActionEvent event) {
+    private void clkOpenFornecedores(ActionEvent event) {
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaFornecedor.fxml"));
@@ -156,16 +159,15 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clkChamaLogin(ActionEvent event) 
-    {
-        try 
-        {    
-            Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+    private void clkOpenProduto(ActionEvent event) {
+        try {
+            
+            Parent root = FXMLLoader.load(getClass().getResource("TelaProduto.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex){
+            
             System.out.println(ex);
         }
     }
