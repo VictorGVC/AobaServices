@@ -21,7 +21,7 @@ public class DALFuncionario {
     {
         String sql = "INSERT INTO Cliente(cli_id, cli_nome, cli_sexo, cli_datanasc, cli_email, cli_fone, "
                 + "cli_cep, cli_rua, cli_numero, cli_bairro, cli_cidade, cli_uf) "
-                + "VALUES (#1,#2,'#3',#4,'#5','#6','#7','#8','#9','#10','#11','#12');";
+                + "VALUES ('#1','#2','#3','#4','#5','#6','#7','#8','#9','&1','&2','&3'); ";
         
         sql = sql.replaceAll("#1", "" + f.getCpf());
         sql = sql.replaceAll("#2", "" + f.getNome());
@@ -32,16 +32,16 @@ public class DALFuncionario {
         sql = sql.replaceAll("#7", "" + f.getCep());
         sql = sql.replaceAll("#8", "" + f.getRua());
         sql = sql.replaceAll("#9", "" + f.getNumero());
-        sql = sql.replaceAll("#10", "" + f.getBairro());
-        sql = sql.replaceAll("#11", "" + f.getCidade());
-        sql = sql.replaceAll("#12", "" + f.getUf());
+        sql = sql.replaceAll("&1", "" + f.getBairro());
+        sql = sql.replaceAll("&2", "" + f.getCidade());
+        sql = sql.replaceAll("&3", "" + f.getUf());
         
         sql += "INSERT INTO Login(log_usuario, cli_id, log_nivel, log_senha, log_ativo)"
                 + "VALUES ('#1','#2',#3,'#4', 'S');";
         sql = sql.replaceAll("#1", "" + f.getLogin());
         sql = sql.replaceAll("#2", "" + f.getCpf());
         sql = sql.replaceAll("#3", "" + f.getNivel());
-        sql = sql.replaceAll("#3", "" + senha);
+        sql = sql.replaceAll("#4", "" + senha);
         
         return Banco.getCon().manipular(sql);
     }
