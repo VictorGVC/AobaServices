@@ -36,9 +36,14 @@ public class DALCategoriaProduto {
     }
     
     public int getCategoriaProduto(String nome) throws SQLException{
-        String sql = "SELECT * FROM CategoriaProduto ct WHERE ct.cat_nome like '"+nome+"'";
+        String sql = "SELECT * FROM CategoriaProduto WHERE Lower(cat_nome) like '%"+nome.toLowerCase()+"%'";
         ResultSet rs = Banco.getCon().consultar(sql);
-        
+        try {
+            if(rs.next())
+                return Integer.parseInt(rs.getString("cat_cod"));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return Integer.parseInt(rs.getString("cat_cod"));
     }
     

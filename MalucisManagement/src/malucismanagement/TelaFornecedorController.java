@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,7 +29,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import static malucismanagement.TelaPrincipalController.efeito;
 import malucismanagement.db.dal.DALFornecedores;
+import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Fornecedor;
+import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.util.MaskFieldUtil;
 
 public class TelaFornecedorController implements Initializable {
@@ -94,7 +97,13 @@ public class TelaFornecedorController implements Initializable {
         MaskFieldUtil.maxField(txTipo, 20);
         MaskFieldUtil.numericField(txIE);
         initColumn();
-        CarregaTabelaFornecedor();
+        if(!CarregaTabelaFornecedor()){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("Impossível Carregar Fornecedores");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
         CarregaCBFiltro();
         LimpaTelaCadastro();
     }
@@ -107,6 +116,59 @@ public class TelaFornecedorController implements Initializable {
         ColTelefone.setCellValueFactory(new PropertyValueFactory("for_telefone"));
         ColTipo.setCellValueFactory(new PropertyValueFactory("for_tipo"));
     }
+    
+    private void setParametros() {
+        
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
+        if(p.getCorprimaria() != null){
+            
+            pnprincipal.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+        }
+        if(p.getCorsecundaria()!= null){
+            
+            pnsecundario.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            
+        }
+        if(p.getFonte() != null){
+            
+            txCNPJ.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txEmail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txIE.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txNomeForcenedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txPesquisar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txTelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txTipo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cbFiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            btCancelarFiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btCancelarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btEditarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btFiltrarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btRemoverFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btSalvarFonecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+        }
+        if(p.getCorfonte() != null){
+           
+            txCNPJ.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txEmail.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txIE.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txNomeForcenedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txPesquisar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txTelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txTipo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cbFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            btCancelarFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btCancelarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btEditarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btFiltrarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btRemoverFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btSalvarFonecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+        }
+    } 
 
     private void LimpaTelaCadastro(){
         txCNPJ.clear();
@@ -144,22 +206,80 @@ public class TelaFornecedorController implements Initializable {
                 txCNPJ.getText(),txTelefone.getText());
         String auxCNPJ = txCNPJ.getText();
         DALFornecedores dal = new DALFornecedores();
-        if(flag)
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+         if(txNomeForcenedor.getText().isEmpty())
         {
-            if(dal.gravar(novo))
-                LimpaTelaCadastro();
-        }  
-        else
-        {
-            if(dal.alterar(novo,auxCNPJ)){
-                flag = true;
-                LimpaTelaCadastro();
-            }
+            a.setContentText("Nome deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txNomeForcenedor.requestFocus();
         }
-        
-        LimpaTelaCadastro();
-        CarregaTabelaFornecedor();
-        
+        else if(txCNPJ.getText().isEmpty() || txCNPJ.getLength() != 18)
+        {
+            a.setContentText("CNPJ deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txCNPJ.requestFocus();
+        } 
+        else if(txIE.getText().isEmpty() || txIE.getLength() != 13)
+        {
+            a.setContentText("Inscrição Estadual deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txIE.requestFocus();
+        }
+        else if(txEmail.getText().isEmpty() || !txEmail.getText().contains("@"))
+        {
+            a.setContentText("EMAIL deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txEmail.requestFocus();
+        } 
+        else{
+            if(flag)
+            {
+                if(dal.gravar(novo)){
+                    LimpaTelaCadastro();
+                    if(!CarregaTabelaFornecedor()){
+                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+                }
+                else
+                {
+                    a.setContentText("Impossível Salvar novo Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }  
+            else
+            {
+                if(dal.alterar(novo,auxCNPJ)){
+                    LimpaTelaCadastro();
+                    if(!CarregaTabelaFornecedor()){
+                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+                    flag = true;
+                }
+                else{
+                    a.setContentText("Impossível Editar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
+            
+        }
     }
 
     @FXML
@@ -182,112 +302,218 @@ public class TelaFornecedorController implements Initializable {
     @FXML
     private void CancelarFiltro(ActionEvent event) {
         LimpaTelaTabela();
-        CarregaTabelaFornecedor();
+        if(!CarregaTabelaFornecedor()){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("Impossível Filtrar Fornecedor");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
     }
     
-    private void CarregaTabelaFornecedor(){
-        tvFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedores());
-        tvFornecedores.setItems(lista);
+    private boolean CarregaTabelaFornecedor(){
+        boolean executar = true;
+       
+        try {
+            tvFornecedores.getItems().clear();
+            DALFornecedores dal = new DALFornecedores();
+            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedores());
+            tvFornecedores.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
-    private void CarregaTabelaFornecedorNome(){
-        tvFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresNome(txPesquisar.getText()));
-        tvFornecedores.setItems(lista);
+    private boolean CarregaTabelaFornecedorNome(){
+        boolean executar = true;
+       
+        try {
+                tvFornecedores.getItems().clear();
+                DALFornecedores dal = new DALFornecedores();
+                ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresNome(txPesquisar.getText()));
+                tvFornecedores.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
-    private void CarregaTabelaCNPJ(){
-        tvFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresCNPJ(txPesquisar.getText()));
-        tvFornecedores.setItems(lista);
+    private boolean CarregaTabelaCNPJ(){
+        boolean executar = true;
+        
+        try {
+            tvFornecedores.getItems().clear();
+            DALFornecedores dal = new DALFornecedores();
+            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresCNPJ(txPesquisar.getText()));
+            tvFornecedores.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
-    private void CarregaTabelaIE(){
-        tvFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresIE(txPesquisar.getText()));
-        tvFornecedores.setItems(lista);
+    private boolean CarregaTabelaIE(){
+        boolean executar = true;
+        
+        try {
+            tvFornecedores.getItems().clear();
+            DALFornecedores dal = new DALFornecedores();
+            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresIE(txPesquisar.getText()));
+            tvFornecedores.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
-    private void CarregaTabelaTelefone(){
-        tvFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresTelefone(txPesquisar.getText()));
-        tvFornecedores.setItems(lista);
+    private boolean CarregaTabelaTelefone(){
+        boolean executar = true;
+        
+        try {
+            tvFornecedores.getItems().clear();
+            DALFornecedores dal = new DALFornecedores();
+            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresTelefone(txPesquisar.getText()));
+            tvFornecedores.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
-    private void CarregaTabelaEmail(){
-        tvFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresEmail(txPesquisar.getText()));
-        tvFornecedores.setItems(lista);
+    private boolean CarregaTabelaEmail(){
+        boolean executar = true;
+        
+        try {
+            tvFornecedores.getItems().clear();
+            DALFornecedores dal = new DALFornecedores();
+            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresEmail(txPesquisar.getText()));
+            tvFornecedores.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
-    private void CarregaTabelaTipo(){
-        tvFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresTipo(txPesquisar.getText()));
-        tvFornecedores.setItems(lista);
+    private boolean CarregaTabelaTipo(){
+        boolean executar = true;
+        
+        try {
+            tvFornecedores.getItems().clear();
+            DALFornecedores dal = new DALFornecedores();
+            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresTipo(txPesquisar.getText()));
+            tvFornecedores.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
 
     @FXML
     private void FiltrarFornecedor(ActionEvent event) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         DALFornecedores dal = new DALFornecedores();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Fornecedor")
         {
-            CarregaTabelaFornecedorNome();
-            LimpaTelaTabela();
+            if(CarregaTabelaFornecedorNome())
+                LimpaTelaTabela();
+            else{
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
             }            
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "CNPJ")
             {
-            CarregaTabelaCNPJ();
-            LimpaTelaTabela();
+                if(CarregaTabelaCNPJ())
+                    LimpaTelaTabela();
+                else{
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
             }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "IE")
             {
-                CarregaTabelaIE();
-            LimpaTelaTabela();
+                if(CarregaTabelaIE())
+                    LimpaTelaTabela();
+                else{
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
             }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Telefone")
             {
-            CarregaTabelaTelefone();
-            LimpaTelaTabela();
+                if(CarregaTabelaTelefone())
+                    LimpaTelaTabela();
+                else{
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
             }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Email")
             {
-            CarregaTabelaEmail();
-            LimpaTelaTabela();
+                if(CarregaTabelaEmail())
+                    LimpaTelaTabela();
+                else{
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
             }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Tipo")
             {
-            CarregaTabelaTipo();
-            LimpaTelaTabela();
+                if(CarregaTabelaTipo())
+                    LimpaTelaTabela();
+                else{
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
             }
     }
 
     @FXML
     private void RemoverFornecedor(ActionEvent event) {
         DALFornecedores dal = new DALFornecedores();
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
-        dal.excluir(linha.getFor_cnpj());
-        CarregaTabelaFornecedor();
+        if(dal.excluir(linha.getFor_cnpj()))
+        {
+           if(!CarregaTabelaFornecedor()){
+                a.setContentText("Impossível Carregar Fornecedores");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
+                } 
+        }
+        else{
+                a.setContentText("Impossível Remover Fornecedor");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
+            }
     }
 
     @FXML
     private void clkbtExit(ActionEvent event) {
-        try {
-            
-            Parent root = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
-            efeito(true);
-        }
-        catch (IOException ex){
-            
-            System.out.println(ex);
-        }
+        TelaPrincipalController.spnprincipal.setCenter(null);
+        TelaPrincipalController.efeito(false);
     }
     
 }
