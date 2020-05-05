@@ -74,7 +74,8 @@ public class DALParametrizacao {
         
         try {
             
-            p = new Parametrizacao(rs.getString("par_cprimaria"),rs.getString("par_csecundaria"),rs.getString("par_fonte"),
+            if(rs.next())
+                p = new Parametrizacao(rs.getString("par_cprimaria"),rs.getString("par_csecundaria"),rs.getString("par_fonte"),
                     rs.getString("par_cfonte"),rs.getString("par_fone"),rs.getString("par_rua"),rs.getString("par_cep"),
                     rs.getString("par_uf"),rs.getString("par_cidade"));
         } 
