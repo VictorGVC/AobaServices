@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -122,6 +123,21 @@ public class TelaPrincipalController implements Initializable {
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaFornecedor.fxml"));
+            efeito(true);
+            pnprincipal.setCenter(root);
+        }
+        catch (IOException ex){
+            
+            System.out.println(ex);
+        }
+    }
+
+    @FXML
+    private void clkChamaLogin(ActionEvent event) 
+    {
+        try 
+        {    
+            Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }

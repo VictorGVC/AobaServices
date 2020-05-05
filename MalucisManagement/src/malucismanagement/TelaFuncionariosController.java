@@ -629,7 +629,7 @@ public class TelaFuncionariosController implements Initializable {
                     carregaTabela("UPPER(c.cli_nome) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 2:
-                    carregaTabela("UPPER(c.cli_cpf) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(c.cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 3:
                     carregaTabela("UPPER(c.cli_email) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
@@ -638,7 +638,7 @@ public class TelaFuncionariosController implements Initializable {
                     carregaTabela("UPPER(c.cli_fone) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 5:
-                    carregaTabela("UPPER(c.log_ativo) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(l.log_ativo) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 default:
                     break;
@@ -707,7 +707,6 @@ public class TelaFuncionariosController implements Initializable {
             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
             sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum funcionário!")));
         }
-        
     }
     
 }

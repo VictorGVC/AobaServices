@@ -18,20 +18,25 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
+import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.util.MaskFieldUtil;
+import malucismanagement.util.SQLException_Exception;
+import malucismanagement.util.SigepClienteException;
 
 /**
  * FXML Controller class
@@ -94,8 +99,11 @@ public class TelaLogin_CadastroController implements Initializable {
     private FlowPane pnlogin;
     @FXML
     private JFXButton btlogin;
-    @FXML
     private JFXTabPane pntab;
+    @FXML
+    private JFXTextField txuf;
+    @FXML
+    private FlowPane pncadastro;
 
     /**
      * Initializes the controller class.
@@ -103,7 +111,8 @@ public class TelaLogin_CadastroController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setMascaras();
-        
+        initializeCargo();
+        initializeSexo();
     }    
     
     private void fadeout() {
@@ -165,6 +174,7 @@ public class TelaLogin_CadastroController implements Initializable {
             txtelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txusuario.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txusuarioc.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
             cbcargo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             cbsexo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
@@ -184,6 +194,7 @@ public class TelaLogin_CadastroController implements Initializable {
             txtelefone.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
             txusuario.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
             txusuarioc.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
+            txuf.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
             
             cbcargo.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
             cbsexo.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
@@ -207,7 +218,202 @@ public class TelaLogin_CadastroController implements Initializable {
     @FXML
     private void clkBtCadastro(ActionEvent event) 
     {
+        String id;
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         
+        if(txcpf.getText().isEmpty())
+        {
+            a.setContentText("CPF deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txcpf.requestFocus();
+        }
+        else if(txnome.getText().isEmpty())
+        {
+            a.setContentText("Nome deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txnome.requestFocus();
+        }
+        else if(cbsexo.getSelectionModel().getSelectedIndex() == -1)
+        {
+            a.setContentText("Sexo deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            cbsexo.requestFocus();
+        }
+        else if(dtpnascimento.getValue() == null)
+        {
+            a.setContentText("Data de nascimento deve ser informada");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            dtpnascimento.requestFocus();
+        }
+        else if(txemail.getText().isEmpty())
+        {
+            a.setContentText("E-Mail deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txemail.requestFocus();
+        }
+        else if(txtelefone.getText().isEmpty())
+        {  
+            a.setContentText("Telefone deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txtelefone.requestFocus();
+        }
+        else if(txcep.getText().isEmpty())
+        {
+            a.setContentText("CEP deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txcep.requestFocus();
+        }
+        else if(txrua.getText().isEmpty())
+        {  
+            a.setContentText("Rua deve ser informada");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txrua.requestFocus();
+        }
+        else if(txnumero.getText().isEmpty())
+        {   
+            a.setContentText("Numero deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txnumero.requestFocus();
+        }
+        else if(txbairro.getText().isEmpty())
+        {
+            a.setContentText("Bairro deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txbairro.requestFocus();
+        }
+        else if(txcidade.getText().isEmpty())
+        {
+            a.setContentText("Cidade deve ser informada");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txcidade.requestFocus();
+        }
+        else if(txuf.getText().isEmpty())
+        {    
+            a.setContentText("Estado deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txuf.requestFocus();
+        }
+        //começa aqui
+        else if(txusuarioc.getText().isEmpty())
+        {
+            a.setContentText("Login deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txusuarioc.requestFocus();
+        }
+        else if(txsenhac.getText().isEmpty())
+        {   
+            a.setContentText("Senha deve ser informada");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txsenhac.requestFocus();
+        }
+        else if(cbcargo.getSelectionModel().getSelectedIndex() == -1)
+        {
+            a.setContentText("Estado deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            cbcargo.requestFocus();
+        }
+        else
+        {    
+            try 
+            {
+                id = txcpf.getText();
+            } 
+            catch (NumberFormatException e) 
+            {
+                id = "";
+            }
+            
+            char sexo = ' ';
+            
+            if(cbsexo.getSelectionModel().getSelectedIndex() == 0)
+                sexo = 'M';
+            else if(cbsexo.getSelectionModel().getSelectedIndex() == 1)
+                sexo = 'F';
+                    
+            Funcionario f = new Funcionario(Integer.parseInt(txnumero.getText()), sexo, 
+                    txnome.getText(), id, txemail.getText(), txtelefone.getText(), txcep.getText(),
+                    txrua.getText(), txbairro.getText(), txcidade.getText(), txuf.getText(), txusuarioc.getText(), 
+                    dtpnascimento.getValue(), 
+                    'l',
+                    cbcargo.getSelectionModel().getSelectedIndex());
+            DALFuncionario dal = new DALFuncionario();
+            
+            if (dal.gravar(f,txsenhac.getText()))
+            {
+                JFXSnackbar sb = new JFXSnackbar(pncadastro); 
+                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Gravado com Sucesso!")));
+                TelaPrincipalController.spnprincipal.setCenter(null);
+                TelaPrincipalController.efeito(false);
+            }
+            else
+            {
+                a.setContentText("Problemas ao Alterar!");
+                a.showAndWait();
+            }
+        }
+        
+    }
+
+    @FXML
+    private void evtBotaoDigitado(KeyEvent event) 
+    {
+        if(txcep.getText().length() == 8){
+            
+            Task task = new Task<Void>() {
+                
+                @Override
+                protected Void call() {
+                    
+                    String cep = txcep.getText().replaceAll("\\-", "");
+                    malucismanagement.util.AtendeClienteService service = new malucismanagement.util.AtendeClienteService();
+                    malucismanagement.util.AtendeCliente port = service.getAtendeClientePort();
+
+                    try {
+
+                        malucismanagement.util.EnderecoERP result = port.consultaCEP(cep);
+
+                        txrua.setText(result.getEnd());
+                        txbairro.setText(result.getBairro());
+                        txcidade.setText(result.getCidade());
+                        txuf.setText(result.getUf());
+                    }
+                    catch (SQLException_Exception | SigepClienteException e) {}
+                    
+                    return null;
+                }
+            };
+            new Thread(task).start();
+        }
     }
 
     @FXML
@@ -218,7 +424,7 @@ public class TelaLogin_CadastroController implements Initializable {
         
         if(txusuario.getText().isEmpty())
         {
-            a.setContentText("CPF deve ser informado");
+            a.setContentText("Usuário deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
@@ -226,7 +432,7 @@ public class TelaLogin_CadastroController implements Initializable {
         }
         else if(txsenha.getText().isEmpty())
         {
-            a.setContentText("Nome deve ser informado");
+            a.setContentText("Senha deve ser informada");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
@@ -236,7 +442,8 @@ public class TelaLogin_CadastroController implements Initializable {
         {
             if(dal.valida(txusuario.getText(), txsenha.getText()))
             {
-                
+                TelaPrincipalController.spnprincipal.setCenter(null);
+                TelaPrincipalController.efeito(false);
             }
             else
             {
