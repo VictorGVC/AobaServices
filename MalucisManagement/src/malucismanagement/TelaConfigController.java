@@ -29,6 +29,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import javax.imageio.ImageIO;
@@ -97,7 +98,7 @@ public class TelaConfigController implements Initializable {
             retornaConfig();
         }
         catch (IOException ex) {}
-        //setParametros();
+        setParametros();
         setMascaras();
         listaFontes();
     }    
@@ -148,47 +149,39 @@ public class TelaConfigController implements Initializable {
         }
         if(p.getFonte() != null){
             
-            lbconfig.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbconfig.setFont(new Font(p.getFonte(), 14));
             
-            lbcp.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cpprimaria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbfonte.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            lblogo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            lbcs.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cpsecundaria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            lbcf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cpfonte.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btabririmg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btremoverimg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            trua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbcp.setFont(new Font(p.getFonte(), 14));
+            lblogo.setFont(new Font(p.getFonte(), 14));
+            lbcs.setFont(new Font(p.getFonte(), 14));
+            lbcf.setFont(new Font(p.getFonte(), 14));
+            btabririmg.setFont(new Font(p.getFonte(), 12));
+            btremoverimg.setFont(new Font(p.getFonte(), 12));
+            tcep.setFont(new Font(p.getFonte(), 14));
+            tcidade.setFont(new Font(p.getFonte(), 14));
+            tuf.setFont(new Font(p.getFonte(), 14));
+            trua.setFont(new Font(p.getFonte(), 14));
+            ttelefone.setFont(new Font(p.getFonte(), 14));
             
-            btsalvar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btsalvar.setFont(new Font(p.getFonte(), 14));
         }
         if(p.getCorfonte() != null){
             
-            lbconfig.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lbconfig.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            lbcp.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cpprimaria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cbfonte.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            lblogo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            lbcs.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cpsecundaria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            lbcf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cpfonte.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btabririmg.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btremoverimg.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tcep.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tcidade.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tuf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            trua.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            ttelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            lbcp.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lblogo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbcs.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbcf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btabririmg.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btremoverimg.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcep.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcidade.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tuf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            trua.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            ttelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            btsalvar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btsalvar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     } 
     
@@ -273,16 +266,17 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void clkBtSalvar(ActionEvent event) {
         
+        DALParametrizacao dal = new DALParametrizacao();
         Parametrizacao p = new Parametrizacao("#" + cpprimaria.getValue().toString().substring(2, 8), 
                 "#" + cpsecundaria.getValue().toString().substring(2, 8), cbfonte.getValue(), 
                 "#" + cpfonte.getValue().toString().substring(2, 8), ttelefone.getText(), trua.getText(), 
                 tcep.getText(), tuf.getText(), tcidade.getText());
-        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao paux = dal.getConfig();
         BufferedImage bimg = null;
         
         bimg = SwingFXUtils.fromFXImage(ivlogo.getImage(), bimg);
         p.setLogo(ManipularImagem.getImgBytes(bimg));
-        if(true){
+        if(paux == null){
             
             if (dal.gravar(p)){
                 
@@ -314,6 +308,7 @@ public class TelaConfigController implements Initializable {
                 }
             }
         }
+        setParametros();
     }
     
     @FXML
