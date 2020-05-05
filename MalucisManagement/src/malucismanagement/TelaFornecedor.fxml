@@ -28,7 +28,7 @@
                </font>
             </JFXButton>
             <Button fx:id="btExit" layoutX="524.0" layoutY="250.0" mnemonicParsing="false" onAction="#clkbtExit" style="-fx-background-color: invisible;" />
-            <JFXTextField fx:id="txNomeForcenedor" layoutX="310.0" layoutY="93.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Fornecedor" unFocusColor="WHITE">
+            <JFXTextField fx:id="txNomeForcenedor" layoutX="310.0" layoutY="93.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Fornecedor" text="Nome do Fornecedor*" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -38,7 +38,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txCNPJ" layoutX="310.0" layoutY="134.0" prefHeight="25.0" prefWidth="220.0" promptText="CNPJ" unFocusColor="WHITE">
+            <JFXTextField fx:id="txCNPJ" layoutX="310.0" layoutY="134.0" prefHeight="25.0" prefWidth="220.0" promptText="CNPJ" text="CNPJ*" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -48,7 +48,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txIE" layoutX="310.0" layoutY="175.0" prefHeight="25.0" prefWidth="220.0" promptText="Inscrição Estadual" unFocusColor="WHITE">
+            <JFXTextField fx:id="txIE" layoutX="310.0" layoutY="175.0" prefHeight="25.0" prefWidth="220.0" promptText="Inscrição Estadual" text="Inscrição Estadual*" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -58,7 +58,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txTelefone" layoutX="562.0" layoutY="93.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" unFocusColor="WHITE">
+            <JFXTextField fx:id="txTelefone" layoutX="550.0" layoutY="134.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -68,7 +68,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txEmail" layoutX="562.0" layoutY="134.0" prefHeight="25.0" prefWidth="220.0" promptText="Email" unFocusColor="WHITE">
+            <JFXTextField fx:id="txEmail" layoutX="550.0" layoutY="93.0" prefHeight="25.0" prefWidth="220.0" promptText="Email" text="Email*" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -78,7 +78,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txTipo" layoutX="562.0" layoutY="175.0" prefHeight="25.0" prefWidth="220.0" promptText="Tipo" unFocusColor="WHITE">
+            <JFXTextField fx:id="txTipo" layoutX="550.0" layoutY="175.0" prefHeight="25.0" prefWidth="220.0" promptText="Tipo" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
