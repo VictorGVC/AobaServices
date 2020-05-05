@@ -112,11 +112,13 @@ public class TelaLogin_CadastroController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    static Funcionario sessao;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setMascaras();
         initializeCargo();
         initializeSexo();
+        sessao = new Funcionario();
     }    
     
     private void fadeout() {
@@ -126,6 +128,11 @@ public class TelaLogin_CadastroController implements Initializable {
         ft.setFromValue(0);
         ft.setToValue(1);
         ft.play();
+    }
+    
+    public static Funcionario getlogin()
+    {
+        return sessao;
     }
     
     private void initializeSexo()
@@ -448,6 +455,7 @@ public class TelaLogin_CadastroController implements Initializable {
             {
                 DALParametrizacao dalp = new DALParametrizacao();
                 Parametrizacao p = dalp.getConfig();
+                sessao.setLogin(txusuario.getText());
                 if(p == null)
                 {
                     try 

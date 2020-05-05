@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALFornecedores;
 import malucismanagement.db.dal.DALParametrizacao;
+import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;
 
 public class TelaPrincipalController implements Initializable {
@@ -40,6 +41,8 @@ public class TelaPrincipalController implements Initializable {
     private JFXButton btProduto;
     @FXML
     private JFXButton btFornecedor;
+    
+    static Funcionario sessao = new Funcionario();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) 
@@ -54,6 +57,7 @@ public class TelaPrincipalController implements Initializable {
         {    
             Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
             efeito(true);
+            sessao = TelaLogin_CadastroController.getlogin();
             pnprincipal.setCenter(root);
         }
         catch (IOException ex)
@@ -64,8 +68,8 @@ public class TelaPrincipalController implements Initializable {
             
     public static void efeito(boolean on)
     {
-        if(on){
-            
+        if(on)
+        {
             FadeTransition ft = new FadeTransition(Duration.millis(500), spnprincipal);
         }
     }
