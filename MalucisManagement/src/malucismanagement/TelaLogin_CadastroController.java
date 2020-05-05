@@ -27,6 +27,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -385,6 +386,8 @@ public class TelaLogin_CadastroController implements Initializable {
                 sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Gravado com Sucesso!")));
                 TelaPrincipalController.spnprincipal.setCenter(null);
                 TelaPrincipalController.efeito(false);
+                sessao.setNivel(cbcargo.getSelectionModel().getSelectedIndex());
+                sessao.setLogin(id);
             }
             else
             {
@@ -455,7 +458,12 @@ public class TelaLogin_CadastroController implements Initializable {
             {
                 DALParametrizacao dalp = new DALParametrizacao();
                 Parametrizacao p = dalp.getConfig();
+                JFXSnackbar sb = new JFXSnackbar(pnlogin); 
+                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Logado com sucesso!")));
                 sessao.setLogin(txusuario.getText());
+                Funcionario f = dal.get(txusuario.getText());
+                sessao.setNivel(f.getNivel());
+                
                 if(p == null)
                 {
                     try 
@@ -471,6 +479,7 @@ public class TelaLogin_CadastroController implements Initializable {
                 }
                 else
                 {
+                    
                     TelaPrincipalController.spnprincipal.setCenter(null);
                     TelaPrincipalController.efeito(false);
                 }

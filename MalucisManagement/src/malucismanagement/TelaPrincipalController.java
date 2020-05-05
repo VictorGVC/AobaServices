@@ -11,12 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALFornecedores;
+import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;
@@ -39,25 +41,40 @@ public class TelaPrincipalController implements Initializable {
     private JFXButton btclientes1;
     @FXML
     private MenuItem miFornecedores;
-    @FXML
-    private JFXButton btFornecedor;
     
     static Funcionario sessao = new Funcionario();
+    @FXML
     private MenuItem miProduto;
+    @FXML
+    private MenuBar mnbar;
+    @FXML
+    private MenuItem mifuncionario;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
         spnprincipal = pnprincipal;
         chamaLogin();
+        
     }    
 
-    public void chamaLogin()
+    private void verificanivel()
     {
+        if(sessao.getNivel() == 1)
+        {
+            mifuncionario.setDisable(true);
+            miFornecedores.setDisable(true);
+        }
+    }
+    
+    private void chamaLogin()
+    {
+        mnbar.setDisable(true);
         try 
         {    
             Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
             efeito(true);
+            DALFuncionario df = new DALFuncionario();
             sessao = TelaLogin_CadastroController.getlogin();
             pnprincipal.setCenter(root);
         }
@@ -65,6 +82,8 @@ public class TelaPrincipalController implements Initializable {
         {
             System.out.println(ex);
         }
+        
+        mnbar.setDisable(false);
     }
             
     public static void efeito(boolean on)
@@ -86,8 +105,8 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private void clkConfiguracoes(ActionEvent event) {
         
-        try {
-            
+        try 
+        {
             Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
