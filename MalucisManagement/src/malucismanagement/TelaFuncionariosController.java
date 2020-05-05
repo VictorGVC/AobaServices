@@ -60,7 +60,6 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btalterar;
     @FXML
     private JFXButton btapagar;
-    @FXML
     private JFXButton btapagar1;
     @FXML
     private JFXButton btconfirmar;
@@ -122,7 +121,30 @@ public class TelaFuncionariosController implements Initializable {
     private JFXPasswordField txsenha;
     @FXML
     private JFXTextField txlogin;
+    @FXML
+    private JFXPasswordField txsenhan;
 
+    private String Usuario;
+    private String cpf;
+    private char ativo;
+    @FXML
+    private JFXButton btativdesativ;
+
+    public char getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(char ativo) {
+        this.ativo = ativo;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
     /**
      * Initializes the controller class.
      */
@@ -162,7 +184,7 @@ public class TelaFuncionariosController implements Initializable {
     {
         List<String> list = new ArrayList();
         
-        list.add("Maculino");
+        list.add("Masculino");
         list.add("Feminino");
         
         cbsexo.setItems(FXCollections.observableArrayList(list));
@@ -213,7 +235,8 @@ public class TelaFuncionariosController implements Initializable {
         btcancelar.setDisable(b);
         btapagar.setDisable(!b);
         btalterar.setDisable(!b);
-      
+        btativdesativ.setDisable(!b);
+                
         carregaTabela("");
     }
     
@@ -319,8 +342,17 @@ public class TelaFuncionariosController implements Initializable {
     @FXML
     private void clkBtAlterar(ActionEvent event) 
     {
-        estado(false);
-        pnpesquisa.setDisable(false);
+        if(tvclientes.getSelectionModel().getSelectedIndex() != -1)
+        {
+            estado(false);
+            pnpesquisa.setDisable(false);
+        }
+        else
+        {
+            JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum funcionario!")));
+        }
+        
     }
 
     @FXML
@@ -508,18 +540,23 @@ public class TelaFuncionariosController implements Initializable {
                 sexo = 'M';
             else if(cbsexo.getSelectionModel().getSelectedIndex() == 1)
                 sexo = 'F';
-            
+                    
             Funcionario f = new Funcionario(Integer.parseInt(tnumero.getText()), sexo, 
                     tnome.getText(), id, temail.getText(), ttelefone.getText(), tcep.getText(),
                     trua.getText(), tbairro.getText(), tcidade.getText(), tuf.getText(), txlogin.getText(), 
-                    dpdatanasc.getValue(), colativo.getCellData(tvclientes.getSelectionModel().getSelectedIndex()).charAt(0),
+                    dpdatanasc.getValue(), 
+                    'l',
                     cbCargo.getSelectionModel().getSelectedIndex());
             DALFuncionario dal = new DALFuncionario();
             
-            if (dal.alterar(f,txsenha.getText()))
+            if (dal.alterar(f,txsenha.getText(),txsenhan.getText(),getUsuario(),getCpf()))
             {
                 JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
                 sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
+                estado(true);
+                limparCampos();
+                pnpesquisa.setDisable(false);
+                carregaTabela("");
             }
             else
             {
@@ -527,9 +564,7 @@ public class TelaFuncionariosController implements Initializable {
                 a.showAndWait();
             }
         }
-        estado(true);
-        limparCampos();
-        pnpesquisa.setDisable(false);
+        
     }
 
     @FXML
@@ -596,7 +631,7 @@ public class TelaFuncionariosController implements Initializable {
                     carregaTabela("UPPER(c.cli_nome) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 2:
-                    carregaTabela("UPPER(c.cli_cpf) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(c.cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 3:
                     carregaTabela("UPPER(c.cli_email) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
@@ -605,7 +640,7 @@ public class TelaFuncionariosController implements Initializable {
                     carregaTabela("UPPER(c.cli_fone) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 5:
-                    carregaTabela("UPPER(c.log_ativo) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(l.log_ativo) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 default:
                     break;
@@ -641,9 +676,20 @@ public class TelaFuncionariosController implements Initializable {
                 pndados.setDisable(false); 
                 if(btconfirmar.isDisable())
                     pndados.setDisable(true);
-                
+                txlogin.setText(f.getLogin());
+                setUsuario(collogin.getCellData(tvclientes.getSelectionModel().getSelectedIndex()));
+                setCpf(colcpf.getCellData(tvclientes.getSelectionModel().getSelectedIndex()));
+                setAtivo(tvclientes.getSelectionModel().getSelectedItem().getAtivo());
             }
         }
+    }
+
+    public String getUsuario() {
+        return Usuario;
+    }
+
+    public void setUsuario(String Usuario) {
+        this.Usuario = Usuario;
     }
 
     @FXML
@@ -652,12 +698,17 @@ public class TelaFuncionariosController implements Initializable {
         if(tvclientes.getSelectionModel().getSelectedIndex() != -1)
         {
             DALFuncionario dal = new DALFuncionario();
-            if(colativo.getCellData(tvclientes.getSelectionModel().getSelectedIndex()) == "S")
+            if(getAtivo() == 'S')
                 dal.desativar(tvclientes.getSelectionModel().getSelectedItem());
             else
                 dal.ativar(tvclientes.getSelectionModel().getSelectedItem());
+            carregaTabela("");
         }
-        
+        else
+        {
+            JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum funcionário!")));
+        }
     }
     
 }

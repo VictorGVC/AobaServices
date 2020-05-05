@@ -15,13 +15,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import malucismanagement.db.dal.DALCategoriaProduto;
+import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.dal.DALProduto;
 import malucismanagement.db.entidades.CategoriaProduto;
+import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.db.entidades.Produto;
+import malucismanagement.util.MaskFieldUtil;
 
 public class TelaProdutoController implements Initializable {
 
@@ -36,7 +43,7 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private JFXButton btCancelarProduto;
     @FXML
-    private JFXComboBox<?> cbCategoria;
+    private JFXComboBox<String> cbCategoria;
     @FXML
     private JFXButton btEditarFornecedor;
     @FXML
@@ -63,67 +70,274 @@ public class TelaProdutoController implements Initializable {
     private TableColumn<Produto, String> ColCat;
     @FXML
     private TableColumn<Produto, Integer> ColCod;
+    @FXML
+    private Button btExit;
+    @FXML
+    private AnchorPane pnprincipal;
+    @FXML
+    private AnchorPane pnsecundario;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        MaskFieldUtil.monetaryField(txPreco);
+        MaskFieldUtil.numericField(txQtdEstoque);
+        MaskFieldUtil.maxField(txNomeProduto, 50);
+        initColumn();
         try {
-            CarregaTabela();
+            CarregaCBCategoria();
+            if(!CarregaTabela()){
+                        Alert a = new Alert(Alert.AlertType.INFORMATION);
+                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
         } catch (SQLException ex) {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         CarregaCBFiltro();
     }    
+    
+    private void CarregaCBCategoria(){
+        tvProdutos.getItems().clear();
+        DALCategoriaProduto dal = new DALCategoriaProduto();
+        ObservableList<String> lista = FXCollections.observableArrayList(dal.getCategoriaProduto());
+        cbCategoria.setItems(lista);
+    }
 
     @FXML
     private void SalvarProduto(ActionEvent event) throws SQLException {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
-        Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),cbCategoria.getValue().toString(),Double.parseDouble(txPreco.getText()),
-        txNomeProduto.getText());
         
-        DALProduto dal = new DALProduto();
-        if(flag)
-            dal.gravar(p);
-        else{
-            dal.alterar(p);
-            flag = true;
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
+        if(txNomeProduto.getText().isEmpty())
+        {
+            a.setContentText("Nome deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txNomeProduto.requestFocus();
         }
-        CarregaTabela();
+        else if(txPreco.getText().isEmpty() || txPreco.getLength() > 6)
+        {
+            if(txPreco.getLength() > 6)
+                a.setContentText("Preço Inválido");
+            else
+                a.setContentText("Preço deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txPreco.requestFocus();
+        }
+        else if(txQtdEstoque.getText().isEmpty())
+        {
+            a.setContentText("Quantidade deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txQtdEstoque.requestFocus();
+        }
+        else if(cbCategoria.getSelectionModel().isEmpty())
+        {
+            a.setContentText("Quantidade deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txQtdEstoque.requestFocus();
+        }
+        else{
+            String cat = cbCategoria.getValue().toString();
+            Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),cat,Double.parseDouble(txPreco.getText().replace(",", ".")),
+        txNomeProduto.getText());
+            DALProduto dal = new DALProduto();
+            if(flag)
+            {
+                if(dal.gravar(p))
+                {
+                    LimpaTelaCadastro();
+                    if(!CarregaTabela()){
+                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+                }
+                else
+                {
+                    a.setContentText("Impossível Salvar Produto");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
+            else{
+                if(dal.alterar(p)){
+                    LimpaTelaCadastro();
+                    if(!CarregaTabela()){
+                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+                    flag = true;
+                }
+                else
+                {
+                    a.setContentText("Impossível Editar Produto");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
+        }
+        
     }
     
-    private void CarregaTabela() throws SQLException{
-        tvProdutos.getItems().clear();
-        DALProduto dal = new DALProduto();
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = dal.getProdutos();
-        tvProdutos.setItems(lista);
+    private void LimpaTelaCadastro(){
+        txNomeProduto.clear();
+        txPreco.clear();
+        txQtdEstoque.clear();
+        cbCategoria.getSelectionModel().clearSelection();
+        
+        flag = true;
     }
     
-    private void CarregaTabelaProduto(){
-        tvProdutos.getItems().clear();
-        DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosNome(txPesquisar.getText());
-        tvProdutos.setItems(lista); 
+    private void LimpaTelaTabela(){
+        txPesquisar.clear();
+        cbFiltro.getSelectionModel().clearSelection();
     }
     
-    private void CarregaTabelaPreco(){
-        tvProdutos.getItems().clear();
-        DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosPreco(Double.parseDouble(txPesquisar.getText()));
-        tvProdutos.setItems(lista); 
+    private void initColumn(){
+        ColCat.setCellValueFactory(new PropertyValueFactory("cat_cod"));
+        ColCod.setCellValueFactory(new PropertyValueFactory("pro_cod"));
+        ColPreco.setCellValueFactory(new PropertyValueFactory("pro_preco"));
+        ColProduto.setCellValueFactory(new PropertyValueFactory("pro_nome"));
+        ColQtd.setCellValueFactory(new PropertyValueFactory("pro_quantidade"));
     }
     
-    private void CarregaTabelaQtd(){
-        tvProdutos.getItems().clear();
-        DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosQtd(Integer.parseInt(txPesquisar.getText()));
-        tvProdutos.setItems(lista); 
+    private boolean CarregaTabela() throws SQLException{
+        boolean executar = true;
+       
+        try {
+            tvProdutos.getItems().clear();
+            DALProduto dal = new DALProduto();
+            ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutos());
+            tvProdutos.setItems(lista);
+            } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
-    private void CarregaTabelaCategoria(){
-        tvProdutos.getItems().clear();
-        DALProduto dal = new DALProduto();
-        ObservableList<Produto> lista = dal.getProdutosCategoria(dal.getCodCat(txPesquisar.getText()));
-        tvProdutos.setItems(lista); 
+    private void setParametros() {
+        
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
+        if(p.getCorprimaria() != null){
+            
+            pnprincipal.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+        }
+        if(p.getCorsecundaria()!= null){
+            
+            pnsecundario.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            
+        }
+        if(p.getFonte() != null){
+            
+            txNomeProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txPesquisar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txPreco.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txQtdEstoque.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cbCategoria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cbFiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+            btCancelarFiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btCancelarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btEditarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btFiltrarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btRemoverProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btSalvarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
+        }
+        if(p.getCorfonte() != null){
+           
+            txNomeProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txPreco.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txPreco.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txPesquisar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cbCategoria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cbFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            
+            btCancelarFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btCancelarProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btEditarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btFiltrarProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btRemoverProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btSalvarProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+        }
+    } 
+    
+    private boolean CarregaTabelaProduto(){
+        boolean executar = true;
+       
+        try {
+            tvProdutos.getItems().clear();
+            DALProduto dal = new DALProduto();
+            ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosNome(txPesquisar.getText()));
+            tvProdutos.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
+    }
+    
+    private boolean CarregaTabelaPreco(){
+        boolean executar = true;
+       
+        try {
+            tvProdutos.getItems().clear();
+            DALProduto dal = new DALProduto();
+            ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosPreco(Double.parseDouble(txPesquisar.getText().replace(",", "."))));
+            tvProdutos.setItems(lista); 
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
+    }
+    
+    private boolean CarregaTabelaQtd(){
+        boolean executar = true;
+       
+        try {
+            tvProdutos.getItems().clear();
+            DALProduto dal = new DALProduto();
+            ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosQtd(Integer.parseInt(txPesquisar.getText())));
+            tvProdutos.setItems(lista); 
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
+    }
+    
+    private boolean CarregaTabelaCategoria() throws SQLException{
+        boolean executar = true;
+       
+        try {
+            tvProdutos.getItems().clear();
+            DALProduto dal = new DALProduto();
+            ObservableList<Produto> lista = FXCollections.observableArrayList(dal.getProdutosCategoria(txPesquisar.getText()));
+            tvProdutos.setItems(lista);
+        } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
     }
     
     private void CarregaCBFiltro(){
@@ -140,10 +354,7 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void CancelarProduto(ActionEvent event) {
-        txNomeProduto.clear();
-        txPreco.clear();
-        txQtdEstoque.clear();
-        cbCategoria.getSelectionModel().clearSelection();
+        LimpaTelaCadastro();
     }
 
     @FXML
@@ -158,32 +369,95 @@ public class TelaProdutoController implements Initializable {
     }
 
     @FXML
-    private void CancelarFiltro(ActionEvent event) {
-        txPesquisar.clear();
-        cbFiltro.getSelectionModel().clearSelection();
+    private void CancelarFiltro(ActionEvent event) throws SQLException {
+        LimpaTelaTabela();
+        if(!CarregaTabela()){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("Impossível Carregar Produtos");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
     }
-
     @FXML
-    private void FiltrarProduto(ActionEvent event) {
+    private void FiltrarProduto(ActionEvent event) throws SQLException {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         DALProduto dal = new DALProduto();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Produto")
-            CarregaTabelaProduto();
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Preco")
-            CarregaTabelaPreco();
+        {
+            if(CarregaTabelaProduto())
+                LimpaTelaTabela();
+            else{
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+        }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Preço")
+            {
+                if(CarregaTabelaPreco())
+                LimpaTelaTabela();
+            else{
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Quantidade")
-            CarregaTabelaQtd();
+            {
+                if(CarregaTabelaQtd())
+                LimpaTelaTabela();
+            else{
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
         else if(cbFiltro.getSelectionModel().getSelectedItem() == "Categoria")
-            CarregaTabelaCategoria();
+            {
+                if(CarregaTabelaCategoria())
+                LimpaTelaTabela();
+            else{
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
             
-        
     }
 
     @FXML
     private void RemoverProduto(ActionEvent event) throws SQLException {
         DALProduto dal = new DALProduto();
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
-        dal.excluir(linha.getPro_cod());
-        CarregaTabela();
+        if(dal.excluir(linha.getPro_cod()))
+        {
+            if(!CarregaTabela()){
+                 Alert a = new Alert(Alert.AlertType.INFORMATION);
+                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+        }
+        else
+        {
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("Impossível Remover Produto");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
+    }
+
+    @FXML
+    private void clkbtExit(ActionEvent event) {
+        TelaPrincipalController.spnprincipal.setCenter(null);
+        TelaPrincipalController.efeito(false);
     }
     
 }

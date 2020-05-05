@@ -2,6 +2,8 @@ package malucismanagement.db.dal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import static javafx.collections.FXCollections.observableArrayList;
 import static javafx.collections.FXCollections.observableList;
 import javafx.collections.ObservableList;
@@ -15,13 +17,12 @@ public class DALProduto {
         
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
-        String sql = "INSERT INTO Produto"
-                + "(pro_nome, pro_preco, pro_quantidade, cat_cod)"
-                + "VALUES('#1','#2','#3','#4')";
+        String sql = "INSERT INTO produto (pro_nome, pro_preco, pro_quantidade, cat_cod) "
+                + "VALUES ('#1',#2,#3,#4)";
         sql = sql.replaceAll("#1",p.getPro_nome());
         sql = sql.replaceAll("#2", "" + p.getPro_preco());
         sql = sql.replaceAll("#3", "" + p.getPro_quantidade());
-        sql = sql.replaceAll("#4", "" + dalct.getCategoriaProduto(p.getCat_cod()));
+        sql = sql.replaceAll("#4","" + dalct.getCategoriaProduto(p.getCat_cod()));
         return Banco.getCon().manipular(sql);
     }
     
@@ -29,8 +30,8 @@ public class DALProduto {
         
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
-        String sql = "UPDATE Produto SET "
-                + "pro_nome='#1', pro_preco='#2', pro_quantidade='#3', cat_cod='#4' WHERE pro_cod="+p.getPro_cod();
+        String sql = "UPDATE produto SET "
+                + "pro_nome='#1', pro_preco=#2, pro_quantidade=#3, cat_cod=#4 WHERE pro_cod="+p.getPro_cod();
         
         sql = sql.replaceAll("#1",p.getPro_nome());
         sql = sql.replaceAll("#2", "" + p.getPro_preco());
@@ -46,91 +47,91 @@ public class DALProduto {
         return Banco.getCon().manipular(sql);
     }
     
-    public ObservableList<Produto> getProdutos(){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto");
+    public List<Produto> getProdutos(){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+                + " p.cat_cod = ct.cat_cod");
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
-            }
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
+                }
         } catch (Exception e) {
+            System.out.println(e);
         }
         
         return lista;
     }
     
-    public ObservableList<Produto> getProdutosNome(String nome){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE pro_nome = "+nome);
+    public List<Produto> getProdutosNome(String nome){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+                + " Lower(p.pro_nome) like '%"+nome.toLowerCase()+"%' and ct.cat_cod = p.cat_cod");
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
+            System.out.println(e);
         }
         
         return lista;
     }
     
-    public ObservableList<Produto> getProdutosPreco(Double preco){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE pro_preco = "+preco);
+    public List<Produto> getProdutosPreco(Double preco){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+                + " p.pro_preco = "+preco+" and ct.cat_cod = p.cat_cod");
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
+            System.out.println(e);
         }
         
         return lista;
     }
     
-    public ObservableList<Produto> getProdutosQtd(int qtd){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE pro_quantidade = "+qtd);
+    public List<Produto> getProdutosQtd(int qtd){
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+                + " p.pro_quantidade = "+qtd+" and ct.cat_cod = p.cat_cod");
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
+            System.out.println(e);
         }
         
         return lista;
     }
     
-    public ObservableList<Produto> getProdutosCategoria(int Categoria){
-        Produto p = null;
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
-        ObservableList<Produto> lista = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Produto WHERE cat_cod = "+Categoria);
+    public List<Produto> getProdutosCategoria(String Categoria) throws SQLException{
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+                + " ct.cat_cod = p.cat_cod and ct.cat_cod ="+ctdal.getCategoriaProduto(Categoria));
         
         try {
             while(rs.next()){
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_qtd")),
-                        dalct.getCategoriaProduto(Integer.parseInt(rs.getString("pro_cat"))),Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
-                lista.add(p);
+                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
+                System.out.println(e);
         }
         
         return lista;
