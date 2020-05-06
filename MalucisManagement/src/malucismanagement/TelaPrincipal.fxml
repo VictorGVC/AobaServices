@@ -10,7 +10,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -18,7 +17,7 @@
    <top>
       <VBox prefHeight="69.0" prefWidth="799.0" BorderPane.alignment="CENTER">
          <children>
-            <MenuBar fx:id="mnbar">
+            <MenuBar fx:id="mnbar" prefHeight="31.0" prefWidth="900.0">
                <menus>
                   <Menu mnemonicParsing="false" text="Controle de acesso">
                      <items>
@@ -48,7 +47,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <ToolBar fx:id="tbatalhos" prefHeight="46.0" prefWidth="800.0">
+            <ToolBar fx:id="tbatalhos" prefHeight="46.0" prefWidth="900.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -66,14 +65,14 @@
       </VBox>
    </top>
    <center>
-      <HBox alignment="CENTER" prefHeight="446.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="pnimg" prefHeight="422.0" prefWidth="254.0">
+            <VBox fx:id="pnimg" prefHeight="507.0" prefWidth="398.0">
                <children>
-                  <ImageView fx:id="ivlogo" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="ivlogo" fitHeight="255.0" fitWidth="334.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
-            <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="422.0" prefWidth="544.0" spacing="15.0">
+            <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="507.0" prefWidth="649.0" spacing="15.0">
                <children>
                   <JFXButton fx:id="btfuncionarios" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkOpenFuncionarios" prefHeight="30.0" prefWidth="200.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Funcionarios">
                      <font>
@@ -100,10 +99,4 @@
          </padding>
       </HBox>
    </bottom>
-   <left>
-      <Pane maxHeight="200.0" maxWidth="0.0" minHeight="200.0" minWidth="0.0" prefHeight="200.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
-   </left>
-   <right>
-      <Pane maxHeight="200.0" maxWidth="0.0" minHeight="200.0" minWidth="0.0" prefHeight="200.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
-   </right>
 </BorderPane>

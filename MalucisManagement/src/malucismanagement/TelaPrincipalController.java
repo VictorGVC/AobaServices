@@ -209,6 +209,7 @@ public class TelaPrincipalController implements Initializable {
 
     @FXML
     private void clkOpenFornecedores(ActionEvent event) {
+        
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaFornecedor.fxml"));
@@ -223,6 +224,7 @@ public class TelaPrincipalController implements Initializable {
 
     @FXML
     private void clkOpenProduto(ActionEvent event) {
+        
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaProduto.fxml"));
