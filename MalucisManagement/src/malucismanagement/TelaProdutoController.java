@@ -5,8 +5,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,14 +16,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.dal.DALProduto;
-import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.db.entidades.Produto;
 import malucismanagement.util.MaskFieldUtil;
@@ -456,8 +453,9 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void clkbtExit(ActionEvent event) {
-        TelaPrincipalController.spnprincipal.setCenter(null);
-        TelaPrincipalController.efeito(false);
+        
+        Stage stage = (Stage) btExit.getScene().getWindow();
+        stage.close();
     }
     
 }

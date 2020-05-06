@@ -21,7 +21,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button layoutX="479.0" layoutY="21.0" mnemonicParsing="false" onAction="#clkBtFechar" prefHeight="25.0" prefWidth="27.0" style="-fx-background-image: url('icons/close.png'); -fx-background-position: center center; -fx-background-repeat: no-repeat; -fx-background-color: transparent;" />
+            <Button fx:id="btfechar" layoutX="479.0" layoutY="21.0" mnemonicParsing="false" onAction="#clkBtFechar" prefHeight="25.0" prefWidth="27.0" style="-fx-background-image: url('icons/close.png'); -fx-background-position: center center; -fx-background-repeat: no-repeat; -fx-background-color: transparent;" />
             <ImageView fitHeight="50.0" fitWidth="57.0" layoutX="22.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../icons/config2.png" />

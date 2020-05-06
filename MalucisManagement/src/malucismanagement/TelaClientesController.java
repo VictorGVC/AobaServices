@@ -33,6 +33,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -600,7 +601,7 @@ public class TelaClientesController implements Initializable {
     @FXML
     private void clkBtVoltar(ActionEvent event) {
         
-        TelaPrincipalController.spnprincipal.setCenter(null);
-        TelaPrincipalController.efeito(false);
+        Stage stage = (Stage) btvoltar.getScene().getWindow();
+        stage.close();
     }
 }

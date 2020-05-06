@@ -8,16 +8,15 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pnprincipal" prefHeight="515.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
-   <top>
-      <VBox prefHeight="69.0" prefWidth="799.0" BorderPane.alignment="CENTER">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="65.0" prefWidth="800.0">
          <children>
-            <MenuBar fx:id="mnbar" prefHeight="31.0" prefWidth="900.0">
+            <MenuBar fx:id="mnbar" prefHeight="25.0" prefWidth="800.0">
                <menus>
                   <Menu mnemonicParsing="false" text="Controle de acesso">
                      <items>
@@ -47,7 +46,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <ToolBar fx:id="tbatalhos" prefHeight="46.0" prefWidth="900.0">
+            <ToolBar fx:id="tbatalhos" prefHeight="40.0" prefWidth="800.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -63,16 +62,14 @@
             </ToolBar>
          </children>
       </VBox>
-   </top>
-   <center>
-      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="415.0" prefWidth="800.0">
          <children>
-            <VBox fx:id="pnimg" prefHeight="507.0" prefWidth="398.0">
+            <VBox fx:id="pnimg" prefHeight="365.0" prefWidth="300.0">
                <children>
                   <ImageView fx:id="ivlogo" fitHeight="255.0" fitWidth="334.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
-            <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="507.0" prefWidth="649.0" spacing="15.0">
+            <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="365.0" prefWidth="500.0" spacing="15.0">
                <children>
                   <JFXButton fx:id="btfuncionarios" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkOpenFuncionarios" prefHeight="30.0" prefWidth="200.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Funcionarios">
                      <font>
@@ -91,12 +88,10 @@
             </VBox>
          </children>
       </HBox>
-   </center>
-   <bottom>
-      <HBox fx:id="pnrodape" alignment="CENTER_RIGHT" prefHeight="24.0" prefWidth="799.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="pnrodape" alignment="BOTTOM_CENTER" prefHeight="40.0" prefWidth="800.0">
          <padding>
             <Insets right="20.0" />
          </padding>
       </HBox>
-   </bottom>
-</BorderPane>
+   </children>
+</VBox>
