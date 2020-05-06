@@ -13,17 +13,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
+import malucismanagement.db.banco.Banco;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;
@@ -56,6 +57,18 @@ public class TelaPrincipalController implements Initializable {
     private JFXButton btclientes;
     @FXML
     private HBox pnrodape;
+    @FXML
+    private Label lbnome;
+    @FXML
+    private Label lbrua;
+    @FXML
+    private Label lbcep;
+    @FXML
+    private Label lbcidade;
+    @FXML
+    private Label lbuf;
+    @FXML
+    private Label lbtelefone;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -89,14 +102,38 @@ public class TelaPrincipalController implements Initializable {
             
             btclientes.setFont(new Font(p.getFonte(), 14));
             btfuncionarios.setFont(new Font(p.getFonte(), 14));
+            
+            lbnome.setFont(new Font(p.getFonte(), 12));
+            lbrua.setFont(new Font(p.getFonte(), 12));
+            lbcep.setFont(new Font(p.getFonte(), 12));
+            lbcidade.setFont(new Font(p.getFonte(), 12));
+            lbuf.setFont(new Font(p.getFonte(), 12));
+            lbtelefone.setFont(new Font(p.getFonte(), 12));
         }
         if(p.getCorfonte() != null){
             
             btclientes.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btfuncionarios.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            
+            lbnome.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbrua.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbcep.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbcidade.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbuf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbtelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
         if(bimg != null)
             ivlogo.setImage(SwingFXUtils.toFXImage(bimg, null));
+        if(p.getCidade() != null)
+            lbrua.setText("Endereço: " + p.getRua());
+        if(p.getCep() != null)
+            lbcep.setText("CEP: " + p.getCep());
+        if(p.getCidade() != null)
+            lbcidade.setText("Cidade: " + p.getCidade());
+        if(p.getUf() != null)
+            lbcep.setText(p.getUf());
+        if(p.getTelefone() != null)
+            lbtelefone.setText("Fone: " + p.getTelefone());
     }
     
     private void verificanivel()
@@ -136,7 +173,6 @@ public class TelaPrincipalController implements Initializable {
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Gerenciar Clientes");
         stage.show();
     }
 
@@ -149,7 +185,6 @@ public class TelaPrincipalController implements Initializable {
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Gerenciar Clientes");
         stage.show();
     }
 
@@ -162,7 +197,6 @@ public class TelaPrincipalController implements Initializable {
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Gerenciar Clientes");
         stage.show();
     }
 
@@ -175,7 +209,6 @@ public class TelaPrincipalController implements Initializable {
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Gerenciar Clientes");
         stage.show();
     }
 
@@ -188,7 +221,6 @@ public class TelaPrincipalController implements Initializable {
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Gerenciar Clientes");
         stage.show();
     }
 
@@ -201,15 +233,18 @@ public class TelaPrincipalController implements Initializable {
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Gerenciar Clientes");
         stage.show();
     }
     
     @FXML
     private void clkBackup(ActionEvent event) {
+        
+        Banco.realizaBackupRestauracao("backup.bat");
     }
 
     @FXML
     private void clkRestore(ActionEvent event) {
+        
+        Banco.realizaBackupRestauracao("restore.bat");
     }
 }
