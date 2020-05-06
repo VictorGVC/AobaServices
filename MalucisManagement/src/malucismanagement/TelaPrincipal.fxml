@@ -10,28 +10,30 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="pnprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="799.0" style="-fx-background-image: url('icons/pub.jpg'); -fx-background-position: center center; -fx-background-repeat: no-repeat;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
+<BorderPane fx:id="pnprincipal" prefHeight="515.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
    <top>
       <VBox prefHeight="69.0" prefWidth="799.0" BorderPane.alignment="CENTER">
          <children>
             <MenuBar fx:id="mnbar">
                <menus>
                   <Menu mnemonicParsing="false" text="Controle de acesso">
-                    <items>
-                      <MenuItem mnemonicParsing="false" onAction="#clkChamaLogin" text="Login" />
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#clkChamaLogin" text="Login" />
                         <MenuItem mnemonicParsing="false" onAction="#clkChamaLogin" text="Logout" />
-                    </items>
+                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Cadastros">
                      <items>
-                        <MenuItem fx:id="mifuncionario" mnemonicParsing="false" onAction="#clkBtFuncionarios" text="Funcionarios" />
-                        <MenuItem mnemonicParsing="false" onAction="#clkBtClientes" text="Clientes" />
-                        <MenuItem fx:id="miFornecedores" mnemonicParsing="false" onAction="#clkOpenFornecedores" text="Fornecedores" />
-                        <MenuItem fx:id="miProduto" mnemonicParsing="false" onAction="#clkOpenProduto" text="Produtos" />
-                     </items></Menu>
+                        <MenuItem fx:id="mifuncionario" mnemonicParsing="false" onAction="#clkOpenFuncionarios" text="Funcionarios" />
+                        <MenuItem fx:id="miclientes" mnemonicParsing="false" onAction="#clkOpenClientes" text="Clientes" />
+                        <MenuItem fx:id="mifornecedores" mnemonicParsing="false" onAction="#clkOpenFornecedores" text="Fornecedores" />
+                        <MenuItem fx:id="miproduto" mnemonicParsing="false" onAction="#clkOpenProduto" text="Produtos" />
+                     </items>
+                  </Menu>
                   <Menu mnemonicParsing="false" text="Relatórios" />
                   <Menu mnemonicParsing="false" text="Ferramentas">
                      <items>
@@ -46,7 +48,7 @@
                   </Menu>
                </menus>
             </MenuBar>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
+            <ToolBar fx:id="tbatalhos" prefHeight="46.0" prefWidth="800.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -63,32 +65,45 @@
          </children>
       </VBox>
    </top>
-   <bottom>
-      <HBox alignment="CENTER_RIGHT" prefHeight="24.0" prefWidth="799.0" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets right="20.0" />
-         </padding>
-      </HBox>
-   </bottom>
    <center>
-      <HBox fx:id="pndados" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="446.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="ivLogo" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
-            <HBox fx:id="pnbotoes" alignment="CENTER" prefHeight="422.0" prefWidth="622.0">
+            <VBox fx:id="pnimg" prefHeight="422.0" prefWidth="254.0">
                <children>
-                  <JFXButton fx:id="btclientes1" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkBtFuncionarios" prefHeight="30.0" prefWidth="160.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Funcionarios">
+                  <ImageView fx:id="ivlogo" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </VBox>
+            <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="422.0" prefWidth="544.0" spacing="15.0">
+               <children>
+                  <JFXButton fx:id="btfuncionarios" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkOpenFuncionarios" prefHeight="30.0" prefWidth="200.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Funcionarios">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btclientes" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkBtClientes" prefHeight="30.0" prefWidth="160.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Clientes">
+                  <JFXButton fx:id="btclientes" alignment="CENTER_RIGHT" buttonType="RAISED" onAction="#clkOpenClientes" prefHeight="30.0" prefWidth="170.0" ripplerFill="#7681b3" style="-fx-background-image: url('icons/client.png'); -fx-background-position: left center; -fx-background-repeat: no-repeat;" text="Gerenciar Clientes">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
                </children>
-            </HBox>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </VBox>
          </children>
       </HBox>
    </center>
+   <bottom>
+      <HBox fx:id="pnrodape" alignment="CENTER_RIGHT" prefHeight="24.0" prefWidth="799.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <left>
+      <Pane maxHeight="200.0" maxWidth="0.0" minHeight="200.0" minWidth="0.0" prefHeight="200.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Pane maxHeight="200.0" maxWidth="0.0" minHeight="200.0" minWidth="0.0" prefHeight="200.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </right>
 </BorderPane>

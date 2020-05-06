@@ -1,11 +1,13 @@
 package malucismanagement;
 
 import com.jfoenix.controls.JFXButton;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,11 +15,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
-import malucismanagement.db.dal.DALFornecedores;
+import javax.imageio.ImageIO;
 import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
@@ -25,45 +30,85 @@ import malucismanagement.db.entidades.Parametrizacao;
 
 public class TelaPrincipalController implements Initializable {
 
+    static Funcionario sessao = new Funcionario();
     public static BorderPane spnprincipal = null;
     
     @FXML
     private BorderPane pnprincipal;
     @FXML
-    private ImageView ivLogo;
+    private MenuBar mnbar;
+    @FXML
+    private MenuItem mifornecedores;
+    @FXML
+    private MenuItem miproduto;
+    @FXML
+    private MenuItem mifuncionario;
+    @FXML
+    private MenuItem miclientes;
+    @FXML
+    private ToolBar tbatalhos;
+    @FXML
+    private VBox pnimg;
+    @FXML
+    private ImageView ivlogo;
+    @FXML
+    private VBox pnbotoes;
+    @FXML
+    private JFXButton btfuncionarios;
     @FXML
     private JFXButton btclientes;
     @FXML
-    private HBox pndados;
-    @FXML
-    private HBox pnbotoes;
-    @FXML
-    private JFXButton btclientes1;
-    @FXML
-    private MenuItem miFornecedores;
-    
-    static Funcionario sessao = new Funcionario();
-    @FXML
-    private MenuItem miProduto;
-    @FXML
-    private MenuBar mnbar;
-    @FXML
-    private MenuItem mifuncionario;
+    private HBox pnrodape;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
         spnprincipal = pnprincipal;
-        chamaLogin();
-        
+        //chamaLogin();
+        try {
+            setParametros();
+        } 
+        catch (IOException ex) {}
     }    
 
+    private void setParametros() throws IOException {
+        
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        BufferedImage bimg = null;
+        InputStream is = dal.getFoto();
+
+        bimg = ImageIO.read(is);
+        if(p.getCorprimaria() != null){
+            
+            pnimg.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pnbotoes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+        }
+        if(p.getCorsecundaria()!= null){
+            
+            tbatalhos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            pnrodape.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+        }
+        if(p.getFonte() != null){
+            
+            btclientes.setFont(new Font(p.getFonte(), 14));
+            btfuncionarios.setFont(new Font(p.getFonte(), 14));
+        }
+        if(p.getCorfonte() != null){
+            
+            btclientes.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btfuncionarios.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+        }
+        if(bimg != null)
+            ivlogo.setImage(SwingFXUtils.toFXImage(bimg, null));
+    }
+    
     private void verificanivel()
     {
         if(sessao.getNivel() == 1)
         {
             mifuncionario.setDisable(true);
-            miFornecedores.setDisable(true);
+            mifornecedores.setDisable(true);
         }
     }
     
@@ -118,23 +163,23 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clkBtClientes(ActionEvent event) {
-        
-        try {
-            
-            Parent root = FXMLLoader.load(getClass().getResource("TelaClientes.fxml"));
+    private void clkChamaLogin(ActionEvent event) 
+    {
+        try 
+        {    
+            Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }
-        catch (IOException ex){
-            
+        catch (IOException ex)
+        {
             System.out.println(ex);
         }
     }
 
     @FXML
-    private void clkBtFuncionarios(ActionEvent event) throws IOException 
-    {
+    private void clkOpenFuncionarios(ActionEvent event) {
+        
         try {
             
             Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
@@ -147,18 +192,17 @@ public class TelaPrincipalController implements Initializable {
         }
     }
 
-
     @FXML
-    private void clkChamaLogin(ActionEvent event) 
-    {
-        try 
-        {    
-            Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+    private void clkOpenClientes(ActionEvent event) {
+        
+        try {
+            
+            Parent root = FXMLLoader.load(getClass().getResource("TelaClientes.fxml"));
             efeito(true);
             pnprincipal.setCenter(root);
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex){
+            
             System.out.println(ex);
         }
     }
