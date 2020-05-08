@@ -27,7 +27,6 @@
                   <Font size="17.0" />
                </font>
             </JFXButton>
-            <Button fx:id="btExit" layoutX="524.0" layoutY="250.0" mnemonicParsing="false" onAction="#clkbtExit" style="-fx-background-color: invisible;" />
             <JFXTextField fx:id="txNomeForcenedor" layoutX="310.0" layoutY="93.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Fornecedor" unFocusColor="WHITE">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
@@ -88,11 +87,14 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <ImageView fitHeight="29.0" fitWidth="36.0" layoutX="526.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../icons/Voltar.png" />
-               </image>
-            </ImageView>
+            <Button fx:id="btExit" layoutX="524.0" layoutY="250.0" mnemonicParsing="false" onAction="#clkbtExit" style="-fx-background-color: invisible;">
+               <graphic>
+                  <ImageView fitHeight="29.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/Voltar.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
          </children>
       </AnchorPane>
       <TableView fx:id="tvFornecedores" layoutX="20.0" layoutY="21.0" prefHeight="336.0" prefWidth="1052.0">

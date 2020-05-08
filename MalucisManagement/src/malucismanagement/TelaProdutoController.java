@@ -457,5 +457,4 @@ public class TelaProdutoController implements Initializable {
         Stage stage = (Stage) btExit.getScene().getWindow();
         stage.close();
     }
-    
 }
