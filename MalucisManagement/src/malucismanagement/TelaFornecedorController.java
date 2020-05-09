@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -482,21 +484,30 @@ public class TelaFornecedorController implements Initializable {
         DALFornecedores dal = new DALFornecedores();
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
-        if(dal.excluir(linha.getFor_cnpj()))
-        {
-           if(!CarregaTabelaFornecedor()){
-                a.setContentText("Impossível Carregar Fornecedores");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
-                } 
-        }
-        else{
-                a.setContentText("Impossível Remover Fornecedor");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
+        Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType btnSim = new ButtonType("Sim");
+        ButtonType btnNao = new ButtonType("Não");
+        opcao.getButtonTypes().setAll(btnSim, btnNao);
+        Optional<ButtonType> result = opcao.showAndWait();
+        
+        if(result.get() == btnSim){
+            if(dal.excluir(linha.getFor_cnpj()))
+            {
+               if(!CarregaTabelaFornecedor()){
+                    a.setContentText("Impossível Carregar Fornecedores");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                    } 
             }
+            else
+            {
+                    a.setContentText("Impossível Remover Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+            }
+        }
     }
 
     @FXML

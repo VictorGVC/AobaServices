@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -431,23 +433,31 @@ public class TelaProdutoController implements Initializable {
     private void RemoverProduto(ActionEvent event) throws SQLException {
         DALProduto dal = new DALProduto();
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
-        if(dal.excluir(linha.getPro_cod()))
-        {
-            if(!CarregaTabela()){
-                 Alert a = new Alert(Alert.AlertType.INFORMATION);
-                        a.setContentText("Impossível Carregar Fornecedores");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-        }
-        else
-        {
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setContentText("Impossível Remover Produto");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
+        Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType btnSim = new ButtonType("Sim");
+        ButtonType btnNao = new ButtonType("Não");
+        opcao.getButtonTypes().setAll(btnSim, btnNao);
+        Optional<ButtonType> result = opcao.showAndWait();
+        
+        if(result.get() == btnSim){
+            if(dal.excluir(linha.getPro_cod()))
+            {
+                if(!CarregaTabela()){
+                     Alert a = new Alert(Alert.AlertType.INFORMATION);
+                            a.setContentText("Impossível Carregar Fornecedores");
+                            a.setHeaderText("Alerta");
+                            a.setTitle("Alerta");
+                            a.showAndWait();
+                        }
+            }
+            else
+            {
+                Alert a = new Alert(Alert.AlertType.INFORMATION);
+                a.setContentText("Impossível Remover Produto");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
+            }
         }
     }
 
