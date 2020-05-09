@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package malucismanagement;
 
 import com.jfoenix.controls.JFXButton;
@@ -36,6 +31,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -45,13 +41,12 @@ import malucismanagement.util.MaskFieldUtil;
 import malucismanagement.util.SQLException_Exception;
 import malucismanagement.util.SigepClienteException;
 
-/**
- * FXML Controller class
- *
- * @author HITRON
- */
 public class TelaFuncionariosController implements Initializable {
 
+    private String Usuario;
+    private String cpf;
+    private char ativo;
+    
     @FXML
     private SplitPane pnprincipal;
     @FXML
@@ -60,7 +55,6 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btalterar;
     @FXML
     private JFXButton btapagar;
-    private JFXButton btapagar1;
     @FXML
     private JFXButton btconfirmar;
     @FXML
@@ -123,10 +117,6 @@ public class TelaFuncionariosController implements Initializable {
     private JFXTextField txlogin;
     @FXML
     private JFXPasswordField txsenhan;
-
-    private String Usuario;
-    private String cpf;
-    private char ativo;
     @FXML
     private JFXButton btativdesativ;
 
@@ -145,9 +135,7 @@ public class TelaFuncionariosController implements Initializable {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    /**
-     * Initializes the controller class.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
@@ -158,7 +146,7 @@ public class TelaFuncionariosController implements Initializable {
         initializeCargo();
         initializeColunas();
         estado(true);
-        //setParametros();
+        setParametros();
     }   
     
     private void fadeout() 
@@ -286,32 +274,32 @@ public class TelaFuncionariosController implements Initializable {
         }
         if(p.getCorfonte() != null)
         {
-            btalterar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btapagar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btconfirmar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btcancelar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btvoltar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btapagar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btconfirmar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btcancelar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            tcpf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tnome.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cbsexo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            dpdatanasc.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            temail.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            ttelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tcep.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            trua.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tnumero.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tbairro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tcidade.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tuf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txsenha.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txlogin.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcpf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tnome.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            cbsexo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            dpdatanasc.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            temail.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            ttelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcep.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            trua.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tnumero.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tbairro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcidade.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tuf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txsenha.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txlogin.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            cbcategoria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tfiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cbCargo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            cbcategoria.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            cbCargo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            tvclientes.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tvclientes.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
@@ -581,8 +569,8 @@ public class TelaFuncionariosController implements Initializable {
     @FXML
     private void clkBtVoltar(ActionEvent event) 
     {
-        TelaPrincipalController.spnprincipal.setCenter(null);
-        TelaPrincipalController.efeito(false);
+        Stage stage = (Stage) btvoltar.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -709,6 +697,5 @@ public class TelaFuncionariosController implements Initializable {
             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
             sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum funcionário!")));
         }
-    }
-    
+    }  
 }

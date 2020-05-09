@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,6 +31,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -111,7 +115,7 @@ public class TelaClientesController implements Initializable {
         
         fadeout();
         setMascaras();
-        //setParametros();
+        setParametros();
         initColTb();
         listaSexo();
         listaCategoria();
@@ -144,57 +148,47 @@ public class TelaClientesController implements Initializable {
         }
         if(p.getFonte() != null){
             
-            btnovo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btalterar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btapagar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btconfirmar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btcancelar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btvoltar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btnovo.setFont(new Font(p.getFonte(), 12));
+            btalterar.setFont(new Font(p.getFonte(), 12));
+            btapagar.setFont(new Font(p.getFonte(), 12));
+            btconfirmar.setFont(new Font(p.getFonte(), 12));
+            btcancelar.setFont(new Font(p.getFonte(), 12));
+            btvoltar.setFont(new Font(p.getFonte(), 12));
             
-            tcpf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbsexo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            dpdatanasc.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            temail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            trua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tnumero.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tbairro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tcpf.setFont(new Font(p.getFonte(), 14));
+            tnome.setFont(new Font(p.getFonte(), 14));
+            temail.setFont(new Font(p.getFonte(), 14));
+            ttelefone.setFont(new Font(p.getFonte(), 14));
+            tcep.setFont(new Font(p.getFonte(), 14));
+            trua.setFont(new Font(p.getFonte(), 14));
+            tnumero.setFont(new Font(p.getFonte(), 14));
+            tbairro.setFont(new Font(p.getFonte(), 14));
+            tcidade.setFont(new Font(p.getFonte(), 14));
+            tuf.setFont(new Font(p.getFonte(), 14));
             
-            cbcategoria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tfiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            
-            tvclientes.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            tfiltro.setFont(new Font(p.getFonte(), 14));
         }
         if(p.getCorfonte() != null){
             
-            btnovo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btalterar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btapagar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btconfirmar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btcancelar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btvoltar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btnovo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btapagar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btconfirmar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btcancelar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            tcpf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tnome.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cbsexo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            dpdatanasc.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            temail.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            ttelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tcep.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            trua.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tnumero.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tbairro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tcidade.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tuf.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tcpf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tnome.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            temail.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            ttelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcep.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            trua.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tnumero.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tbairro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcidade.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tuf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            cbcategoria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            tfiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            
-            tvclientes.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
@@ -210,6 +204,7 @@ public class TelaClientesController implements Initializable {
         MaskFieldUtil.maxField(tbairro, 40);
         MaskFieldUtil.maxField(tcidade, 30);
         MaskFieldUtil.maxField(tuf, 2);
+        dpdatanasc.setValue(LocalDate.now());
     }
     
     private void initColTb() {
@@ -281,6 +276,29 @@ public class TelaClientesController implements Initializable {
         }
     }
     
+    private void setCorAlert(String cor){
+        
+        setCorAlert(tcpf, cor);
+        setCorAlert(tnome, cor);
+        cbsexo.setFocusColor(Paint.valueOf(cor));
+        cbsexo.setUnFocusColor(Paint.valueOf(cor));
+        dpdatanasc.setDefaultColor(Paint.valueOf(cor));
+        setCorAlert(temail, cor);
+        setCorAlert(ttelefone, cor);
+        setCorAlert(tcep, cor);
+        setCorAlert(trua, cor);
+        setCorAlert(tnumero, cor);
+        setCorAlert(tbairro, cor);
+        setCorAlert(tcidade, cor);
+        setCorAlert(tuf, cor);
+    }
+    
+    private void setCorAlert(JFXTextField tf, String cor){
+        
+        tf.setFocusColor(Paint.valueOf(cor));
+        tf.setUnFocusColor(Paint.valueOf(cor));
+    }
+    
     @FXML
     private void clkBtNovo(ActionEvent event) {
         
@@ -299,13 +317,13 @@ public class TelaClientesController implements Initializable {
     @FXML
     private void clkBtApagar(ActionEvent event) {
         
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         
         if(tvclientes.getSelectionModel().getSelectedIndex() != -1){
             
             a.setHeaderText("Exclusão!");
             a.setTitle("Exclusão");
-            a.setContentText("Confirma a exclusão");
+            a.setContentText("Confirma a exclusão?");
             if (a.showAndWait().get() == ButtonType.OK){
                 
                 DALCliente dal = new DALCliente();
@@ -330,9 +348,10 @@ public class TelaClientesController implements Initializable {
         }
         else{
             
+            a.setAlertType(Alert.AlertType.WARNING);
             a.setTitle("Selecionar");
             a.setHeaderText("Selecionar");
-            a.setContentText("Nenhum produto selecionado");
+            a.setContentText("Nenhum cliente selecionado");
             a.showAndWait();
         }
     }
@@ -341,103 +360,77 @@ public class TelaClientesController implements Initializable {
     private void clkBtConfirmar(ActionEvent event) {
         
         String id;
+        boolean flag = false;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
+        setCorAlert("BLACK");
         if(tcpf.getText().isEmpty()){
             
-            a.setContentText("CPF deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tcpf.requestFocus();
+            flag = true;
+            setCorAlert(tcpf, "RED");
         }
-        else if(tnome.getText().isEmpty()){
+        if(tnome.getText().isEmpty()){
             
-            a.setContentText("Nome deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tnome.requestFocus();
+            flag = true;
+            setCorAlert(tnome, "RED");
         }
-        else if(cbsexo.getSelectionModel().getSelectedIndex() == -1){
+        if(cbsexo.getSelectionModel().getSelectedIndex() == -1){
             
-            a.setContentText("Sexo deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            cbsexo.requestFocus();
+            flag = true;
+            cbsexo.setFocusColor(Paint.valueOf("RED"));
+            cbsexo.setUnFocusColor(Paint.valueOf("RED"));
         }
-        else if(dpdatanasc.getValue() == null){
+        if(dpdatanasc.getValue().equals(LocalDate.now())){
             
-            a.setContentText("Data de nascimento deve ser informada");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            dpdatanasc.requestFocus();
+            flag = true;
+            dpdatanasc.setDefaultColor(Paint.valueOf("RED"));
         }
-        else if(temail.getText().isEmpty()){
+        if(temail.getText().isEmpty()){
             
-            a.setContentText("E-Mail deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            temail.requestFocus();
+            flag = true;
+            setCorAlert(temail, "RED");
         }
-        else if(ttelefone.getText().isEmpty()){
+        if(ttelefone.getText().isEmpty()){
             
-            a.setContentText("Telefone deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            ttelefone.requestFocus();
+            flag = true;
+            setCorAlert(ttelefone, "RED");
         }
-        else if(tcep.getText().isEmpty()){
+        if(tcep.getText().isEmpty()){
             
-            a.setContentText("CEP deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tcep.requestFocus();
+            flag = true;
+            setCorAlert(tcep, "RED");
         }
-        else if(trua.getText().isEmpty()){
+        if(trua.getText().isEmpty()){
             
-            a.setContentText("Rua deve ser informada");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            trua.requestFocus();
+            flag = true;
+            setCorAlert(trua, "RED");
         }
-        else if(tnumero.getText().isEmpty()){
+        if(tnumero.getText().isEmpty()){
             
-            a.setContentText("Numero deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tnumero.requestFocus();
+            flag = true;
+            setCorAlert(tnumero, "RED");
         }
-        else if(tbairro.getText().isEmpty()){
+        if(tbairro.getText().isEmpty()){
             
-            a.setContentText("Bairro deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tbairro.requestFocus();
+            flag = true;
+            setCorAlert(tbairro, "RED");
         }
-        else if(tcidade.getText().isEmpty()){
+        if(tcidade.getText().isEmpty()){
             
-            a.setContentText("Cidade deve ser informada");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tcidade.requestFocus();
+            flag = true;
+            setCorAlert(tcidade, "RED");
         }
-        else if(tuf.getText().isEmpty()){
+        if(tuf.getText().isEmpty()){
             
-            a.setContentText("Estado deve ser informado");
+            flag = true;
+            setCorAlert(tuf, "RED");
+        }
+        if(flag){
+            
+            a.setContentText("Campos obrigatórios não preenchidos!");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
-            tuf.requestFocus();
         }
         else{
             
@@ -608,7 +601,7 @@ public class TelaClientesController implements Initializable {
     @FXML
     private void clkBtVoltar(ActionEvent event) {
         
-        TelaPrincipalController.spnprincipal.setCenter(null);
-        TelaPrincipalController.efeito(false);
+        Stage stage = (Stage) btvoltar.getScene().getWindow();
+        stage.close();
     }
 }

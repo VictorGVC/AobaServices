@@ -145,8 +145,8 @@ public class DALFuncionario {
     public Funcionario get(String id) {
         
         Funcionario aux = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Cliente c INNER JOIN Login l"
-                + "ON l.cli_id = c.cli_id WHERE l.log_usuario=" + id);
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Cliente c INNER JOIN Login l "
+                + "ON l.cli_id = c.cli_id WHERE l.log_usuario='" + id+"'");
         
         try{
             

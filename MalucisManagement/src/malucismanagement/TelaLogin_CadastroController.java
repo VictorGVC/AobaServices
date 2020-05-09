@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package malucismanagement;
 
 import com.jfoenix.controls.JFXButton;
@@ -12,7 +7,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -33,7 +25,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import static malucismanagement.TelaPrincipalController.efeito;
 import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
@@ -383,8 +374,10 @@ public class TelaLogin_CadastroController implements Initializable {
             {
                 JFXSnackbar sb = new JFXSnackbar(pncadastro); 
                 sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Gravado com Sucesso!")));
-                TelaPrincipalController.spnprincipal.setCenter(null);
-                TelaPrincipalController.efeito(false);
+//                TelaPrincipalController.spnprincipal.setCenter(null);
+//                TelaPrincipalController.efeito(false);
+                sessao.setNivel(cbcargo.getSelectionModel().getSelectedIndex());
+                sessao.setLogin(id);
             }
             else
             {
@@ -455,25 +448,31 @@ public class TelaLogin_CadastroController implements Initializable {
             {
                 DALParametrizacao dalp = new DALParametrizacao();
                 Parametrizacao p = dalp.getConfig();
+                JFXSnackbar sb = new JFXSnackbar(pnlogin); 
+                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Logado com sucesso!")));
                 sessao.setLogin(txusuario.getText());
-                if(p == null)
-                {
-                    try 
-                    {
-                        Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
-                        efeito(true);
-                        TelaPrincipalController.spnprincipal.setCenter(root);
-                    }
-                    catch (IOException ex){
-
-                        System.out.println(ex);
-                    }
-                }
-                else
-                {
-                    TelaPrincipalController.spnprincipal.setCenter(null);
-                    TelaPrincipalController.efeito(false);
-                }
+                Funcionario f = dal.get(txusuario.getText());
+                sessao.setNivel(f.getNivel());
+                
+//                if(p == null)
+//                {
+//                    try 
+//                    {
+//                        Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
+//                        efeito(true);
+//                        TelaPrincipalController.spnprincipal.setCenter(root);
+//                    }
+//                    catch (IOException ex){
+//
+//                        System.out.println(ex);
+//                    }
+//                }
+//                else
+//                {
+//                    
+//                    TelaPrincipalController.spnprincipal.setCenter(null);
+//                    TelaPrincipalController.efeito(false);
+//                }
             }
             else
             {

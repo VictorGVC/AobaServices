@@ -74,6 +74,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
+
          </children>
       </AnchorPane>
       <TableView fx:id="tvFornecedores" layoutY="345.0" prefHeight="255.0" prefWidth="800.0">
