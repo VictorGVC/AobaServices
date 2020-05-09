@@ -39,10 +39,10 @@
                   <JFXTextField fx:id="tbairro" labelFloat="true" layoutX="377.0" layoutY="194.0" prefHeight="32.0" prefWidth="171.0" promptText="Bairro" unFocusColor="BLACK" />
                   <JFXDatePicker fx:id="dpdatanasc" defaultColor="BLACK" layoutX="462.0" layoutY="92.0" prefHeight="32.0" prefWidth="155.0" promptText="Data de Nacimento" />
                   <JFXTextField fx:id="tcpf" disable="true" editable="false" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="35.0" prefHeight="32.0" prefWidth="171.0" promptText="CPF" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="tcep" labelFloat="true" layoutX="14.0" layoutY="145.0" onKeyTyped="#evtBotaoDigitado" prefHeight="32.0" prefWidth="171.0" promptText="CEP" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="temail" labelFloat="true" layoutX="13.0" layoutY="92.0" prefHeight="32.0" prefWidth="250.0" promptText="E-Mail" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="tcidade" labelFloat="true" layoutX="554.0" layoutY="194.0" prefHeight="32.0" prefWidth="171.0" promptText="Cidade" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="tuf" labelFloat="true" layoutX="736.0" layoutY="194.0" prefHeight="32.0" prefWidth="48.0" promptText="UF" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="tcep" labelFloat="true" layoutX="14.0" layoutY="145.0" onKeyTyped="#evtBotaoDigitado" prefHeight="32.0" prefWidth="171.0" promptText="* CEP" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="temail" labelFloat="true" layoutX="13.0" layoutY="92.0" prefHeight="32.0" prefWidth="250.0" promptText="* E-Mail" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="tcidade" labelFloat="true" layoutX="554.0" layoutY="194.0" prefHeight="32.0" prefWidth="171.0" promptText="* Cidade" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="tuf" labelFloat="true" layoutX="735.0" layoutY="194.0" prefHeight="32.0" prefWidth="48.0" promptText="* UF" unFocusColor="BLACK" />
                   <Line endX="-11.0" endY="118.0" layoutX="640.0" layoutY="53.0" startX="-11.0" startY="-31.0" />
                   <JFXTextField fx:id="txlogin" layoutX="640.0" layoutY="22.0" promptText="* Usuário" />
                   <JFXComboBox fx:id="cbCargo" layoutX="640.0" layoutY="148.0" prefHeight="25.0" prefWidth="135.0" promptText="* Cargo" />

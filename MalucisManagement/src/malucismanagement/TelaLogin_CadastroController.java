@@ -289,30 +289,6 @@ public class TelaLogin_CadastroController implements Initializable {
             a.showAndWait();
             txcep.requestFocus();
         }
-        else if(txrua.getText().isEmpty())
-        {  
-            a.setContentText("Rua deve ser informada");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            txrua.requestFocus();
-        }
-        else if(txnumero.getText().isEmpty())
-        {   
-            a.setContentText("Numero deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            txnumero.requestFocus();
-        }
-        else if(txbairro.getText().isEmpty())
-        {
-            a.setContentText("Bairro deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            txbairro.requestFocus();
-        }
         else if(txcidade.getText().isEmpty())
         {
             a.setContentText("Cidade deve ser informada");

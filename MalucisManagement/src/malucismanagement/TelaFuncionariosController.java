@@ -458,30 +458,6 @@ public class TelaFuncionariosController implements Initializable {
             a.showAndWait();
             tcep.requestFocus();
         }
-        else if(trua.getText().isEmpty())
-        {  
-            a.setContentText("Rua deve ser informada");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            trua.requestFocus();
-        }
-        else if(tnumero.getText().isEmpty())
-        {   
-            a.setContentText("Numero deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tnumero.requestFocus();
-        }
-        else if(tbairro.getText().isEmpty())
-        {
-            a.setContentText("Bairro deve ser informado");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            tbairro.requestFocus();
-        }
         else if(tcidade.getText().isEmpty())
         {
             a.setContentText("Cidade deve ser informada");
