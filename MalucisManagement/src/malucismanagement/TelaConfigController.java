@@ -22,6 +22,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,6 +32,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -49,6 +51,8 @@ public class TelaConfigController implements Initializable {
     private VBox pnprincipal;
     @FXML
     private Pane pncabecalho;
+    @FXML
+    private Button btfechar;
     @FXML
     private Pane pndados;
     @FXML
@@ -93,12 +97,18 @@ public class TelaConfigController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
         fadeout();
-        try {
-            retornaConfig();
+        if(p != null){
+            
+            try {
+                retornaConfig();
+            }
+            catch (IOException ex) {}
+            setParametros();
         }
-        catch (IOException ex) {}
-        setParametros();
         setMascaras();
         listaFontes();
     }    
@@ -314,7 +324,7 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void clkBtFechar(ActionEvent event) {
         
-        TelaPrincipalController.spnprincipal.setCenter(null);
-        TelaPrincipalController.efeito(false);
+        Stage stage = (Stage) btfechar.getScene().getWindow();
+        stage.close();
     }
 }

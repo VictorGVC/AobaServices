@@ -3,31 +3,22 @@ package malucismanagement;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import static malucismanagement.TelaPrincipalController.efeito;
+import javafx.stage.Stage;
 import malucismanagement.db.dal.DALFornecedores;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Fornecedor;
@@ -493,27 +484,36 @@ public class TelaFornecedorController implements Initializable {
         DALFornecedores dal = new DALFornecedores();
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
-        if(dal.excluir(linha.getFor_cnpj()))
-        {
-           if(!CarregaTabelaFornecedor()){
-                a.setContentText("Impossível Carregar Fornecedores");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
-                } 
-        }
-        else{
-                a.setContentText("Impossível Remover Fornecedor");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
+        Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
+        ButtonType btnSim = new ButtonType("Sim");
+        ButtonType btnNao = new ButtonType("Não");
+        opcao.getButtonTypes().setAll(btnSim, btnNao);
+        Optional<ButtonType> result = opcao.showAndWait();
+        
+        if(result.get() == btnSim){
+            if(dal.excluir(linha.getFor_cnpj()))
+            {
+               if(!CarregaTabelaFornecedor()){
+                    a.setContentText("Impossível Carregar Fornecedores");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                    } 
             }
+            else
+            {
+                    a.setContentText("Impossível Remover Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+            }
+        }
     }
 
     @FXML
     private void clkbtExit(ActionEvent event) {
-        TelaPrincipalController.spnprincipal.setCenter(null);
-        TelaPrincipalController.efeito(false);
+        Stage stage = (Stage) btExit.getScene().getWindow();
+        stage.close();
     }
     
 }
