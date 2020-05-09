@@ -109,7 +109,7 @@ public class DALFuncionario {
                 return false;
         }
         else
-            return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'");
+            return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario='" + f.getLogin() + "'");
     }
     
     public boolean desativar(Funcionario f) 
