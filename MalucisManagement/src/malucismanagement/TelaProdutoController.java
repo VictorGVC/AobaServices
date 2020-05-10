@@ -30,7 +30,8 @@ import malucismanagement.db.entidades.Produto;
 import malucismanagement.util.MaskFieldUtil;
 
 public class TelaProdutoController implements Initializable {
-
+    
+    int CodAux;
     @FXML
     private JFXButton btSalvarProduto;
     @FXML
@@ -95,6 +96,7 @@ public class TelaProdutoController implements Initializable {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         CarregaCBFiltro();
+        CodAux = 0;
     }    
     
     private void CarregaCBCategoria(){
@@ -139,11 +141,11 @@ public class TelaProdutoController implements Initializable {
         }
         else if(cbCategoria.getSelectionModel().isEmpty())
         {
-            a.setContentText("Quantidade deve ser informado");
+            a.setContentText("Categoria deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
-            txQtdEstoque.requestFocus();
+            cbCategoria.requestFocus();
         }
         else{
             String cat = cbCategoria.getValue().toString();
@@ -171,6 +173,7 @@ public class TelaProdutoController implements Initializable {
                 }
             }
             else{
+                p.setPro_cod(CodAux);
                 if(dal.alterar(p)){
                     LimpaTelaCadastro();
                     if(!CarregaTabela()){
@@ -360,6 +363,7 @@ public class TelaProdutoController implements Initializable {
     private void EditarProduto(ActionEvent event) {
         flag = false;
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
+        CodAux = linha.getPro_cod();
         txNomeProduto.setText(linha.getPro_nome());
         txPreco.setText(""+linha.getPro_preco());
         txQtdEstoque.setText(""+linha.getPro_quantidade());
@@ -434,6 +438,7 @@ public class TelaProdutoController implements Initializable {
         DALProduto dal = new DALProduto();
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
         Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
+        opcao.setContentText("Você deseja remover este fornecedor?");
         ButtonType btnSim = new ButtonType("Sim");
         ButtonType btnNao = new ButtonType("Não");
         opcao.getButtonTypes().setAll(btnSim, btnNao);

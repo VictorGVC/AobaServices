@@ -485,6 +485,7 @@ public class TelaFornecedorController implements Initializable {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
         Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
+        opcao.setContentText("Você deseja remover este fornecedor?");
         ButtonType btnSim = new ButtonType("Sim");
         ButtonType btnNao = new ButtonType("Não");
         opcao.getButtonTypes().setAll(btnSim, btnNao);
