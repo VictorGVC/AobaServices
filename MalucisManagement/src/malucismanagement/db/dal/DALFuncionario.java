@@ -79,8 +79,6 @@ public class DALFuncionario {
             sql = sql.replaceAll("&1", "" + f.getCidade());
             sql = sql.replaceAll("&2", "" + f.getUf());
             sql = sql.replaceAll("&3", "" + f.getCpf());
-            
-            
         }
         
         

@@ -27,7 +27,7 @@
                   <JFXButton fx:id="btativdesativ" onAction="#clkBtAtivar" text="Ativar/Desativar" />
                   <JFXButton fx:id="btconfirmar" onAction="#clkBtConfirmar" text="Confirmar" />
                   <JFXButton fx:id="btcancelar" onAction="#clkBtCancelar" text="Cancelar" />
-                  <JFXButton fx:id="btvoltar" onAction="#clkBtVoltar" text="Voltar" />
+                  <JFXButton fx:id="btvoltar" onAction="#clkBtVoltar" text="Sair" />
                </children>
             </HBox>
             <Pane fx:id="pndados" prefHeight="273.0" prefWidth="798.0">

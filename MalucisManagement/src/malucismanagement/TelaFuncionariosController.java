@@ -6,18 +6,24 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -32,6 +38,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -121,6 +128,8 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btativdesativ;
     @FXML
     private JFXButton btnovo;
+    
+    private boolean pa;
 
     public char getAtivo() {
         return ativo;
@@ -141,6 +150,7 @@ public class TelaFuncionariosController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
+        pa = false;
         fadeout();
         setMascaras();
         initializeSexo();
@@ -149,6 +159,9 @@ public class TelaFuncionariosController implements Initializable {
         initializeColunas();
         estado(true);
         setParametros();
+        DALFuncionario dalf = new DALFuncionario();
+        if(dalf.getL("").isEmpty())
+            pa = true;
     }   
     
     private void fadeout() 
@@ -568,6 +581,25 @@ public class TelaFuncionariosController implements Initializable {
     {
         Stage stage = (Stage) btvoltar.getScene().getWindow();
         stage.close();
+        DALParametrizacao dalp = new DALParametrizacao();
+        if(dalp.getConfig() == null)
+            try 
+            {
+                chamaConfig();
+            } 
+            catch (IOException ex) 
+            {
+                System.out.println(ex);
+            }
+        else if(pa)
+            try 
+            {
+                chamaLogin();
+            } 
+            catch (IOException ex) 
+            {
+                System.out.println(ex);
+            }
     }
 
     @FXML
@@ -705,4 +737,28 @@ public class TelaFuncionariosController implements Initializable {
         limparCampos();
         pnpesquisa.setDisable(true);
     }
+    
+    private void chamaLogin() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    private void chamaConfig() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    
 }

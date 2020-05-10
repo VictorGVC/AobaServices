@@ -21,7 +21,10 @@ import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -33,6 +36,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -94,9 +98,11 @@ public class TelaConfigController implements Initializable {
     @FXML
     private JFXButton btsalvar;
 
+    private boolean pa;
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
+    public void initialize(URL url, ResourceBundle rb) 
+    {
+        pa = false;
         DALParametrizacao dal = new DALParametrizacao();
         Parametrizacao p = dal.getConfig();
         
@@ -109,6 +115,8 @@ public class TelaConfigController implements Initializable {
             catch (IOException ex) {}
             setParametros();
         }
+        else
+            pa = true;
         setMascaras();
         listaFontes();
     }    
@@ -326,5 +334,25 @@ public class TelaConfigController implements Initializable {
         
         Stage stage = (Stage) btfechar.getScene().getWindow();
         stage.close();
+        if(pa)
+            try 
+            {
+                chamaLogin();
+            } 
+            catch (IOException ex) 
+            {
+                System.out.println(ex);
+            }
+    }
+    
+    private void chamaLogin() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
     }
 }
