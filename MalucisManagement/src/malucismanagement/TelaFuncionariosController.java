@@ -130,6 +130,8 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btnovo;
     
     private boolean pa;
+    @FXML
+    private TableColumn<Funcionario, Integer> colnivel;
 
     public char getAtivo() {
         return ativo;
@@ -181,6 +183,7 @@ public class TelaFuncionariosController implements Initializable {
         coltelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
         colativo.setCellValueFactory(new PropertyValueFactory<>("ativo"));
         collogin.setCellValueFactory(new PropertyValueFactory<>("login"));
+        colnivel.setCellValueFactory(new PropertyValueFactory<>("nivel"));
     }
     
     private void initializeSexo()
@@ -484,7 +487,6 @@ public class TelaFuncionariosController implements Initializable {
             a.showAndWait();
             tuf.requestFocus();
         }
-        //começa aqui
         else if(txlogin.getText().isEmpty())
         {
             a.setContentText("Login deve ser informado");
@@ -536,7 +538,33 @@ public class TelaFuncionariosController implements Initializable {
             DALFuncionario dal = new DALFuncionario();
             if(pnpesquisa.isDisable())
             {
-                if (dal.gravar(f,txsenha.getText()))
+                if(dal.FunCli(f))
+                {
+                    a.getButtonTypes().clear();
+                    a.setContentText("CPF já cadastrado como cliente, deseja transforma-lo em funcionário");
+                    a.getButtonTypes().add(ButtonType.YES);
+                    a.getButtonTypes().add(ButtonType.NO);
+                    if(a.showAndWait().get() == ButtonType.YES)
+                    {
+                        if (dal.adaptaCliente(f,txsenha.getText()))
+                        {
+                            JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
+                            estado(true);
+                            limparCampos();
+                            pnpesquisa.setDisable(false);
+                            carregaTabela("");
+                        }
+                        else
+                        {
+                            a.getButtonTypes().clear();
+                            a.getButtonTypes().add(ButtonType.OK);
+                            a.setContentText("Problemas ao Gravar!");
+                            a.showAndWait();
+                        }
+                    }
+                }
+                else if (dal.gravar(f,txsenha.getText()))
                 {
                     JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
@@ -545,8 +573,10 @@ public class TelaFuncionariosController implements Initializable {
                     pnpesquisa.setDisable(false);
                     carregaTabela("");
                 }
-                else{
-                    
+                else
+                {
+                    a.getButtonTypes().clear();
+                    a.getButtonTypes().add(ButtonType.OK);
                     a.setContentText("Problemas ao Gravar!");
                     a.showAndWait();
                 }
@@ -764,6 +794,5 @@ public class TelaFuncionariosController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
-    
     
 }
