@@ -370,7 +370,10 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Exclusão!");
             a.setTitle("Exclusão");
             a.setContentText("Confirma a exclusão");
-            if (a.showAndWait().get() == ButtonType.OK){
+            a.getButtonTypes().clear();
+            a.getButtonTypes().add(ButtonType.NO);
+            a.getButtonTypes().add(ButtonType.YES);
+            if (a.showAndWait().get() == ButtonType.YES){
                 
                 DALFuncionario dal = new DALFuncionario();
                 Funcionario f;
@@ -383,6 +386,8 @@ public class TelaFuncionariosController implements Initializable {
                 else{
                     
                     a.setAlertType(Alert.AlertType.ERROR);
+                    a.getButtonTypes().clear();
+                    a.getButtonTypes().add(ButtonType.OK);
                     a.setHeaderText("ERRO");
                     a.setTitle("ERRO!");
                     a.setContentText("Exclusão não realizada!");

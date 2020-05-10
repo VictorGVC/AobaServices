@@ -154,9 +154,11 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private void clkChamaLogin(ActionEvent event) throws IOException 
     {
+        Stage stage = (Stage) mnbar.getScene().getWindow();
+        stage.close();
         Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = new Stage();
+        stage = new Stage();
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
