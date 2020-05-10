@@ -41,63 +41,34 @@ import malucismanagement.util.SigepClienteException;
 public class TelaLogin_CadastroController implements Initializable {
 
     @FXML
-    private VBox painel1;
-    @FXML
-    private Tab tablogin;
-    @FXML
     private VBox painel;
-    @FXML
     private JFXComboBox<String> cbcargo;
-    @FXML
     private JFXComboBox<String> cbsexo;
-    @FXML
     private JFXTextField txtelefone;
-    @FXML
     private JFXDatePicker dtpnascimento;
-    @FXML
     private JFXTextField txcep;
     @FXML
     private JFXPasswordField txsenha;
-    @FXML
     private JFXTextField txcpf;
     @FXML
     private AnchorPane pnprincipal;
     @FXML
     private JFXTextField txusuario;
-    @FXML
     private JFXTextField txnome;
-    @FXML
     private JFXTextField txrua;
-    @FXML
     private JFXTextField txbairro;
-    @FXML
     private JFXTextField txcidade;
-    @FXML
     private JFXTextField txnumero;
-    @FXML
     private JFXPasswordField txsenhac;
-    @FXML
     private JFXTextField txusuarioc;
-    @FXML
-    private Tab tabcadastro;
-    @FXML
     private JFXTextField txemail;
-    @FXML
-    private Label lblpessoal;
-    @FXML
-    private Label lblendereco;
-    @FXML
-    private Label lblcadastro;
-    @FXML
     private JFXButton btcadastro;
     @FXML
     private FlowPane pnlogin;
     @FXML
     private JFXButton btlogin;
     private JFXTabPane pntab;
-    @FXML
     private JFXTextField txuf;
-    @FXML
     private FlowPane pncadastro;
 
     /**
@@ -217,7 +188,6 @@ public class TelaLogin_CadastroController implements Initializable {
         MaskFieldUtil.maxField(txcidade, 20);
     }
 
-    @FXML
     private void clkBtCadastro(ActionEvent event) 
     {
         String id;
@@ -364,7 +334,6 @@ public class TelaLogin_CadastroController implements Initializable {
         
     }
 
-    @FXML
     private void evtBotaoDigitado(KeyEvent event) 
     {
         if(txcep.getText().length() == 8){

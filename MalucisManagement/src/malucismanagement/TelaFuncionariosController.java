@@ -336,6 +336,7 @@ public class TelaFuncionariosController implements Initializable {
         {
             estado(false);
             tcpf.setDisable(true);
+            txsenhan.setVisible(true);
             pnpesquisa.setDisable(false);
         }
         else
@@ -700,6 +701,7 @@ public class TelaFuncionariosController implements Initializable {
     {
         estado(false);
         tcpf.setDisable(false);
+        txsenhan.setVisible(false);
         limparCampos();
         pnpesquisa.setDisable(true);
     }
