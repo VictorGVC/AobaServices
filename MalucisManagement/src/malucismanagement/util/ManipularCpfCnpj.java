@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 
 public class ManipularCpfCnpj {
 
-    private String removeMask(String txt) {
+    public static String removeMask(String txt) {
         
         if (txt.contains(".")) {
             txt = txt.replace(".", "");
@@ -19,7 +19,7 @@ public class ManipularCpfCnpj {
         return txt;
     }
     
-    public boolean isCpf(String cpf) {
+    public static boolean isCpf(String cpf) {
 
         cpf = removeMask(cpf);
         if (cpf.equals("00000000000") || 
@@ -76,7 +76,7 @@ public class ManipularCpfCnpj {
         }
     }
 
-    public boolean isCNPJ(String cnpj) {
+    public static boolean isCNPJ(String cnpj) {
 
         cnpj = removeMask(cnpj);
         if (cnpj.equals("00000000000000") || 

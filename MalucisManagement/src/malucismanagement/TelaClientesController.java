@@ -39,6 +39,7 @@ import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Cliente;
 import malucismanagement.db.entidades.Parametrizacao;
+import malucismanagement.util.ManipularCpfCnpj;
 import malucismanagement.util.MaskFieldUtil;
 import malucismanagement.util.SQLException_Exception;
 import malucismanagement.util.SigepClienteException;
@@ -369,6 +370,8 @@ public class TelaClientesController implements Initializable {
             flag = true;
             setCorAlert(tcpf, "RED");
         }
+        else if(!ManipularCpfCnpj.isCpf(tcpf.getText()))
+            setCorAlert(tcpf, "RED");
         if(tnome.getText().isEmpty()){
             
             flag = true;
@@ -502,10 +505,33 @@ public class TelaClientesController implements Initializable {
             limparCampos();
         }
         pnpesquisa.setDisable(false);
-    }  
+    }
 
     @FXML
-    private void evtBotaoDigitado(KeyEvent event) {
+    private void evtCpfDigitado(KeyEvent event) {
+        
+        setCorAlert(tcpf, "BLACK");
+        if(tcpf.getText().length() == 13){
+            
+            Task task = new Task<Void>() {
+                
+                @Override
+                protected Void call() {
+                    
+                    if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
+                        
+                        setCorAlert(tcpf, "RED");
+                    }
+                    
+                    return null;
+                }
+            };
+            new Thread(task).start();
+        }
+    }
+
+    @FXML
+    private void evtCepDigitado(KeyEvent event) {
         
         if(tcep.getText().length() == 8){
             
