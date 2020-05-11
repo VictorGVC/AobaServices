@@ -20,6 +20,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import malucismanagement.db.dal.DALCategoriaProduto;
@@ -46,9 +48,7 @@ public class TelaProdutoController implements Initializable {
     private JFXComboBox<String> cbCategoria;
     @FXML
     private JFXButton btEditarFornecedor;
-    @FXML
     private JFXButton btCancelarFiltro;
-    @FXML
     private JFXButton btFiltrarProduto;
     @FXML
     private JFXComboBox<String> cbFiltro;
@@ -76,6 +76,8 @@ public class TelaProdutoController implements Initializable {
     private AnchorPane pnprincipal;
     @FXML
     private AnchorPane pnsecundario;
+    @FXML
+    private JFXButton btaddProduto;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -95,6 +97,7 @@ public class TelaProdutoController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        adcProd(true);
         CarregaCBFiltro();
         CodAux = 0;
     }    
@@ -171,6 +174,7 @@ public class TelaProdutoController implements Initializable {
                     a.setTitle("Alerta");
                     a.showAndWait();
                 }
+                adcProd(true);
             }
             else{
                 p.setPro_cod(CodAux);
@@ -191,6 +195,7 @@ public class TelaProdutoController implements Initializable {
                     a.setTitle("Alerta");
                     a.showAndWait();
                 }
+                adcProd(true);
             }
         }
         
@@ -345,7 +350,8 @@ public class TelaProdutoController implements Initializable {
     private void CarregaCBFiltro(){
         ObservableList<String> itens;
         itens = FXCollections.observableArrayList();
-
+        
+        itens.add("Filtro");
         itens.add("Produto");
         itens.add("Preço");
         itens.add("Quantidade");
@@ -357,6 +363,7 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private void CancelarProduto(ActionEvent event) {
         LimpaTelaCadastro();
+        adcProd(true);
     }
 
     @FXML
@@ -369,9 +376,9 @@ public class TelaProdutoController implements Initializable {
         txQtdEstoque.setText(""+linha.getPro_quantidade());
         int index = cbCategoria.getItems().indexOf(linha.getCat_cod());
         cbCategoria.getSelectionModel().select(index);
+        adcProd(false);
     }
 
-    @FXML
     private void CancelarFiltro(ActionEvent event) throws SQLException {
         LimpaTelaTabela();
         if(!CarregaTabela()){
@@ -381,56 +388,6 @@ public class TelaProdutoController implements Initializable {
             a.setTitle("Alerta");
             a.showAndWait();
         }
-    }
-    @FXML
-    private void FiltrarProduto(ActionEvent event) throws SQLException {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        DALProduto dal = new DALProduto();
-        if(cbFiltro.getSelectionModel().getSelectedItem() == "Produto")
-        {
-            if(CarregaTabelaProduto())
-                LimpaTelaTabela();
-            else{
-                    a.setContentText("Impossível Filtrar Fornecedor");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-        }
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Preço")
-            {
-                if(CarregaTabelaPreco())
-                LimpaTelaTabela();
-            else{
-                    a.setContentText("Impossível Filtrar Fornecedor");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-            }
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Quantidade")
-            {
-                if(CarregaTabelaQtd())
-                LimpaTelaTabela();
-            else{
-                    a.setContentText("Impossível Filtrar Fornecedor");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-            }
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Categoria")
-            {
-                if(CarregaTabelaCategoria())
-                LimpaTelaTabela();
-            else{
-                    a.setContentText("Impossível Filtrar Fornecedor");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-            }
-            
     }
 
     @FXML
@@ -471,5 +428,72 @@ public class TelaProdutoController implements Initializable {
         
         Stage stage = (Stage) btExit.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void FiltrarProduto(KeyEvent event) throws SQLException {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        DALProduto dal = new DALProduto();
+        if(cbFiltro.getSelectionModel().getSelectedItem() == "Produto")
+        {
+            if(!CarregaTabelaProduto()){
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+        }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Preço")
+            {
+                if(!CarregaTabelaPreco())
+                {
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Quantidade")
+            {
+                if(!CarregaTabelaQtd())
+                {
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Categoria")
+            {
+                if(!CarregaTabelaCategoria())
+                {
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Filtro")
+            CarregaTabela();
+            
+    }
+    
+    private void adcProd(boolean b){
+        txNomeProduto.setDisable(b);
+        txPreco.setDisable(b);
+        txQtdEstoque.setDisable(b);
+        cbCategoria.setDisable(b);
+        
+        btSalvarProduto.setDisable(!b);
+        btRemoverProduto.setDisable(!b);
+        btEditarFornecedor.setDisable(!b);
+        
+        btaddProduto.setDisable(b);
+        btCancelarProduto.setDisable(b);        
+    }
+
+    @FXML
+    private void NovoProd(ActionEvent event) {
+        adcProd(false);
     }
 }
