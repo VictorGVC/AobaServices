@@ -8,21 +8,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.swing.JOptionPane;
 import malucismanagement.db.banco.Banco;
+import malucismanagement.db.dal.DALFuncionario;
+import malucismanagement.db.dal.DALParametrizacao;
 
 public class MalucisManagement extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
+        Parent root = null;
         
-        Parent root = FXMLLoader.load(getClass().getResource("TelaPrincipal.fxml"));
+        
+        DALFuncionario dalf = new DALFuncionario();
+        DALParametrizacao dalp = new DALParametrizacao();
+        if(dalf.getL("").isEmpty())
+            root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
+        else
+            root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
         Scene scene = new Scene(root);
-        
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setScene(scene);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Papelaria Maluci");
-        stage.setMaximized(true);
+        stage.setMaximized(false);
         stage.show();
     }
 
@@ -46,5 +56,38 @@ public class MalucisManagement extends Application {
             }
             System.exit(0);
         }
+    }
+    
+    private void chamaLogin() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    private void chamaConfig() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    private void chamaCadastroF() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
     }
 }
