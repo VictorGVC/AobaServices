@@ -17,6 +17,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import malucismanagement.db.dal.DALFornecedores;
@@ -45,9 +46,7 @@ public class TelaFornecedorController implements Initializable {
     private JFXButton btCancelarFornecedor;
     @FXML
     private JFXButton btEditarFornecedor;
-    @FXML
     private JFXButton btCancelarFiltro;
-    @FXML
     private JFXButton btFiltrarFornecedor;
     @FXML
     private JFXComboBox<String> cbFiltro;
@@ -78,6 +77,8 @@ public class TelaFornecedorController implements Initializable {
     private AnchorPane pnprincipal;
     @FXML
     private AnchorPane pnsecundario;
+    @FXML
+    private JFXButton btAddFornecedor;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MaskFieldUtil.cnpjField(txCNPJ);
@@ -97,6 +98,7 @@ public class TelaFornecedorController implements Initializable {
         }
         CarregaCBFiltro();
         LimpaTelaCadastro();
+        Estado(true);
     }
     
     private void initColumn(){
@@ -180,7 +182,8 @@ public class TelaFornecedorController implements Initializable {
     private void CarregaCBFiltro(){
         ObservableList<String> itens;
         itens = FXCollections.observableArrayList();
-
+        
+        itens.add("Filtro");
         itens.add("Fornecedor");
         itens.add("CNPJ");
         itens.add("IE");
@@ -249,6 +252,7 @@ public class TelaFornecedorController implements Initializable {
                     a.setTitle("Alerta");
                     a.showAndWait();
                 }
+                Estado(true);
             }  
             else
             {
@@ -268,6 +272,7 @@ public class TelaFornecedorController implements Initializable {
                     a.setTitle("Alerta");
                     a.showAndWait();
                 }
+                Estado(true);
             }
             
         }
@@ -276,6 +281,7 @@ public class TelaFornecedorController implements Initializable {
     @FXML
     private void CancelarFornecedor(ActionEvent event) {
         LimpaTelaCadastro();
+        Estado(true);
     }
 
     @FXML
@@ -288,9 +294,9 @@ public class TelaFornecedorController implements Initializable {
         txIE.setText(""+linha.getFor_inscestadual());
         txTelefone.setText(""+linha.getFor_telefone());
         txTipo.setText(""+linha.getFor_tipo());
+        Estado(false);
     }
 
-    @FXML
     private void CancelarFiltro(ActionEvent event) {
         LimpaTelaTabela();
         if(!CarregaTabelaFornecedor()){
@@ -408,78 +414,6 @@ public class TelaFornecedorController implements Initializable {
     }
 
     @FXML
-    private void FiltrarFornecedor(ActionEvent event) {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        DALFornecedores dal = new DALFornecedores();
-        if(cbFiltro.getSelectionModel().getSelectedItem() == "Fornecedor")
-        {
-            if(CarregaTabelaFornecedorNome())
-                LimpaTelaTabela();
-            else{
-                    a.setContentText("Impossível Filtrar Fornecedor");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-            }            
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "CNPJ")
-            {
-                if(CarregaTabelaCNPJ())
-                    LimpaTelaTabela();
-                else{
-                        a.setContentText("Impossível Filtrar Fornecedor");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-            }
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "IE")
-            {
-                if(CarregaTabelaIE())
-                    LimpaTelaTabela();
-                else{
-                        a.setContentText("Impossível Filtrar Fornecedor");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-            }
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Telefone")
-            {
-                if(CarregaTabelaTelefone())
-                    LimpaTelaTabela();
-                else{
-                        a.setContentText("Impossível Filtrar Fornecedor");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-            }
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Email")
-            {
-                if(CarregaTabelaEmail())
-                    LimpaTelaTabela();
-                else{
-                        a.setContentText("Impossível Filtrar Fornecedor");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-            }
-        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Tipo")
-            {
-                if(CarregaTabelaTipo())
-                    LimpaTelaTabela();
-                else{
-                        a.setContentText("Impossível Filtrar Fornecedor");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-            }
-    }
-
-    @FXML
     private void RemoverFornecedor(ActionEvent event) {
         DALFornecedores dal = new DALFornecedores();
         Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -515,6 +449,95 @@ public class TelaFornecedorController implements Initializable {
     private void clkbtExit(ActionEvent event) {
         Stage stage = (Stage) btExit.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void FiltrarFornecedor(KeyEvent event) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        DALFornecedores dal = new DALFornecedores();
+        if(cbFiltro.getSelectionModel().getSelectedItem() == "Fornecedor")
+        {
+            if(!CarregaTabelaFornecedorNome())
+              {
+                    a.setContentText("Impossível Filtrar Fornecedor");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }            
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "CNPJ")
+            {
+                if(!CarregaTabelaCNPJ())
+                    {
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+            }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "IE")
+            {
+                if(!CarregaTabelaIE())
+                    {
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+            }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Telefone")
+            {
+                if(!CarregaTabelaTelefone())
+                    {
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+            }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Email")
+            {
+                if(!CarregaTabelaEmail())
+                    {
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+            }
+        else if(cbFiltro.getSelectionModel().getSelectedItem() == "Tipo")
+            {
+                if(!CarregaTabelaTipo())
+                    {
+                        a.setContentText("Impossível Filtrar Fornecedor");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+            }
+        else
+            CarregaTabelaFornecedor();
+    }
+    
+    private void Estado(boolean b){
+        txCNPJ.setDisable(b);
+        txEmail.setDisable(b);
+        txIE.setDisable(b);
+        txNomeForcenedor.setDisable(b);
+        txTelefone.setDisable(b);
+        txTipo.setDisable(b);
+        
+        btAddFornecedor.setDisable(b);
+        btCancelarFornecedor.setDisable(b);
+        
+        btSalvarFonecedor.setDisable(!b);
+        btRemoverFornecedor.setDisable(!b);
+        btEditarFornecedor.setDisable(!b);
+    }
+
+    @FXML
+    private void NovoFornecedor(ActionEvent event) {
+        Estado(false);
     }
     
 }
