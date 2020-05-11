@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -73,6 +74,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
+            <Label layoutX="630.0" layoutY="193.0" text="* Campos Obrigatorios" />
 
          </children>
       </AnchorPane>
