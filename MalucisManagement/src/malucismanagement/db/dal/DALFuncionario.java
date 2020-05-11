@@ -73,7 +73,7 @@ public class DALFuncionario {
         if(valida(usua,senhaa))
         {
             ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
-                + "WHERE log_usuario ='" + f.getLogin()+"'");
+                + "WHERE log_usuario ='" + f.getLogin()+"' AND cli_id != '"+f.getCpf()+"'");
             int cont = 0;
             try{
 
@@ -118,8 +118,10 @@ public class DALFuncionario {
             
         }
         
-        
-        return Banco.getCon().manipular(sql);
+        if(sql == null)
+            return false;
+        else
+            return Banco.getCon().manipular(sql);
     }
     
     public boolean apagar(Funcionario f) 
