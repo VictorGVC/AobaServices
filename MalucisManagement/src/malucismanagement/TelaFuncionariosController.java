@@ -37,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -147,6 +148,12 @@ public class TelaFuncionariosController implements Initializable {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+    
+    private void setCorAlert(JFXTextField tf, String cor)
+    {    
+        tf.setFocusColor(Paint.valueOf(cor));
+        tf.setUnFocusColor(Paint.valueOf(cor));
     }
     
     @Override
@@ -381,19 +388,20 @@ public class TelaFuncionariosController implements Initializable {
                 DALFuncionario dal = new DALFuncionario();
                 Funcionario f;
                 f = tvclientes.getSelectionModel().getSelectedItem();
-                if(dal.apagar(f)){
-                    
+                String result = dal.apagar(f);
+                if(result.isEmpty())
+                {    
                     JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Excluído com Sucesso!")));
                 }
-                else{
-                    
+                else
+                { 
                     a.setAlertType(Alert.AlertType.ERROR);
                     a.getButtonTypes().clear();
                     a.getButtonTypes().add(ButtonType.OK);
                     a.setHeaderText("ERRO");
                     a.setTitle("ERRO!");
-                    a.setContentText("Exclusão não realizada!");
+                    a.setContentText(result);
                     a.showAndWait();
                 }
                 carregaTabela("");
@@ -408,10 +416,22 @@ public class TelaFuncionariosController implements Initializable {
             a.showAndWait();
         }
     }
+    private void setCorNormal()
+    {
+        setCorAlert(ttelefone, "BLACK");
+        setCorAlert(tcidade, "BLACK");
+        setCorAlert(tcep, "BLACK");
+        setCorAlert(tcpf, "BLACK");
+        setCorAlert(temail, "BLACK");
+        setCorAlert(tnome, "BLACK");
+        setCorAlert(tuf, "BLACK");
+        setCorAlert(txlogin, "BLACK");
+    }
 
     @FXML
     private void clkBtConfirmar(ActionEvent event) 
     {
+        setCorNormal();
         String id;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
@@ -421,6 +441,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(tcpf,"RED");
             tcpf.requestFocus();
         }
         else if(tnome.getText().isEmpty())
@@ -429,6 +450,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(tnome,"RED");
             tnome.requestFocus();
         }
         else if(cbsexo.getSelectionModel().getSelectedIndex() == -1)
@@ -453,6 +475,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(temail,"RED");
             temail.requestFocus();
         }
         else if(ttelefone.getText().isEmpty())
@@ -461,6 +484,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(ttelefone,"RED");
             ttelefone.requestFocus();
         }
         else if(tcep.getText().isEmpty())
@@ -469,6 +493,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(tcep,"RED");
             tcep.requestFocus();
         }
         else if(tcidade.getText().isEmpty())
@@ -477,6 +502,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(tcidade,"RED");
             tcidade.requestFocus();
         }
         else if(tuf.getText().isEmpty())
@@ -485,6 +511,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(tuf,"RED");
             tuf.requestFocus();
         }
         else if(txlogin.getText().isEmpty())
@@ -493,6 +520,7 @@ public class TelaFuncionariosController implements Initializable {
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
+            setCorAlert(txlogin,"RED");
             txlogin.requestFocus();
         }
         else if(txsenha.getText().isEmpty())
@@ -546,7 +574,8 @@ public class TelaFuncionariosController implements Initializable {
                     a.getButtonTypes().add(ButtonType.NO);
                     if(a.showAndWait().get() == ButtonType.YES)
                     {
-                        if (dal.adaptaCliente(f,txsenha.getText()))
+                        String result = dal.adaptaCliente(f,txsenha.getText());
+                        if (result.isEmpty())
                         {
                             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
                             sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
@@ -559,30 +588,37 @@ public class TelaFuncionariosController implements Initializable {
                         {
                             a.getButtonTypes().clear();
                             a.getButtonTypes().add(ButtonType.OK);
-                            a.setContentText("Problemas ao Gravar!");
+                            a.setContentText(result);
                             a.showAndWait();
                         }
                     }
                 }
-                else if (dal.gravar(f,txsenha.getText()))
+                else 
                 {
-                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
-                    estado(true);
-                    limparCampos();
-                    pnpesquisa.setDisable(false);
-                    carregaTabela("");
+                    String result = dal.gravar(f,txsenha.getText());
+                    if (result.isEmpty())
+                    {
+                        JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                        sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
+                        estado(true);
+                        limparCampos();
+                        pnpesquisa.setDisable(false);
+                        carregaTabela("");
+                    }
+                    else
+                    {
+                        a.getButtonTypes().clear();
+                        a.getButtonTypes().add(ButtonType.OK);
+                        a.setContentText(result);
+                        a.showAndWait();
+                    }
                 }
-                else
-                {
-                    a.getButtonTypes().clear();
-                    a.getButtonTypes().add(ButtonType.OK);
-                    a.setContentText("Problemas ao Gravar!");
-                    a.showAndWait();
-                }
+                
             }
             else
-                if (dal.alterar(f,txsenha.getText(),txsenhan.getText(),getUsuario(),getCpf()))
+            {
+                String result = dal.alterar(f,txsenha.getText(),txsenhan.getText(),getUsuario(),getCpf());
+                if (result.isEmpty())
                 {
                     JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
@@ -593,9 +629,10 @@ public class TelaFuncionariosController implements Initializable {
                 }
                 else
                 {
-                    a.setContentText("Problemas ao Alterar!");
+                    a.setContentText(result);
                     a.showAndWait();
                 }
+            }
         }
         
     }
@@ -747,13 +784,34 @@ public class TelaFuncionariosController implements Initializable {
     @FXML
     private void clkBtAtivar(ActionEvent event) 
     {
+        String result;
         if(tvclientes.getSelectionModel().getSelectedIndex() != -1)
         {
             DALFuncionario dal = new DALFuncionario();
             if(getAtivo() == 'S')
-                dal.desativar(tvclientes.getSelectionModel().getSelectedItem());
+            {
+                result = dal.desativar(tvclientes.getSelectionModel().getSelectedItem());
+            
+                if(result.isEmpty())
+                {
+                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Desativado com sucesso!")));
+                }
+                else
+                {
+                    Alert a = new Alert(Alert.AlertType.WARNING);
+                    a.setContentText(result);
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
             else
+            {
                 dal.ativar(tvclientes.getSelectionModel().getSelectedItem());
+                JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Ativado com sucesso!")));
+            }
             carregaTabela("");
         }
         else

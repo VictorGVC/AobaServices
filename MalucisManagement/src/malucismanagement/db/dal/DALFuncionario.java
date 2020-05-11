@@ -24,54 +24,127 @@ public class DALFuncionario {
         return dalc.getCli(f.getCpf()) != null;
     }
     
-    public boolean adaptaCliente(Funcionario f, String senha)
+    public String adaptaCliente(Funcionario f, String senha)
     {
-        String sql = "INSERT INTO Login(log_usuario, cli_id, log_nivel, log_senha, log_ativo)"
-                + "VALUES ('#1','#2',#3,'#4', 'S');";
-        sql = sql.replaceAll("#1", "" + f.getLogin());
-        sql = sql.replaceAll("#2", "" + f.getCpf());
-        sql = sql.replaceAll("#3", "" + f.getNivel());
-        sql = sql.replaceAll("#4", "" + senha);
-        
-        return Banco.getCon().manipular(sql);
-    }
-    
-    public boolean gravar(Funcionario f, String senha) 
-    {
-        
         String sql = "";
-        sql = "INSERT INTO Cliente(cli_id, cli_nome, cli_sexo, cli_datanasc, cli_email, cli_fone, "
-            + "cli_cep, cli_rua, cli_numero, cli_bairro, cli_cidade, cli_uf) "
-            + "VALUES ('#1','#2','#3','#4','#5','#6','#7','#8','#9','&1','&2','&3'); ";
+        int cont = 0;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
+            + "WHERE cli_id = '"+f.getCpf()+"'");
+        try{
 
-        sql = sql.replaceAll("#1", "" + f.getCpf());
-        sql = sql.replaceAll("#2", "" + f.getNome());
-        sql = sql.replaceAll("#3", "" + f.getSexo());
-        sql = sql.replaceAll("#4", "" + f.getDatanasc().toString());
-        sql = sql.replaceAll("#5", "" + f.getEmail());
-        sql = sql.replaceAll("#6", "" + f.getTelefone());
-        sql = sql.replaceAll("#7", "" + f.getCep());
-        sql = sql.replaceAll("#8", "" + f.getRua());
-        sql = sql.replaceAll("#9", "" + f.getNumero());
-        sql = sql.replaceAll("&1", "" + f.getBairro());
-        sql = sql.replaceAll("&2", "" + f.getCidade());
-        sql = sql.replaceAll("&3", "" + f.getUf());
+            if(rs.next())
+                cont++;
+        } 
+        catch(SQLException ex) 
+        {
+            System.out.println(ex);
+        }
+        if(cont == 0)
+        {
+            rs = Banco.getCon().consultar("SELECT * FROM Login "
+            + "WHERE log_usuario = '"+f.getLogin()+"' AND cli_id != '"+f.getCpf()+"'");
+            try{
+
+                if(rs.next())
+                    cont++;
+            } 
+            catch(SQLException ex) 
+            {
+                System.out.println(ex);
+            }
+            if(cont == 0)
+            {
+                sql = "INSERT INTO Login(log_usuario, cli_id, log_nivel, log_senha, log_ativo)"
+                        + "VALUES ('#1','#2',#3,'#4', 'S');";
+                sql = sql.replaceAll("#1", "" + f.getLogin());
+                sql = sql.replaceAll("#2", "" + f.getCpf());
+                sql = sql.replaceAll("#3", "" + f.getNivel());
+                sql = sql.replaceAll("#4", "" + senha);
+            }
+            else
+                return "Login já existe, tente outro";
+        }
+        else
+            return "Funcionário com o CPF informado já cadastrado!";
         
-        sql += "INSERT INTO Login(log_usuario, cli_id, log_nivel, log_senha, log_ativo)"
-                + "VALUES ('#1','#2',#3,'#4', 'S');";
-        sql = sql.replaceAll("#1", "" + f.getLogin());
-        sql = sql.replaceAll("#2", "" + f.getCpf());
-        sql = sql.replaceAll("#3", "" + f.getNivel());
-        sql = sql.replaceAll("#4", "" + senha);
+        if(Banco.getCon().manipular(sql))
+            return "";
         
-        return Banco.getCon().manipular(sql);
+        return "Erro ao gravar!";
     }
     
-    public boolean alterar(Funcionario f,String senhaa, String senhan,String usua, String cpfa) 
+    public String gravar(Funcionario f, String senha) 
     {
-        String sql = null;
+        String sql = "";
+        int cont = 0;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
+            + "WHERE cli_id = '"+f.getCpf()+"'");
+        try{
+
+            if(rs.next())
+                cont++;
+        } 
+        catch(SQLException ex) 
+        {
+            System.out.println(ex);
+        }
+        if(cont == 0)
+        {
+            rs = Banco.getCon().consultar("SELECT * FROM Login "
+            + "WHERE log_usuario = '"+f.getLogin()+"' AND cli_id != '"+f.getCpf()+"'");
+            try{
+
+                if(rs.next())
+                    cont++;
+            } 
+            catch(SQLException ex) 
+            {
+                System.out.println(ex);
+            }
+            if(cont == 0)
+            {
+                sql = "INSERT INTO Cliente(cli_id, cli_nome, cli_sexo, cli_datanasc, cli_email, cli_fone, "
+                + "cli_cep, cli_rua, cli_numero, cli_bairro, cli_cidade, cli_uf) "
+                + "VALUES ('#1','#2','#3','#4','#5','#6','#7','#8','#9','&1','&2','&3'); ";
+
+                sql = sql.replaceAll("#1", "" + f.getCpf());
+                sql = sql.replaceAll("#2", "" + f.getNome());
+                sql = sql.replaceAll("#3", "" + f.getSexo());
+                sql = sql.replaceAll("#4", "" + f.getDatanasc().toString());
+                sql = sql.replaceAll("#5", "" + f.getEmail());
+                sql = sql.replaceAll("#6", "" + f.getTelefone());
+                sql = sql.replaceAll("#7", "" + f.getCep());
+                sql = sql.replaceAll("#8", "" + f.getRua());
+                sql = sql.replaceAll("#9", "" + f.getNumero());
+                sql = sql.replaceAll("&1", "" + f.getBairro());
+                sql = sql.replaceAll("&2", "" + f.getCidade());
+                sql = sql.replaceAll("&3", "" + f.getUf());
+
+                sql += "INSERT INTO Login(log_usuario, cli_id, log_nivel, log_senha, log_ativo)"
+                        + "VALUES ('#1','#2',#3,'#4', 'S');";
+                sql = sql.replaceAll("#1", "" + f.getLogin());
+                sql = sql.replaceAll("#2", "" + f.getCpf());
+                sql = sql.replaceAll("#3", "" + f.getNivel());
+                sql = sql.replaceAll("#4", "" + senha);
+            }
+            else
+                return "Login já cadastrado, tente outro";
+        }
+        else
+            return "Funcionário com o CPF informado já cadastrado!";
+        
+        if(Banco.getCon().manipular(sql))
+            return "";
+        
+        return "Erro ao Gravar";
+    }
+    
+    public String alterar(Funcionario f,String senhaa, String senhan,String usua, String cpfa) 
+    {
+        String sql = "";
         if(valida(usua,senhaa))
         {
+            
             ResultSet rs = Banco.getCon().consultar("SELECT * FROM Login "
                 + "WHERE log_usuario ='" + f.getLogin()+"' AND cli_id != '"+f.getCpf()+"'");
             int cont = 0;
@@ -115,16 +188,16 @@ public class DALFuncionario {
                 sql = sql.replaceAll("&2", "" + f.getUf());
                 sql = sql.replaceAll("&3", "" + f.getCpf());
             }
-            
+            else
+                return "Login já utilizado, tente outro!";    
         }
+        if(Banco.getCon().manipular(sql))
+            return "";
         
-        if(sql == null)
-            return false;
-        else
-            return Banco.getCon().manipular(sql);
+        return "Erro ao alterar!";
     }
     
-    public boolean apagar(Funcionario f) 
+    public String apagar(Funcionario f) 
     {
         if(f.getNivel() == 0)
         {
@@ -141,15 +214,20 @@ public class DALFuncionario {
                 System.out.println(ex);
             }
             if(cont > 0)
-                return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario='" + f.getLogin() + "'");
+            {
+                if(Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario='" + f.getLogin() + "'"))
+                    return "";
+            }   
             else 
-                return false;
+                return "Impossível Apagar o único usuário administrativo ativo";
         }
-        else
-            return Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario='" + f.getLogin() + "'");
+        if(Banco.getCon().manipular("DELETE FROM Login WHERE log_usuario='" + f.getLogin() + "'"))
+            return "";
+        
+        return "Erro ao Excluir";
     }
     
-    public boolean desativar(Funcionario f) 
+    public String desativar(Funcionario f) 
     {    
         if(f.getNivel() == 0)
         {
@@ -166,12 +244,17 @@ public class DALFuncionario {
                 System.out.println(ex);
             }
             if(cont > 0)
-                return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'");
+            {
+                if(Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'"))
+                    return "";
+            }
             else 
-                return false;
+                return "Impossível desativar o único usuário administrativo ativo";
         }
-        else
-            return Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'");
+        else if(Banco.getCon().manipular("UPDATE Login SET log_ativo = 'N' WHERE log_usuario='" + f.getLogin()+"'"))
+            return "";
+        
+        return "Erro ao desativar";
     }
     
     public boolean ativar(Funcionario f) 
