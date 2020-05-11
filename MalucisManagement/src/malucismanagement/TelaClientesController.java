@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -22,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
@@ -89,6 +92,8 @@ public class TelaClientesController implements Initializable {
     @FXML
     private JFXTextField tuf;
     @FXML
+    private Label lbobg;
+    @FXML
     private VBox pnpesquisa;
     @FXML
     private Pane pnfiltros;
@@ -115,8 +120,9 @@ public class TelaClientesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         fadeout();
-        setMascaras();
+        fixaDivider();
         setParametros();
+        setMascaras();
         initColTb();
         listaSexo();
         listaCategoria();
@@ -130,6 +136,19 @@ public class TelaClientesController implements Initializable {
         ft.setFromValue(0);
         ft.setToValue(1);
         ft.play();
+    }
+    
+    private void fixaDivider(){
+        
+        Divider divider = pnprincipal.getDividers().get(0);
+        divider.positionProperty().addListener(new ChangeListener<Number>() {
+            
+            @Override 
+            public void changed( ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue ) {
+                
+                divider.setPosition(0.52);
+            }
+        });
     }
     
     private void setParametros() {
@@ -166,6 +185,7 @@ public class TelaClientesController implements Initializable {
             tbairro.setFont(new Font(p.getFonte(), 14));
             tcidade.setFont(new Font(p.getFonte(), 14));
             tuf.setFont(new Font(p.getFonte(), 14));
+            lbobg.setFont(new Font(p.getFonte(), 12));
             
             tfiltro.setFont(new Font(p.getFonte(), 14));
         }
@@ -254,6 +274,7 @@ public class TelaClientesController implements Initializable {
         
         List<String> list = new ArrayList();
         
+        list.add("");
         list.add("CPF");
         list.add("Nome");
         list.add("E-Mail");
@@ -319,13 +340,17 @@ public class TelaClientesController implements Initializable {
     private void clkBtApagar(ActionEvent event) {
         
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        
+        ButtonType btsim = new ButtonType("Sim");
+        ButtonType btnao = new ButtonType("Não");
+        ButtonType btok = new ButtonType("Ok");
+
+        a.getButtonTypes().setAll(btsim,btnao);
         if(tvclientes.getSelectionModel().getSelectedIndex() != -1){
             
             a.setHeaderText("Exclusão!");
             a.setTitle("Exclusão");
             a.setContentText("Confirma a exclusão?");
-            if (a.showAndWait().get() == ButtonType.OK){
+            if (a.showAndWait().get() == btsim){
                 
                 DALCliente dal = new DALCliente();
                 Cliente c;
@@ -341,6 +366,7 @@ public class TelaClientesController implements Initializable {
                     a.setHeaderText("ERRO");
                     a.setTitle("ERRO!");
                     a.setContentText("Exclusão não realizada!");
+                    a.getButtonTypes().setAll(btok);
                     a.showAndWait();
                 }
                 carregaTabela("");
@@ -370,8 +396,11 @@ public class TelaClientesController implements Initializable {
             flag = true;
             setCorAlert(tcpf, "RED");
         }
-        else if(!ManipularCpfCnpj.isCpf(tcpf.getText()))
+        if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
+            
+            flag = true;
             setCorAlert(tcpf, "RED");
+        }
         if(tnome.getText().isEmpty()){
             
             flag = true;
@@ -510,8 +539,10 @@ public class TelaClientesController implements Initializable {
     @FXML
     private void evtCpfDigitado(KeyEvent event) {
         
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        
         setCorAlert(tcpf, "BLACK");
-        if(tcpf.getText().length() == 13){
+        if(tcpf.getText().length() >= 13){
             
             Task task = new Task<Void>() {
                 
@@ -521,6 +552,9 @@ public class TelaClientesController implements Initializable {
                     if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
                         
                         setCorAlert(tcpf, "RED");
+                        a.setTitle("Atenção!");
+                        a.setHeaderText("CPF");
+                        a.setContentText("CPF inválido!");
                     }
                     
                     return null;
@@ -569,22 +603,22 @@ public class TelaClientesController implements Initializable {
             
             switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
                 
-                case 0:
-                    carregaTabela("UPPER(cli_cpf) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-                    break;
                 case 1:
-                    carregaTabela("UPPER(cli_nome) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 2:
-                    carregaTabela("UPPER(cli_email) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(cli_nome) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 3:
-                    carregaTabela("UPPER(cli_fone) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(cli_email) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 4:
-                    carregaTabela("UPPER(cli_cep) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabela("UPPER(cli_fone) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 5:
+                    carregaTabela("UPPER(cli_cep) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    break;
+                case 6:
                     carregaTabela("UPPER(cli_rua) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 default:

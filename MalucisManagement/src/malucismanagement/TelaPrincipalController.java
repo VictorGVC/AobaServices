@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import malucismanagement.db.banco.Banco;
+import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;
@@ -69,11 +72,13 @@ public class TelaPrincipalController implements Initializable {
     private Label lbuf;
     @FXML
     private Label lbtelefone;
+    @FXML
+    private VBox pntotal;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-        //chamaLogin();
+    public void initialize(URL url, ResourceBundle rb) 
+    {
+        sessao = TelaLogin_CadastroController.getLogin();
         verificanivel();
         try {
             setParametros();
@@ -81,8 +86,8 @@ public class TelaPrincipalController implements Initializable {
         catch (IOException ex) {}
     }    
 
-    private void setParametros() throws IOException {
-        
+    private void setParametros() throws IOException 
+    {
 //        DALParametrizacao dal = new DALParametrizacao();
 //        Parametrizacao p = dal.getConfig();
 //        BufferedImage bimg = null;
@@ -141,36 +146,19 @@ public class TelaPrincipalController implements Initializable {
     {
         if(sessao.getNivel() == 1)
         {
-            mifuncionario.setDisable(true);
-            mifornecedores.setDisable(true);
+            mifuncionario.setVisible(false);
+            mifornecedores.setVisible(false);
         }
     }
-    
-//    private void chamaLogin()
-//    {
-//        mnbar.setDisable(true);
-//        try 
-//        {    
-//            Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
-//            efeito(true);
-//            DALFuncionario df = new DALFuncionario();
-//            sessao = TelaLogin_CadastroController.getlogin();
-//            pnprincipal.setCenter(root);
-//        }
-//        catch (IOException ex)
-//        {
-//            System.out.println(ex);
-//        }
-//        
-//        mnbar.setDisable(false);
-//    }
 
     @FXML
-    private void clkChamaLogin(ActionEvent event) throws IOException {
-        
+    private void clkChamaLogin(ActionEvent event) throws IOException 
+    {
+        Stage stage = (Stage) mnbar.getScene().getWindow();
+        stage.close();
         Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = new Stage();
+        stage = new Stage();
         
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
@@ -178,8 +166,8 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clkConfiguracoes(ActionEvent event) throws IOException {
-        
+    private void clkConfiguracoes(ActionEvent event) throws IOException 
+    {
         Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -190,8 +178,8 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clkOpenFuncionarios(ActionEvent event) throws IOException {
-        
+    private void clkOpenFuncionarios(ActionEvent event) throws IOException 
+    {
         Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -202,8 +190,8 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clkOpenClientes(ActionEvent event) throws IOException {
-        
+    private void clkOpenClientes(ActionEvent event) throws IOException 
+    {
         Parent root = FXMLLoader.load(getClass().getResource("TelaClientes.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -214,8 +202,8 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clkOpenFornecedores(ActionEvent event) throws IOException {
-        
+    private void clkOpenFornecedores(ActionEvent event) throws IOException 
+    {
         Parent root = FXMLLoader.load(getClass().getResource("TelaFornecedor.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -226,8 +214,8 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
-    private void clkOpenProduto(ActionEvent event) throws IOException {
-        
+    private void clkOpenProduto(ActionEvent event) throws IOException 
+    {
         Parent root = FXMLLoader.load(getClass().getResource("TelaProduto.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -238,14 +226,14 @@ public class TelaPrincipalController implements Initializable {
     }
     
     @FXML
-    private void clkBackup(ActionEvent event) {
-        
+    private void clkBackup(ActionEvent event) 
+    {
         Banco.realizaBackupRestauracao("backup.bat");
     }
 
     @FXML
-    private void clkRestore(ActionEvent event) {
-        
+    private void clkRestore(ActionEvent event) 
+    {
         Banco.realizaBackupRestauracao("restore.bat");
     }
 }

@@ -63,12 +63,12 @@ public class DALCliente {
     public Cliente getCli(String id) {
         
         Cliente aux = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Cliente WHERE cli_id=" + id);
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Cliente WHERE cli_id='" + id + "'");
         
         try{
             
             if(rs.next())
-                aux = new Cliente(rs.getInt("cli_numero"),(Character)rs.getObject("cli_sexo"),
+                aux = new Cliente(rs.getInt("cli_numero"),rs.getString("cli_sexo").charAt(0),
                         rs.getString("cli_nome"),rs.getString("cli_id"),rs.getString("cli_email"),
                         rs.getString("cli_fone"),rs.getString("cli_cep"),rs.getString("cli_rua"),
                         rs.getString("cli_bairro"),rs.getString("cli_cidade"),rs.getString("cli_uf"),
