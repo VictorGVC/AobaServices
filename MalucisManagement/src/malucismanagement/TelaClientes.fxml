@@ -28,13 +28,13 @@
             </HBox>
             <Pane fx:id="pndados" prefHeight="228.0" prefWidth="798.0">
                <children>
-                  <JFXTextField fx:id="tcpf" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="21.0" prefHeight="32.0" prefWidth="171.0" promptText="CPF *" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="tcpf" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="21.0" onKeyTyped="#evtCpfDigitado" prefHeight="32.0" prefWidth="171.0" promptText="CPF *" unFocusColor="BLACK" />
                   <JFXTextField fx:id="tnome" focusColor="BLACK" labelFloat="true" layoutX="197.0" layoutY="21.0" prefHeight="32.0" prefWidth="250.0" promptText="Nome *" unFocusColor="BLACK" />
                   <JFXTextField fx:id="temail" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="75.0" prefHeight="32.0" prefWidth="250.0" promptText="E-Mail *" unFocusColor="BLACK" />
                   <JFXComboBox fx:id="cbsexo" focusColor="BLACK" labelFloat="true" layoutX="283.0" layoutY="75.0" prefHeight="32.0" prefWidth="145.0" promptText="Sexo *" unFocusColor="BLACK" />
                   <JFXDatePicker fx:id="dpdatanasc" defaultColor="BLACK" layoutX="447.0" layoutY="75.0" prefHeight="32.0" prefWidth="155.0" promptText="Data de Nacimento" />
                   <JFXTextField fx:id="ttelefone" focusColor="BLACK" labelFloat="true" layoutX="613.0" layoutY="75.0" prefHeight="32.0" prefWidth="171.0" promptText="Telefone *" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="tcep" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="128.0" onKeyTyped="#evtBotaoDigitado" prefHeight="32.0" prefWidth="171.0" promptText="CEP *" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="tcep" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="128.0" onKeyTyped="#evtCepDigitado" prefHeight="32.0" prefWidth="171.0" promptText="CEP *" unFocusColor="BLACK" />
                   <JFXTextField fx:id="trua" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="184.0" prefHeight="32.0" prefWidth="300.0" promptText="Rua *" unFocusColor="BLACK" />
                   <JFXTextField fx:id="tnumero" focusColor="BLACK" labelFloat="true" layoutX="320.0" layoutY="184.0" prefHeight="32.0" prefWidth="55.0" promptText="Numero *" unFocusColor="BLACK" />
                   <JFXTextField fx:id="tbairro" focusColor="BLACK" labelFloat="true" layoutX="385.0" layoutY="184.0" prefHeight="32.0" prefWidth="162.0" promptText="Bairro *" unFocusColor="BLACK" />
