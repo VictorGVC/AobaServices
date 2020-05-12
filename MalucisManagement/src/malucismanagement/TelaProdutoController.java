@@ -290,16 +290,15 @@ public class TelaProdutoController implements Initializable {
             txPesquisar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txPreco.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txQtdEstoque.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbCategoria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbFiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
-            btCancelarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btSalvarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btEditarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btRemoverProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btSalvarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btaddProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btCancelarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btExit.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
             lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            
         }
         if(p.getCorfonte() != null){
            
@@ -307,13 +306,13 @@ public class TelaProdutoController implements Initializable {
             txPreco.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txPreco.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txPesquisar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            cbCategoria.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            cbFiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            btCancelarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btSalvarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btEditarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btRemoverProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btSalvarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btaddProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btCancelarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btExit.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     } 
     
