@@ -587,8 +587,10 @@ public class TelaFuncionariosController implements Initializable {
                 sexo = 'M';
             else if(cbsexo.getSelectionModel().getSelectedIndex() == 1)
                 sexo = 'F';
-                    
-            Funcionario f = new Funcionario(Integer.parseInt(tnumero.getText()), sexo, 
+            int num = -1;
+            if(tnumero.getText() != "")
+                num = Integer.parseInt(tnumero.getText());
+            Funcionario f = new Funcionario(num, sexo, 
                     tnome.getText(), id, temail.getText(), ttelefone.getText(), tcep.getText(),
                     trua.getText(), tbairro.getText(), tcidade.getText(), tuf.getText(), txlogin.getText(), 
                     dpdatanasc.getValue(), 
