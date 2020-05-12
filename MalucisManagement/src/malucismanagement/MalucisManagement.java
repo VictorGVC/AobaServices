@@ -24,58 +24,62 @@ public class MalucisManagement extends Application {
         DALFuncionario dalf = new DALFuncionario();
         DALParametrizacao dalp = new DALParametrizacao();
         
-        if(dalf.getL("").isEmpty())
+        if(dalf.getL("").isEmpty()){
+            
             root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
-        else
+            stage.initStyle(StageStyle.UNDECORATED);
+        }
+        else{
+            
             root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+            stage.setTitle("Login");
+        }
         
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Login");
-        stage.setMaximized(false);
         stage.show();
     }
     
-    private void chamaLogin() throws IOException
-    {
+    private void chamaLogin() throws IOException {
+        
         Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
-        stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Login");
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(scene);
         stage.show();
     }
     
-    private void chamaConfig() throws IOException
-    {
+    private void chamaConfig() throws IOException {
+        
         Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
         stage.setScene(scene);
-        stage.setTitle("Configurações");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
     
-    private void chamaCadastroF() throws IOException
-    {
+    private void chamaCadastroF() throws IOException {
+        
         Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
         stage.setScene(scene);
-        stage.setTitle("Login");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 
     public static void main(String[] args) {
+        
         if(Banco.conectar())
             launch(args);
         else

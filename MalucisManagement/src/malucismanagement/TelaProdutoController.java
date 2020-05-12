@@ -230,7 +230,7 @@ public class TelaProdutoController implements Initializable {
         
     }
     
-    private void LimpaTelaCadastro(){
+    private void LimpaTelaCadastro() {
         
         txNomeProduto.clear();
         txPreco.clear();
@@ -240,13 +240,13 @@ public class TelaProdutoController implements Initializable {
         flag = true;
     }
     
-    private void LimpaTelaTabela(){
+    private void LimpaTelaTabela() {
         
         txPesquisar.clear();
         cbFiltro.getSelectionModel().clearSelection();
     }
     
-    private void initColumn(){
+    private void initColumn() {
         
         ColCat.setCellValueFactory(new PropertyValueFactory("cat_cod"));
         ColCod.setCellValueFactory(new PropertyValueFactory("pro_cod"));
@@ -255,7 +255,7 @@ public class TelaProdutoController implements Initializable {
         ColQtd.setCellValueFactory(new PropertyValueFactory("pro_quantidade"));
     }
     
-    private boolean CarregaTabela() throws SQLException{
+    private boolean CarregaTabela() throws SQLException {
         
         boolean executar = true;
        
@@ -279,6 +279,7 @@ public class TelaProdutoController implements Initializable {
         if(p.getCorprimaria() != null){
             
             pnsecundario.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            tvProdutos.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
@@ -316,7 +317,7 @@ public class TelaProdutoController implements Initializable {
         }
     } 
     
-    private boolean CarregaTabelaProduto(){
+    private boolean CarregaTabelaProduto() {
         
         boolean executar = true;
        
@@ -332,7 +333,7 @@ public class TelaProdutoController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaPreco(){
+    private boolean CarregaTabelaPreco() {
         
         boolean executar = true;
        
@@ -348,7 +349,7 @@ public class TelaProdutoController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaQtd(){
+    private boolean CarregaTabelaQtd() {
         
         boolean executar = true;
        
@@ -364,7 +365,7 @@ public class TelaProdutoController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaCategoria() throws SQLException{
+    private boolean CarregaTabelaCategoria() throws SQLException {
         
         boolean executar = true;
        
@@ -380,7 +381,7 @@ public class TelaProdutoController implements Initializable {
         return executar;
     }
     
-    private void CarregaCBFiltro(){
+    private void CarregaCBFiltro() {
         
         ObservableList<String> itens;
         itens = FXCollections.observableArrayList();
@@ -428,7 +429,7 @@ public class TelaProdutoController implements Initializable {
         }
     }
     
-    private void LimpaTxt(){
+    private void LimpaTxt() {
         txNomeProduto.setStyle("-fx-background-color: none;");
         txPreco.setStyle("-fx-background-color: none;");
         txQtdEstoque.setStyle("-fx-background-color: none;");
@@ -525,7 +526,7 @@ public class TelaProdutoController implements Initializable {
             
     }
     
-    private void adcProd(boolean b){
+    private void adcProd(boolean b) {
         
         txNomeProduto.setDisable(b);
         txPreco.setDisable(b);

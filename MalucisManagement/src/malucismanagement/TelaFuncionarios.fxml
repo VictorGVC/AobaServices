@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="pnprincipal" dividerPositions="0.5434782608695652" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaFuncionariosController">
+<SplitPane fx:id="pnprincipal" dividerPositions="0.5434782608695652" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaFuncionariosController">
    <items>
       <VBox prefHeight="317.0" prefWidth="798.0">
          <children>
@@ -27,7 +27,7 @@
                   <JFXButton fx:id="btativdesativ" onAction="#clkBtAtivar" text="Ativar/Desativar" />
                   <JFXButton fx:id="btconfirmar" onAction="#clkBtConfirmar" text="Confirmar" />
                   <JFXButton fx:id="btcancelar" onAction="#clkBtCancelar" text="Cancelar" />
-                  <JFXButton fx:id="btvoltar" onAction="#clkBtVoltar" text="Sair" />
+                  <JFXButton fx:id="btvoltar" onAction="#clkBtVoltar" text="Voltar" />
                </children>
             </HBox>
             <Pane fx:id="pndados" prefHeight="273.0" prefWidth="798.0">
@@ -49,7 +49,7 @@
                   <JFXPasswordField fx:id="txsenha" layoutX="640.0" layoutY="67.0" promptText="* Senha Atual" />
                   <JFXPasswordField fx:id="txsenhan" layoutX="640.0" layoutY="108.0" promptText="Nova Senha" />
                   <JFXComboBox fx:id="cbCargo" layoutX="640.0" layoutY="148.0" prefHeight="25.0" prefWidth="135.0" promptText="* Cargo" />
-                  <Label layoutX="653.0" layoutY="242.0" text="* Campos Obrigatorios" />
+                  <Label fx:id="lbobg" layoutX="653.0" layoutY="242.0" text="* Campos Obrigatorios" textFill="RED" />
                </children>
             </Pane>
          </children>

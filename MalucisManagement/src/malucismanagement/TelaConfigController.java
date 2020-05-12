@@ -36,7 +36,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -100,8 +99,8 @@ public class TelaConfigController implements Initializable {
     private JFXButton btsalvar;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) 
-    {
+    public void initialize(URL url, ResourceBundle rb) {
+        
         pa = false;
         DALParametrizacao dal = new DALParametrizacao();
         Parametrizacao p = dal.getConfig();
@@ -117,6 +116,8 @@ public class TelaConfigController implements Initializable {
         }
         else
             pa = true;
+        if(!pa)
+            btfechar.setVisible(false);
         setMascaras();
         listaFontes();
     }    
@@ -217,8 +218,10 @@ public class TelaConfigController implements Initializable {
         List<String> list = new ArrayList();
         
         list.add("Arial");
-        list.add("Calibri");
         list.add("Times New Roman");
+        list.add("Helvetica");
+        list.add("Calibri");
+        list.add("Tahoma");
         
         cbfonte.setItems(FXCollections.observableArrayList(list));
     }
@@ -333,26 +336,27 @@ public class TelaConfigController implements Initializable {
     private void clkBtFechar(ActionEvent event) {
         
         Stage stage = (Stage) btfechar.getScene().getWindow();
+        
         stage.close();
         if(pa)
-            try 
-            {
+            try {
                 chamaLogin();
             } 
-            catch (IOException ex) 
-            {
+            catch (IOException ex) {
                 System.out.println(ex);
             }
     }
     
-    private void chamaLogin() throws IOException
-    {
+    private void chamaLogin() throws IOException {
+        
         Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Login");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 }

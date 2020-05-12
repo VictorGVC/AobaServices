@@ -45,6 +45,7 @@ import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;
+import malucismanagement.util.ManipularCpfCnpj;
 import malucismanagement.util.MaskFieldUtil;
 import malucismanagement.util.SQLException_Exception;
 import malucismanagement.util.SigepClienteException;
@@ -132,10 +133,12 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btnovo;
     @FXML
     private TableColumn<Funcionario, Integer> colnivel;
+    @FXML
+    private Label lbobg;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) 
-    {
+    public void initialize(URL url, ResourceBundle rb) {
+        
         pa = false;
         fadeout();
         fixaDivider();
@@ -147,12 +150,15 @@ public class TelaFuncionariosController implements Initializable {
         initializeColunas();
         estado(true);
         DALFuncionario dalf = new DALFuncionario();
-        if(dalf.getL("").isEmpty())
+        if(dalf.getL("").isEmpty()){
+            
             pa = true;
+            btvoltar.setText("Sair");
+        }
     }   
     
-    private void fadeout() 
-    {
+    private void fadeout() {
+        
         FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
         
         ft.setFromValue(0);
@@ -160,7 +166,7 @@ public class TelaFuncionariosController implements Initializable {
         ft.play();
     }
     
-    private void fixaDivider(){
+    private void fixaDivider() {
         
         SplitPane.Divider divider = pnprincipal.getDividers().get(0);
         divider.positionProperty().addListener(new ChangeListener<Number>() {
@@ -184,8 +190,8 @@ public class TelaFuncionariosController implements Initializable {
         colnivel.setCellValueFactory(new PropertyValueFactory<>("nivel"));
     }
     
-    private void initializeSexo()
-    {
+    private void initializeSexo() {
+        
         List<String> list = new ArrayList();
         
         list.add("Masculino");
@@ -194,8 +200,8 @@ public class TelaFuncionariosController implements Initializable {
         cbsexo.setItems(FXCollections.observableArrayList(list));
     }
     
-    private void initializeCategoria() 
-    {
+    private void initializeCategoria() {
+        
         List<String> list = new ArrayList();
         
         list.add("Usuário");
@@ -208,8 +214,8 @@ public class TelaFuncionariosController implements Initializable {
         cbcategoria.setItems(FXCollections.observableArrayList(list));
     }
     
-    private void initializeCargo()
-    {
+    private void initializeCargo() {
+        
         List<String> list = new ArrayList();
         
         list.add("Administrador");
@@ -218,8 +224,8 @@ public class TelaFuncionariosController implements Initializable {
         cbCargo.setItems(FXCollections.observableArrayList(list));
     }
     
-    private void limparCampos() 
-    {
+    private void limparCampos() {
+        
         ObservableList <Node> componentes = pndados.getChildren();
         
         for(Node n : componentes) 
@@ -232,8 +238,8 @@ public class TelaFuncionariosController implements Initializable {
         }
     }
     
-    private void estado(boolean b) 
-    {
+    private void estado(boolean b) {
+        
         pndados.setDisable(b);
         btconfirmar.setDisable(b);
         btcancelar.setDisable(b);
@@ -244,8 +250,8 @@ public class TelaFuncionariosController implements Initializable {
         carregaTabela("");
     }
     
-    private void setParametros() 
-    {
+    private void setParametros() {
+        
         DALParametrizacao dal = new DALParametrizacao();
         Parametrizacao p = dal.getConfig();
         
@@ -269,8 +275,6 @@ public class TelaFuncionariosController implements Initializable {
             
             tcpf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             tnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbsexo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            dpdatanasc.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             temail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
@@ -281,12 +285,9 @@ public class TelaFuncionariosController implements Initializable {
             tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txlogin.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txsenha.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
-            cbcategoria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             tfiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbCargo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            
-            tvclientes.setStyle("-fx-font-family: " + p.getFonte()+ ";");
         }
         if(p.getCorfonte() != null)
         {
@@ -298,8 +299,6 @@ public class TelaFuncionariosController implements Initializable {
             
             tcpf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             tnome.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            cbsexo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            dpdatanasc.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             temail.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             ttelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             tcep.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -311,16 +310,12 @@ public class TelaFuncionariosController implements Initializable {
             txsenha.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txlogin.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            cbcategoria.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            cbCargo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            
-            tvclientes.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
-    private void setMascaras() 
-    {
+    private void setMascaras() {
+        
         MaskFieldUtil.maxField(tnome, 30);
         MaskFieldUtil.cpfField(tcpf);
         MaskFieldUtil.maxField(temail, 50);
@@ -333,8 +328,8 @@ public class TelaFuncionariosController implements Initializable {
         MaskFieldUtil.maxField(tuf, 2);
     }
     
-    private void carregaTabela(String filtro) 
-    {
+    private void carregaTabela(String filtro) {
+        
         DALFuncionario dal = new DALFuncionario();
         List<Funcionario> res = dal.getL(filtro);
         ObservableList<Funcionario> modelo;
@@ -359,15 +354,15 @@ public class TelaFuncionariosController implements Initializable {
         this.cpf = cpf;
     }
     
-    private void setCorAlert(JFXTextField tf, String cor)
-    {    
+    private void setCorAlert(JFXTextField tf, String cor) {
+        
         tf.setFocusColor(Paint.valueOf(cor));
         tf.setUnFocusColor(Paint.valueOf(cor));
     }
     
     @FXML
-    private void clkBtAlterar(ActionEvent event) 
-    {
+    private void clkBtAlterar(ActionEvent event) {
+        
         if(tvclientes.getSelectionModel().getSelectedIndex() != -1)
         {
             estado(false);
@@ -384,8 +379,8 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void clkBtApagar(ActionEvent event) 
-    {
+    private void clkBtApagar(ActionEvent event) {
+        
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
         if(tvclientes.getSelectionModel().getSelectedIndex() != -1){
@@ -429,8 +424,9 @@ public class TelaFuncionariosController implements Initializable {
             a.showAndWait();
         }
     }
-    private void setCorNormal()
-    {
+    
+    private void setCorNormal() {
+        
         setCorAlert(ttelefone, "BLACK");
         setCorAlert(tcidade, "BLACK");
         setCorAlert(tcep, "BLACK");
@@ -442,14 +438,16 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void clkBtConfirmar(ActionEvent event) 
-    {
-        setCorNormal();
+    private void clkBtConfirmar(ActionEvent event) {
+        
+        boolean flag = true;
         String id;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
+        setCorNormal();
         if(tcpf.getText().isEmpty())
         {
+            flag = false;
             a.setContentText("CPF deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -457,8 +455,18 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(tcpf,"RED");
             tcpf.requestFocus();
         }
-        else if(tnome.getText().isEmpty())
+        if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
+            
+            flag = false;
+            setCorAlert(tcpf, "RED");
+            a.setContentText("CPF inválido!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
+        if(tnome.getText().isEmpty())
         {
+            flag = false;
             a.setContentText("Nome deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -466,24 +474,27 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(tnome,"RED");
             tnome.requestFocus();
         }
-        else if(cbsexo.getSelectionModel().getSelectedIndex() == -1)
+        if(cbsexo.getSelectionModel().getSelectedIndex() == -1)
         {
+            flag = false;
             a.setContentText("Sexo deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             cbsexo.requestFocus();
         }
-        else if(dpdatanasc.getValue() == null)
+        if(dpdatanasc.getValue() == null)
         {
+            flag = false;
             a.setContentText("Data de nascimento deve ser informada");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             dpdatanasc.requestFocus();
         }
-        else if(temail.getText().isEmpty())
+        if(temail.getText().isEmpty())
         {
+            flag = false;
             a.setContentText("E-Mail deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -491,8 +502,9 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(temail,"RED");
             temail.requestFocus();
         }
-        else if(ttelefone.getText().isEmpty())
+        if(ttelefone.getText().isEmpty())
         {  
+            flag = false;
             a.setContentText("Telefone deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -500,8 +512,9 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(ttelefone,"RED");
             ttelefone.requestFocus();
         }
-        else if(tcep.getText().isEmpty())
+        if(tcep.getText().isEmpty())
         {
+            flag = false;
             a.setContentText("CEP deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -509,8 +522,9 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(tcep,"RED");
             tcep.requestFocus();
         }
-        else if(tcidade.getText().isEmpty())
+        if(tcidade.getText().isEmpty())
         {
+            flag = false;
             a.setContentText("Cidade deve ser informada");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -518,8 +532,9 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(tcidade,"RED");
             tcidade.requestFocus();
         }
-        else if(tuf.getText().isEmpty())
+        if(tuf.getText().isEmpty())
         {    
+            flag = false;
             a.setContentText("Estado deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -527,8 +542,9 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(tuf,"RED");
             tuf.requestFocus();
         }
-        else if(txlogin.getText().isEmpty())
+        if(txlogin.getText().isEmpty())
         {
+            flag = false;
             a.setContentText("Login deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
@@ -536,23 +552,25 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(txlogin,"RED");
             txlogin.requestFocus();
         }
-        else if(txsenha.getText().isEmpty())
+        if(txsenha.getText().isEmpty())
         {   
+            flag = false;
             a.setContentText("Senha deve ser informada");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             txsenha.requestFocus();
         }
-        else if(cbCargo.getSelectionModel().getSelectedIndex() == -1)
+        if(cbCargo.getSelectionModel().getSelectedIndex() == -1)
         {
+            flag = false;
             a.setContentText("Estado deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             cbCargo.requestFocus();
         }
-        else
+        if(flag)
         {    
             try 
             {
@@ -651,8 +669,8 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void clkBtCancelar(ActionEvent event) 
-    {
+    private void clkBtCancelar(ActionEvent event) {
+        
          if (!pndados.isDisabled()){
             
             estado(true);
@@ -662,8 +680,8 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void clkBtVoltar(ActionEvent event) 
-    {
+    private void clkBtVoltar(ActionEvent event) {
+        
         Stage stage = (Stage) btvoltar.getScene().getWindow();
         stage.close();
         DALParametrizacao dalp = new DALParametrizacao();
@@ -688,8 +706,8 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void evtBotaoDigitado(KeyEvent event) 
-    {
+    private void evtBotaoDigitado(KeyEvent event) {
+        
         if(tcep.getText().length() == 8){
             
             Task task = new Task<Void>() {
@@ -720,8 +738,8 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void clkTFiltro(KeyEvent event) 
-    {
+    private void clkTFiltro(KeyEvent event) {
+        
         if(cbcategoria.getSelectionModel().getSelectedIndex() != -1){
             
             switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
@@ -751,8 +769,8 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void clkTabela(MouseEvent event) 
-    {
+    private void clkTabela(MouseEvent event) {
+        
         if(tvclientes.getSelectionModel().getSelectedIndex() >= 0){
             
             if(tvclientes.getSelectionModel().getSelectedItem() != null){
@@ -795,8 +813,8 @@ public class TelaFuncionariosController implements Initializable {
     }
 
     @FXML
-    private void clkBtAtivar(ActionEvent event) 
-    {
+    private void clkBtAtivar(ActionEvent event) {
+        
         String result;
         if(tvclientes.getSelectionModel().getSelectedIndex() != -1)
         {
@@ -835,8 +853,8 @@ public class TelaFuncionariosController implements Initializable {
     }  
 
     @FXML
-    private void clkBtNovo(ActionEvent event) 
-    {
+    private void clkBtNovo(ActionEvent event) {
+        
         estado(false);
         tcpf.setDisable(false);
         txsenhan.setVisible(false);
@@ -844,8 +862,8 @@ public class TelaFuncionariosController implements Initializable {
         pnpesquisa.setDisable(true);
     }
     
-    private void chamaLogin() throws IOException
-    {
+    private void chamaLogin() throws IOException {
+        
         Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -855,8 +873,8 @@ public class TelaFuncionariosController implements Initializable {
         stage.show();
     }
     
-    private void chamaConfig() throws IOException
-    {
+    private void chamaConfig() throws IOException {
+        
         Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -864,6 +882,5 @@ public class TelaFuncionariosController implements Initializable {
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
-    }
-    
+    }   
 }

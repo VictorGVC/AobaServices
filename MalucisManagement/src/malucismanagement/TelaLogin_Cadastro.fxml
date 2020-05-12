@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="pnprincipal" prefHeight="532.0" prefWidth="669.0" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaLogin_CadastroController">
+<AnchorPane fx:id="pnprincipal" prefHeight="530.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaLogin_CadastroController">
    <children>
-      <FlowPane fx:id="pnlogin" alignment="CENTER" prefHeight="532.0" prefWidth="669.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
+      <FlowPane fx:id="pnlogin" alignment="CENTER" prefHeight="530.0" prefWidth="670.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;">
          <children>
             <FlowPane prefHeight="327.0" prefWidth="306.0" style="-fx-border-radius: 5px; -fx-border-color: white; -fx-background-radius: 5px; -fx-background-color: white;">
                <children>

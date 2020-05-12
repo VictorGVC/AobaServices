@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,12 +18,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -55,6 +58,10 @@ public class TelaPrincipalController implements Initializable {
     private JFXButton btfuncionarios;
     @FXML
     private JFXButton btclientes;
+    @FXML
+    private JFXButton btfornecedores;
+    @FXML
+    private JFXButton btprodutos;
     @FXML
     private HBox pnrodape;
     @FXML
@@ -99,12 +106,20 @@ public class TelaPrincipalController implements Initializable {
         if(p.getCorsecundaria()!= null){
             
             tbatalhos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            
+            btfuncionarios.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btclientes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btfornecedores.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btprodutos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            
             pnrodape.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
         }
         if(p.getFonte() != null){
             
-            btclientes.setFont(new Font(p.getFonte(), 14));
             btfuncionarios.setFont(new Font(p.getFonte(), 14));
+            btclientes.setFont(new Font(p.getFonte(), 14));
+            btfornecedores.setFont(new Font(p.getFonte(), 14));
+            btprodutos.setFont(new Font(p.getFonte(), 14));
             
             lbnome.setFont(new Font(p.getFonte(), 12));
             lbrua.setFont(new Font(p.getFonte(), 12));
@@ -115,8 +130,10 @@ public class TelaPrincipalController implements Initializable {
         }
         if(p.getCorfonte() != null){
             
-            btclientes.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btfuncionarios.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btfuncionarios.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btclientes.setStyle(btclientes.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btfornecedores.setStyle(btfornecedores.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btprodutos.setStyle(btprodutos.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             
             lbnome.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             lbrua.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -147,7 +164,7 @@ public class TelaPrincipalController implements Initializable {
             mifornecedores.setVisible(false);
         }
     }
-
+    
     @FXML
     private void clkChamaLogin(ActionEvent event) throws IOException {
         
@@ -157,8 +174,10 @@ public class TelaPrincipalController implements Initializable {
         
         stage.close();
         stage = new Stage();
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Login");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 
@@ -169,9 +188,24 @@ public class TelaPrincipalController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Configurações");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            
+            @Override
+            public void handle(WindowEvent t) {
+                
+                t.consume();
+                stage.close();
+                try {
+                    setParametros();
+                } 
+                catch (IOException ex) {}
+            }
+        });
     }
 
     @FXML

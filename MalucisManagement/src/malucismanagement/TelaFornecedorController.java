@@ -27,6 +27,7 @@ import malucismanagement.db.dal.DALFornecedores;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Fornecedor;
 import malucismanagement.db.entidades.Parametrizacao;
+import malucismanagement.util.ManipularCpfCnpj;
 import malucismanagement.util.MaskFieldUtil;
 
 public class TelaFornecedorController implements Initializable {
@@ -111,7 +112,7 @@ public class TelaFornecedorController implements Initializable {
         ft.play();
     }
     
-    private void initColumn(){
+    private void initColumn() {
         
         ColCNPJ.setCellValueFactory(new PropertyValueFactory("for_cnpj"));
         ColEmail.setCellValueFactory(new PropertyValueFactory("for_email"));
@@ -129,6 +130,7 @@ public class TelaFornecedorController implements Initializable {
         if(p.getCorprimaria() != null){
             
             pnsecundario.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            tvFornecedores.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
@@ -183,7 +185,8 @@ public class TelaFornecedorController implements Initializable {
         MaskFieldUtil.maxField(txTipo, 20);
         MaskFieldUtil.numericField(txIE);
     }
-    private void LimpaTelaCadastro(){
+    
+    private void LimpaTelaCadastro() {
         
         txCNPJ.clear();
         txEmail.clear();
@@ -191,17 +194,16 @@ public class TelaFornecedorController implements Initializable {
         txNomeForcenedor.clear();
         txTelefone.clear();
         txTipo.clear();
-        
         flag = true;
     }
     
-    private void LimpaTelaTabela(){
+    private void LimpaTelaTabela() {
         
         txPesquisar.clear();
         cbFiltro.getSelectionModel().clearSelection();
     }
     
-    private void CarregaCBFiltro(){
+    private void CarregaCBFiltro() {
         
         ObservableList<String> itens;
         itens = FXCollections.observableArrayList();
@@ -226,8 +228,9 @@ public class TelaFornecedorController implements Initializable {
         DALFornecedores dal = new DALFornecedores();
         boolean aceito = true;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
         LimpaTxt();
-         if(txNomeForcenedor.getText().isEmpty())
+        if(txNomeForcenedor.getText().isEmpty())
         {
             aceito = false;
             txNomeForcenedor.setStyle("-fx-background-color: red;");
@@ -237,14 +240,21 @@ public class TelaFornecedorController implements Initializable {
             a.showAndWait();
             txNomeForcenedor.requestFocus();
         }
-        if(txCNPJ.getText().isEmpty() || txCNPJ.getLength() != 18)
+        if(txCNPJ.getText().isEmpty())
         {
             aceito = false;
             txCNPJ.setStyle("-fx-background-color: red;");
-            if(txCNPJ.getText().length() == 0)
-                a.setContentText("CNPJ deve ser informado");
-            else
-                a.setContentText("CNPJ inválido");
+            a.setContentText("CNPJ deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txCNPJ.requestFocus();
+        }
+        else if(!ManipularCpfCnpj.isCnpj(txCNPJ.getText())){
+            
+            aceito = false;
+            txCNPJ.setStyle("-fx-background-color: red;");
+            a.setContentText("CNPJ inválido!");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
@@ -275,6 +285,7 @@ public class TelaFornecedorController implements Initializable {
             txEmail.requestFocus();
         } 
         if(aceito){
+            
             if(flag)
             {
                 if(dal.gravar(novo)){
@@ -319,7 +330,8 @@ public class TelaFornecedorController implements Initializable {
         }
     }
     
-    private void LimpaTxt(){
+    private void LimpaTxt() {
+        
         txCNPJ.setStyle("-fx-background-color: none;");
         txEmail.setStyle("-fx-background-color: none;");
         txIE.setStyle("-fx-background-color: none;");
@@ -360,7 +372,7 @@ public class TelaFornecedorController implements Initializable {
         }
     }
     
-    private boolean CarregaTabelaFornecedor(){
+    private boolean CarregaTabelaFornecedor() {
         
         boolean executar = true;
        
@@ -376,15 +388,15 @@ public class TelaFornecedorController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaFornecedorNome(){
+    private boolean CarregaTabelaFornecedorNome() {
         
         boolean executar = true;
        
         try {
-                tvFornecedores.getItems().clear();
-                DALFornecedores dal = new DALFornecedores();
-                ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresNome(txPesquisar.getText()));
-                tvFornecedores.setItems(lista);
+            tvFornecedores.getItems().clear();
+            DALFornecedores dal = new DALFornecedores();
+            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresNome(txPesquisar.getText()));
+            tvFornecedores.setItems(lista);
         } catch (Exception e) {
             executar = false;
         }
@@ -392,7 +404,7 @@ public class TelaFornecedorController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaCNPJ(){
+    private boolean CarregaTabelaCNPJ() {
         
         boolean executar = true;
         
@@ -408,7 +420,7 @@ public class TelaFornecedorController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaIE(){
+    private boolean CarregaTabelaIE() {
         
         boolean executar = true;
         
@@ -424,7 +436,7 @@ public class TelaFornecedorController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaTelefone(){
+    private boolean CarregaTabelaTelefone() {
         
         boolean executar = true;
         
@@ -440,7 +452,7 @@ public class TelaFornecedorController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaEmail(){
+    private boolean CarregaTabelaEmail() {
         
         boolean executar = true;
         
@@ -456,7 +468,7 @@ public class TelaFornecedorController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaTipo(){
+    private boolean CarregaTabelaTipo() {
         
         boolean executar = true;
         
@@ -489,18 +501,19 @@ public class TelaFornecedorController implements Initializable {
             if(dal.excluir(linha.getFor_cnpj()))
             {
                if(!CarregaTabelaFornecedor()){
+                   
                     a.setContentText("Impossível Carregar Fornecedores");
                     a.setHeaderText("Alerta");
                     a.setTitle("Alerta");
                     a.showAndWait();
-                    } 
+                } 
             }
             else
             {
-                    a.setContentText("Impossível Remover Fornecedor");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
+                a.setContentText("Impossível Remover Fornecedor");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
             }
         }
     }

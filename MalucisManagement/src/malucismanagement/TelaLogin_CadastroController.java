@@ -19,6 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -55,6 +58,7 @@ public class TelaLogin_CadastroController implements Initializable {
         setParametros();
         setMascaras();
         sessao = new Funcionario();
+        teclaEnter();
     }    
     
     private void fadeout() {
@@ -66,8 +70,8 @@ public class TelaLogin_CadastroController implements Initializable {
         ft.play();
     }
     
-    private void setParametros() 
-    {
+    private void setParametros() {
+        
         DALParametrizacao dal = new DALParametrizacao();
         Parametrizacao p = dal.getConfig();
         
@@ -94,20 +98,38 @@ public class TelaLogin_CadastroController implements Initializable {
         }
     }
     
-    private void setMascaras()
-    {
+    private void setMascaras() {
+        
         MaskFieldUtil.maxField(txusuario, 15);
         MaskFieldUtil.maxField(txsenha, 15);
     }
+    
+    private void teclaEnter(){
+        
+        txusuario.setOnKeyPressed(k ->{
+            
+            final KeyCombination ENTER = new KeyCodeCombination(KeyCode.ENTER);
+            if(ENTER.match(k)) {
+                txsenha.requestFocus();
+            }
+        });
+        txsenha.setOnKeyPressed(k ->{
+            
+            final KeyCombination ENTER = new KeyCodeCombination(KeyCode.ENTER);
+            if(ENTER.match(k)) {
+                clkBtLogin(null);
+            }
+        });
+    }
 
-    public static Funcionario getLogin()
-    {
+    public static Funcionario getLogin() {
+        
         return sessao;
     }
     
     @FXML
-    private void clkBtLogin(ActionEvent event) 
-    {
+    private void clkBtLogin(ActionEvent event) {
+        
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         DALFuncionario dal = new DALFuncionario();
         

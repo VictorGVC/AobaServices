@@ -76,7 +76,7 @@ public class ManipularCpfCnpj {
         }
     }
 
-    public static boolean isCNPJ(String cnpj) {
+    public static boolean isCnpj(String cnpj) {
 
         cnpj = removeMask(cnpj);
         if (cnpj.equals("00000000000000") || 

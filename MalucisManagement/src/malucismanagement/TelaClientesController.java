@@ -138,7 +138,7 @@ public class TelaClientesController implements Initializable {
         ft.play();
     }
     
-    private void fixaDivider(){
+    private void fixaDivider() {
         
         Divider divider = pnprincipal.getDividers().get(0);
         divider.positionProperty().addListener(new ChangeListener<Number>() {
@@ -398,8 +398,11 @@ public class TelaClientesController implements Initializable {
         }
         if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
             
-            flag = true;
             setCorAlert(tcpf, "RED");
+            a.setContentText("CPF inválido!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
         }
         if(tnome.getText().isEmpty()){
             
@@ -464,7 +467,7 @@ public class TelaClientesController implements Initializable {
             a.setTitle("Alerta");
             a.showAndWait();
         }
-        else{
+        else if(ManipularCpfCnpj.isCpf(tcpf.getText())){
             
             try {
                 id = tcpf.getText();
