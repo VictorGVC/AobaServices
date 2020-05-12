@@ -18,21 +18,60 @@ public class MalucisManagement extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = null;
         
+        Parent root = null;
         
         DALFuncionario dalf = new DALFuncionario();
         DALParametrizacao dalp = new DALParametrizacao();
+        
         if(dalf.getL("").isEmpty())
             root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
         else
             root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+        
         Scene scene = new Scene(root);
+        
         stage.setScene(scene);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Papelaria Maluci");
+        stage.setTitle("Login");
         stage.setMaximized(false);
+        stage.show();
+    }
+    
+    private void chamaLogin() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    private void chamaConfig() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.setTitle("Configurações");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+    }
+    
+    private void chamaCadastroF() throws IOException
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 
@@ -56,38 +95,5 @@ public class MalucisManagement extends Application {
             }
             System.exit(0);
         }
-    }
-    
-    private void chamaLogin() throws IOException
-    {
-        Parent root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.show();
-    }
-    
-    private void chamaConfig() throws IOException
-    {
-        Parent root = FXMLLoader.load(getClass().getResource("TelaConfig.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.show();
-    }
-    
-    private void chamaCadastroF() throws IOException
-    {
-        Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        
-        stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.show();
     }
 }

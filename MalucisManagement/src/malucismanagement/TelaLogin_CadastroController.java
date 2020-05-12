@@ -27,16 +27,11 @@ import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.util.MaskFieldUtil;
-import malucismanagement.util.SQLException_Exception;
-import malucismanagement.util.SigepClienteException;
 
-/**
- * FXML Controller class
- *
- * @author HITRON
- */
 public class TelaLogin_CadastroController implements Initializable {
 
+    static Funcionario sessao;
+    
     @FXML
     private VBox painel;
     @FXML
@@ -50,12 +45,11 @@ public class TelaLogin_CadastroController implements Initializable {
     @FXML
     private JFXButton btlogin;
 
-    /**
-     * Initializes the controller class.
-     */
-    static Funcionario sessao;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        fadeout();
+        setParametros();
         setMascaras();
         sessao = new Funcionario();
     }    
@@ -71,59 +65,30 @@ public class TelaLogin_CadastroController implements Initializable {
     
     private void setParametros() 
     {
-//        DALParametrizacao dal = new DALParametrizacao();
-//        Parametrizacao p = dal.getConfig();
-//        
-//        if(p.getCorprimaria() != null)
-//        {
-//            btcadastro.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-//            btlogin.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-//        }
-//        if(p.getCorsecundaria()!= null)
-//        {
-//            pnlogin.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
-//            pntab.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
-//        }
-//        if(p.getFonte() != null)
-//        {
-//            txbairro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txcpf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txemail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txnumero.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txrua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txsenha.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txsenhac.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txtelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txusuario.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txusuarioc.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            txuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            
-//            cbcargo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//            cbsexo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-//        }
-//        if(p.getCorfonte() != null)
-//        {
-//            txbairro.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txcep.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txcidade.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txcpf.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txemail.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txnome.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txnumero.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txrua.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txsenha.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txsenhac.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txtelefone.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txusuario.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txusuarioc.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            txuf.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            
-//            cbcargo.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//            cbsexo.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-//        }
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
+        if(p != null){
+            
+            if(p.getCorprimaria() != null)
+            {
+                btlogin.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            }
+            if(p.getCorsecundaria()!= null)
+            {
+                pnlogin.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
+            }
+            if(p.getFonte() != null)
+            {
+                txsenha.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+                txusuario.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            }
+            if(p.getCorfonte() != null)
+            {
+                txsenha.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
+                txusuario.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
+            }
+        }
     }
     
     private void setMascaras()
@@ -197,6 +162,7 @@ public class TelaLogin_CadastroController implements Initializable {
         
         stage.setMaximized(true);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Papelaria Maluci");
         stage.setScene(scene);
         stage.show();
     }
