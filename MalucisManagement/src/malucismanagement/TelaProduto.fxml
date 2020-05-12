@@ -34,7 +34,12 @@
       <JFXButton fx:id="btEditarFornecedor" layoutX="207.0" layoutY="25.0" onAction="#EditarProduto" text="Alterar" />
       <JFXButton fx:id="btaddProduto" layoutX="418.0" layoutY="25.0" onAction="#SalvarProduto" text="Confirmar" />
       <JFXButton fx:id="btSalvarProduto" layoutX="109.0" layoutY="25.0" onAction="#NovoProd" prefHeight="25.0" prefWidth="48.0" text="Novo" />
+      <JFXButton fx:id="btEditarFornecedor" layoutX="207.0" layoutY="25.0" onAction="#EditarProduto" text="Alterar" />
+      <JFXButton fx:id="btRemoverProduto" layoutX="311.0" layoutY="25.0" onAction="#RemoverProduto" text="Apagar" />
+      <JFXButton fx:id="btaddProduto" layoutX="418.0" layoutY="25.0" onAction="#SalvarProduto" text="Confirmar" />
       <JFXButton fx:id="btCancelarProduto" layoutX="532.0" layoutY="25.0" onAction="#CancelarProduto" prefHeight="25.0" prefWidth="69.0" text="Cancelar" />
       <JFXButton fx:id="btExit" layoutX="648.0" layoutY="25.0" onAction="#clkbtExit" text="Voltar" />
+      <JFXComboBox fx:id="cbFiltro" focusColor="BLACK" layoutX="89.0" layoutY="300.0" prefHeight="38.0" prefWidth="111.0" promptText="Filtro" unFocusColor="BLACK" />
+      <JFXTextField fx:id="txPesquisar" focusColor="BLACK" layoutX="251.0" layoutY="301.0" onKeyPressed="#FiltrarProduto" onKeyReleased="#FiltrarProduto" onKeyTyped="#FiltrarProduto" prefHeight="38.0" prefWidth="423.0" promptText="Pesquisar" unFocusColor="BLACK" />
    </children>
 </AnchorPane>
