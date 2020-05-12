@@ -28,6 +28,8 @@ import malucismanagement.util.MaskFieldUtil;
 
 public class TelaFornecedorController implements Initializable {
 
+    Boolean flag = true; 
+    
     @FXML
     private JFXButton btSalvarFonecedor;
     @FXML
@@ -56,9 +58,6 @@ public class TelaFornecedorController implements Initializable {
     private JFXButton btRemoverFornecedor;
     @FXML
     private TableView<Fornecedor> tvFornecedores;
-    
-
-    Boolean flag = true; 
     @FXML
     private TableColumn<Fornecedor, String> ColFornecedor;
     @FXML
@@ -79,8 +78,10 @@ public class TelaFornecedorController implements Initializable {
     private AnchorPane pnsecundario;
     @FXML
     private JFXButton btAddFornecedor;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         MaskFieldUtil.cnpjField(txCNPJ);
         MaskFieldUtil.foneField(txTelefone);
         MaskFieldUtil.maxField(txIE, 13);
@@ -164,6 +165,7 @@ public class TelaFornecedorController implements Initializable {
     } 
 
     private void LimpaTelaCadastro(){
+        
         txCNPJ.clear();
         txEmail.clear();
         txIE.clear();
@@ -175,11 +177,13 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private void LimpaTelaTabela(){
+        
         txPesquisar.clear();
         cbFiltro.getSelectionModel().clearSelection();
     }
     
     private void CarregaCBFiltro(){
+        
         ObservableList<String> itens;
         itens = FXCollections.observableArrayList();
         
@@ -196,6 +200,7 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void SalvarFornecedor(ActionEvent event) {
+        
         Fornecedor novo = new Fornecedor(txTipo.getText(),txNomeForcenedor.getText(),txEmail.getText(),txIE.getText(),
                 txCNPJ.getText(),txTelefone.getText());
         String auxCNPJ = txCNPJ.getText();
@@ -280,12 +285,14 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void CancelarFornecedor(ActionEvent event) {
+        
         LimpaTelaCadastro();
         Estado(true);
     }
 
     @FXML
     private void EditarFornecedor(ActionEvent event) {
+        
         flag = false;
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
         txNomeForcenedor.setText(linha.getFor_nome());
@@ -298,6 +305,7 @@ public class TelaFornecedorController implements Initializable {
     }
 
     private void CancelarFiltro(ActionEvent event) {
+        
         LimpaTelaTabela();
         if(!CarregaTabelaFornecedor()){
             Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -309,6 +317,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private boolean CarregaTabelaFornecedor(){
+        
         boolean executar = true;
        
         try {
@@ -324,6 +333,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private boolean CarregaTabelaFornecedorNome(){
+        
         boolean executar = true;
        
         try {
@@ -339,6 +349,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private boolean CarregaTabelaCNPJ(){
+        
         boolean executar = true;
         
         try {
@@ -354,6 +365,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private boolean CarregaTabelaIE(){
+        
         boolean executar = true;
         
         try {
@@ -369,6 +381,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private boolean CarregaTabelaTelefone(){
+        
         boolean executar = true;
         
         try {
@@ -384,6 +397,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private boolean CarregaTabelaEmail(){
+        
         boolean executar = true;
         
         try {
@@ -399,6 +413,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private boolean CarregaTabelaTipo(){
+        
         boolean executar = true;
         
         try {
@@ -415,6 +430,7 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void RemoverFornecedor(ActionEvent event) {
+        
         DALFornecedores dal = new DALFornecedores();
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         Fornecedor linha = tvFornecedores.getSelectionModel().getSelectedItem();
@@ -447,12 +463,14 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void clkbtExit(ActionEvent event) {
+        
         Stage stage = (Stage) btExit.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     private void FiltrarFornecedor(KeyEvent event) {
+        
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         DALFornecedores dal = new DALFornecedores();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Fornecedor")
@@ -520,6 +538,7 @@ public class TelaFornecedorController implements Initializable {
     }
     
     private void Estado(boolean b){
+        
         txCNPJ.setDisable(b);
         txEmail.setDisable(b);
         txIE.setDisable(b);
@@ -537,7 +556,7 @@ public class TelaFornecedorController implements Initializable {
 
     @FXML
     private void NovoFornecedor(ActionEvent event) {
+        
         Estado(false);
-    }
-    
+    }  
 }

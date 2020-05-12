@@ -50,6 +50,7 @@ public class TelaConfigController implements Initializable {
 
     private File arq;
     private FileInputStream file;
+    private boolean pa;
     
     @FXML
     private VBox pnprincipal;
@@ -98,7 +99,6 @@ public class TelaConfigController implements Initializable {
     @FXML
     private JFXButton btsalvar;
 
-    private boolean pa;
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
