@@ -32,8 +32,6 @@ import malucismanagement.util.MaskFieldUtil;
 public class TelaFornecedorController implements Initializable {
 
     Boolean flag = true; 
-    private JFXButton btCancelarFiltro;
-    private JFXButton btFiltrarFornecedor;
     
     @FXML
     private JFXButton btSalvarFonecedor;
@@ -130,12 +128,11 @@ public class TelaFornecedorController implements Initializable {
         
         if(p.getCorprimaria() != null){
             
-            pnprincipal.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pnsecundario.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
-            pnsecundario.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
-            
+            pnprincipal.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
         }
         if(p.getFonte() != null){
             
@@ -148,10 +145,8 @@ public class TelaFornecedorController implements Initializable {
             txTipo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             cbFiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
-            btCancelarFiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btCancelarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btEditarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btFiltrarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btRemoverFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btSalvarFonecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
@@ -169,10 +164,8 @@ public class TelaFornecedorController implements Initializable {
             txTipo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             cbFiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            btCancelarFiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btCancelarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btEditarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btFiltrarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btRemoverFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btSalvarFonecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
