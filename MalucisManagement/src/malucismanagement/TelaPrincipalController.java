@@ -162,6 +162,8 @@ public class TelaPrincipalController implements Initializable {
             
             mifuncionario.setVisible(false);
             mifornecedores.setVisible(false);
+            btfuncionarios.setVisible(false);
+            btfornecedores.setVisible(false);
         }
     }
     

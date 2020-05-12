@@ -455,15 +455,15 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(tcpf,"RED");
             tcpf.requestFocus();
         }
-        if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
-            
-            flag = false;
-            setCorAlert(tcpf, "RED");
-            a.setContentText("CPF inválido!");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-        }
+//        if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
+//            
+//            flag = false;
+//            setCorAlert(tcpf, "RED");
+//            a.setContentText("CPF inválido!");
+//            a.setHeaderText("Alerta");
+//            a.setTitle("Alerta");
+//            a.showAndWait();
+//        }
         if(tnome.getText().isEmpty())
         {
             flag = false;

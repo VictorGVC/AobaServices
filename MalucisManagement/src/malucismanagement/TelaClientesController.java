@@ -332,8 +332,17 @@ public class TelaClientesController implements Initializable {
     @FXML
     private void clkBtAlterar(ActionEvent event) {
         
-        estado(false);
-        pnpesquisa.setDisable(false);
+        if(tvclientes.getSelectionModel().getSelectedIndex() != -1){
+            
+            estado(false);
+            tcpf.setDisable(true);
+            pnpesquisa.setDisable(false);
+        }
+        else{
+            
+            JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum cliente!")));
+        }
     }
 
     @FXML
