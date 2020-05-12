@@ -1,0 +1,48 @@
+#login{margin-right: 90px;width: 200px;}
+
+#senha{margin-right: 28px;width: 200px;}
+
+#titulo{margin-right: 90px;width: 200px;}
+
+#categoria{width: 204px;}
+
+#nome{width: 200px;}
+
+#sevico{width: 204px;}
+
+#preco{width: 200px;}
+
+#conteudo{height: 120px;margin-top: 25px;}
+
+#telefone{width: 200px;margin-right: 11px;}
+
+html,body
+{
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+section
+{  font: 18px calibri;
+   background-color: dodgerblue;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100%;
+}
+section > form
+{
+  background: royalblue;
+  outline: 1px solid white;
+  width: 800px; height: 600px;
+  text-align: center;
+}
+
+textarea
+{
+    height: 55%;
+    width: 80%;
+    margin: 10px;
+    font-size: 1.1em;
+}
