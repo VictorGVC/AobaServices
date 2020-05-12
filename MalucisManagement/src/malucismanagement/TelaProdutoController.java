@@ -112,19 +112,25 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private void SalvarProduto(ActionEvent event) throws SQLException {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
+        LimpaTxt();
+        boolean aceito = true;
         
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
         if(txNomeProduto.getText().isEmpty())
         {
+            txNomeProduto.setStyle("-fx-background-color: red;");
+            aceito = false;
             a.setContentText("Nome deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             txNomeProduto.requestFocus();
         }
-        else if(txPreco.getText().isEmpty() || txPreco.getLength() > 6)
+        if(txPreco.getText().isEmpty() || txPreco.getLength() > 6)
         {
+            txPreco.setStyle("-fx-background-color: red;");
+            aceito = false;
             if(txPreco.getLength() > 6)
                 a.setContentText("Preço Inválido");
             else
@@ -134,26 +140,30 @@ public class TelaProdutoController implements Initializable {
             a.showAndWait();
             txPreco.requestFocus();
         }
-        else if(txQtdEstoque.getText().isEmpty())
+        if(txQtdEstoque.getText().isEmpty())
         {
+            txQtdEstoque.setStyle("-fx-background-color: red;");
+            aceito = false;
             a.setContentText("Quantidade deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             txQtdEstoque.requestFocus();
         }
-        else if(cbCategoria.getSelectionModel().isEmpty())
+        if(cbCategoria.getSelectionModel().isEmpty())
         {
+            cbCategoria.setStyle("-fx-background-color: red;");
+            aceito = false;
             a.setContentText("Categoria deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             cbCategoria.requestFocus();
         }
-        else{
+        if(aceito){
             String cat = cbCategoria.getValue().toString();
             Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),cat,Double.parseDouble(txPreco.getText().replace(",", ".")),
-        txNomeProduto.getText());
+            txNomeProduto.getText());
             DALProduto dal = new DALProduto();
             if(flag)
             {
@@ -363,6 +373,7 @@ public class TelaProdutoController implements Initializable {
     @FXML
     private void CancelarProduto(ActionEvent event) {
         LimpaTelaCadastro();
+        LimpaTxt();
         adcProd(true);
     }
 
@@ -388,6 +399,13 @@ public class TelaProdutoController implements Initializable {
             a.setTitle("Alerta");
             a.showAndWait();
         }
+    }
+    
+    private void LimpaTxt(){
+        txNomeProduto.setStyle("-fx-background-color: none;");
+        txPreco.setStyle("-fx-background-color: none;");
+        txQtdEstoque.setStyle("-fx-background-color: none;");
+        cbCategoria.setStyle("-fx-background-color: none;");
     }
 
     @FXML

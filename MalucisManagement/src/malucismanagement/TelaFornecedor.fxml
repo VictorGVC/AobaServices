@@ -44,7 +44,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txTelefone" layoutX="410.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" unFocusColor="BLACK">
+            <JFXTextField fx:id="txEmail" layoutX="410.0" layoutY="53.0" prefHeight="25.0" prefWidth="220.0" promptText="Email*" unFocusColor="BLACK">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -54,7 +54,7 @@
                   </RadialGradient>
                </focusColor>
             </JFXTextField>
-            <JFXTextField fx:id="txEmail" layoutX="410.0" layoutY="59.0" prefHeight="25.0" prefWidth="220.0" promptText="Email*" unFocusColor="BLACK">
+            <JFXTextField fx:id="txTelefone" layoutX="410.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" unFocusColor="BLACK">
                <focusColor>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
                      <stops>
@@ -88,13 +88,13 @@
             <TableColumn fx:id="ColTipo" minWidth="0.0" prefWidth="94.0" text="Tipo" />
          </columns>
       </TableView>
-      <JFXComboBox fx:id="cbFiltro" focusColor="BLACK" layoutX="102.0" layoutY="300.0" prefHeight="38.0" prefWidth="111.0" promptText="Filtro" unFocusColor="BLACK" />
-      <JFXTextField fx:id="txPesquisar" focusColor="BLACK" layoutX="245.0" layoutY="300.0" onKeyPressed="#FiltrarFornecedor" onKeyReleased="#FiltrarFornecedor" onKeyTyped="#FiltrarFornecedor" prefHeight="38.0" prefWidth="455.0" promptText="Pesquisar" unFocusColor="BLACK" />
-      <JFXButton fx:id="btAddFornecedor" layoutX="418.0" layoutY="14.0" onAction="#SalvarFornecedor" prefHeight="38.0" prefWidth="69.0" text="Confirmar" />
       <JFXButton fx:id="btSalvarFonecedor" layoutX="109.0" layoutY="14.0" onAction="#NovoFornecedor" prefHeight="38.0" prefWidth="48.0" text="Novo" />
       <JFXButton fx:id="btEditarFornecedor" layoutX="207.0" layoutY="14.0" onAction="#EditarFornecedor" prefHeight="38.0" prefWidth="52.0" text="Alterar" />
       <JFXButton fx:id="btRemoverFornecedor" layoutX="311.0" layoutY="14.0" onAction="#RemoverFornecedor" prefHeight="38.0" prefWidth="55.0" text="Apagar" />
+      <JFXButton fx:id="btAddFornecedor" layoutX="418.0" layoutY="14.0" onAction="#SalvarFornecedor" prefHeight="38.0" prefWidth="69.0" text="Confirmar" />
       <JFXButton fx:id="btCancelarFornecedor" layoutX="532.0" layoutY="14.0" onAction="#CancelarFornecedor" prefHeight="38.0" prefWidth="69.0" text="Cancelar" />
       <JFXButton fx:id="btExit" layoutX="634.0" layoutY="21.0" onAction="#clkbtExit" text="Voltar" />
+      <JFXComboBox fx:id="cbFiltro" focusColor="BLACK" layoutX="102.0" layoutY="300.0" prefHeight="38.0" prefWidth="111.0" promptText="Filtro" unFocusColor="BLACK" />
+      <JFXTextField fx:id="txPesquisar" focusColor="BLACK" layoutX="245.0" layoutY="300.0" onKeyPressed="#FiltrarFornecedor" onKeyReleased="#FiltrarFornecedor" onKeyTyped="#FiltrarFornecedor" prefHeight="38.0" prefWidth="455.0" promptText="Pesquisar" unFocusColor="BLACK" />
    </children>
 </AnchorPane>

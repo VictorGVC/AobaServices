@@ -200,40 +200,57 @@ public class TelaFornecedorController implements Initializable {
                 txCNPJ.getText(),txTelefone.getText());
         String auxCNPJ = txCNPJ.getText();
         DALFornecedores dal = new DALFornecedores();
+        boolean aceito = true;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
+        LimpaTxt();
          if(txNomeForcenedor.getText().isEmpty())
         {
+            aceito = false;
+            txNomeForcenedor.setStyle("-fx-background-color: red;");
             a.setContentText("Nome deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             txNomeForcenedor.requestFocus();
         }
-        else if(txCNPJ.getText().isEmpty() || txCNPJ.getLength() != 18)
+        if(txCNPJ.getText().isEmpty() || txCNPJ.getLength() != 18)
         {
-            a.setContentText("CNPJ deve ser informado");
+            aceito = false;
+            txCNPJ.setStyle("-fx-background-color: red;");
+            if(txCNPJ.getText().length() == 0)
+                a.setContentText("CNPJ deve ser informado");
+            else
+                a.setContentText("CNPJ inválido");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             txCNPJ.requestFocus();
-        } 
-        else if(txIE.getText().isEmpty() || txIE.getLength() != 13)
+        }
+        if(txIE.getText().isEmpty() || txIE.getLength() != 13)
         {
+            aceito = false;
+            txIE.setStyle("-fx-background-color: red;");
+            if(txIE.getText().length() == 0)
+                a.setContentText("IE deve ser informado");
+            else
+                a.setContentText("IE inválido");
             a.setContentText("Inscrição Estadual deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             txIE.requestFocus();
-        }
-        else if(txEmail.getText().isEmpty() || !txEmail.getText().contains("@"))
+        } 
+        if(txEmail.getText().isEmpty() || !txEmail.getText().contains("@"))
         {
+            aceito = false;
+            txEmail.setStyle("-fx-background-color: red;");
             a.setContentText("EMAIL deve ser informado");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
             txEmail.requestFocus();
         } 
-        else{
+        if(aceito){
             if(flag)
             {
                 if(dal.gravar(novo)){
@@ -277,10 +294,18 @@ public class TelaFornecedorController implements Initializable {
             
         }
     }
+    
+    private void LimpaTxt(){
+        txCNPJ.setStyle("-fx-background-color: none;");
+        txEmail.setStyle("-fx-background-color: none;");
+        txIE.setStyle("-fx-background-color: none;");
+        txNomeForcenedor.setStyle("-fx-background-color: none;");
+    }
 
     @FXML
     private void CancelarFornecedor(ActionEvent event) {
         LimpaTelaCadastro();
+        LimpaTxt();
         Estado(true);
     }
 
