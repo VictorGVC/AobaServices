@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,12 +15,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import malucismanagement.db.dal.DALFornecedores;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Fornecedor;
@@ -29,6 +32,8 @@ import malucismanagement.util.MaskFieldUtil;
 public class TelaFornecedorController implements Initializable {
 
     Boolean flag = true; 
+    private JFXButton btCancelarFiltro;
+    private JFXButton btFiltrarFornecedor;
     
     @FXML
     private JFXButton btSalvarFonecedor;
@@ -48,8 +53,6 @@ public class TelaFornecedorController implements Initializable {
     private JFXButton btCancelarFornecedor;
     @FXML
     private JFXButton btEditarFornecedor;
-    private JFXButton btCancelarFiltro;
-    private JFXButton btFiltrarFornecedor;
     @FXML
     private JFXComboBox<String> cbFiltro;
     @FXML
@@ -78,19 +81,18 @@ public class TelaFornecedorController implements Initializable {
     private AnchorPane pnsecundario;
     @FXML
     private JFXButton btAddFornecedor;
+    @FXML
+    private Label lbobg;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        MaskFieldUtil.cnpjField(txCNPJ);
-        MaskFieldUtil.foneField(txTelefone);
-        MaskFieldUtil.maxField(txIE, 13);
-        MaskFieldUtil.maxField(txCNPJ, 19);
-        MaskFieldUtil.maxField(txNomeForcenedor, 50);
-        MaskFieldUtil.maxField(txTipo, 20);
-        MaskFieldUtil.numericField(txIE);
+        fadeout();
+        setParametros();
+        setMascaras();
         initColumn();
         if(!CarregaTabelaFornecedor()){
+            
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setContentText("Impossível Carregar Fornecedores");
             a.setHeaderText("Alerta");
@@ -102,7 +104,17 @@ public class TelaFornecedorController implements Initializable {
         Estado(true);
     }
     
+    private void fadeout() {
+        
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
+        
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.play();
+    }
+    
     private void initColumn(){
+        
         ColCNPJ.setCellValueFactory(new PropertyValueFactory("for_cnpj"));
         ColEmail.setCellValueFactory(new PropertyValueFactory("for_email"));
         ColFornecedor.setCellValueFactory(new PropertyValueFactory("for_nome"));
@@ -143,27 +155,39 @@ public class TelaFornecedorController implements Initializable {
             btRemoverFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btSalvarFonecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
+            lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
         }
         if(p.getCorfonte() != null){
            
-            txCNPJ.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txEmail.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txIE.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txNomeForcenedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txPesquisar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txTelefone.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txTipo.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cbFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txCNPJ.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txEmail.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txIE.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txNomeForcenedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txPesquisar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txTelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txTipo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            cbFiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            btCancelarFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btCancelarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btEditarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btFiltrarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btRemoverFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btSalvarFonecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btCancelarFiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btCancelarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btEditarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btFiltrarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btRemoverFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btSalvarFonecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     } 
 
+    private void setMascaras() {
+        
+        MaskFieldUtil.cnpjField(txCNPJ);
+        MaskFieldUtil.foneField(txTelefone);
+        MaskFieldUtil.maxField(txIE, 13);
+        MaskFieldUtil.maxField(txCNPJ, 19);
+        MaskFieldUtil.maxField(txNomeForcenedor, 50);
+        MaskFieldUtil.maxField(txTipo, 20);
+        MaskFieldUtil.numericField(txIE);
+    }
     private void LimpaTelaCadastro(){
         
         txCNPJ.clear();

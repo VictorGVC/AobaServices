@@ -7,74 +7,18 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
 
 <AnchorPane fx:id="pnprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaFornecedorController">
    <children>
-      <AnchorPane fx:id="pnsecundario" layoutY="63.0" prefHeight="224.0" prefWidth="800.0">
+      <AnchorPane fx:id="pnsecundario" layoutY="60.0" prefHeight="232.0" prefWidth="800.0">
          <children>
-            <JFXTextField fx:id="txNomeForcenedor" layoutX="170.0" layoutY="59.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Fornecedor*" unFocusColor="BLACK">
-               <focusColor>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="BLACK" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </focusColor>
-            </JFXTextField>
-            <JFXTextField fx:id="txCNPJ" layoutX="170.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="CNPJ*" unFocusColor="BLACK">
-               <focusColor>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="BLACK" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </focusColor>
-            </JFXTextField>
-            <JFXTextField fx:id="txIE" layoutX="170.0" layoutY="141.0" prefHeight="25.0" prefWidth="220.0" promptText="Inscrição Estadual*" unFocusColor="BLACK">
-               <focusColor>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="BLACK" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </focusColor>
-            </JFXTextField>
-            <JFXTextField fx:id="txTelefone" layoutX="410.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" unFocusColor="BLACK">
-               <focusColor>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="BLACK" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </focusColor>
-            </JFXTextField>
-            <JFXTextField fx:id="txEmail" layoutX="410.0" layoutY="59.0" prefHeight="25.0" prefWidth="220.0" promptText="Email*" unFocusColor="BLACK">
-               <focusColor>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="BLACK" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </focusColor>
-            </JFXTextField>
-            <JFXTextField fx:id="txTipo" layoutX="410.0" layoutY="141.0" prefHeight="25.0" prefWidth="220.0" promptText="Tipo" unFocusColor="BLACK">
-               <focusColor>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop color="WHITE" />
-                        <Stop color="BLACK" offset="1.0" />
-                     </stops>
-                  </RadialGradient>
-               </focusColor>
-            </JFXTextField>
-            <Label layoutX="630.0" layoutY="193.0" text="* Campos Obrigatorios" />
+            <JFXTextField fx:id="txNomeForcenedor" focusColor="BLACK" labelFloat="true" layoutX="170.0" layoutY="23.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Fornecedor*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txCNPJ" focusColor="BLACK" labelFloat="true" layoutX="170.0" layoutY="88.0" prefHeight="25.0" prefWidth="220.0" promptText="CNPJ*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txIE" focusColor="BLACK" labelFloat="true" layoutX="170.0" layoutY="154.0" prefHeight="25.0" prefWidth="220.0" promptText="Inscrição Estadual*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txTelefone" focusColor="BLACK" labelFloat="true" layoutX="410.0" layoutY="88.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txEmail" focusColor="BLACK" labelFloat="true" layoutX="410.0" layoutY="23.0" prefHeight="25.0" prefWidth="220.0" promptText="Email*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txTipo" focusColor="BLACK" labelFloat="true" layoutX="410.0" layoutY="154.0" prefHeight="25.0" prefWidth="220.0" promptText="Tipo" unFocusColor="BLACK" />
+            <Label fx:id="lbobg" layoutX="664.0" layoutY="201.0" text="* Campos Obrigatorios" textFill="RED" />
 
          </children>
       </AnchorPane>

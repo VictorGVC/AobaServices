@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,13 +18,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.dal.DALProduto;
@@ -34,6 +36,10 @@ import malucismanagement.util.MaskFieldUtil;
 public class TelaProdutoController implements Initializable {
     
     int CodAux;
+    Boolean flag = true; 
+    private JFXButton btCancelarFiltro;
+    private JFXButton btFiltrarProduto;
+    
     @FXML
     private JFXButton btSalvarProduto;
     @FXML
@@ -48,8 +54,6 @@ public class TelaProdutoController implements Initializable {
     private JFXComboBox<String> cbCategoria;
     @FXML
     private JFXButton btEditarFornecedor;
-    private JFXButton btCancelarFiltro;
-    private JFXButton btFiltrarProduto;
     @FXML
     private JFXComboBox<String> cbFiltro;
     @FXML
@@ -58,8 +62,6 @@ public class TelaProdutoController implements Initializable {
     private JFXButton btRemoverProduto;
     @FXML
     private TableView<Produto> tvProdutos;
-    
-    Boolean flag = true; 
     @FXML
     private TableColumn<Produto, String> ColProduto;
     @FXML
@@ -78,31 +80,51 @@ public class TelaProdutoController implements Initializable {
     private AnchorPane pnsecundario;
     @FXML
     private JFXButton btaddProduto;
+    @FXML
+    private Label lbobg;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MaskFieldUtil.monetaryField(txPreco);
-        MaskFieldUtil.numericField(txQtdEstoque);
-        MaskFieldUtil.maxField(txNomeProduto, 50);
+        
+        fadeout();
+        setParametros();
+        setMascaras();
         initColumn();
         try {
             CarregaCBCategoria();
             if(!CarregaTabela()){
-                        Alert a = new Alert(Alert.AlertType.INFORMATION);
-                        a.setContentText("Impossível Carregar Fornecedores");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
+                Alert a = new Alert(Alert.AlertType.INFORMATION);
+                a.setContentText("Impossível Carregar Fornecedores");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         adcProd(true);
         CarregaCBFiltro();
         CodAux = 0;
-    }    
+    }      
+
+    private void fadeout() {
+        
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), pnprincipal);
+        
+        ft.setFromValue(0);
+        ft.setToValue(1);
+        ft.play();
+    } 
+    
+    private void setMascaras() {
+        
+        MaskFieldUtil.monetaryField(txPreco);
+        MaskFieldUtil.numericField(txQtdEstoque);
+        MaskFieldUtil.maxField(txNomeProduto, 50);
+    }
     
     private void CarregaCBCategoria(){
+        
         tvProdutos.getItems().clear();
         DALCategoriaProduto dal = new DALCategoriaProduto();
         ObservableList<String> lista = FXCollections.observableArrayList(dal.getCategoriaProduto());
@@ -111,8 +133,8 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void SalvarProduto(ActionEvent event) throws SQLException {
-        DALCategoriaProduto dalct = new DALCategoriaProduto();
         
+        DALCategoriaProduto dalct = new DALCategoriaProduto();
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
         if(txNomeProduto.getText().isEmpty())
@@ -202,6 +224,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private void LimpaTelaCadastro(){
+        
         txNomeProduto.clear();
         txPreco.clear();
         txQtdEstoque.clear();
@@ -211,11 +234,13 @@ public class TelaProdutoController implements Initializable {
     }
     
     private void LimpaTelaTabela(){
+        
         txPesquisar.clear();
         cbFiltro.getSelectionModel().clearSelection();
     }
     
     private void initColumn(){
+        
         ColCat.setCellValueFactory(new PropertyValueFactory("cat_cod"));
         ColCod.setCellValueFactory(new PropertyValueFactory("pro_cod"));
         ColPreco.setCellValueFactory(new PropertyValueFactory("pro_preco"));
@@ -224,6 +249,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private boolean CarregaTabela() throws SQLException{
+        
         boolean executar = true;
        
         try {
@@ -250,7 +276,6 @@ public class TelaProdutoController implements Initializable {
         if(p.getCorsecundaria()!= null){
             
             pnsecundario.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
-            
         }
         if(p.getFonte() != null){
             
@@ -268,26 +293,29 @@ public class TelaProdutoController implements Initializable {
             btRemoverProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btSalvarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
+            lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            
         }
         if(p.getCorfonte() != null){
            
-            txNomeProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txPreco.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txPreco.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            txPesquisar.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cbCategoria.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            cbFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            txNomeProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txPreco.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txPreco.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txPesquisar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            cbCategoria.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            cbFiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            btCancelarFiltro.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btCancelarProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btEditarFornecedor.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btFiltrarProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btRemoverProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
-            btSalvarProduto.setStyle("-fx-fill: " + p.getCorfonte()+ ";");
+            btCancelarFiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btCancelarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btEditarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btFiltrarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btRemoverProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btSalvarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     } 
     
     private boolean CarregaTabelaProduto(){
+        
         boolean executar = true;
        
         try {
@@ -303,6 +331,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private boolean CarregaTabelaPreco(){
+        
         boolean executar = true;
        
         try {
@@ -318,6 +347,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private boolean CarregaTabelaQtd(){
+        
         boolean executar = true;
        
         try {
@@ -333,6 +363,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private boolean CarregaTabelaCategoria() throws SQLException{
+        
         boolean executar = true;
        
         try {
@@ -348,6 +379,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private void CarregaCBFiltro(){
+        
         ObservableList<String> itens;
         itens = FXCollections.observableArrayList();
         
@@ -362,12 +394,14 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void CancelarProduto(ActionEvent event) {
+        
         LimpaTelaCadastro();
         adcProd(true);
     }
 
     @FXML
     private void EditarProduto(ActionEvent event) {
+        
         flag = false;
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
         CodAux = linha.getPro_cod();
@@ -380,6 +414,7 @@ public class TelaProdutoController implements Initializable {
     }
 
     private void CancelarFiltro(ActionEvent event) throws SQLException {
+        
         LimpaTelaTabela();
         if(!CarregaTabela()){
             Alert a = new Alert(Alert.AlertType.INFORMATION);
@@ -392,6 +427,7 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void RemoverProduto(ActionEvent event) throws SQLException {
+        
         DALProduto dal = new DALProduto();
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
         Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
@@ -432,6 +468,7 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void FiltrarProduto(KeyEvent event) throws SQLException {
+        
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         DALProduto dal = new DALProduto();
         if(cbFiltro.getSelectionModel().getSelectedItem() == "Produto")
@@ -479,6 +516,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private void adcProd(boolean b){
+        
         txNomeProduto.setDisable(b);
         txPreco.setDisable(b);
         txQtdEstoque.setDisable(b);
@@ -494,6 +532,7 @@ public class TelaProdutoController implements Initializable {
 
     @FXML
     private void NovoProd(ActionEvent event) {
+        
         adcProd(false);
     }
 }

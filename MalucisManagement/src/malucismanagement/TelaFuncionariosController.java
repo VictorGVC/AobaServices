@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -128,44 +130,22 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btativdesativ;
     @FXML
     private JFXButton btnovo;
-    
     @FXML
     private TableColumn<Funcionario, Integer> colnivel;
-
-    public char getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(char ativo) {
-        this.ativo = ativo;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-    
-    private void setCorAlert(JFXTextField tf, String cor)
-    {    
-        tf.setFocusColor(Paint.valueOf(cor));
-        tf.setUnFocusColor(Paint.valueOf(cor));
-    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
         pa = false;
         fadeout();
+        fixaDivider();
+        setParametros();
         setMascaras();
         initializeSexo();
         initializeCategoria();
         initializeCargo();
         initializeColunas();
         estado(true);
-        setParametros();
         DALFuncionario dalf = new DALFuncionario();
         if(dalf.getL("").isEmpty())
             pa = true;
@@ -178,6 +158,19 @@ public class TelaFuncionariosController implements Initializable {
         ft.setFromValue(0);
         ft.setToValue(1);
         ft.play();
+    }
+    
+    private void fixaDivider(){
+        
+        SplitPane.Divider divider = pnprincipal.getDividers().get(0);
+        divider.positionProperty().addListener(new ChangeListener<Number>() {
+            
+            @Override 
+            public void changed(ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue) {
+                
+                divider.setPosition(0.52);
+            }
+        });
     }
     
     private void initializeColunas() {
@@ -350,6 +343,28 @@ public class TelaFuncionariosController implements Initializable {
         tvclientes.setItems(modelo);
     }
 
+    public char getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(char ativo) {
+        this.ativo = ativo;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+    
+    private void setCorAlert(JFXTextField tf, String cor)
+    {    
+        tf.setFocusColor(Paint.valueOf(cor));
+        tf.setUnFocusColor(Paint.valueOf(cor));
+    }
+    
     @FXML
     private void clkBtAlterar(ActionEvent event) 
     {

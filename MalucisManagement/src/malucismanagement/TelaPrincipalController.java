@@ -25,7 +25,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.imageio.ImageIO;
 import malucismanagement.db.banco.Banco;
-import malucismanagement.db.dal.DALFuncionario;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.entidades.Funcionario;
 import malucismanagement.db.entidades.Parametrizacao;

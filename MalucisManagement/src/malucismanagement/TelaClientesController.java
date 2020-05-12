@@ -144,7 +144,7 @@ public class TelaClientesController implements Initializable {
         divider.positionProperty().addListener(new ChangeListener<Number>() {
             
             @Override 
-            public void changed( ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue ) {
+            public void changed(ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue) {
                 
                 divider.setPosition(0.52);
             }
