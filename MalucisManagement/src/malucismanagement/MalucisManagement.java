@@ -28,17 +28,18 @@ public class MalucisManagement extends Application {
             
             root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
             stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Funcionários");
         }
         else{
             
             root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
-            stage.resizableProperty().setValue(Boolean.FALSE);
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+            stage.resizableProperty().setValue(Boolean.FALSE);       
             stage.setTitle("Login");
         }
         
         Scene scene = new Scene(root);
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setScene(scene);
         stage.show();
     }
@@ -62,6 +63,8 @@ public class MalucisManagement extends Application {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Configurações");
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
@@ -73,6 +76,8 @@ public class MalucisManagement extends Application {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Funcionários");
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();

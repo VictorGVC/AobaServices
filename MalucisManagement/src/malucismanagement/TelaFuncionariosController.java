@@ -32,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -790,7 +791,8 @@ public class TelaFuncionariosController implements Initializable {
                 ttelefone.setText(f.getTelefone());
                 tcep.setText(f.getCep());
                 trua.setText(f.getRua());
-                tnumero.setText("" + f.getNumero());
+                if(f.getNumero() != -1)
+                    tnumero.setText("" + f.getNumero());
                 tbairro.setText(f.getBairro());
                 tcidade.setText(f.getCidade());
                 tuf.setText(f.getUf());
@@ -870,6 +872,8 @@ public class TelaFuncionariosController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Login");
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
@@ -881,6 +885,8 @@ public class TelaFuncionariosController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Configurações");
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
