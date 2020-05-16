@@ -32,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -436,15 +437,15 @@ public class TelaFuncionariosController implements Initializable {
             setCorAlert(tcpf,"RED");
             tcpf.requestFocus();
         }
-        if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
-            
-            flag = false;
-            setCorAlert(tcpf, "RED");
-            a.setContentText("CPF inválido!");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-        }
+//        if(!ManipularCpfCnpj.isCpf(tcpf.getText())){
+//            
+//            flag = false;
+//            setCorAlert(tcpf, "RED");
+//            a.setContentText("CPF inválido!");
+//            a.setHeaderText("Alerta");
+//            a.setTitle("Alerta");
+//            a.showAndWait();
+//        }
         if(tnome.getText().isEmpty())
         {
             flag = false;
@@ -568,8 +569,10 @@ public class TelaFuncionariosController implements Initializable {
                 sexo = 'M';
             else if(cbsexo.getSelectionModel().getSelectedIndex() == 1)
                 sexo = 'F';
-                    
-            Funcionario f = new Funcionario(Integer.parseInt(tnumero.getText()), sexo, 
+            int num = -1;
+            if(!tnumero.getText().isEmpty())
+                num = Integer.parseInt(tnumero.getText());
+            Funcionario f = new Funcionario(num, sexo, 
                     tnome.getText(), id, temail.getText(), ttelefone.getText(), tcep.getText(),
                     trua.getText(), tbairro.getText(), tcidade.getText(), tuf.getText(), txlogin.getText(), 
                     dpdatanasc.getValue(), 
@@ -768,7 +771,8 @@ public class TelaFuncionariosController implements Initializable {
                 ttelefone.setText(f.getTelefone());
                 tcep.setText(f.getCep());
                 trua.setText(f.getRua());
-                tnumero.setText("" + f.getNumero());
+                if(f.getNumero() != -1)
+                    tnumero.setText("" + f.getNumero());
                 tbairro.setText(f.getBairro());
                 tcidade.setText(f.getCidade());
                 tuf.setText(f.getUf());
@@ -847,6 +851,8 @@ public class TelaFuncionariosController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Login");
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
@@ -858,6 +864,8 @@ public class TelaFuncionariosController implements Initializable {
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Configurações");
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
