@@ -18,11 +18,12 @@ public class DALProduto {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
         String sql = "INSERT INTO produto (pro_nome, pro_preco, pro_quantidade, cat_cod) "
-                + "VALUES ('#1',#2,#3,#4)";
-        sql = sql.replaceAll("#1",p.getPro_nome());
-        sql = sql.replaceAll("#2", "" + p.getPro_preco());
-        sql = sql.replaceAll("#3", "" + p.getPro_quantidade());
-        sql = sql.replaceAll("#4","" + dalct.getCategoriaProduto(p.getCat_cod()));
+                + "VALUES (#1,#'2',#3,#4,#5)";
+        sql = sql.replaceAll("#1","" + p.getPro_cod());
+        sql = sql.replaceAll("#2",p.getPro_nome());
+        sql = sql.replaceAll("#3", "" + p.getPro_preco());
+        sql = sql.replaceAll("#4", "" + p.getPro_quantidade());
+        sql = sql.replaceAll("#5","" + dalct.getCategoriaProduto(p.getCat_cod()));
         return Banco.getCon().manipular(sql);
     }
     
@@ -31,8 +32,9 @@ public class DALProduto {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
         String sql = "UPDATE produto SET "
-                + "pro_nome='#1', pro_preco=#2, pro_quantidade=#3, cat_cod=#4 WHERE pro_cod="+p.getPro_cod();
+                + "pro_cod =#1, pro_nome='#2', pro_preco=#3, pro_quantidade=#4, cat_cod=#5 WHERE pro_cod="+p.getPro_cod();
         
+        sql = sql.replaceAll("#1","" + p.getPro_cod());
         sql = sql.replaceAll("#1",p.getPro_nome());
         sql = sql.replaceAll("#2", "" + p.getPro_preco());
         sql = sql.replaceAll("#3", "" + p.getPro_quantidade());

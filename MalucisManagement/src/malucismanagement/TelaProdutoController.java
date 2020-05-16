@@ -80,6 +80,8 @@ public class TelaProdutoController implements Initializable {
     private JFXButton btaddProduto;
     @FXML
     private Label lbobg;
+    @FXML
+    private JFXTextField txCodigo;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -92,7 +94,7 @@ public class TelaProdutoController implements Initializable {
             CarregaCBCategoria();
             if(!CarregaTabela()){
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
-                a.setContentText("Impossível Carregar Fornecedores");
+                a.setContentText("Impossível Carregar Categoria de Produtos");
                 a.setHeaderText("Alerta");
                 a.setTitle("Alerta");
                 a.showAndWait();
@@ -117,13 +119,14 @@ public class TelaProdutoController implements Initializable {
     private void setMascaras() {
         
         MaskFieldUtil.monetaryField(txPreco);
+        MaskFieldUtil.maxField(txCodigo, 20);
         MaskFieldUtil.numericField(txQtdEstoque);
         MaskFieldUtil.maxField(txNomeProduto, 50);
     }
     
     private void CarregaCBCategoria(){
         
-        tvProdutos.getItems().clear();
+        cbCategoria.getItems().clear();
         DALCategoriaProduto dal = new DALCategoriaProduto();
         ObservableList<String> lista = FXCollections.observableArrayList(dal.getCategoriaProduto());
         cbCategoria.setItems(lista);
@@ -135,7 +138,26 @@ public class TelaProdutoController implements Initializable {
         LimpaTxt();
         boolean aceito = true;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
-        
+        if(txCodigo.getText().isEmpty())
+        {
+            txCodigo.setStyle("-fx-background-color: red;");
+            aceito = false;
+            a.setContentText("Código de barras deve ser informado");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txCodigo.requestFocus();
+        }
+        else if(txCodigo.getText().length() < 20)
+        {
+            txCodigo.setStyle("-fx-background-color: red;");
+            aceito = false;
+            a.setContentText("Código de barras inválido");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txCodigo.requestFocus();
+        }
         if(txNomeProduto.getText().isEmpty())
         {
             txNomeProduto.setStyle("-fx-background-color: red;");
@@ -181,7 +203,7 @@ public class TelaProdutoController implements Initializable {
         }
         if(aceito){
             String cat = cbCategoria.getValue().toString();
-            Produto p = new Produto(Integer.parseInt(txQtdEstoque.getText()),cat,Double.parseDouble(txPreco.getText().replace(",", ".")),
+            Produto p = new Produto(Integer.parseInt(txCodigo.getText()),Integer.parseInt(txQtdEstoque.getText()),cat,Double.parseDouble(txPreco.getText().replace(",", ".")),
             txNomeProduto.getText());
             DALProduto dal = new DALProduto();
             if(flag)
@@ -190,7 +212,7 @@ public class TelaProdutoController implements Initializable {
                 {
                     LimpaTelaCadastro();
                     if(!CarregaTabela()){
-                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setContentText("Impossível Carregar Produtos");
                         a.setHeaderText("Alerta");
                         a.setTitle("Alerta");
                         a.showAndWait();
@@ -210,7 +232,7 @@ public class TelaProdutoController implements Initializable {
                 if(dal.alterar(p)){
                     LimpaTelaCadastro();
                     if(!CarregaTabela()){
-                        a.setContentText("Impossível Carregar Fornecedores");
+                        a.setContentText("Impossível Carregar Produtos");
                         a.setHeaderText("Alerta");
                         a.setTitle("Alerta");
                         a.showAndWait();
@@ -232,6 +254,7 @@ public class TelaProdutoController implements Initializable {
     
     private void LimpaTelaCadastro() {
         
+        txCodigo.clear();
         txNomeProduto.clear();
         txPreco.clear();
         txQtdEstoque.clear();
@@ -291,6 +314,7 @@ public class TelaProdutoController implements Initializable {
             txPesquisar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txPreco.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txQtdEstoque.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txCodigo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
             btSalvarProduto.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btEditarFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
@@ -307,6 +331,7 @@ public class TelaProdutoController implements Initializable {
             txPreco.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txPreco.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txPesquisar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txCodigo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             btSalvarProduto.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btEditarFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -430,6 +455,7 @@ public class TelaProdutoController implements Initializable {
     }
     
     private void LimpaTxt() {
+        txCodigo.setStyle("-fx-background-color: none;");
         txNomeProduto.setStyle("-fx-background-color: none;");
         txPreco.setStyle("-fx-background-color: none;");
         txQtdEstoque.setStyle("-fx-background-color: none;");
@@ -442,7 +468,7 @@ public class TelaProdutoController implements Initializable {
         DALProduto dal = new DALProduto();
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
         Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
-        opcao.setContentText("Você deseja remover este fornecedor?");
+        opcao.setContentText("Você deseja remover este produto?");
         ButtonType btnSim = new ButtonType("Sim");
         ButtonType btnNao = new ButtonType("Não");
         opcao.getButtonTypes().setAll(btnSim, btnNao);
@@ -529,6 +555,7 @@ public class TelaProdutoController implements Initializable {
     private void adcProd(boolean b) {
         
         txNomeProduto.setDisable(b);
+        txCodigo.setDisable(b);
         txPreco.setDisable(b);
         txQtdEstoque.setDisable(b);
         cbCategoria.setDisable(b);
@@ -538,7 +565,8 @@ public class TelaProdutoController implements Initializable {
         btEditarFornecedor.setDisable(!b);
         
         btaddProduto.setDisable(b);
-        btCancelarProduto.setDisable(b);        
+        btCancelarProduto.setDisable(b);     
+        btExit.setDisable(b);
     }
 
     @FXML

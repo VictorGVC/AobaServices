@@ -250,7 +250,7 @@ public class TelaFornecedorController implements Initializable {
             a.showAndWait();
             txCNPJ.requestFocus();
         }
-        else if(!ManipularCpfCnpj.isCnpj(txCNPJ.getText())){
+        /*if(!ManipularCpfCnpj.isCnpj(txCNPJ.getText())){
             
             aceito = false;
             txCNPJ.setStyle("-fx-background-color: red;");
@@ -259,7 +259,7 @@ public class TelaFornecedorController implements Initializable {
             a.setTitle("Alerta");
             a.showAndWait();
             txCNPJ.requestFocus();
-        }
+        }*/
         if(txIE.getText().isEmpty() || txIE.getLength() != 13)
         {
             aceito = false;
