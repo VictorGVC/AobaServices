@@ -2,12 +2,13 @@ package malucismanagement.db.entidades;
 
 public class ItensVenda {
     
-    private int ven_cod, mar_cod, pro_cod, qtde;
+    private int ven_cod, mar_cod, qtde;
     private double preco;
+    private String pro_cod;
 
     public ItensVenda() {}
 
-    public ItensVenda(int ven_cod, int mar_cod, int pro_cod, int qtde, double preco) {
+    public ItensVenda(int ven_cod, int mar_cod, String pro_cod, int qtde, double preco) {
         this.ven_cod = ven_cod;
         this.mar_cod = mar_cod;
         this.pro_cod = pro_cod;
@@ -36,11 +37,11 @@ public class ItensVenda {
         this.mar_cod = mar_cod;
     }
 
-    public int getPro_cod() {
+    public String getPro_cod() {
         return pro_cod;
     }
 
-    public void setPro_cod(int pro_cod) {
+    public void setPro_cod(String pro_cod) {
         this.pro_cod = pro_cod;
     }
 
