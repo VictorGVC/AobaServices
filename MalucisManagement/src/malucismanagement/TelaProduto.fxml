@@ -12,11 +12,12 @@
    <children>
       <AnchorPane fx:id="pnsecundario" layoutY="67.0" prefHeight="215.0" prefWidth="800.0">
          <children>
-            <JFXTextField fx:id="txNomeProduto" focusColor="BLACK" labelFloat="true" layoutX="164.0" layoutY="61.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Produto*" unFocusColor="BLACK" />
-            <JFXTextField fx:id="txPreco" focusColor="BLACK" labelFloat="true" layoutX="164.0" layoutY="133.0" prefHeight="25.0" prefWidth="220.0" promptText="Preço*" unFocusColor="BLACK" />
-            <JFXTextField fx:id="txQtdEstoque" focusColor="BLACK" labelFloat="true" layoutX="416.0" layoutY="61.0" prefHeight="25.0" prefWidth="220.0" promptText="Quantidade em Estoque*" unFocusColor="BLACK" />
-            <JFXComboBox fx:id="cbCategoria" focusColor="BLACK" labelFloat="true" layoutX="416.0" layoutY="133.0" prefHeight="25.0" prefWidth="220.0" promptText="Categoria*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txNomeProduto" focusColor="BLACK" labelFloat="true" layoutX="164.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Produto*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txPreco" focusColor="BLACK" labelFloat="true" layoutX="164.0" layoutY="172.0" prefHeight="25.0" prefWidth="220.0" promptText="Preço*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txQtdEstoque" focusColor="BLACK" labelFloat="true" layoutX="416.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="Quantidade em Estoque*" unFocusColor="BLACK" />
+            <JFXComboBox fx:id="cbCategoria" focusColor="BLACK" labelFloat="true" layoutX="416.0" layoutY="172.0" prefHeight="25.0" prefWidth="220.0" promptText="Categoria*" unFocusColor="BLACK" />
             <Label fx:id="lbobg" layoutX="664.0" layoutY="197.0" text="* Campos Obrigatorios" textFill="RED" />
+            <JFXTextField fx:id="txCodigo" focusColor="BLACK" labelFloat="true" layoutX="290.0" layoutY="52.0" prefHeight="25.0" prefWidth="220.0" promptText="Código de Barras*" />
          </children>
       </AnchorPane>
       <TableView fx:id="tvProdutos" layoutY="347.0" prefHeight="255.0" prefWidth="800.0">

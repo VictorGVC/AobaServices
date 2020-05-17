@@ -302,17 +302,9 @@ public class TelaClientesController implements Initializable {
         
         setCorAlert(tcpf, cor);
         setCorAlert(tnome, cor);
-        cbsexo.setFocusColor(Paint.valueOf(cor));
-        cbsexo.setUnFocusColor(Paint.valueOf(cor));
-        dpdatanasc.setDefaultColor(Paint.valueOf(cor));
-        setCorAlert(temail, cor);
         setCorAlert(ttelefone, cor);
         setCorAlert(tcep, cor);
-        setCorAlert(trua, cor);
-        setCorAlert(tnumero, cor);
-        setCorAlert(tbairro, cor);
         setCorAlert(tcidade, cor);
-        setCorAlert(tuf, cor);
     }
     
     private void setCorAlert(JFXTextField tf, String cor){
@@ -332,8 +324,17 @@ public class TelaClientesController implements Initializable {
     @FXML
     private void clkBtAlterar(ActionEvent event) {
         
-        estado(false);
-        pnpesquisa.setDisable(false);
+        if(tvclientes.getSelectionModel().getSelectedIndex() != -1){
+            
+            estado(false);
+            tcpf.setDisable(true);
+            pnpesquisa.setDisable(false);
+        }
+        else{
+            
+            JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum cliente!")));
+        }
     }
 
     @FXML
@@ -365,7 +366,7 @@ public class TelaClientesController implements Initializable {
                     a.setAlertType(Alert.AlertType.ERROR);
                     a.setHeaderText("ERRO");
                     a.setTitle("ERRO!");
-                    a.setContentText("Exclusão não realizada!");
+                    a.setContentText("Exclusão não permitida, esse cliente é um funcionário!");
                     a.getButtonTypes().setAll(btok);
                     a.showAndWait();
                 }
@@ -409,22 +410,6 @@ public class TelaClientesController implements Initializable {
             flag = true;
             setCorAlert(tnome, "RED");
         }
-        if(cbsexo.getSelectionModel().getSelectedIndex() == -1){
-            
-            flag = true;
-            cbsexo.setFocusColor(Paint.valueOf("RED"));
-            cbsexo.setUnFocusColor(Paint.valueOf("RED"));
-        }
-        if(dpdatanasc.getValue().equals(LocalDate.now())){
-            
-            flag = true;
-            dpdatanasc.setDefaultColor(Paint.valueOf("RED"));
-        }
-        if(temail.getText().isEmpty()){
-            
-            flag = true;
-            setCorAlert(temail, "RED");
-        }
         if(ttelefone.getText().isEmpty()){
             
             flag = true;
@@ -434,21 +419,6 @@ public class TelaClientesController implements Initializable {
             
             flag = true;
             setCorAlert(tcep, "RED");
-        }
-        if(trua.getText().isEmpty()){
-            
-            flag = true;
-            setCorAlert(trua, "RED");
-        }
-        if(tnumero.getText().isEmpty()){
-            
-            flag = true;
-            setCorAlert(tnumero, "RED");
-        }
-        if(tbairro.getText().isEmpty()){
-            
-            flag = true;
-            setCorAlert(tbairro, "RED");
         }
         if(tcidade.getText().isEmpty()){
             
@@ -482,18 +452,20 @@ public class TelaClientesController implements Initializable {
                 sexo = 'M';
             else if(cbsexo.getSelectionModel().getSelectedIndex() == 1)
                 sexo = 'F';
-            
-            Cliente c = new Cliente(Integer.parseInt(tnumero.getText()), sexo,
-                                         tnome.getText(),
-                                         id,
-                                         temail.getText(),
-                                         ttelefone.getText(),
-                                         tcep.getText(),
-                                         trua.getText(),
-                                         tbairro.getText(),
-                                         tcidade.getText(),
-                                         tuf.getText(),
-                                         dpdatanasc.getValue());
+            int num = -1;
+            if(!tnumero.getText().isEmpty())
+                num = Integer.parseInt(tnumero.getText());
+            Cliente c = new Cliente(num, sexo,
+                                    tnome.getText(),
+                                    id,
+                                    temail.getText(),
+                                    ttelefone.getText(),
+                                    tcep.getText(),
+                                    trua.getText(),
+                                    tbairro.getText(),
+                                    tcidade.getText(),
+                                    tuf.getText(),
+                                    dpdatanasc.getValue());
             DALCliente dal = new DALCliente();
 
             if(pnpesquisa.isDisable()){
@@ -650,7 +622,8 @@ public class TelaClientesController implements Initializable {
                 ttelefone.setText(c.getTelefone());
                 tcep.setText(c.getCep());
                 trua.setText(c.getRua());
-                tnumero.setText("" + c.getNumero());
+                if(c.getNumero() != -1)
+                    tnumero.setText("" + c.getNumero());
                 tbairro.setText(c.getBairro());
                 tcidade.setText(c.getCidade());
                 tuf.setText(c.getUf());
