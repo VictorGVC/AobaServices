@@ -9,6 +9,10 @@ import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -69,14 +73,13 @@ public class TelaCompraProdutoController implements Initializable {
     @FXML
     private Label lbobg;
     @FXML
-    private JFXComboBox<Fornecedor> cbFornecedores;
+    private JFXComboBox<String> cbFornecedores;
     @FXML
     private Pane pnfiltros;
     @FXML
     private VBox pnpesquisa;
     @FXML
     private JFXTextField txTotal;
-    @FXML
     private JFXComboBox<String> cbCategoria;
     @FXML
     private JFXTextField txFiltro;
@@ -93,6 +96,8 @@ public class TelaCompraProdutoController implements Initializable {
     private TableView<Compras> tvCompra;
     @FXML
     private JFXButton btAddItens;
+    @FXML
+    private Label lbForncedor;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -114,7 +119,6 @@ public class TelaCompraProdutoController implements Initializable {
         }
         
         adcProd(true);
-        CarregaCBFiltro();
         CodAux = 0;
     }
     private void fadeout() {
@@ -154,6 +158,7 @@ public class TelaCompraProdutoController implements Initializable {
             cbAddItens.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             cbCategoria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             cbFornecedores.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            dtCompra.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
             btalterar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btapagar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
@@ -163,6 +168,7 @@ public class TelaCompraProdutoController implements Initializable {
             btvoltar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
             lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbForncedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
         }
         if(p.getCorfonte() != null){
            
@@ -170,6 +176,7 @@ public class TelaCompraProdutoController implements Initializable {
             cbAddItens.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             cbCategoria.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             cbFornecedores.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            dtCompra.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btapagar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -177,6 +184,9 @@ public class TelaCompraProdutoController implements Initializable {
             btconfirmar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btnovo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            
+            lbForncedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbobg.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
@@ -185,6 +195,7 @@ public class TelaCompraProdutoController implements Initializable {
         txTotal.setDisable(b);
         cbAddItens.setDisable(b);
         cbFornecedores.setDisable(b);
+        dtCompra.setDisable(b);
         
         btnovo.setDisable(!b);
         btapagar.setDisable(!b);
@@ -193,18 +204,6 @@ public class TelaCompraProdutoController implements Initializable {
         btconfirmar.setDisable(b);
         btcancelar.setDisable(b);
         btvoltar.setDisable(b);
-    }
-    
-    private void CarregaCBFiltro() {
-        
-        ObservableList<String> itens;
-        itens = FXCollections.observableArrayList();
-        
-        itens.add("Filtro");
-        itens.add("Valor");
-        itens.add("Fornecedor");
-        
-        cbCategoria.setItems(itens);
     }
     
     private void LimpaTelaCadastro() {
@@ -220,7 +219,7 @@ public class TelaCompraProdutoController implements Initializable {
         
         cbFornecedores.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedores());
+        ObservableList<String> lista = FXCollections.observableArrayList(dal.getNomesFornecedores());
         cbFornecedores.setItems(lista);
     }
     
@@ -234,7 +233,9 @@ public class TelaCompraProdutoController implements Initializable {
         flag = false;
         Compras linha = tvCompra.getSelectionModel().getSelectedItem();
         CodAux = linha.getCom_cod();
-        //dtCompra.setText(linha.getCom_dtcompra());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(linha.getCom_dtcompra()+"",formatter);
+        dtCompra.setValue(date);
         txTotal.setText(""+linha.getCom_total());
         int index = cbFornecedores.getItems().indexOf(linha.getFor_cnpj());
         cbCategoria.getSelectionModel().select(index);
@@ -275,7 +276,80 @@ public class TelaCompraProdutoController implements Initializable {
     }
 
     @FXML
-    private void clkBtConfirmar(ActionEvent event) {
+    private void clkBtConfirmar(ActionEvent event) throws SQLException {
+        boolean aceito = true;
+        LimpaCB();
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        Date hoje = new Date(System.currentTimeMillis());
+        Date dt = (Date) Date.from(dtCompra.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        if( dt.after(hoje))
+        {
+            dtCompra.setStyle("-fx-background-color: red;");
+            aceito = false;
+            a.setContentText("Data inválida");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            dtCompra.requestFocus();
+        }
+        else if(cbFornecedores.getSelectionModel().getSelectedItem().compareTo("") == 0)
+        {
+            cbFornecedores.setStyle("-fx-background-color: red;");
+            aceito = false;
+            a.setContentText("Fornecedor deve ser informado inválido");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            cbFornecedores.requestFocus();
+        }
+        if(aceito){
+            String cat = cbCategoria.getValue().toString();
+            Compras p = new Compras(cbFornecedores.getSelectionModel().getSelectedItem(),Double.parseDouble(txTotal.getText()),dt);
+            DALCompras dal = new DALCompras();
+            if(flag)
+            {
+                if(dal.gravar(p))
+                {
+                    LimpaTelaCadastro();
+                    if(!CarregaTabela()){
+                        a.setContentText("Impossível Carregar Produtos");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+                }
+                else
+                {
+                    a.setContentText("Impossível Salvar Produto");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+                adcProd(true);
+            }
+            else{
+                p.setCom_cod(CodAux);
+                if(dal.alterar(p)){
+                    LimpaTelaCadastro();
+                    if(!CarregaTabela()){
+                        a.setContentText("Impossível Carregar Produtos");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
+                    }
+                    flag = true;
+                }
+                else
+                {
+                    a.setContentText("Impossível Editar Produto");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+                adcProd(true);
+            }
+        }
+        LimpaTelaCadastro();
     }
 
     @FXML
@@ -316,32 +390,37 @@ public class TelaCompraProdutoController implements Initializable {
         
         return executar;
     }
+    
+    private boolean CarregaTabelaFornecedor() throws SQLException {
+        
+        boolean executar = true;
+       
+        try {
+            tvCompra.getItems().clear();
+            DALCompras dal = new DALCompras();
+            ObservableList<Compras> lista = FXCollections.observableArrayList(dal.getComprasFornecedor(txFiltro.getText()));
+            tvCompra.setItems(lista);
+            } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
+    }
 
     @FXML
     private void clkTFiltro(KeyEvent event) throws SQLException {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         DALCompras dal = new DALCompras();
-        if(cbCategoria.getSelectionModel().getSelectedItem() == "Valor")
-        {
-            if(!CarregaTabela()){
-                    a.setContentText("Impossível Filtrar Compra");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-        }
-        else if(cbCategoria.getSelectionModel().getSelectedItem() == "Fornecedor")
+        if(!(txFiltro.getText().compareTo("") == 1))
+            if(!CarregaTabelaFornecedor())
             {
-                if(!CarregaTabela())
-                {
-                    a.setContentText("Impossível Filtrar Compra");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
+                a.setContentText("Impossível Filtrar Compra");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
             }
-        else if(cbCategoria.getSelectionModel().getSelectedItem() == "Filtro")
-            CarregaTabela();
+        else
+           CarregaTabela();
     }
 
     @FXML

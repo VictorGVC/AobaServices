@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Contaspagar;
+import malucismanagement.db.entidades.Fornecedor;
 
 public class DALContaspagar {
     public boolean gravar(Contaspagar ct) throws SQLException {
@@ -62,5 +63,67 @@ public class DALContaspagar {
         }
         
         return lista;
+    }
+    
+    public List<Contaspagar> getContapagarFornecedor(String fornecedor){
+        List <Contaspagar> lista = new ArrayList();
+        DALFornecedores dal = new DALFornecedores();
+        List <Fornecedor> forn = dal.getFornecedoresNome(fornecedor);
+        for (int i = 0; i < forn.size(); i++) {
+            ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE for_cnpj like '"+forn.get(i).getFor_cnpj()+"'");
+        
+        try {
+            while(rs.next()){
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
+                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
+                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
+        return lista;
+    }
+    
+    public List<Contaspagar> getContapagarTipo(String tipo){
+        List <Contaspagar> lista = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE pag_tipo like '"+tipo+"'");
+        
+        try {
+            while(rs.next()){
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
+                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
+                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return lista;
+    }
+    
+    public List<Contaspagar> getContapagarStatus(String status){
+        List <Contaspagar> lista = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE pag_status like '"+status+"'");
+        
+        try {
+            while(rs.next()){
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
+                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
+                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return lista;
+    }
+    
+    public Boolean QuitarConta(int cod){
+        String sql = "UPDATE contaspagar SET "
+                + "pag_status ='F' WHERE pag_cod="+cod;
+
+        return Banco.getCon().manipular(sql);
     }
 }

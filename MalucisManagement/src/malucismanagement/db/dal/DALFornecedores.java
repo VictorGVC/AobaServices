@@ -63,6 +63,22 @@ public class DALFornecedores {
         return lista;
     }
     
+    public List<String> getNomesFornecedores(){
+        List <String> lista = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM fornecedores");
+        
+        try {
+            while(rs.next()){
+                lista.add(rs.getString("for_nome"));
+            }
+        } catch (Exception e) {
+            int i = 0;
+            i++;
+        }
+        
+        return lista;
+    }
+    
     public List<Fornecedor> getFornecedoresNome(String nome){
         List <Fornecedor> lista = new ArrayList();
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM fornecedores WHERE Lower(for_nome) like '%"+nome.toLowerCase()+"%'");

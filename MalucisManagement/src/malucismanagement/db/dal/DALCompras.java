@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Compras;
+import malucismanagement.db.entidades.Fornecedor;
 
 public class DALCompras {
     public boolean gravar(Compras c) throws SQLException {
         
         
-        String sql = "INSERT INTO compras (com_cod,com_total,com_dtcompra,for_cnpj)"
-                + "VALUES (#1,#2,'#3'#4')";
-        sql = sql.replaceAll("#1","" + c.getCom_cod());
-        sql = sql.replaceAll("#2","" + c.getCom_total());
-        sql = sql.replaceAll("#3","" + c.getCom_dtcompra());
-        sql = sql.replaceAll("#4","" + c.getFor_cnpj());
+        String sql = "INSERT INTO compras (com_total,com_dtcompra,for_cnpj)"
+                + "VALUES (#1,'#2','#3')";
+        sql = sql.replaceAll("#1","" + c.getCom_total());
+        sql = sql.replaceAll("#2","" + c.getCom_dtcompra());
+        sql = sql.replaceAll("#3","" + c.getFor_cnpj());
         
         return Banco.getCon().manipular(sql);
     }
@@ -47,11 +47,30 @@ public class DALCompras {
         
         try {
             while(rs.next()){
-                lista.add(new Compras(Integer.parseInt(rs.getString("com_cod")),rs.getString("for_cnpj"),Double.parseDouble("com_total"),
+                lista.add(new Compras(rs.getString("for_cnpj"),Double.parseDouble("com_total"),
                         (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("com_dtcompra"))));
                 }
         } catch (Exception e) {
             System.out.println(e);
+        }
+        return lista;
+    }
+    
+    public List<Compras> getComprasFornecedor(String fornecedor){
+        List <Compras> lista = new ArrayList();
+        DALFornecedores dal = new DALFornecedores();
+        List <Fornecedor> forn = dal.getFornecedoresNome(fornecedor);
+        for (int i = 0; i < forn.size(); i++) {
+            ResultSet rs = Banco.getCon().consultar("SELECT * FROM compras WHERE for_cnpj like '"+forn.get(i).getFor_cnpj()+"'");
+        
+            try {
+                while(rs.next()){
+                    lista.add(new Compras(forn.get(i).getFor_nome(),Double.parseDouble("com_total"),
+                            (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("com_dtcompra"))));
+                    }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
         return lista;
     }

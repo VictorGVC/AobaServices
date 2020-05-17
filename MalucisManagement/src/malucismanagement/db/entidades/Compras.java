@@ -12,8 +12,7 @@ public class Compras {
     public Compras() {
     }
 
-    public Compras(int com_cod, String for_cnpj, Double com_total, Date com_dtcompra) {
-        this.com_cod = com_cod;
+    public Compras( String for_cnpj, Double com_total, Date com_dtcompra) {
         this.for_cnpj = for_cnpj;
         this.com_total = com_total;
         this.com_dtcompra = com_dtcompra;

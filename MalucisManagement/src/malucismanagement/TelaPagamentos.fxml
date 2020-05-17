@@ -32,16 +32,16 @@
                   <JFXTextField fx:id="txParcela" focusColor="BLACK" labelFloat="true" layoutX="71.0" layoutY="39.0" prefHeight="32.0" prefWidth="137.0" promptText="Quantidade de Parcelas*" unFocusColor="BLACK" />
                   <JFXDatePicker fx:id="dtVencimento" defaultColor="BLACK" layoutX="232.0" layoutY="39.0" prefHeight="32.0" prefWidth="194.0" promptText="Data do Vencimento*" />
                   <Label fx:id="lbobg" layoutX="653.0" layoutY="153.0" text="* Campos Obrigatorios" textFill="RED" />
-                  <JFXComboBox fx:id="cbTipo" focusColor="BLACK" labelFloat="true" layoutX="448.0" layoutY="43.0" prefHeight="25.0" prefWidth="112.0" promptText="Tipo" />
+                  <JFXComboBox fx:id="cbTipo" focusColor="BLACK" labelFloat="true" layoutX="448.0" layoutY="43.0" prefHeight="25.0" prefWidth="112.0" promptText="Tipo*" />
                   <JFXTextField fx:id="txContato" focusColor="BLACK" labelFloat="true" layoutX="592.0" layoutY="43.0" promptText="Contato" />
                   <JFXTextField fx:id="txValor" focusColor="BLACK" labelFloat="true" layoutX="72.0" layoutY="119.0" promptText="Valor*" />
-                  <JFXComboBox fx:id="cbFornecedores" focusColor="BLACK" labelFloat="true" layoutX="232.0" layoutY="119.0" prefHeight="25.0" prefWidth="211.0" promptText="Fornecedor" />
+                  <JFXComboBox fx:id="cbFornecedores" focusColor="BLACK" labelFloat="true" layoutX="232.0" layoutY="119.0" prefHeight="25.0" prefWidth="211.0" promptText="Fornecedor*" />
                </children>
             </Pane>
             <Pane fx:id="pnfiltros" prefHeight="76.0" prefWidth="798.0">
                <children>
                   <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="93.0" layoutY="18.0" prefHeight="38.0" prefWidth="145.0" promptText="Categoria" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="tfiltro" focusColor="BLACK" labelFloat="true" layoutX="272.0" layoutY="18.0" onKeyTyped="#clkTFiltro" prefHeight="38.0" prefWidth="274.0" unFocusColor="BLACK">
+                  <JFXTextField fx:id="txfiltro" focusColor="BLACK" labelFloat="true" layoutX="272.0" layoutY="18.0" onKeyTyped="#clkTFiltro" prefHeight="38.0" prefWidth="274.0" unFocusColor="BLACK">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -53,15 +53,16 @@
       </VBox>
       <VBox fx:id="pnpesquisa" prefHeight="265.0" prefWidth="798.0">
          <children>
-            <TableView fx:id="tvclientes" onMouseClicked="#clkTabela" prefHeight="310.0" prefWidth="798.0" scaleShape="false">
+            <TableView fx:id="tvContas" onMouseClicked="#clkTabela" prefHeight="310.0" prefWidth="798.0" scaleShape="false">
                <columns>
-                  <TableColumn fx:id="collogin" prefWidth="68.0" text="Codigo" />
-                  <TableColumn fx:id="colnome" prefWidth="115.0" text="Nº da Parcela" />
-                  <TableColumn fx:id="colcpf" prefWidth="177.0" text="Fornecedor" />
-                  <TableColumn fx:id="colemail" prefWidth="131.0" text="Valor" />
-                  <TableColumn prefWidth="86.0" text="Status" />
-                  <TableColumn prefWidth="78.0" text="Tipo" />
-                  <TableColumn prefWidth="142.0" text="Contato" />
+                  <TableColumn fx:id="colCod" prefWidth="68.0" text="Codigo" />
+                  <TableColumn fx:id="colParcela" prefWidth="115.0" text="Nº da Parcela" />
+                  <TableColumn fx:id="colFornecedor" prefWidth="177.0" text="Fornecedor" />
+                  <TableColumn fx:id="colValor" prefWidth="77.0" text="Valor" />
+                  <TableColumn fx:id="colVencimento" prefWidth="112.0" text="Vencimento" />
+                  <TableColumn fx:id="colStatus" prefWidth="72.0" text="Status" />
+                  <TableColumn fx:id="colTipo" prefWidth="51.0" text="Tipo" />
+                  <TableColumn fx:id="colContato" prefWidth="124.0" text="Contato" />
                </columns>
             </TableView>
          </children>
