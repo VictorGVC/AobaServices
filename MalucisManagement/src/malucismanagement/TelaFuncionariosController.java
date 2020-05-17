@@ -74,29 +74,18 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btvoltar;
     @FXML
     private Pane pndados;
-    @FXML
     private JFXTextField tnome;
-    @FXML
     private JFXTextField ttelefone;
-    @FXML
     private JFXTextField trua;
-    @FXML
     private JFXComboBox<String> cbsexo;
-    @FXML
     private JFXTextField tnumero;
-    @FXML
     private JFXTextField tbairro;
-    @FXML
     private JFXDatePicker dpdatanasc;
     @FXML
     private JFXTextField tcpf;
-    @FXML
     private JFXTextField tcep;
-    @FXML
     private JFXTextField temail;
-    @FXML
     private JFXTextField tcidade;
-    @FXML
     private JFXTextField tuf;
     @FXML
     private VBox pnpesquisa;
@@ -112,27 +101,19 @@ public class TelaFuncionariosController implements Initializable {
     private TableColumn<Funcionario, String> colnome;
     @FXML
     private TableColumn<Funcionario, String> colcpf;
-    @FXML
     private TableColumn<Funcionario, String> coltelefone;
     @FXML
     private TableColumn<Funcionario, String> collogin;
     @FXML
     private TableColumn<Funcionario, String> colemail;
-    @FXML
     private TableColumn<Funcionario, String> colativo;
-    @FXML
     private JFXComboBox<String> cbCargo;
-    @FXML
     private JFXPasswordField txsenha;
-    @FXML
     private JFXTextField txlogin;
-    @FXML
     private JFXPasswordField txsenhan;
-    @FXML
     private JFXButton btativdesativ;
     @FXML
     private JFXButton btnovo;
-    @FXML
     private TableColumn<Funcionario, Integer> colnivel;
     @FXML
     private Label lbobg;
@@ -143,7 +124,7 @@ public class TelaFuncionariosController implements Initializable {
         pa = false;
         fadeout();
         fixaDivider();
-        setParametros();
+        //setParametros();
         setMascaras();
         initializeSexo();
         initializeCategoria();
@@ -708,7 +689,6 @@ public class TelaFuncionariosController implements Initializable {
             }
     }
 
-    @FXML
     private void evtBotaoDigitado(KeyEvent event) {
         
         if(tcep.getText().length() == 8){
@@ -816,7 +796,6 @@ public class TelaFuncionariosController implements Initializable {
         this.Usuario = Usuario;
     }
 
-    @FXML
     private void clkBtAtivar(ActionEvent event) {
         
         String result;
@@ -891,4 +870,5 @@ public class TelaFuncionariosController implements Initializable {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }   
+
 }
