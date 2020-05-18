@@ -29,7 +29,6 @@ public class DALCliente {
         sql = sql.replaceAll("#c", "" + c.getUf());
         
         return Banco.getCon().manipular(sql);
-        
     }
     
     public boolean alterar(Cliente c) {
@@ -52,7 +51,6 @@ public class DALCliente {
         sql = sql.replaceAll("#c", "" + c.getUf());
         
         return Banco.getCon().manipular(sql);
-        
     }
     
     public boolean apagar(Cliente c) {

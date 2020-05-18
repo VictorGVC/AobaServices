@@ -72,9 +72,11 @@
                   </TableView>
                   <Pane fx:id="pndados2" layoutX="501.0" layoutY="2.0" prefHeight="268.0" prefWidth="298.0">
                      <children>
-                        <JFXTextField fx:id="tcliente" focusColor="BLACK" labelFloat="true" layoutX="64.0" layoutY="44.0" onKeyTyped="#evtCpfDigitado" prefHeight="32.0" prefWidth="171.0" promptText="Cliente " unFocusColor="BLACK" />
-                        <JFXDatePicker fx:id="dpdatavenda" defaultColor="BLACK" layoutX="64.0" layoutY="118.0" prefHeight="32.0" prefWidth="171.0" promptText="Data da Venda" />
-                        <JFXButton fx:id="btconfirmar" layoutX="115.0" layoutY="229.0" onAction="#clkBtConfirmar" text="Confirmar" />
+                        <JFXTextField fx:id="tcodigo" disable="true" focusColor="BLACK" labelFloat="true" layoutX="13.0" layoutY="46.0" prefHeight="32.0" prefWidth="66.0" promptText="Código" unFocusColor="BLACK" />
+                        <JFXTextField fx:id="tcliente" focusColor="BLACK" labelFloat="true" layoutX="12.0" layoutY="102.0" onKeyTyped="#evtCpfDigitado" prefHeight="32.0" prefWidth="273.0" promptText="Cliente " unFocusColor="BLACK" />
+                        <JFXDatePicker fx:id="dpdatavenda" defaultColor="BLACK" layoutX="165.0" layoutY="46.0" prefHeight="32.0" prefWidth="121.0" promptText="Data da Venda" />
+                        <JFXButton fx:id="btconfirmar" layoutX="114.0" layoutY="185.0" onAction="#clkBtConfirmar" text="Confirmar" />
+                        <JFXTextField fx:id="ttotal" disable="true" focusColor="BLACK" labelFloat="true" layoutX="90.0" layoutY="46.0" prefHeight="32.0" prefWidth="66.0" promptText="Valor Total" unFocusColor="BLACK" />
                      </children>
                   </Pane>
                </children>

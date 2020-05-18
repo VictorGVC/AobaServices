@@ -78,6 +78,10 @@ public class TelaPrincipalController implements Initializable {
     private Label lbtelefone;
     @FXML
     private VBox pntotal;
+    @FXML
+    private VBox pnbotoes2;
+    @FXML
+    private JFXButton btvendas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,12 +105,14 @@ public class TelaPrincipalController implements Initializable {
         if(p.getCorprimaria() != null){
             
             pnimg.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pnbotoes2.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             pnbotoes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
             tbatalhos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             
+            btvendas.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btfuncionarios.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btclientes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btfornecedores.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
@@ -116,6 +122,7 @@ public class TelaPrincipalController implements Initializable {
         }
         if(p.getFonte() != null){
             
+            btvendas.setFont(new Font(p.getFonte(), 14));
             btfuncionarios.setFont(new Font(p.getFonte(), 14));
             btclientes.setFont(new Font(p.getFonte(), 14));
             btfornecedores.setFont(new Font(p.getFonte(), 14));
@@ -130,6 +137,7 @@ public class TelaPrincipalController implements Initializable {
         }
         if(p.getCorfonte() != null){
             
+            btvendas.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btfuncionarios.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btclientes.setStyle(btclientes.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btfornecedores.setStyle(btfornecedores.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -208,6 +216,20 @@ public class TelaPrincipalController implements Initializable {
                 catch (IOException ex) {}
             }
         });
+    }
+
+    @FXML
+    private void clkOpenVendas(ActionEvent event) throws IOException {
+        
+        Parent root = FXMLLoader.load(getClass().getResource("TelaVendas.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Vendas");
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
     }
 
     @FXML

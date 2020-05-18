@@ -65,38 +65,51 @@
       </VBox>
       <HBox alignment="CENTER" prefHeight="415.0" prefWidth="800.0">
          <children>
-            <VBox fx:id="pnimg" prefHeight="365.0" prefWidth="300.0">
+            <VBox fx:id="pnimg" prefHeight="413.0" prefWidth="330.0">
                <children>
-                  <ImageView fx:id="ivlogo" fitHeight="255.0" fitWidth="334.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="ivlogo" fitHeight="255.0" fitWidth="330.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </VBox>
-            <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="365.0" prefWidth="500.0" spacing="15.0">
+            <HBox prefHeight="413.0" prefWidth="470.0">
                <children>
-                  <JFXButton fx:id="btfuncionarios" alignment="CENTER" onAction="#clkOpenFuncionarios" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Funcionarios" textAlignment="CENTER">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btclientes" alignment="CENTER" onAction="#clkOpenClientes" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Clientes" textAlignment="CENTER">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btfornecedores" alignment="CENTER" onAction="#clkOpenFornecedores" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Fornecedores" textAlignment="CENTER">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btprodutos" alignment="CENTER" onAction="#clkOpenProduto" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Produtos" textAlignment="CENTER">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </JFXButton>
+                  <VBox fx:id="pnbotoes2" alignment="CENTER" prefHeight="200.0" prefWidth="235.0" spacing="15.0">
+                     <children>
+                        <JFXButton fx:id="btvendas" alignment="CENTER" onAction="#clkOpenVendas" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Vendas">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="413.0" prefWidth="235.0" spacing="15.0">
+                     <children>
+                        <JFXButton fx:id="btfuncionarios" alignment="CENTER" onAction="#clkOpenFuncionarios" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Funcionarios" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="btclientes" alignment="CENTER" onAction="#clkOpenClientes" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Clientes" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="btfornecedores" alignment="CENTER" onAction="#clkOpenFornecedores" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Fornecedores" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="btprodutos" alignment="CENTER" onAction="#clkOpenProduto" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Produtos" textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
                </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </VBox>
+            </HBox>
          </children>
       </HBox>
       <HBox fx:id="pnrodape" alignment="CENTER" prefHeight="40.0" prefWidth="800.0" spacing="20.0">
