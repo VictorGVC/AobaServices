@@ -79,6 +79,11 @@
                               <Font size="14.0" />
                            </font>
                         </JFXButton>
+                        <JFXButton fx:id="btrecebimentos" alignment="CENTER" layoutX="38.0" layoutY="197.0" onAction="#clkOpenRecebimentos" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Recebimentos">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </JFXButton>
                      </children>
                   </VBox>
                   <VBox fx:id="pnbotoes" alignment="CENTER" prefHeight="413.0" prefWidth="235.0" spacing="15.0">

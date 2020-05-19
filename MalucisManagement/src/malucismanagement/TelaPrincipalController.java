@@ -24,7 +24,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 import malucismanagement.db.banco.Banco;
@@ -82,6 +81,8 @@ public class TelaPrincipalController implements Initializable {
     private VBox pnbotoes2;
     @FXML
     private JFXButton btvendas;
+    @FXML
+    private JFXButton btrecebimentos;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -122,6 +123,7 @@ public class TelaPrincipalController implements Initializable {
         }
         if(p.getFonte() != null){
             
+            btrecebimentos.setFont(new Font(p.getFonte(), 14));
             btvendas.setFont(new Font(p.getFonte(), 14));
             btfuncionarios.setFont(new Font(p.getFonte(), 14));
             btclientes.setFont(new Font(p.getFonte(), 14));
@@ -137,6 +139,7 @@ public class TelaPrincipalController implements Initializable {
         }
         if(p.getCorfonte() != null){
             
+            btrecebimentos.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btvendas.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btfuncionarios.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btclientes.setStyle(btclientes.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -228,7 +231,21 @@ public class TelaPrincipalController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Vendas");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.show();
+    }
+
+    @FXML
+    private void clkOpenRecebimentos(ActionEvent event) throws IOException {
+        
+        Parent root = FXMLLoader.load(getClass().getResource("TelaRecebimentos.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Recebimentos");
+        stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }
 
@@ -242,7 +259,7 @@ public class TelaPrincipalController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Funcionários");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }
 
@@ -256,7 +273,7 @@ public class TelaPrincipalController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Clientes");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }
 
@@ -270,7 +287,7 @@ public class TelaPrincipalController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Fornecedores");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }
 
@@ -284,7 +301,7 @@ public class TelaPrincipalController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Produtos");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }
     

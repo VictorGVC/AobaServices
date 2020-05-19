@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALContasReceber;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -45,13 +46,9 @@ public class TelaRecebimentosController implements Initializable {
     @FXML
     private HBox pnbotoes;
     @FXML
-    private JFXButton btnovo;
+    private JFXButton btquitar;
     @FXML
-    private JFXButton btalterar;
-    @FXML
-    private JFXButton btapagar;
-    @FXML
-    private JFXButton btconfirmar;
+    private JFXButton btestornar;
     @FXML
     private JFXButton btcancelar;
     @FXML
@@ -133,7 +130,7 @@ public class TelaRecebimentosController implements Initializable {
             @Override 
             public void changed(ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue) {
                 
-                divider.setPosition(0.52);
+                divider.setPosition(0.37);
             }
         });
     }
@@ -155,10 +152,8 @@ public class TelaRecebimentosController implements Initializable {
         }
         if(p.getFonte() != null){
             
-            btnovo.setFont(new Font(p.getFonte(), 12));
-            btalterar.setFont(new Font(p.getFonte(), 12));
-            btapagar.setFont(new Font(p.getFonte(), 12));
-            btconfirmar.setFont(new Font(p.getFonte(), 12));
+            btquitar.setFont(new Font(p.getFonte(), 12));
+            btestornar.setFont(new Font(p.getFonte(), 12));
             btcancelar.setFont(new Font(p.getFonte(), 12));
             btvoltar.setFont(new Font(p.getFonte(), 12));
             
@@ -173,10 +168,8 @@ public class TelaRecebimentosController implements Initializable {
         }
         if(p.getCorfonte() != null){
             
-            btnovo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btapagar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btconfirmar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btquitar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btestornar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btcancelar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
@@ -214,11 +207,9 @@ public class TelaRecebimentosController implements Initializable {
     private void estado(boolean b) {
         
         pndados.setDisable(b);
-        btconfirmar.setDisable(b);
+        btquitar.setDisable(b);
         btcancelar.setDisable(b);
-        btapagar.setDisable(!b);
-        btalterar.setDisable(!b);
-        btnovo.setDisable(!b);
+        btestornar.setDisable(!b);
       
         //carregaTabela("");
     }
@@ -285,33 +276,31 @@ public class TelaRecebimentosController implements Initializable {
         tf.setFocusColor(Paint.valueOf(cor));
         tf.setUnFocusColor(Paint.valueOf(cor));
     }
-    
+
     @FXML
-    private void clkBtNovo(ActionEvent event) {
-        
-        estado(false);
-        limparCampos();
-        pnpesquisa.setDisable(true);
+    private void clkBtQuitar(ActionEvent event) {
     }
 
     @FXML
-    private void clkBtAlterar(ActionEvent event) {
-    }
-
-    @FXML
-    private void clkBtApagar(ActionEvent event) {
-    }
-
-    @FXML
-    private void clkBtConfirmar(ActionEvent event) {
+    private void clkBtEstonar(ActionEvent event) {
     }
 
     @FXML
     private void clkBtCancelar(ActionEvent event) {
+        
+        if (!pndados.isDisabled()){
+            
+            estado(true);
+            limparCampos();
+        }
+        pnpesquisa.setDisable(false);
     }
 
     @FXML
     private void clkBtVoltar(ActionEvent event) {
+        
+        Stage stage = (Stage) btvoltar.getScene().getWindow();
+        stage.close();
     }
 
 
@@ -321,5 +310,9 @@ public class TelaRecebimentosController implements Initializable {
 
     @FXML
     private void clkTabela(MouseEvent event) {
+        
+        estado(false);
+        limparCampos();
+        pnpesquisa.setDisable(true);
     }
 }

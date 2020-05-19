@@ -150,7 +150,7 @@ public class TelaVendasController implements Initializable {
             @Override 
             public void changed(ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue) {
                 
-                divider.setPosition(0.52);
+                divider.setPosition(0.45);
             }
         });
     }
