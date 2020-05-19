@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
@@ -31,7 +32,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALContasReceber;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -42,6 +42,8 @@ import malucismanagement.util.MaskFieldUtil;
 public class TelaRecebimentosController implements Initializable {
 
     @FXML
+    private Tab tabreceber;
+    @FXML
     private SplitPane pnprincipal;
     @FXML
     private HBox pnbotoes;
@@ -51,8 +53,6 @@ public class TelaRecebimentosController implements Initializable {
     private JFXButton btestornar;
     @FXML
     private JFXButton btcancelar;
-    @FXML
-    private JFXButton btvoltar;
     @FXML
     private Pane pndados;
     @FXML
@@ -71,8 +71,6 @@ public class TelaRecebimentosController implements Initializable {
     private JFXComboBox<String> cbtipo;
     @FXML
     private JFXTextField tcontato;
-    @FXML
-    private JFXDatePicker dpdatapag;
     @FXML
     private VBox pnpesquisa;
     @FXML
@@ -94,11 +92,59 @@ public class TelaRecebimentosController implements Initializable {
     @FXML
     private TableColumn<ContasReceber, LocalDate> coldatavenc;
     @FXML
-    private TableColumn<ContasReceber, LocalDate> coldatapag;
-    @FXML
     private TableColumn<ContasReceber, String> coltipo;
     @FXML
     private TableColumn<ContasReceber, String> colcontato;
+    @FXML
+    private Tab tabrecebidas;
+    @FXML
+    private SplitPane pnprincipal1;
+    @FXML
+    private HBox pnbotoes1;
+    @FXML
+    private JFXButton btcancelar1;
+    @FXML
+    private Pane pndados1;
+    @FXML
+    private JFXTextField tparcelas1;
+    @FXML
+    private JFXTextField tcodigo1;
+    @FXML
+    private Label lbobg1;
+    @FXML
+    private JFXTextField tcodvenda1;
+    @FXML
+    private JFXTextField tvalor1;
+    @FXML
+    private JFXComboBox<String> cbtipo1;
+    @FXML
+    private JFXTextField tcontato1;
+    @FXML
+    private JFXDatePicker dpdatapag1;
+    @FXML
+    private VBox pnpesquisa1;
+    @FXML
+    private Pane pnfiltros1;
+    @FXML
+    private JFXComboBox<String> cbcategoria1;
+    @FXML
+    private JFXTextField tfiltro1;
+    @FXML
+    private TableView<ContasReceber> tvrecebidas;
+    @FXML
+    private TableColumn<ContasReceber, Integer> colcod1;
+    @FXML
+    private TableColumn<ContasReceber, Integer> colvenda1;
+    @FXML
+    private TableColumn<ContasReceber, Integer> colparcela1;
+    @FXML
+    private TableColumn<ContasReceber, Double> colvalor1;
+    @FXML
+    private TableColumn<ContasReceber, LocalDate> coldatapag1;
+    @FXML
+    private TableColumn<ContasReceber, String> coltipo1;
+    @FXML
+    private TableColumn<ContasReceber, String> colcontato1;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -107,10 +153,12 @@ public class TelaRecebimentosController implements Initializable {
         fixaDivider();
         setParametros();
         setMascaras();
-        initColTb();
+        initColT1();
+        initColT2();
         listaTipo();
         listaCategoria();
-        estado(true);
+        estado1(true);
+        estado2(true);
     }    
 
     private void fadeout() {
@@ -133,6 +181,16 @@ public class TelaRecebimentosController implements Initializable {
                 divider.setPosition(0.37);
             }
         });
+        
+        SplitPane.Divider divider2 = pnprincipal1.getDividers().get(0);
+        divider2.positionProperty().addListener(new ChangeListener<Number>() {
+            
+            @Override 
+            public void changed(ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue) {
+                
+                divider2.setPosition(0.37);
+            }
+        });
     }
     
     private void setParametros() {
@@ -144,18 +202,22 @@ public class TelaRecebimentosController implements Initializable {
             
             pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             tvrecebimentos.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            
+            pndados1.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            tvrecebidas.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
             pnbotoes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             pnfiltros.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            
+            pnbotoes1.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            pnfiltros1.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
         }
         if(p.getFonte() != null){
             
             btquitar.setFont(new Font(p.getFonte(), 12));
-            btestornar.setFont(new Font(p.getFonte(), 12));
             btcancelar.setFont(new Font(p.getFonte(), 12));
-            btvoltar.setFont(new Font(p.getFonte(), 12));
             
             tcodigo.setFont(new Font(p.getFonte(), 14));
             tcodvenda.setFont(new Font(p.getFonte(), 14));
@@ -165,13 +227,23 @@ public class TelaRecebimentosController implements Initializable {
             lbobg.setFont(new Font(p.getFonte(), 12));
             
             tfiltro.setFont(new Font(p.getFonte(), 14));
+            
+            btestornar.setFont(new Font(p.getFonte(), 12));
+            btcancelar1.setFont(new Font(p.getFonte(), 12));
+            
+            tcodigo1.setFont(new Font(p.getFonte(), 14));
+            tcodvenda1.setFont(new Font(p.getFonte(), 14));
+            tparcelas1.setFont(new Font(p.getFonte(), 14));
+            tvalor1.setFont(new Font(p.getFonte(), 14));
+            tcontato1.setFont(new Font(p.getFonte(), 14));
+            lbobg1.setFont(new Font(p.getFonte(), 12));
+            
+            tfiltro1.setFont(new Font(p.getFonte(), 14));
         }
         if(p.getCorfonte() != null){
             
             btquitar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btestornar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btcancelar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             tcodigo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             tcodvenda.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -180,6 +252,17 @@ public class TelaRecebimentosController implements Initializable {
             tcontato.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            
+            btestornar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btcancelar1.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            
+            tcodigo1.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcodvenda1.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tparcelas1.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tvalor1.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcontato1.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            
+            tfiltro1.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
@@ -190,31 +273,55 @@ public class TelaRecebimentosController implements Initializable {
         MaskFieldUtil.numericField(tparcelas);
         MaskFieldUtil.monetaryField(tvalor);
         MaskFieldUtil.foneField(tcontato);
+        
+        MaskFieldUtil.numericField(tcodigo1);
+        MaskFieldUtil.numericField(tcodvenda1);
+        MaskFieldUtil.numericField(tparcelas1);
+        MaskFieldUtil.monetaryField(tvalor1);
+        MaskFieldUtil.foneField(tcontato1);
     }
     
-    private void initColTb() {
+    private void initColT1() {
         
         colcod.setCellValueFactory(new PropertyValueFactory("cod"));
         colvenda.setCellValueFactory(new PropertyValueFactory("ven_cod"));
         colparcela.setCellValueFactory(new PropertyValueFactory("par"));
         colvalor.setCellValueFactory(new PropertyValueFactory("valor"));
         coldatavenc.setCellValueFactory(new PropertyValueFactory("datavenc"));
-        coldatapag.setCellValueFactory(new PropertyValueFactory("datapag"));
         coltipo.setCellValueFactory(new PropertyValueFactory("tipo"));
         colcontato.setCellValueFactory(new PropertyValueFactory("contato"));
     }
     
-    private void estado(boolean b) {
+    private void initColT2() {
+        
+        colcod1.setCellValueFactory(new PropertyValueFactory("cod"));
+        colvenda1.setCellValueFactory(new PropertyValueFactory("ven_cod"));
+        colparcela1.setCellValueFactory(new PropertyValueFactory("par"));
+        colvalor1.setCellValueFactory(new PropertyValueFactory("valor"));
+        coldatapag1.setCellValueFactory(new PropertyValueFactory("datavenc"));
+        coltipo1.setCellValueFactory(new PropertyValueFactory("tipo"));
+        colcontato1.setCellValueFactory(new PropertyValueFactory("contato"));
+    }
+    
+    private void estado1(boolean b) {
         
         pndados.setDisable(b);
         btquitar.setDisable(b);
         btcancelar.setDisable(b);
-        btestornar.setDisable(!b);
       
-        //carregaTabela("");
+        //carregaTabelaReceber("");
     }
     
-    private void carregaTabela(String filtro) {
+    private void estado2(boolean b) {
+        
+        pndados1.setDisable(b);
+        btcancelar1.setDisable(b);
+        btestornar.setDisable(b);
+      
+        //carregaTabelaRecebidas("");
+    }
+    
+    private void carregaTabelaReceber(String filtro) {
         
         DALContasReceber dal = new DALContasReceber();
         List<ContasReceber> res = dal.getListRec(filtro);
@@ -222,6 +329,16 @@ public class TelaRecebimentosController implements Initializable {
         
         modelo = FXCollections.observableArrayList(res);
         tvrecebimentos.setItems(modelo);
+    }
+    
+    private void carregaTabelaRecebidas(String filtro) {
+        
+        DALContasReceber dal = new DALContasReceber();
+        List<ContasReceber> res = dal.getListRec(filtro);
+        ObservableList<ContasReceber> modelo;
+        
+        modelo = FXCollections.observableArrayList(res);
+        tvrecebidas.setItems(modelo);
     }
     
     private void listaTipo() {
@@ -234,6 +351,7 @@ public class TelaRecebimentosController implements Initializable {
         list.add("Dinheiro");
         
         cbtipo.setItems(FXCollections.observableArrayList(list));
+        cbtipo1.setItems(FXCollections.observableArrayList(list));
     }
     
     private void listaCategoria() {
@@ -243,16 +361,16 @@ public class TelaRecebimentosController implements Initializable {
         list.add("");
         list.add("Código");
         list.add("Venda");
-        list.add("Data de Vencimento");
         list.add("Status");
         list.add("Tipo");
         list.add("Cliente");
         list.add("Contato");
         
         cbcategoria.setItems(FXCollections.observableArrayList(list));
+        cbcategoria1.setItems(FXCollections.observableArrayList(list));
     }
     
-    private void limparCampos() {
+    private void limparCampos1() {
         
         ObservableList <Node> componentes = pndados.getChildren();
         
@@ -265,10 +383,32 @@ public class TelaRecebimentosController implements Initializable {
         }
     }
     
+    private void limparCampos2() {
+        
+        ObservableList <Node> componentes = pndados1.getChildren();
+        
+        for(Node n : componentes) {
+            
+            if (n instanceof TextInputControl)
+                ((TextInputControl)n).setText("");
+            cbtipo1.getSelectionModel().select(-1);
+            cbcategoria1.getSelectionModel().select(-1);
+        }
+    }
+    
     private void setCorAlert(String cor){
         
-        setCorAlert(tvalor, cor);
-        setCorAlert(tcontato, cor);
+        if(tabreceber.isSelected()){
+            
+            setCorAlert(tvalor, cor);
+            setCorAlert(tcontato, cor);
+        }
+        
+        if(tabrecebidas.isSelected()){
+            
+            setCorAlert(tvalor1, cor);
+            setCorAlert(tcontato1, cor);
+        }
     }
     
     private void setCorAlert(JFXTextField tf, String cor){
@@ -288,31 +428,48 @@ public class TelaRecebimentosController implements Initializable {
     @FXML
     private void clkBtCancelar(ActionEvent event) {
         
-        if (!pndados.isDisabled()){
+        if(tabreceber.isSelected()){
             
-            estado(true);
-            limparCampos();
+            if (!pndados.isDisabled()){
+
+                estado1(true);
+                limparCampos1();
+            }
+            pnpesquisa.setDisable(false);
         }
-        pnpesquisa.setDisable(false);
-    }
-
-    @FXML
-    private void clkBtVoltar(ActionEvent event) {
         
-        Stage stage = (Stage) btvoltar.getScene().getWindow();
-        stage.close();
+        if(tabrecebidas.isSelected()){
+            
+            if (!pndados1.isDisabled()){
+
+                estado2(true);
+                limparCampos2();
+            }
+            pnpesquisa1.setDisable(false);
+        }
+    }
+    
+    @FXML
+    private void clkTFiltro1(KeyEvent event) {
     }
 
-
     @FXML
-    private void clkTFiltro(KeyEvent event) {
+    private void clkTFiltro2(KeyEvent event) {
     }
 
     @FXML
     private void clkTabela(MouseEvent event) {
         
-        estado(false);
-        limparCampos();
+        estado1(false);
+        limparCampos1();
+        pnpesquisa.setDisable(true);
+    }
+
+    @FXML
+    private void clkTabelaRecebidas(MouseEvent event) {
+        
+        estado2(false);
+        limparCampos2();
         pnpesquisa.setDisable(true);
     }
 }
