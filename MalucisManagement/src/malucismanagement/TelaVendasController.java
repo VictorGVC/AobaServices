@@ -17,6 +17,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -43,6 +44,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALItensVenda;
@@ -209,7 +211,7 @@ public class TelaVendasController implements Initializable {
             tfiltro.setFont(new Font(p.getFonte(), 14));
             
             tcodigo.setFont(new Font(p.getFonte(), 14));
-            tcliente.setFont(new Font(p.getFonte(), 14));
+            ttotal.setFont(new Font(p.getFonte(), 14));
         }
         if(p.getCorfonte() != null){
             
@@ -231,7 +233,7 @@ public class TelaVendasController implements Initializable {
             tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             tcodigo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            tcliente.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            ttotal.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
@@ -242,7 +244,6 @@ public class TelaVendasController implements Initializable {
         MaskFieldUtil.monetaryField(tpreco);
         MaskFieldUtil.maxField(tmarca, 50);
         MaskFieldUtil.numericField(tpreco);
-        MaskFieldUtil.cpfField(tcliente);
         dpdatavenda.setValue(LocalDate.now());
     }
     
@@ -400,7 +401,6 @@ public class TelaVendasController implements Initializable {
     private void setCorAlert(String cor){
         
         setCorAlert(tcodigodebarras, cor);
-        setCorAlert(tpreco, cor);
         setCorAlert(tqtde, cor);
     }
     
@@ -690,6 +690,8 @@ public class TelaVendasController implements Initializable {
                 
                 Venda v = (Venda)tvvendas.getSelectionModel().getSelectedItem();
                 
+                tcodigo.setText("" + v.getCod());
+                ttotal.setText("" + v.getValortotal());
                 tcliente.setText(v.getCli_id());
                 dpdatavenda.setValue(v.getDtvenda());
                 carregaTabelaProdutos("UPPER(ven_cod) LIKE '%" + tvvendas.getSelectionModel().getSelectedItem().getCod() + "%'");
@@ -704,60 +706,76 @@ public class TelaVendasController implements Initializable {
         }
     }
     
-    @FXML
-    private void evtCpfDigitado(KeyEvent event) {
-    }
-
-    @FXML
-    private void clkBtConfirmar(ActionEvent event) {
+    private void gravarVenda(){
         
         int cod;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
-        DALCliente dalc = new DALCliente();
-        
-        if((!tcliente.getText().isEmpty() && dalc.getCli(tcliente.getText()) != null) || tcliente.getText().isEmpty()){
-            
-            try {
-                cod = Integer.parseInt(tcodigo.getText());
-            } 
-            catch (NumberFormatException e) {
-                cod = -1;
-            }
-            
-            Venda v = new Venda(cod, Double.parseDouble(ttotal.getText()), dpdatavenda.getValue(), tcliente.getText());
-            DALVenda dal = new DALVenda();
 
-            if(pnfiltros.isDisable()){
-                
-                if (dal.gravar(v)){
-                    
-                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
-                }
-                else{
-                    
-                    a.setContentText("Problemas ao Gravar!");
-                    a.showAndWait();
-                }
-            }
-            else
-            {
-                if (dal.alterar(v)){
-                    
-                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
-                }
-                else{
-                    
-                    a.setContentText("Problemas ao Alterar!");
-                    a.showAndWait();
-                }
-            }
-            estado(true);
-            limparCampos1();
-            limparCampos2();
-            pnfiltros.setDisable(false);
-            tvvendas.setDisable(false);
+        try {
+            cod = Integer.parseInt(tcodigo.getText());
+        } 
+        catch (NumberFormatException e) {
+            cod = -1;
         }
+
+        Venda v = new Venda(cod, Double.parseDouble(ttotal.getText()), dpdatavenda.getValue(), TelaGerarRecebimentoController.getCliente());
+        DALVenda dal = new DALVenda();
+
+        if(pnfiltros.isDisable()){
+
+            if (dal.gravar(v)){
+
+                JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
+            }
+            else{
+
+                a.setContentText("Problemas ao Gravar!");
+                a.showAndWait();
+            }
+        }
+        else
+        {
+            if (dal.alterar(v)){
+
+                JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
+            }
+            else{
+
+                a.setContentText("Problemas ao Alterar!");
+                a.showAndWait();
+            }
+        }
+        estado(true);
+        limparCampos1();
+        limparCampos2();
+        pnfiltros.setDisable(false);
+        tvvendas.setDisable(false);
+    }
+    
+    @FXML
+    private void clkBtConfirmar(ActionEvent event) throws IOException {
+        
+        Parent root = FXMLLoader.load(getClass().getResource("TelaGerarRecebimento.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        TelaGerarRecebimentoController.setVenda(Integer.parseInt(tcodigo.getText()));
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Pagamento");
+        stage.setScene(scene);
+        stage.show();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            
+            @Override
+            public void handle(WindowEvent t) {
+                
+                t.consume();
+                stage.close();
+                gravarVenda();
+            }
+        });
     }
 }
