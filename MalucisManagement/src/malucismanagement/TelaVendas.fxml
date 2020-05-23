@@ -70,7 +70,7 @@
                         <TableColumn fx:id="coltotalven" prefWidth="106.0" text="Valor" />
                      </columns>
                   </TableView>
-                  <Pane fx:id="pndados2" layoutX="501.0" layoutY="2.0" prefHeight="268.0" prefWidth="298.0">
+                  <Pane fx:id="pndados2" layoutX="501.0" layoutY="2.0" prefHeight="272.0" prefWidth="305.0">
                      <children>
                         <JFXTextField fx:id="tcodigo" disable="true" focusColor="BLACK" labelFloat="true" layoutX="13.0" layoutY="46.0" prefHeight="32.0" prefWidth="66.0" promptText="Código" unFocusColor="BLACK" />
                         <JFXTextField fx:id="tcliente" focusColor="BLACK" labelFloat="true" layoutX="12.0" layoutY="102.0" onKeyTyped="#evtCpfDigitado" prefHeight="32.0" prefWidth="273.0" promptText="Cliente " unFocusColor="BLACK" />

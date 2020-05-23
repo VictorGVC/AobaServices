@@ -854,7 +854,7 @@ public class TelaFuncionariosController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Login");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }
     
@@ -867,7 +867,7 @@ public class TelaFuncionariosController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Configurações");
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(Boolean.FALSE);
         stage.show();
     }   
 

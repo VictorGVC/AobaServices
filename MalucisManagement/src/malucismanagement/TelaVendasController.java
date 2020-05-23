@@ -5,11 +5,14 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,8 +20,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -27,6 +33,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -39,9 +49,11 @@ import javafx.util.Duration;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALItensVenda;
 import malucismanagement.db.dal.DALParametrizacao;
+import malucismanagement.db.dal.DALProduto;
 import malucismanagement.db.dal.DALVenda;
 import malucismanagement.db.entidades.ItensVenda;
 import malucismanagement.db.entidades.Parametrizacao;
+import malucismanagement.db.entidades.Produto;
 import malucismanagement.db.entidades.Venda;
 import malucismanagement.util.MaskFieldUtil;
 
@@ -131,6 +143,7 @@ public class TelaVendasController implements Initializable {
         initColVenda();
         listaCategoria();
         estado(true);
+        teclaEnter();
     }    
 
     private void fadeout() {
@@ -259,6 +272,55 @@ public class TelaVendasController implements Initializable {
         //carregaTabelaVendas("");
     }
     
+    private void teclaEnter(){
+        
+        tcodigodebarras.setOnKeyPressed(k ->{
+            
+            final KeyCombination ENTER = new KeyCodeCombination(KeyCode.ENTER);
+            if(ENTER.match(k)) {
+                try {
+                    buscaProduto();
+                } 
+                catch (IOException ex) {}
+            }
+        });
+    }
+    
+    private void buscaProduto() throws IOException{
+        
+        DALProduto dal = new DALProduto();
+        Produto p = dal.getProdutoCod(tcodigodebarras.getText());
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        ButtonType btsim = new ButtonType("Sim");
+        ButtonType btnao = new ButtonType("Não");
+        
+        a.getButtonTypes().setAll(btsim,btnao);
+        if(p != null){
+            
+            tproduto.setText(p.getPro_nome());
+            tpreco.setText("" + p.getPro_preco());
+            tmarca.setText("");
+        }
+        else{
+            
+            a.setHeaderText("Atenção!");
+            a.setTitle("Atenção");
+            a.setContentText("Produto não encontrado, deseja cadastrar-lo?");
+            if (a.showAndWait().get() == btsim){
+                
+                Parent root = FXMLLoader.load(getClass().getResource("TelaProduto.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+                stage.setTitle("Produtos");
+                stage.setScene(scene);
+                stage.resizableProperty().setValue(Boolean.FALSE);
+                stage.show();
+            }
+        }
+    }
+    
     private void carregaTabelaVendas(String filtro){
         
         DALVenda dal = new DALVenda();
@@ -292,7 +354,7 @@ public class TelaVendasController implements Initializable {
         cbcategoria.setItems(FXCollections.observableList(list));
     }
     
-    private void limparCampos() {
+    private void limparCampos1() {
         
         ObservableList <Node> componentes = pndados.getChildren();
         
@@ -301,10 +363,13 @@ public class TelaVendasController implements Initializable {
             if (n instanceof TextInputControl)
                 ((TextInputControl)n).setText("");
         }
+    }
+    
+    private void limparCampos2() {
         
-        ObservableList <Node> componentes2 = pndados2.getChildren();
+        ObservableList <Node> componentes = pndados2.getChildren();
         
-        for(Node n : componentes2) {
+        for(Node n : componentes) {
             
             if (n instanceof TextInputControl)
                 ((TextInputControl)n).setText("");
@@ -330,7 +395,9 @@ public class TelaVendasController implements Initializable {
         estado(false);
         pnfiltros.setDisable(true);
         tvvendas.setDisable(true);
-        limparCampos();
+        tcodigodebarras.requestFocus();
+        limparCampos1();
+        limparCampos2();
     }
 
     @FXML
@@ -390,7 +457,8 @@ public class TelaVendasController implements Initializable {
                         a.showAndWait();
                     }
                     carregaTabelaVendas("");
-                    limparCampos();
+                    limparCampos1();
+                    limparCampos2();
                 }
                 else{
 
@@ -419,7 +487,8 @@ public class TelaVendasController implements Initializable {
         if (!pndados.isDisabled() && !pndados2.isDisabled()){
             
             estado(true);
-            limparCampos();
+            limparCampos1();
+            limparCampos2();
         }
         pnfiltros.setDisable(false);
         tvvendas.setDisable(false);
@@ -484,6 +553,8 @@ public class TelaVendasController implements Initializable {
                 a.setContentText("Problemas ao Adicionar!");
                 a.showAndWait();
             }
+            limparCampos1();
+            tcodigodebarras.requestFocus();
         }
     }
 
@@ -522,7 +593,7 @@ public class TelaVendasController implements Initializable {
                     a.showAndWait();
                 }
                 carregaTabelaProdutos("");
-                limparCampos();
+                limparCampos1();
             }
         }
         else{
@@ -658,7 +729,8 @@ public class TelaVendasController implements Initializable {
                 }
             }
             estado(true);
-            limparCampos();
+            limparCampos1();
+            limparCampos2();
             pnfiltros.setDisable(false);
             tvvendas.setDisable(false);
         }

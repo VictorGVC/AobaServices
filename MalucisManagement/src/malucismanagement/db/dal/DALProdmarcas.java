@@ -37,6 +37,21 @@ public class DALProdmarcas {
         return Banco.getCon().manipular(sql);
     }
     
+    public Prodmarcas getProdEMarca(String prod){
+        
+        Prodmarcas p = null;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Prodmarcas WHERE pro_cod='" + prod + "'");
+        
+        try{
+            
+            if(rs.next())
+                p = new Prodmarcas(Integer.parseInt(rs.getString("mar_cod")),Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("promar_estoque")));
+        }
+        catch(SQLException e){}
+        
+        return p;
+    }
+    
     public List<Prodmarcas> getProdmarcas(){
         List <Prodmarcas> lista = new ArrayList();
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM prodmarcas");
