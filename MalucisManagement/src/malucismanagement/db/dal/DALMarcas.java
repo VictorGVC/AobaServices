@@ -33,6 +33,36 @@ public class DALMarcas {
         return Banco.getCon().manipular(sql);
     }
     
+    public Marcas getMarca(int cod){
+        
+        Marcas m = null;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Marcas WHERE mar_cod=" + cod);
+        
+        try{
+            
+            if(rs.next())
+                m = new Marcas(Integer.parseInt(rs.getString("mar_cod")), rs.getString("mar_nome"));
+        }
+        catch(SQLException e){}
+        
+        return m;
+    }
+    
+    public Marcas getMarca(String nome){
+        
+        Marcas m = null;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Marcas WHERE mar_nome='" + nome + "'");
+        
+        try{
+            
+            if(rs.next())
+                m = new Marcas(Integer.parseInt(rs.getString("mar_cod")), rs.getString("mar_nome"));
+        }
+        catch(SQLException e){}
+        
+        return m;
+    }
+    
     public List<Marcas> getMarcas(){
         List <Marcas> lista = new ArrayList();
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM marcas");

@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -48,11 +46,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALItensVenda;
+import malucismanagement.db.dal.DALMarcas;
 import malucismanagement.db.dal.DALParametrizacao;
+import malucismanagement.db.dal.DALProdmarcas;
 import malucismanagement.db.dal.DALProduto;
 import malucismanagement.db.dal.DALVenda;
 import malucismanagement.db.entidades.ItensVenda;
+import malucismanagement.db.entidades.Marcas;
 import malucismanagement.db.entidades.Parametrizacao;
+import malucismanagement.db.entidades.Prodmarcas;
 import malucismanagement.db.entidades.Produto;
 import malucismanagement.db.entidades.Venda;
 import malucismanagement.util.MaskFieldUtil;
@@ -143,7 +145,8 @@ public class TelaVendasController implements Initializable {
         initColVenda();
         listaCategoria();
         estado(true);
-        teclaEnter();
+        codBarrasEnter();
+        qtdeEnter();
     }    
 
     private void fadeout() {
@@ -272,7 +275,7 @@ public class TelaVendasController implements Initializable {
         //carregaTabelaVendas("");
     }
     
-    private void teclaEnter(){
+    private void codBarrasEnter(){
         
         tcodigodebarras.setOnKeyPressed(k ->{
             
@@ -280,8 +283,20 @@ public class TelaVendasController implements Initializable {
             if(ENTER.match(k)) {
                 try {
                     buscaProduto();
+                    tqtde.requestFocus();
                 } 
                 catch (IOException ex) {}
+            }
+        });
+    }
+    
+    private void qtdeEnter(){
+        
+        tqtde.setOnKeyPressed(k ->{
+            
+            final KeyCombination ENTER = new KeyCodeCombination(KeyCode.ENTER);
+            if(ENTER.match(k)) {
+                clkBtAdicionar(null);
             }
         });
     }
@@ -289,7 +304,11 @@ public class TelaVendasController implements Initializable {
     private void buscaProduto() throws IOException{
         
         DALProduto dal = new DALProduto();
+        DALProdmarcas dalpm = new DALProdmarcas();
+        DALMarcas dalm = new DALMarcas();
         Produto p = dal.getProdutoCod(tcodigodebarras.getText());
+        Prodmarcas pm = null;
+        Marcas m = null;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         ButtonType btsim = new ButtonType("Sim");
         ButtonType btnao = new ButtonType("Não");
@@ -297,9 +316,11 @@ public class TelaVendasController implements Initializable {
         a.getButtonTypes().setAll(btsim,btnao);
         if(p != null){
             
+            pm = dalpm.getProdEMarca(tcodigodebarras.getText());
+            m = dalm.getMarca(pm.getMar_cod());
             tproduto.setText(p.getPro_nome());
             tpreco.setText("" + p.getPro_preco());
-            tmarca.setText("");
+            tmarca.setText(m.getMar_nome());
         }
         else{
             
@@ -514,11 +535,6 @@ public class TelaVendasController implements Initializable {
             flag = true;
             setCorAlert(tcodigodebarras, "RED");
         }
-        if(tpreco.getText().isEmpty()){
-            
-            flag = true;
-            setCorAlert(tpreco, "RED");
-        }
         if(tqtde.getText().isEmpty()){
             
             flag = true;
@@ -540,7 +556,9 @@ public class TelaVendasController implements Initializable {
                 cod = -1;
             }
             
-            ItensVenda i = new ItensVenda(cod, Integer.parseInt(tmarca.getText()), tcodigodebarras.getText(), Integer.parseInt(tqtde.getText()), Double.parseDouble(tpreco.getText()));
+            DALMarcas dalm = new DALMarcas();
+            Marcas m = dalm.getMarca(tmarca.getText());
+            ItensVenda i = new ItensVenda(cod, m.getMar_cod(), tcodigodebarras.getText(), Integer.parseInt(tqtde.getText()), Double.parseDouble(tpreco.getText()));
             DALItensVenda dal = new DALItensVenda();
 
             if (dal.gravar(i)){
@@ -609,6 +627,13 @@ public class TelaVendasController implements Initializable {
     @FXML
     private void clkTabelaProdutos(MouseEvent event) {
         
+        DALProduto dal = new DALProduto();
+        DALProdmarcas dalpm = new DALProdmarcas();
+        DALMarcas dalm = new DALMarcas();
+        Produto p = dal.getProdutoCod(tcodigodebarras.getText());
+        Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
+        Marcas m = dalm.getMarca(pm.getMar_cod());
+        
         if(tvprodutos.getSelectionModel().getSelectedIndex() >= 0){
             
             if(tvprodutos.getSelectionModel().getSelectedItem() != null){
@@ -616,9 +641,9 @@ public class TelaVendasController implements Initializable {
                 ItensVenda i = (ItensVenda)tvprodutos.getSelectionModel().getSelectedItem();
                 
                 tcodigodebarras.setText(i.getPro_cod());
-                tproduto.setText("");
-                tpreco.setText("");
-                tmarca.setText("");
+                tproduto.setText(p.getPro_nome());
+                tpreco.setText("" + p.getPro_preco());
+                tmarca.setText(m.getMar_nome());
                 tqtde.setText("" + i.getQtde());
                 pndados.setDisable(false); 
                 pndados2.setDisable(false); 

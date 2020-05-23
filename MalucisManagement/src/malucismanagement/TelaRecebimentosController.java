@@ -18,7 +18,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
@@ -61,8 +60,6 @@ public class TelaRecebimentosController implements Initializable {
     private JFXTextField tcodigo;
     @FXML
     private JFXDatePicker dpdatavenc;
-    @FXML
-    private Label lbobg;
     @FXML
     private JFXTextField tcodvenda;
     @FXML
@@ -109,8 +106,6 @@ public class TelaRecebimentosController implements Initializable {
     private JFXTextField tparcelas1;
     @FXML
     private JFXTextField tcodigo1;
-    @FXML
-    private Label lbobg1;
     @FXML
     private JFXTextField tcodvenda1;
     @FXML
@@ -200,6 +195,9 @@ public class TelaRecebimentosController implements Initializable {
         
         if(p.getCorprimaria() != null){
             
+            tabreceber.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            tabrecebidas.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            
             pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             tvrecebimentos.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             
@@ -224,7 +222,6 @@ public class TelaRecebimentosController implements Initializable {
             tparcelas.setFont(new Font(p.getFonte(), 14));
             tvalor.setFont(new Font(p.getFonte(), 14));
             tcontato.setFont(new Font(p.getFonte(), 14));
-            lbobg.setFont(new Font(p.getFonte(), 12));
             
             tfiltro.setFont(new Font(p.getFonte(), 14));
             
@@ -236,7 +233,6 @@ public class TelaRecebimentosController implements Initializable {
             tparcelas1.setFont(new Font(p.getFonte(), 14));
             tvalor1.setFont(new Font(p.getFonte(), 14));
             tcontato1.setFont(new Font(p.getFonte(), 14));
-            lbobg1.setFont(new Font(p.getFonte(), 12));
             
             tfiltro1.setFont(new Font(p.getFonte(), 14));
         }

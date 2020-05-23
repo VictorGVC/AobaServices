@@ -30,7 +30,7 @@
                <children>
                   <JFXTextField fx:id="tcodigodebarras" focusColor="BLACK" labelFloat="true" layoutX="80.0" layoutY="14.0" promptText="Código de Barras *" />
                   <JFXTextField fx:id="tproduto" disable="true" focusColor="BLACK" labelFloat="true" layoutX="9.0" layoutY="61.0" prefHeight="25.0" prefWidth="187.0" promptText="Produto" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="tpreco" focusColor="BLACK" labelFloat="true" layoutX="209.0" layoutY="61.0" prefHeight="25.0" prefWidth="78.0" promptText="Preço *" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="tpreco" disable="true" focusColor="BLACK" labelFloat="true" layoutX="209.0" layoutY="61.0" prefHeight="25.0" prefWidth="78.0" promptText="Preço" unFocusColor="BLACK" />
                   <JFXTextField fx:id="tmarca" disable="true" focusColor="BLACK" labelFloat="true" layoutX="9.0" layoutY="122.0" prefHeight="25.0" prefWidth="187.0" promptText="Marca" unFocusColor="BLACK" />
                   <JFXTextField fx:id="tqtde" focusColor="BLACK" labelFloat="true" layoutX="209.0" layoutY="122.0" prefHeight="25.0" prefWidth="78.0" promptText="Quantidade *" unFocusColor="BLACK" />
                   <JFXButton fx:id="btadicionar" layoutX="68.0" layoutY="157.0" onAction="#clkBtAdicionar" text="Adicionar" />
