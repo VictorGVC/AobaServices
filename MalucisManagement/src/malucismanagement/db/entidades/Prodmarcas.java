@@ -1,8 +1,17 @@
 package malucismanagement.db.entidades;
 
 public class Prodmarcas {
-    int mar_cod,pro_cod,estoque;
+    
+    int mar_cod, pro_cod, estoque;
 
+    public Prodmarcas() {}
+    
+    public Prodmarcas(int mar_cod, int pro_cod, int estoque) {
+        this.mar_cod = mar_cod;
+        this.pro_cod = pro_cod;
+        this.estoque = estoque;
+    }
+    
     public int getMar_cod() {
         return mar_cod;
     }
@@ -26,14 +35,4 @@ public class Prodmarcas {
     public void setEstoque(int estoque) {
         this.estoque = estoque;
     }
-
-    public Prodmarcas(int mar_cod, int pro_cod, int estoque) {
-        this.mar_cod = mar_cod;
-        this.pro_cod = pro_cod;
-        this.estoque = estoque;
-    }
-
-    public Prodmarcas() {
-    }
-    
 }

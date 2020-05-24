@@ -355,6 +355,7 @@ public class TelaClientesController implements Initializable {
                 
                 DALCliente dal = new DALCliente();
                 Cliente c;
+                
                 c = tvclientes.getSelectionModel().getSelectedItem();
                 if(dal.apagar(c)){
                     

@@ -4,11 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import static javafx.collections.FXCollections.observableArrayList;
-import static javafx.collections.FXCollections.observableList;
-import javafx.collections.ObservableList;
 import malucismanagement.db.banco.Banco;
-import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Produto;
 
 
@@ -65,6 +61,22 @@ public class DALProduto {
         }
         
         return lista;
+    }
+    
+    public Produto getProdutoCod(String cod){
+        
+        Produto p = null;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto WHERE pro_cod='" + cod + "'");
+        
+        try{
+            
+            if(rs.next())
+                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                        Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
+        }
+        catch(SQLException e){}
+        
+        return p;
     }
     
     public List<Produto> getProdutosNome(String nome){
