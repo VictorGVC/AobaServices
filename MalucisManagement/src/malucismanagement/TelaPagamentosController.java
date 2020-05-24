@@ -22,8 +22,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,43 +46,15 @@ import malucismanagement.db.entidades.Parametrizacao;
 public class TelaPagamentosController implements Initializable {
 
     int CodAux;
-    Boolean flag = true; 
     
-    @FXML
     private SplitPane pnprincipal;
     @FXML
     private HBox pnbotoes;
     @FXML
-    private JFXButton btnovo;
-    @FXML
-    private JFXButton btalterar;
-    @FXML
-    private JFXButton btapagar;
-    @FXML
-    private JFXButton btconfirmar;
-    @FXML
-    private JFXButton btcancelar;
-    @FXML
     private JFXButton btvoltar;
     @FXML
     private Pane pndados;
-    @FXML
-    private JFXTextField txParcela;
-    @FXML
-    private JFXDatePicker dtVencimento;
-    @FXML
     private Label lbobg;
-    @FXML
-    private JFXComboBox<String> cbTipo;
-    @FXML
-    private JFXTextField txContato;
-    @FXML
-    private JFXTextField txValor;
-    @FXML
-    private JFXComboBox<String> cbFornecedores;
-    @FXML
-    private Pane pnfiltros;
-    @FXML
     private JFXComboBox<String> cbcategoria;
     @FXML
     private JFXButton btQuitar;
@@ -98,13 +73,65 @@ public class TelaPagamentosController implements Initializable {
     @FXML
     private TableColumn<Contaspagar, Double> colValor;
     @FXML
-    private TableColumn<Contaspagar, Character> colStatus;
-    @FXML
     private TableColumn<Contaspagar, Character> colTipo;
     @FXML
     private TableColumn<Contaspagar, String> colContato;
     @FXML
     private TableColumn<Contaspagar, Date> colVencimento;
+    @FXML
+    private CheckBox ckVencidos;
+    @FXML
+    private Label lbFornecedores;
+    @FXML
+    private JFXButton btLimpar;
+    @FXML
+    private TableColumn<Contaspagar, Date> colPag;
+    @FXML
+    private Tab tabNaoPago;
+    @FXML
+    private DatePicker dtPagamentos;
+    @FXML
+    private Tab tabPago;
+    @FXML
+    private HBox pnbotoes1;
+    @FXML
+    private JFXButton btvoltarPag;
+    @FXML
+    private Pane pndados1;
+    @FXML
+    private CheckBox ckVencidosPag;
+    @FXML
+    private JFXTextField txfiltroPag;
+    @FXML
+    private Label lbFornecedoresPag;
+    @FXML
+    private DatePicker dtPagamentosPag;
+    @FXML
+    private Label lbDtPagamentoPag;
+    @FXML
+    private JFXButton btLimparPag;
+    @FXML
+    private JFXButton btExtornar;
+    @FXML
+    private VBox pnpesquisa1;
+    @FXML
+    private TableView<Contaspagar> tvContasPag;
+    @FXML
+    private TableColumn<Contaspagar, Integer> colCodPag;
+    @FXML
+    private TableColumn<Contaspagar, Integer> colParcelaPag;
+    @FXML
+    private TableColumn<Contaspagar, String> colFornecedorPag;
+    @FXML
+    private TableColumn<Contaspagar, Double> colValorPag;
+    @FXML
+    private TableColumn<Contaspagar, Date> colVencimentoPag;
+    @FXML
+    private TableColumn<Contaspagar, Date> colPagPag;
+    @FXML
+    private TableColumn<Contaspagar, Character> colTipoPag;
+    @FXML
+    private TableColumn<Contaspagar, String> colContatoPag;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,7 +140,6 @@ public class TelaPagamentosController implements Initializable {
         initColumn();
         
         try {
-            CarregaCBFornecedores();
             if(!CarregaTabela()){
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
                 a.setContentText("Impossível Carregar Contas");
@@ -125,7 +151,6 @@ public class TelaPagamentosController implements Initializable {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        adcProd(true);
         CodAux = 0;
     }    
     
@@ -135,10 +160,19 @@ public class TelaPagamentosController implements Initializable {
         colContato.setCellValueFactory(new PropertyValueFactory("pag_contato"));
         colFornecedor.setCellValueFactory(new PropertyValueFactory("for_cnpj"));
         colParcela.setCellValueFactory(new PropertyValueFactory("pag_parcela"));
-        colStatus.setCellValueFactory(new PropertyValueFactory("pag_status"));
+        colPag.setCellValueFactory(new PropertyValueFactory("pag_dtpagamento"));
         colValor.setCellValueFactory(new PropertyValueFactory("pag_valor"));
         colTipo.setCellValueFactory(new PropertyValueFactory("pag_tipo"));
         colVencimento.setCellValueFactory(new PropertyValueFactory("pag_dtvencimento"));
+        
+        colCodPag.setCellValueFactory(new PropertyValueFactory("pag_cod"));
+        colContatoPag.setCellValueFactory(new PropertyValueFactory("pag_contato"));
+        colFornecedorPag.setCellValueFactory(new PropertyValueFactory("for_cnpj"));
+        colParcelaPag.setCellValueFactory(new PropertyValueFactory("pag_parcela"));
+        colPagPag.setCellValueFactory(new PropertyValueFactory("pag_dtpagamento"));
+        colValorPag.setCellValueFactory(new PropertyValueFactory("pag_valor"));
+        colTipoPag.setCellValueFactory(new PropertyValueFactory("pag_tipo"));
+        colVencimentoPag.setCellValueFactory(new PropertyValueFactory("pag_dtvencimento"));
     }
     
     private void fadeout() {
@@ -159,6 +193,7 @@ public class TelaPagamentosController implements Initializable {
             
             pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             tvContas.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            tvContasPag.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
@@ -166,138 +201,59 @@ public class TelaPagamentosController implements Initializable {
         }
         if(p.getFonte() != null){
             
-            txContato.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbFornecedores.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbTipo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            txParcela.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            txValor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            ckVencidos.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            ckVencidosPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txfiltroPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txfiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            dtVencimento.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            dtPagamentos.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            dtPagamentosPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
-            btalterar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btapagar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btcancelar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btconfirmar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btnovo.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btQuitar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             btvoltar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btExtornar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btLimpar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btLimparPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            btvoltarPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
             lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbFornecedores.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbDtPagamentoPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbFornecedoresPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
         }
         if(p.getCorfonte() != null){
            
-            txContato.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            txParcela.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            cbTipo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            cbFornecedores.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            txValor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            ckVencidos.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            ckVencidosPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txfiltroPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            dtVencimento.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            dtPagamentos.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            dtPagamentosPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
-            btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btapagar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btcancelar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btconfirmar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btnovo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btQuitar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btExtornar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btLimpar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btLimparPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btvoltarPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             lbobg.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbFornecedores.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbDtPagamentoPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbFornecedoresPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
-    private void adcProd(boolean b) {
-        
-        txContato.setDisable(b);
-        cbTipo.setDisable(b);
-        cbFornecedores.setDisable(b);
-        txParcela.setDisable(b);
-        txValor.setDisable(b);
-        txfiltro.setDisable(b);
-        dtVencimento.setDisable(b);
-        
-        btnovo.setDisable(!b);
-        btapagar.setDisable(!b);
-        btalterar.setDisable(!b);
-        
-        btconfirmar.setDisable(b);
-        btcancelar.setDisable(b);
-        btvoltar.setDisable(b);
-    }
-    
-    private void LimpaTelaCadastro() {
-        
-        txContato.clear();
-        dtVencimento.getEditor().clear();
-        cbFornecedores.getSelectionModel().clearSelection();
-        txParcela.clear();
-        txValor.clear();
+    private void LimpaTelaNaoPag() {
+        ckVencidos.setSelected(false);
+        dtPagamentos.getEditor().clear();
         txfiltro.clear();
-        cbTipo.getSelectionModel().clearAndSelect(CodAux);
-        
-        flag = true;
     }
     
-    private void CarregaCBFornecedores(){
+    private void LimpaTelaPag() {
         
-        cbFornecedores.getItems().clear();
-        DALFornecedores dal = new DALFornecedores();
-        ObservableList<String> lista = FXCollections.observableArrayList(dal.getNomesFornecedores());
-        cbFornecedores.setItems(lista);
-    }
-
-    @FXML
-    private void clkBtNovo(ActionEvent event) {
-        adcProd(false);
-    }
-
-    @FXML
-    private void clkBtAlterar(ActionEvent event) {
-        flag = false;
-        Contaspagar linha = tvContas.getSelectionModel().getSelectedItem();
-        CodAux = linha.getPag_cod();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate date = LocalDate.parse(linha.getPag_dtvencimento()+"",formatter);
-        dtVencimento.setValue(date);
-        txContato.setText(""+linha.getPag_contato());
-        txParcela.setText(""+linha.getPag_parcela());
-        txValor.setText(""+linha.getPag_valor());
-        int index = cbFornecedores.getItems().indexOf(linha.getFor_cnpj());
-        cbFornecedores.getSelectionModel().select(index);
-        index = cbTipo.getItems().indexOf(linha.getPag_tipo());
-        cbTipo.getSelectionModel().select(index);
-        adcProd(false);
-    }
-
-    @FXML
-    private void clkBtApagar(ActionEvent event) throws SQLException {
-        DALContaspagar dal = new DALContaspagar();
-        Contaspagar linha = tvContas.getSelectionModel().getSelectedItem();
-        Alert opcao = new Alert(Alert.AlertType.CONFIRMATION);
-        opcao.setContentText("Você deseja remover esta conta");
-        ButtonType btnSim = new ButtonType("Sim");
-        ButtonType btnNao = new ButtonType("Não");
-        opcao.getButtonTypes().setAll(btnSim, btnNao);
-        Optional<ButtonType> result = opcao.showAndWait();
-        
-        if(result.get() == btnSim){
-            if(dal.excluir(linha.getPag_cod()))
-            {
-                if(!CarregaTabela()){
-                     Alert a = new Alert(Alert.AlertType.INFORMATION);
-                            a.setContentText("Impossível Carregar Contas");
-                            a.setHeaderText("Alerta");
-                            a.setTitle("Alerta");
-                            a.showAndWait();
-                        }
-            }
-            else
-            {
-                Alert a = new Alert(Alert.AlertType.INFORMATION);
-                a.setContentText("Impossível Remover Contas");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
-            }
-        }
+        ckVencidosPag.setSelected(false);
+        dtPagamentosPag.getEditor().clear();
+        txfiltroPag.clear();
     }
     
     private boolean CarregaTabela() throws SQLException {
@@ -307,8 +263,24 @@ public class TelaPagamentosController implements Initializable {
         try {
             tvContas.getItems().clear();
             DALContaspagar dal = new DALContaspagar();
-            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagar());
+            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarNaoPagas());
             tvContas.setItems(lista);
+            } catch (Exception e) {
+            executar = false;
+        }
+        
+        return executar;
+    }
+    
+    private boolean CarregaTabelaPag() throws SQLException {
+        
+        boolean executar = true;
+       
+        try {
+            tvContas.getItems().clear();
+            DALContaspagar dal = new DALContaspagar();
+            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarPagas());
+            tvContasPag.setItems(lista);
             } catch (Exception e) {
             executar = false;
         }
@@ -332,162 +304,20 @@ public class TelaPagamentosController implements Initializable {
         return executar;
     }
     
-    private boolean CarregaTabelaTipo() throws SQLException {
+    private boolean CarregaTabelaFornecedorPag() throws SQLException {
         
         boolean executar = true;
        
         try {
             tvContas.getItems().clear();
             DALContaspagar dal = new DALContaspagar();
-            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarTipo(txfiltro.getText()));
-            tvContas.setItems(lista);
+            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarFornecedor(txfiltro.getText()));
+            tvContasPag.setItems(lista);
             } catch (Exception e) {
             executar = false;
         }
         
         return executar;
-    }
-    
-    private boolean CarregaTabelaStatus() throws SQLException {
-        
-        boolean executar = true;
-       
-        try {
-            tvContas.getItems().clear();
-            DALContaspagar dal = new DALContaspagar();
-            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarStatus(txfiltro.getText()));
-            tvContas.setItems(lista);
-            } catch (Exception e) {
-            executar = false;
-        }
-        
-        return executar;
-    }
-
-    @FXML
-    private void clkBtConfirmar(ActionEvent event) throws SQLException {
-        boolean aceito = true;
-        LimpaCores();
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        Date hoje = new Date(System.currentTimeMillis());
-        Date dt = (Date) Date.from(dtVencimento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        if(txParcela.getText().isEmpty() || Integer.parseInt(txParcela.getText()) < 1)
-        {
-            txParcela.setStyle("-fx-background-color: red;");
-            aceito = false;
-            a.setContentText("Parcela Inválida");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            txParcela.requestFocus();
-        }
-        else if( dt.after(hoje))
-        {
-            dtVencimento.setStyle("-fx-background-color: red;");
-            aceito = false;
-            a.setContentText("Data inválida");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            dtVencimento.requestFocus();
-        }
-        else if(cbTipo.getSelectionModel().getSelectedItem().compareTo("") == 0)
-        {
-            cbTipo.setStyle("-fx-background-color: red;");
-            aceito = false;
-            a.setContentText("Tipo Inválido");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            cbTipo.requestFocus();
-        }
-        else if(txValor.getText().isEmpty() || Double.parseDouble(txValor.getText()) <= 0)
-        {
-            txValor.setStyle("-fx-background-color: red;");
-            aceito = false;
-            a.setContentText("Valor Inválido");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            txValor.requestFocus();
-        }
-        else if(cbFornecedores.getSelectionModel().getSelectedItem().compareTo("") == 0)
-        {
-            cbFornecedores.setStyle("-fx-background-color: red;");
-            aceito = false;
-            a.setContentText("Fornecedor Inválido");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-            cbFornecedores.requestFocus();
-        }
-        if(aceito){
-            DALFornecedores dlfor = new DALFornecedores();
-            String forn = dlfor.getFornecedoresCNPJ(cbFornecedores.getSelectionModel().getSelectedItem()).get(0).getFor_nome();
-            Contaspagar cp = new Contaspagar(Integer.parseInt(txParcela.getText()),Double.parseDouble(txValor.getText()),
-                    txContato.getText(),forn,dt,cbTipo.getSelectionModel().getSelectedItem().charAt(0),'A');
-            DALContaspagar dal = new DALContaspagar();
-            if(flag)
-            {
-                if(dal.gravar(cp))
-                {
-                    LimpaTelaCadastro();
-                    if(!CarregaTabela()){
-                        a.setContentText("Impossível Carregar Produtos");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-                }
-                else
-                {
-                    a.setContentText("Impossível Salvar Produto");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-                adcProd(true);
-            }
-            else{
-                cp.setPag_cod(CodAux);
-                if(dal.alterar(cp)){
-                    LimpaTelaCadastro();
-                    if(!CarregaTabela()){
-                        a.setContentText("Impossível Carregar Produtos");
-                        a.setHeaderText("Alerta");
-                        a.setTitle("Alerta");
-                        a.showAndWait();
-                    }
-                    flag = true;
-                }
-                else
-                {
-                    a.setContentText("Impossível Editar Produto");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-                adcProd(true);
-            }
-        }
-        LimpaTelaCadastro();
-    }
-
-    @FXML
-    private void clkBtCancelar(ActionEvent event) {
-        LimpaTelaCadastro();
-        LimpaTelaCadastro();
-        adcProd(true);
-    }
-    
-    private void LimpaCores() {
-        
-        cbTipo.setStyle("-fx-background-color: none;");
-        cbFornecedores.setStyle("-fx-background-color: none;");
-        dtVencimento.setStyle("-fx-background-color: none;");
-        txContato.setStyle("-fx-background-color: none;");
-        txParcela.setStyle("-fx-background-color: none;");
-        txValor.setStyle("-fx-background-color: none;");
     }
 
     @FXML
@@ -496,81 +326,56 @@ public class TelaPagamentosController implements Initializable {
         stage.close();
     }
 
-    private void CarregaCBFiltro() {
-        
-        ObservableList<String> itens;
-        itens = FXCollections.observableArrayList();
-        
-        itens.add("Filtro");
-        itens.add("Fornecedor");
-        itens.add("Tipo");
-        itens.add("Status");
-        
-        cbcategoria.setItems(itens);
-    }
-    
-    @FXML
-    private void clkTFiltro(KeyEvent event) throws SQLException {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        DALContaspagar dal = new DALContaspagar();
-        if(cbcategoria.getSelectionModel().getSelectedItem() == "Fornecedor")
-        {
-            if(!CarregaTabelaFornecedor()){
-                    a.setContentText("Impossível Filtrar Conta");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-        }
-        else if(cbcategoria.getSelectionModel().getSelectedItem() == "Tipo")
-            {
-                if(!CarregaTabelaTipo())
-                {
-                    a.setContentText("Impossível Filtrar Conta");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-            }
-        else if(cbcategoria.getSelectionModel().getSelectedItem() == "Status")
-            {
-                if(!CarregaTabelaStatus())
-                {
-                    a.setContentText("Impossível Filtrar Conta");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
-            }
-        else if(cbcategoria.getSelectionModel().getSelectedItem() == "Filtro")
-            CarregaTabela();
-    }
-
     @FXML
     private void clkbtQuitar(ActionEvent event) throws SQLException {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         DALContaspagar dal = new DALContaspagar();
         if(dal.QuitarConta(tvContas.getSelectionModel().getSelectedItem().getPag_cod())){
-            LimpaTelaCadastro();
+            LimpaTelaNaoPag();
             if(!CarregaTabela()){
-                a.setContentText("Impossível Carregar Produtos");
+                a.setContentText("Impossível Carregar Contas");
                 a.setHeaderText("Alerta");
                 a.setTitle("Alerta");
                 a.showAndWait();
                 }
-                flag = true;
             }
-                else
-                {
-                    a.setContentText("Impossível Editar Produto");
-                    a.setHeaderText("Alerta");
-                    a.setTitle("Alerta");
-                    a.showAndWait();
-                }
+    }
+
+    @FXML
+    private void clkckVencidos(ActionEvent event) {
     }
 
     @FXML
     private void clkTabela(MouseEvent event) {
+    }
+
+    @FXML
+    private void clkTFiltro(KeyEvent event) {
+    }
+
+    @FXML
+    private void LimparTelaNaoPag(ActionEvent event) {
+        LimpaTelaNaoPag();
+    }
+
+    @FXML
+    private void LimparTelaPag(ActionEvent event) {
+        LimpaTelaPag();
+    }
+
+    @FXML
+    private void clkbtExtornar(ActionEvent event) throws SQLException {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        DALContaspagar dal = new DALContaspagar();
+        if(dal.ExtornarConta(tvContasPag.getSelectionModel().getSelectedItem().getPag_cod())){
+            LimpaTelaPag();
+            if(!CarregaTabelaPag()){
+                a.setContentText("Impossível Carregar Contas");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
+                }
+            }
     }
     
 }
