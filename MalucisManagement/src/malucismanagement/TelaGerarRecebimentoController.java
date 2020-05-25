@@ -3,7 +3,6 @@ package malucismanagement;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.time.LocalDate;
@@ -18,6 +17,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
@@ -53,6 +54,10 @@ public class TelaGerarRecebimentoController implements Initializable {
     private JFXDatePicker dpvencimento;
     @FXML
     private JFXTextField tcliente;
+    @FXML
+    private ImageView imsave;
+    @FXML
+    private Label lbsave;
 
     public static void setVenda(int v) {
         venda = v;
@@ -78,6 +83,7 @@ public class TelaGerarRecebimentoController implements Initializable {
         setMascaras();
         listaTipo();
         visivel();
+        visivel(true);
     }       
 
     private void fadeout() {
@@ -127,6 +133,19 @@ public class TelaGerarRecebimentoController implements Initializable {
         
         tcliente.setVisible(op);
         dpvencimento.setVisible(op);
+    }
+    
+    private void visivel(boolean b) {
+        
+        tvalor.setVisible(b);
+        tparcelas.setVisible(b);
+        cbtipo.setVisible(b);
+        tcliente.setVisible(b);
+        dpvencimento.setVisible(b);
+        btconfirmar.setVisible(b);
+        imsave.setVisible(!b);
+        lbsave.setVisible(!b);
+        imsave.setImage(new Image("/icons/save.gif"));
     }
     
     private void listaTipo() {
@@ -226,14 +245,13 @@ public class TelaGerarRecebimentoController implements Initializable {
                         LocalDate.now(), LocalDate.now(), cbtipo.getSelectionModel().getSelectedItem(), c.getTelefone());
                 DALContasReceber dalcr = new DALContasReceber();
                 
-//                if(!dal.gravar(cr))
-//                    flag2 = false;
+                if(!dalcr.gravar(cr))
+                    flag2 = false;
                 parcela++;
             }
             if(flag2){
                 
-                JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
-                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
+                visivel(false);
             }
             else{
                 

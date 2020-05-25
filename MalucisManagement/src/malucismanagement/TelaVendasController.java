@@ -44,9 +44,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALItensVenda;
 import malucismanagement.db.dal.DALMarcas;
 import malucismanagement.db.dal.DALParametrizacao;
@@ -762,7 +762,7 @@ public class TelaVendasController implements Initializable {
         Stage stage = new Stage();
         
         TelaGerarRecebimentoController.setVenda(Integer.parseInt(tcodigo.getText()));
-        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.initStyle(StageStyle.UTILITY);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Pagamento");
         stage.setScene(scene);
