@@ -4,10 +4,12 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" fx:id="pnprincipal" prefHeight="200.0" prefWidth="350.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="malucismanagement.TelaGerarRecebimentoController">
+<AnchorPane id="AnchorPane" fx:id="pnprincipal" prefHeight="200.0" prefWidth="345.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaGerarRecebimentoController">
    <children>
       <JFXTextField fx:id="tvalor" disable="true" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="154.0" promptText="Valor Total" unFocusColor="BLACK" />
       <JFXTextField fx:id="tparcelas" focusColor="BLACK" labelFloat="true" layoutX="178.0" layoutY="14.0" prefHeight="25.0" prefWidth="154.0" promptText="Quantidade de Parcelas *" unFocusColor="BLACK" />
@@ -15,5 +17,11 @@
       <JFXTextField fx:id="tcliente" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="109.0" onKeyTyped="#evtCpfDigitado" prefHeight="25.0" prefWidth="154.0" promptText="Cliente *" unFocusColor="BLACK" />
       <JFXDatePicker fx:id="dpvencimento" defaultColor="BLACK" layoutX="178.0" layoutY="109.0" prefHeight="25.0" prefWidth="154.0" promptText="Data de Vencimento *" />
       <JFXButton fx:id="btconfirmar" layoutX="141.0" layoutY="161.0" onAction="#clkBtConfirmar" text="Confirmar" />
+      <ImageView fx:id="imsave" fitHeight="43.75" fitWidth="43.75" layoutX="73.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <Label fx:id="lbsave" layoutX="125.0" layoutY="86.0" text="Salvo Com Sucesso!" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
