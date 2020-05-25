@@ -5,21 +5,30 @@ import java.sql.Date;
 public class Contaspagar {
     int pag_cod,pag_parcela;
     Double pag_valor;
-    String pag_contato,for_cnpj;
-    Date pag_dtvencimento;
-    char pag_tipo,pag_status;
+    String for_cnpj;
+    Date pag_dtvencimento,pag_dtpagamento;
+    char pag_tipo;
 
-    public Contaspagar() {
-    }
-
-    public Contaspagar(int pag_parcela, Double pag_valor, String pag_contato, String for_cnpj, Date pag_dtvencimento, char pag_tipo, char pag_status) {
+    public Contaspagar(int pag_parcela, Double pag_valor, String for_cnpj, Date pag_dtvencimento, Date pag_dtpagamento, char pag_tipo) {
         this.pag_parcela = pag_parcela;
         this.pag_valor = pag_valor;
-        this.pag_contato = pag_contato;
         this.for_cnpj = for_cnpj;
         this.pag_dtvencimento = pag_dtvencimento;
+        this.pag_dtpagamento = pag_dtpagamento;
         this.pag_tipo = pag_tipo;
-        this.pag_status = pag_status;
+    }
+
+    public Contaspagar(int pag_cod, int pag_parcela, Double pag_valor, String for_cnpj, Date pag_dtvencimento, Date pag_dtpagamento, char pag_tipo) {
+        this.pag_cod = pag_cod;
+        this.pag_parcela = pag_parcela;
+        this.pag_valor = pag_valor;
+        this.for_cnpj = for_cnpj;
+        this.pag_dtvencimento = pag_dtvencimento;
+        this.pag_dtpagamento = pag_dtpagamento;
+        this.pag_tipo = pag_tipo;
+    }
+
+    public Contaspagar() {
     }
 
     public int getPag_cod() {
@@ -46,14 +55,6 @@ public class Contaspagar {
         this.pag_valor = pag_valor;
     }
 
-    public String getPag_contato() {
-        return pag_contato;
-    }
-
-    public void setPag_contato(String pag_contato) {
-        this.pag_contato = pag_contato;
-    }
-
     public String getFor_cnpj() {
         return for_cnpj;
     }
@@ -70,6 +71,14 @@ public class Contaspagar {
         this.pag_dtvencimento = pag_dtvencimento;
     }
 
+    public Date getPag_dtpagamento() {
+        return pag_dtpagamento;
+    }
+
+    public void setPag_dtpagamento(Date pag_dtpagamento) {
+        this.pag_dtpagamento = pag_dtpagamento;
+    }
+
     public char getPag_tipo() {
         return pag_tipo;
     }
@@ -78,13 +87,5 @@ public class Contaspagar {
         this.pag_tipo = pag_tipo;
     }
 
-    public char getPag_status() {
-        return pag_status;
-    }
-
-    public void setPag_status(char pag_status) {
-        this.pag_status = pag_status;
-    }
-    
     
 }

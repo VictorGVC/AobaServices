@@ -71,7 +71,7 @@ public class DALProduto {
         try{
             
             if(rs.next())
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                p = new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
         }
         catch(SQLException e){}

@@ -15,30 +15,28 @@ public class DALContaspagar {
     public boolean gravar(Contaspagar ct) throws SQLException {
         
         
-        String sql = "INSERT INTO contaspagar (pag_parcela,pag_dtvencimento,pag_tipo,pag_contato,pag_valor,pag_status,for_cnpj)"
-                + "VALUES (#1,'#2','#3','#4',#5,'#6','#7')";
+        String sql = "INSERT INTO contaspagar (pag_parcela,pag_dtvencimento,pag_tipo,pag_dtpagamento,pag_valor,for_cnpj)"
+                + "VALUES (#1,'#2','#3','#4',#5,'#6')";
         sql = sql.replaceAll("#1","" + ct.getPag_parcela());
         sql = sql.replaceAll("#2","" + ct.getPag_dtvencimento());
         sql = sql.replaceAll("#3","" + ct.getPag_tipo());
-        sql = sql.replaceAll("#4","" + ct.getPag_contato());
+        sql = sql.replaceAll("#4","" + ct.getPag_dtpagamento());
         sql = sql.replaceAll("#5","" + ct.getPag_valor());
-        sql = sql.replaceAll("#6","" + ct.getPag_status());
-        sql = sql.replaceAll("#7","" + ct.getFor_cnpj());
+        sql = sql.replaceAll("#5","" + ct.getFor_cnpj());
         return Banco.getCon().manipular(sql);
     }
     
     public boolean alterar(Contaspagar ct) throws SQLException {
         
         String sql = "UPDATE contaspagar SET "
-                + "pag_parcela =#1, pag_dtvencimento = '#2', pag_tipo ='#3', pag_contato='#4', pag_valor=#5, pag_status='#6', for_cnpj='#7' WHERE pag_cod="+ct.getPag_cod();
+                + "pag_parcela =#1, pag_dtvencimento = '#2', pag_tipo ='#3', pag_dtpagamento='#4', pag_valor=#5, for_cnpj='#6' WHERE pag_cod="+ct.getPag_cod();
         
         sql = sql.replaceAll("#1","" + ct.getPag_parcela());
         sql = sql.replaceAll("#2","" + ct.getPag_dtvencimento());
         sql = sql.replaceAll("#3","" + ct.getPag_tipo());
-        sql = sql.replaceAll("#4","" + ct.getPag_contato());
+        sql = sql.replaceAll("#4","" + ct.getPag_dtpagamento());
         sql = sql.replaceAll("#5","" + ct.getPag_valor());
-        sql = sql.replaceAll("#6","" + ct.getPag_status());
-        sql = sql.replaceAll("#7","" + ct.getFor_cnpj());
+        sql = sql.replaceAll("#6","" + ct.getFor_cnpj());
         
         return Banco.getCon().manipular(sql);
     }
@@ -55,9 +53,9 @@ public class DALContaspagar {
         
         try {
             while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
                 }
         } catch (Exception e) {
             System.out.println(e);
@@ -72,9 +70,9 @@ public class DALContaspagar {
         
         try {
             while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
                 }
         } catch (Exception e) {
             System.out.println(e);
@@ -92,9 +90,9 @@ public class DALContaspagar {
         
         try {
             while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
                 }
             } catch (Exception e) {
                 System.out.println(e);
@@ -113,9 +111,9 @@ public class DALContaspagar {
         
         try {
             while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
                 }
             } catch (Exception e) {
                 System.out.println(e);

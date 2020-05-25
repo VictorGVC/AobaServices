@@ -30,7 +30,7 @@
                         </HBox>
                         <Pane fx:id="pndados" prefHeight="183.0" prefWidth="798.0">
                            <children>
-                              <CheckBox fx:id="ckVencidos" layoutX="127.0" layoutY="14.0" mnemonicParsing="false" onAction="#clkckVencidos" text="Somente Vencidos" />
+                              <CheckBox fx:id="ckVencidos" layoutX="127.0" layoutY="14.0" mnemonicParsing="false" text="Somente Vencidos" />
                               <JFXTextField fx:id="txfiltro" focusColor="BLACK" labelFloat="true" layoutX="200.0" layoutY="29.0" onKeyTyped="#clkTFiltro" prefHeight="38.0" prefWidth="274.0" unFocusColor="BLACK">
                                  <font>
                                     <Font size="17.0" />

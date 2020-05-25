@@ -135,11 +135,11 @@ public class TelaPagamentosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        fadeout();
-        setParametros();
+        /*fadeout();
+        //setParametros();
         initColumn();
         
-        try {
+        /*try {
             if(!CarregaTabela()){
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
                 a.setContentText("Impossível Carregar Contas");
@@ -151,7 +151,7 @@ public class TelaPagamentosController implements Initializable {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        CodAux = 0;
+        CodAux = 0;*/
     }    
     
     private void initColumn() {
@@ -341,9 +341,6 @@ public class TelaPagamentosController implements Initializable {
             }
     }
 
-    @FXML
-    private void clkckVencidos(ActionEvent event) {
-    }
 
     @FXML
     private void clkTabela(MouseEvent event) {
@@ -376,6 +373,10 @@ public class TelaPagamentosController implements Initializable {
                 a.showAndWait();
                 }
             }
+    }
+
+    @FXML
+    private void clkckVencidosPag(ActionEvent event) {
     }
     
 }
