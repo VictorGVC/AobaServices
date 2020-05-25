@@ -6,28 +6,28 @@ public class ContasReceber {
     
     private int cod, parcela, ven_cod;
     private double valor;
-    private char status;
-    private LocalDate dtvencimento;
+    private LocalDate dtvencimento, dtpagamento;
     private String tipo, contato;
 
     public ContasReceber() {}
 
-    public ContasReceber(int cod, int parcela, int ven_cod, double valor, char status, LocalDate dtvencimento, String tipo, String contato) {
+    public ContasReceber(int cod, int parcela, int ven_cod, double valor, LocalDate dtvencimento, LocalDate dtpagamento, String tipo, String contato) {
         this.cod = cod;
         this.parcela = parcela;
         this.ven_cod = ven_cod;
         this.valor = valor;
-        this.status = status;
         this.dtvencimento = dtvencimento;
+        this.dtpagamento = dtpagamento;
         this.tipo = tipo;
         this.contato = contato;
     }
 
-    public ContasReceber(int ven_cod, double valor, char status, LocalDate dtvencimento, String tipo, String contato) {
+    public ContasReceber(int parcela, int ven_cod, double valor, LocalDate dtvencimento, LocalDate dtpagamento, String tipo, String contato) {
+        this.parcela = parcela;
         this.ven_cod = ven_cod;
         this.valor = valor;
-        this.status = status;
         this.dtvencimento = dtvencimento;
+        this.dtpagamento = dtpagamento;
         this.tipo = tipo;
         this.contato = contato;
     }
@@ -64,20 +64,20 @@ public class ContasReceber {
         this.valor = valor;
     }
 
-    public char getStatus() {
-        return status;
-    }
-
-    public void setStatus(char status) {
-        this.status = status;
-    }
-
     public LocalDate getDtvencimento() {
         return dtvencimento;
     }
 
     public void setDtvencimento(LocalDate dtvencimento) {
         this.dtvencimento = dtvencimento;
+    }
+
+    public LocalDate getDtpagamento() {
+        return dtpagamento;
+    }
+
+    public void setDtpagamento(LocalDate dtpagamento) {
+        this.dtpagamento = dtpagamento;
     }
 
     public String getTipo() {

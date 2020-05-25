@@ -35,7 +35,7 @@ import malucismanagement.util.MaskFieldUtil;
 
 public class TelaProdutoController implements Initializable {
     
-    int CodAux;
+    String CodAux;
     Boolean flag = true; 
     
     @FXML
@@ -104,7 +104,7 @@ public class TelaProdutoController implements Initializable {
         }
         adcProd(true);
         CarregaCBFiltro();
-        CodAux = 0;
+        CodAux = "0";
     }      
 
     private void fadeout() {
@@ -203,7 +203,7 @@ public class TelaProdutoController implements Initializable {
         }
         if(aceito){
             String cat = cbCategoria.getValue().toString();
-            Produto p = new Produto(Integer.parseInt(txCodigo.getText()),Integer.parseInt(txQtdEstoque.getText()),cat,Double.parseDouble(txPreco.getText().replace(",", ".")),
+            Produto p = new Produto(txCodigo.getText(),Integer.parseInt(txQtdEstoque.getText()),cat,Double.parseDouble(txPreco.getText().replace(",", ".")),
             txNomeProduto.getText());
             DALProduto dal = new DALProduto();
             if(flag)
@@ -565,8 +565,7 @@ public class TelaProdutoController implements Initializable {
         btEditarFornecedor.setDisable(!b);
         
         btaddProduto.setDisable(b);
-        btCancelarProduto.setDisable(b);     
-        btExit.setDisable(b);
+        btCancelarProduto.setDisable(b);
     }
 
     @FXML
