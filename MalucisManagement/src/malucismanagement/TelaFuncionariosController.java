@@ -74,18 +74,29 @@ public class TelaFuncionariosController implements Initializable {
     private JFXButton btvoltar;
     @FXML
     private Pane pndados;
+    @FXML
     private JFXTextField tnome;
+    @FXML
     private JFXTextField ttelefone;
+    @FXML
     private JFXTextField trua;
+    @FXML
     private JFXComboBox<String> cbsexo;
+    @FXML
     private JFXTextField tnumero;
+    @FXML
     private JFXTextField tbairro;
+    @FXML
     private JFXDatePicker dpdatanasc;
     @FXML
     private JFXTextField tcpf;
+    @FXML
     private JFXTextField tcep;
+    @FXML
     private JFXTextField temail;
+    @FXML
     private JFXTextField tcidade;
+    @FXML
     private JFXTextField tuf;
     @FXML
     private VBox pnpesquisa;
@@ -101,19 +112,27 @@ public class TelaFuncionariosController implements Initializable {
     private TableColumn<Funcionario, String> colnome;
     @FXML
     private TableColumn<Funcionario, String> colcpf;
+    @FXML
     private TableColumn<Funcionario, String> coltelefone;
     @FXML
     private TableColumn<Funcionario, String> collogin;
     @FXML
     private TableColumn<Funcionario, String> colemail;
+    @FXML
     private TableColumn<Funcionario, String> colativo;
+    @FXML
     private JFXComboBox<String> cbCargo;
+    @FXML
     private JFXPasswordField txsenha;
+    @FXML
     private JFXTextField txlogin;
+    @FXML
     private JFXPasswordField txsenhan;
+    @FXML
     private JFXButton btativdesativ;
     @FXML
     private JFXButton btnovo;
+    @FXML
     private TableColumn<Funcionario, Integer> colnivel;
     @FXML
     private Label lbobg;
@@ -234,66 +253,66 @@ public class TelaFuncionariosController implements Initializable {
     
     private void setParametros() {
         
-        DALParametrizacao dal = new DALParametrizacao();
-        Parametrizacao p = dal.getConfig();
-        
-        if(p.getCorprimaria() != null)
-        {
-            pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-            tvclientes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-        }
-        if(p.getCorsecundaria()!= null)
-        {
-            pnbotoes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
-            pnfiltros.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
-        }
-        if(p.getFonte() != null)
-        {
-            btalterar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btapagar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btconfirmar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btcancelar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            btvoltar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            
-            tcpf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            temail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            trua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tnumero.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tbairro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            txlogin.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            txsenha.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            
-            tfiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-        }
-        if(p.getCorfonte() != null)
-        {
-            btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btapagar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btconfirmar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btcancelar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            
-            tcpf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            tnome.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            temail.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            ttelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            tcep.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            trua.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            tnumero.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            tbairro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            tcidade.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            tuf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            txsenha.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            txlogin.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            
-            tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-        }
+//        DALParametrizacao dal = new DALParametrizacao();
+//        Parametrizacao p = dal.getConfig();
+//        
+//        if(p.getCorprimaria() != null)
+//        {
+//            pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+//            tvclientes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+//        }
+//        if(p.getCorsecundaria()!= null)
+//        {
+//            pnbotoes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+//            pnfiltros.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+//        }
+//        if(p.getFonte() != null)
+//        {
+//            btalterar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            btapagar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            btconfirmar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            btcancelar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            btvoltar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            
+//            tcpf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            tnome.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            temail.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            ttelefone.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            tcep.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            trua.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            tnumero.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            tbairro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            tcidade.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            tuf.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            txlogin.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            txsenha.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            lbobg.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//            
+//            tfiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+//        }
+//        if(p.getCorfonte() != null)
+//        {
+//            btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            btapagar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            btconfirmar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            btcancelar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            btvoltar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            
+//            tcpf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            tnome.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            temail.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            ttelefone.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            tcep.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            trua.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            tnumero.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            tbairro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            tcidade.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            tuf.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            txsenha.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            txlogin.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//            
+//            tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+//        }
     }
     
     private void setMascaras() {
@@ -689,6 +708,7 @@ public class TelaFuncionariosController implements Initializable {
             }
     }
 
+    @FXML
     private void evtBotaoDigitado(KeyEvent event) {
         
         if(tcep.getText().length() == 8){
@@ -796,6 +816,7 @@ public class TelaFuncionariosController implements Initializable {
         this.Usuario = Usuario;
     }
 
+    @FXML
     private void clkBtAtivar(ActionEvent event) {
         
         String result;
