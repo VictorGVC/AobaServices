@@ -15,12 +15,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import malucismanagement.db.entidades.Cliente;
+import malucismanagement.db.entidades.Produto;
 
 /**
  * FXML Controller class
@@ -30,29 +35,17 @@ import javafx.scene.layout.VBox;
 public class TelaListaMateriaisController implements Initializable {
 
     @FXML
-    private SplitPane pnprincipal;
-    @FXML
-    private HBox pnbotoes;
-    @FXML
     private JFXButton btconfirmar;
     @FXML
     private JFXButton btcancelar;
-    @FXML
-    private Pane pndados;
-    @FXML
-    private Label lbobg;
     @FXML
     private JFXTextField txescola;
     @FXML
     private JFXTextField txturma;
     @FXML
-    private JFXComboBox<?> cbcategoria;
+    private JFXComboBox<String> cbcategoria;
     @FXML
     private JFXTextField txqtde;
-    @FXML
-    private JFXComboBox<?> cbprodutos;
-    @FXML
-    private VBox pnpesquisa;
     @FXML
     private JFXButton btadicionar;
     @FXML
@@ -60,15 +53,57 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private JFXButton btalterar;
     @FXML
-    private TableView<?> tvclientes;
-    @FXML
     private TableColumn<?, ?> coldescricao;
     @FXML
     private TableColumn<?, ?> colquantidade;
     @FXML
     private TableColumn<?, ?> coltotal;
     @FXML
-    private Label lbltotal;
+    private Tab tabescolas;
+    @FXML
+    private Tab tablista;
+    @FXML
+    private SplitPane pnprincipal1;
+    @FXML
+    private HBox pnbotoes1;
+    @FXML
+    private Pane pndados1;
+    @FXML
+    private Label lbobg1;
+    @FXML
+    private TableColumn<?, ?> coldescprod;
+    @FXML
+    private TableColumn<?, ?> colprecoprod;
+    @FXML
+    private VBox pnpesquisa1;
+    @FXML
+    private TableColumn<?, ?> colpreco;
+    @FXML
+    private Label lbltotal1;
+    @FXML
+    private AnchorPane pntabescolas;
+    @FXML
+    private AnchorPane pnescola;
+    @FXML
+    private JFXComboBox<?> cbescolas;
+    @FXML
+    private JFXButton btnovo;
+    @FXML
+    private TableView<Cliente> tvescolas;
+    @FXML
+    private TableColumn<?, ?> colescola;
+    @FXML
+    private TableColumn<?, ?> colturma;
+    @FXML
+    private BorderPane pntablista;
+    @FXML
+    private Label lblescola;
+    @FXML
+    private Label lblproduto;
+    @FXML
+    private TableView<Produto> tvproduto;
+    @FXML
+    private TableView<?> tvlista;
 
     /**
      * Initializes the controller class.
@@ -86,9 +121,6 @@ public class TelaListaMateriaisController implements Initializable {
     private void clkBtCancelar(ActionEvent event) {
     }
 
-    @FXML
-    private void clkBtNovo(ActionEvent event) {
-    }
 
     @FXML
     private void clkBtApagar(ActionEvent event) {
@@ -100,6 +132,22 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkTabela(MouseEvent event) {
+    }
+
+    @FXML
+    private void clkFiltraEscola(ActionEvent event) {
+    }
+
+    @FXML
+    private void clkBtNovaLista(ActionEvent event) {
+    }
+
+    @FXML
+    private void clkBtEditarEscola(MouseEvent event) {
+    }
+
+    @FXML
+    private void clkBtAdd(ActionEvent event) {
     }
     
 }
