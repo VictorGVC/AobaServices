@@ -33,7 +33,7 @@ public class MalucisManagement extends Application {
         else{
             
             root = FXMLLoader.load(getClass().getResource("TelaLogin_Cadastro.fxml"));
-            stage.resizableProperty().setValue(Boolean.FALSE);       
+            stage.resizableProperty().setValue(false);       
             stage.setTitle("Login");
         }
         
