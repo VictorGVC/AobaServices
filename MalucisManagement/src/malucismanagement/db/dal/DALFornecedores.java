@@ -56,20 +56,19 @@ public class DALFornecedores {
                         rs.getString("for_cnpj"),rs.getString("for_telefone")));
             }
         } catch (Exception e) {
-            int i = 0;
-            i++;
+            System.out.println(e);
         }
         
         return lista;
     }
     
-    public List<String> getNomesFornecedores(){
+    public List<String> getFornecedoresNomes(String nome){
         List <String> lista = new ArrayList();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM fornecedores");
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM fornecedores WHERE Lower(for_nome) like '%"+nome+"%'");
         
         try {
             while(rs.next()){
-                lista.add(rs.getString("for_nome"));
+                lista.add(rs.getString("for_cnpj"));
             }
         } catch (Exception e) {
             int i = 0;
@@ -79,21 +78,18 @@ public class DALFornecedores {
         return lista;
     }
     
-    public List<Fornecedor> getFornecedoresNome(String nome){
-        List <Fornecedor> lista = new ArrayList();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM fornecedores WHERE Lower(for_nome) like '%"+nome.toLowerCase()+"%'");
+    public String getFornecedorNome(String cnpj) throws SQLException{
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM fornecedores WHERE for_cnpj like '"+cnpj+"'");
         
         try {
-            while(rs.next()){
-                lista.add(new Fornecedor(rs.getString("for_tipo"),rs.getString("for_nome"),rs.getString("for_email"),rs.getString("for_inscestadual"),
-                        rs.getString("for_cnpj"),rs.getString("for_telefone")));
-            }
+            rs.next();
+            
         } catch (Exception e) {
             int i = 0;
             i++;
         }
         
-        return lista;
+        return rs.getString("for_nome");
     }
     
     public List<Fornecedor> getFornecedoresCNPJ(String cnpj){

@@ -395,8 +395,8 @@ public class TelaFornecedorController implements Initializable {
         try {
             tvFornecedores.getItems().clear();
             DALFornecedores dal = new DALFornecedores();
-            ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresNome(txPesquisar.getText()));
-            tvFornecedores.setItems(lista);
+            //ObservableList<Fornecedor> lista = FXCollections.observableArrayList(dal.getFornecedoresNome(txPesquisar.getText()));
+            //tvFornecedores.setItems(lista);
         } catch (Exception e) {
             executar = false;
         }
