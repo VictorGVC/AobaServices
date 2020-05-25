@@ -18,7 +18,7 @@ public class DALItensVenda {
         sql = sql.replaceAll("#2", "" + i.getMar_cod());
         sql = sql.replaceAll("#3", "" + i.getQtde());
         sql = sql.replaceAll("#4", "" + i.getPreco());
-        sql = sql.replaceAll("#4", "" + i.getPro_cod());
+        sql = sql.replaceAll("#5", "" + i.getPro_cod());
         
         return Banco.getCon().manipular(sql);
     }

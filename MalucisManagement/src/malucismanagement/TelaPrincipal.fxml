@@ -84,12 +84,12 @@
                               <Font size="14.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="btpagamento" alignment="CENTER" onAction="#clkbtPagamento" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Pagamentos">
+                        <JFXButton fx:id="btCompraProduto" alignment="CENTER" onAction="#clkbtCompraProduto" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Compra de Produto">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="btCompraProduto" alignment="CENTER" onAction="#clkbtCompraProduto" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Compra de Produto">
+                        <JFXButton fx:id="btpagamento" alignment="CENTER" onAction="#clkbtPagamento" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Pagamentos">
                            <font>
                               <Font size="14.0" />
                            </font>

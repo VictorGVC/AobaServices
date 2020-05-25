@@ -1,8 +1,10 @@
 package malucismanagement.db.entidades;
 
 public class Itenscompra {
-    int com_cod,it_quantidade,mar_cod,pro_cod;
-    Double it_preco;
+    
+    int com_cod,it_quantidade,mar_cod;
+    double it_preco;
+    String pro_cod;
 
     public int getCom_cod() {
         return com_cod;
@@ -28,11 +30,11 @@ public class Itenscompra {
         this.mar_cod = mar_cod;
     }
 
-    public int getPro_cod() {
+    public String getPro_cod() {
         return pro_cod;
     }
 
-    public void setPro_cod(int pro_cod) {
+    public void setPro_cod(String pro_cod) {
         this.pro_cod = pro_cod;
     }
 
@@ -44,7 +46,7 @@ public class Itenscompra {
         this.it_preco = it_preco;
     }
 
-    public Itenscompra(int com_cod, int it_quantidade, int mar_cod, int pro_cod, Double it_preco) {
+    public Itenscompra(int com_cod, int it_quantidade, int mar_cod, String pro_cod, Double it_preco) {
         this.com_cod = com_cod;
         this.it_quantidade = it_quantidade;
         this.mar_cod = mar_cod;

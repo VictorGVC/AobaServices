@@ -7,14 +7,13 @@ import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Produto;
 
-
 public class DALProduto {
     public boolean gravar(Produto p) throws SQLException {
         
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
-        String sql = "INSERT INTO produto (pro_nome, pro_preco, pro_quantidade, cat_cod) "
-                + "VALUES (#1,#'2',#3,#4,#5)";
+        String sql = "INSERT INTO produto (pro_cod, pro_nome, pro_preco, pro_quantidade, cat_cod) "
+                + "VALUES ('#1','#2',#3,#4,#5)";
         sql = sql.replaceAll("#1",p.getPro_cod());
         sql = sql.replaceAll("#2",p.getPro_nome());
         sql = sql.replaceAll("#3", "" + p.getPro_preco());
@@ -28,9 +27,9 @@ public class DALProduto {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
         String sql = "UPDATE produto SET "
-                + "pro_cod =#1, pro_nome='#2', pro_preco=#3, pro_quantidade=#4, cat_cod=#5 WHERE pro_cod="+p.getPro_cod();
+                + "pro_cod ='#1', pro_nome='#2', pro_preco=#3, pro_quantidade=#4, cat_cod=#5 WHERE pro_cod='" + p.getPro_cod() + "'";
         
-        sql = sql.replaceAll("#1","" + p.getPro_cod());
+        sql = sql.replaceAll("#1",p.getPro_cod());
         sql = sql.replaceAll("#1",p.getPro_nome());
         sql = sql.replaceAll("#2", "" + p.getPro_preco());
         sql = sql.replaceAll("#3", "" + p.getPro_quantidade());
@@ -40,15 +39,16 @@ public class DALProduto {
     }
     
     public boolean excluir(String codigo){
-        String sql = "DELETE FROM Produto p WHERE p.pro_cod ="+codigo;
+        String sql = "DELETE FROM Produto p WHERE p.pro_cod ='" + codigo + "'";
         
         return Banco.getCon().manipular(sql);
     }
     
     public List<Produto> getProdutos(){
+        
         List <Produto> lista = new ArrayList();
         DALCategoriaProduto ctdal = new DALCategoriaProduto();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p INNER JOIN CategoriaProduto ct ON"
                 + " p.cat_cod = ct.cat_cod");
         
         try {
@@ -71,7 +71,7 @@ public class DALProduto {
         try{
             
             if(rs.next())
-                p = new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                p = new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_cod"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
         }
         catch(SQLException e){}
@@ -80,9 +80,9 @@ public class DALProduto {
     }
     
     public List<Produto> getProdutosNome(String nome){
+        
         List <Produto> lista = new ArrayList();
-        DALCategoriaProduto ctdal = new DALCategoriaProduto();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p INNER JOIN CategoriaProduto ct ON"
                 + " Lower(p.pro_nome) like '%"+nome.toLowerCase()+"%' and ct.cat_cod = p.cat_cod");
         
         try {
@@ -98,9 +98,9 @@ public class DALProduto {
     }
     
     public List<Produto> getProdutosPreco(Double preco){
+        
         List <Produto> lista = new ArrayList();
-        DALCategoriaProduto ctdal = new DALCategoriaProduto();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p INNER JOIN CategoriaProduto ct ON"
                 + " p.pro_preco = "+preco+" and ct.cat_cod = p.cat_cod");
         
         try {
@@ -116,9 +116,9 @@ public class DALProduto {
     }
     
     public List<Produto> getProdutosQtd(int qtd){
+        
         List <Produto> lista = new ArrayList();
-        DALCategoriaProduto ctdal = new DALCategoriaProduto();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p INNER JOIN CategoriaProduto ct ON"
                 + " p.pro_quantidade = "+qtd+" and ct.cat_cod = p.cat_cod");
         
         try {
@@ -134,9 +134,10 @@ public class DALProduto {
     }
     
     public List<Produto> getProdutosCategoria(String Categoria) throws SQLException{
+        
         List <Produto> lista = new ArrayList();
         DALCategoriaProduto ctdal = new DALCategoriaProduto();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p inner join CategoriaProduto ct ON"
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p INNER JOIN CategoriaProduto ct ON"
                 + " ct.cat_cod = p.cat_cod and ct.cat_cod ="+ctdal.getCategoriaProduto(Categoria));
         
         try {

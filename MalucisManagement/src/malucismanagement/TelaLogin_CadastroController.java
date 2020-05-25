@@ -79,10 +79,11 @@ public class TelaLogin_CadastroController implements Initializable {
             
             if(p.getCorprimaria() != null)
             {
-                btlogin.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+                
             }
             if(p.getCorsecundaria()!= null)
             {
+                btlogin.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
                 pnlogin.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
             }
             if(p.getFonte() != null)
