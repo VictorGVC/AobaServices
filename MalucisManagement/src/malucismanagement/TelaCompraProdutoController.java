@@ -68,18 +68,16 @@ public class TelaCompraProdutoController implements Initializable {
     private JFXButton btvoltar;
     @FXML
     private Pane pndados;
-    @FXML
     private JFXDatePicker dtCompra;
     @FXML
     private Label lbobg;
-    @FXML
-    private JFXComboBox<String> cbFornecedores;
     @FXML
     private Pane pnfiltros;
     @FXML
     private VBox pnpesquisa;
     @FXML
     private JFXTextField txTotal;
+    
     private JFXComboBox<String> cbCategoria;
     @FXML
     private JFXTextField txFiltro;
@@ -98,6 +96,12 @@ public class TelaCompraProdutoController implements Initializable {
     private JFXButton btAddItens;
     @FXML
     private Label lbForncedor;
+    @FXML
+    private JFXComboBox<String> cbFornecedor;
+    @FXML
+    private JFXTextField txParcela;
+    @FXML
+    private JFXDatePicker dtVencimento;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -155,9 +159,10 @@ public class TelaCompraProdutoController implements Initializable {
         if(p.getFonte() != null){
             
             txTotal.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            txParcela.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             cbAddItens.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             cbCategoria.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            cbFornecedores.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            cbFornecedor.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             dtCompra.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             
             btalterar.setStyle("-fx-font-family: " + p.getFonte()+ ";");
@@ -173,9 +178,10 @@ public class TelaCompraProdutoController implements Initializable {
         if(p.getCorfonte() != null){
            
             txTotal.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            txParcela.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             cbAddItens.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             cbCategoria.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            cbFornecedores.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            cbFornecedor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             dtCompra.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             btalterar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -194,7 +200,8 @@ public class TelaCompraProdutoController implements Initializable {
         
         txTotal.setDisable(b);
         cbAddItens.setDisable(b);
-        cbFornecedores.setDisable(b);
+        txParcela.setDisable(b);
+        cbFornecedor.setDisable(b);
         dtCompra.setDisable(b);
         
         btnovo.setDisable(!b);
@@ -210,17 +217,18 @@ public class TelaCompraProdutoController implements Initializable {
         
         txTotal.clear();
         dtCompra.getEditor().clear();
-        cbFornecedores.getSelectionModel().clearSelection();
+        txParcela.clear();
+        cbFornecedor.getSelectionModel().clearSelection();
         
         flag = true;
     }
     
     private void CarregaCBFornecedores(){
         
-        cbFornecedores.getItems().clear();
+        cbFornecedor.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
         ObservableList<String> lista = FXCollections.observableArrayList(dal.getNomesFornecedores());
-        cbFornecedores.setItems(lista);
+        cbFornecedor.setItems(lista);
     }
     
     @FXML
@@ -237,7 +245,7 @@ public class TelaCompraProdutoController implements Initializable {
         LocalDate date = LocalDate.parse(linha.getCom_dtcompra()+"",formatter);
         dtCompra.setValue(date);
         txTotal.setText(""+linha.getCom_total());
-        int index = cbFornecedores.getItems().indexOf(linha.getFor_cnpj());
+        int index = cbFornecedor.getItems().indexOf(linha.getFor_cnpj());
         cbCategoria.getSelectionModel().select(index);
         adcProd(false);
     }
@@ -292,19 +300,19 @@ public class TelaCompraProdutoController implements Initializable {
             a.showAndWait();
             dtCompra.requestFocus();
         }
-        else if(cbFornecedores.getSelectionModel().getSelectedItem().compareTo("") == 0)
+        else if(cbFornecedor.getSelectionModel().getSelectedItem().compareTo("") == 0)
         {
-            cbFornecedores.setStyle("-fx-background-color: red;");
+            cbFornecedor.setStyle("-fx-background-color: red;");
             aceito = false;
             a.setContentText("Fornecedor deve ser informado inválido");
             a.setHeaderText("Alerta");
             a.setTitle("Alerta");
             a.showAndWait();
-            cbFornecedores.requestFocus();
+            cbFornecedor.requestFocus();
         }
         if(aceito){
             String cat = cbCategoria.getValue().toString();
-            Compras p = new Compras(cbFornecedores.getSelectionModel().getSelectedItem(),Double.parseDouble(txTotal.getText()),dt);
+            Compras p = new Compras(cbFornecedor.getSelectionModel().getSelectedItem(),Double.parseDouble(txTotal.getText()),dt);
             DALCompras dal = new DALCompras();
             if(flag)
             {
@@ -368,7 +376,7 @@ public class TelaCompraProdutoController implements Initializable {
     private void LimpaCB() {
         
         cbAddItens.setStyle("-fx-background-color: none;");
-        cbFornecedores.setStyle("-fx-background-color: none;");
+        cbFornecedor.setStyle("-fx-background-color: none;");
     }
 
     @FXML

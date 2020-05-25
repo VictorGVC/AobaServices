@@ -83,6 +83,10 @@ public class TelaPrincipalController implements Initializable {
     private JFXButton btvendas;
     @FXML
     private JFXButton btrecebimentos;
+    @FXML
+    private JFXButton btpagamento;
+    @FXML
+    private JFXButton btCompraProduto;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -315,5 +319,22 @@ public class TelaPrincipalController implements Initializable {
     private void clkRestore(ActionEvent event) {
         
         Banco.realizaBackupRestauracao("restore.bat");
+    }
+
+    @FXML
+    private void clkbtPagamento(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaPagamentos.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Pagamentos");
+        stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.show();
+    }
+
+    @FXML
+    private void clkbtCompraProduto(ActionEvent event) {
     }
 }

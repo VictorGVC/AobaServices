@@ -15,7 +15,7 @@ public class DALProduto {
         
         String sql = "INSERT INTO produto (pro_nome, pro_preco, pro_quantidade, cat_cod) "
                 + "VALUES (#1,#'2',#3,#4,#5)";
-        sql = sql.replaceAll("#1","" + p.getPro_cod());
+        sql = sql.replaceAll("#1",p.getPro_cod());
         sql = sql.replaceAll("#2",p.getPro_nome());
         sql = sql.replaceAll("#3", "" + p.getPro_preco());
         sql = sql.replaceAll("#4", "" + p.getPro_quantidade());
@@ -39,7 +39,7 @@ public class DALProduto {
         return Banco.getCon().manipular(sql);
     }
     
-    public boolean excluir(int codigo){
+    public boolean excluir(String codigo){
         String sql = "DELETE FROM Produto p WHERE p.pro_cod ="+codigo;
         
         return Banco.getCon().manipular(sql);
@@ -53,7 +53,7 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                lista.add(new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
                 }
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class DALProduto {
         try{
             
             if(rs.next())
-                p = new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                p = new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
         }
         catch(SQLException e){}
@@ -87,7 +87,7 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                lista.add(new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                lista.add(new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                lista.add(new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
@@ -141,7 +141,7 @@ public class DALProduto {
         
         try {
             while(rs.next()){
-                lista.add(new Produto(Integer.parseInt(rs.getString("pro_cod")),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                lista.add(new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {

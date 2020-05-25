@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Contaspagar;
@@ -14,30 +15,28 @@ public class DALContaspagar {
     public boolean gravar(Contaspagar ct) throws SQLException {
         
         
-        String sql = "INSERT INTO contaspagar (pag_parcela,pag_dtvencimento,pag_tipo,pag_contato,pag_valor,pag_status,for_cnpj)"
-                + "VALUES (#1,'#2','#3','#4',#5,'#6','#7')";
+        String sql = "INSERT INTO contaspagar (pag_parcela,pag_dtvencimento,pag_tipo,pag_dtpagamento,pag_valor,for_cnpj)"
+                + "VALUES (#1,'#2','#3','#4',#5,'#6')";
         sql = sql.replaceAll("#1","" + ct.getPag_parcela());
         sql = sql.replaceAll("#2","" + ct.getPag_dtvencimento());
         sql = sql.replaceAll("#3","" + ct.getPag_tipo());
-        sql = sql.replaceAll("#4","" + ct.getPag_contato());
+        sql = sql.replaceAll("#4","" + ct.getPag_dtpagamento());
         sql = sql.replaceAll("#5","" + ct.getPag_valor());
-        sql = sql.replaceAll("#6","" + ct.getPag_status());
-        sql = sql.replaceAll("#7","" + ct.getFor_cnpj());
+        sql = sql.replaceAll("#5","" + ct.getFor_cnpj());
         return Banco.getCon().manipular(sql);
     }
     
     public boolean alterar(Contaspagar ct) throws SQLException {
         
         String sql = "UPDATE contaspagar SET "
-                + "pag_parcela =#1, pag_dtvencimento = '#2', pag_tipo ='#3', pag_contato='#4', pag_valor=#5, pag_status='#6', for_cnpj='#7' WHERE pag_cod="+ct.getPag_cod();
+                + "pag_parcela =#1, pag_dtvencimento = '#2', pag_tipo ='#3', pag_dtpagamento='#4', pag_valor=#5, for_cnpj='#6' WHERE pag_cod="+ct.getPag_cod();
         
         sql = sql.replaceAll("#1","" + ct.getPag_parcela());
         sql = sql.replaceAll("#2","" + ct.getPag_dtvencimento());
         sql = sql.replaceAll("#3","" + ct.getPag_tipo());
-        sql = sql.replaceAll("#4","" + ct.getPag_contato());
+        sql = sql.replaceAll("#4","" + ct.getPag_dtpagamento());
         sql = sql.replaceAll("#5","" + ct.getPag_valor());
-        sql = sql.replaceAll("#6","" + ct.getPag_status());
-        sql = sql.replaceAll("#7","" + ct.getFor_cnpj());
+        sql = sql.replaceAll("#6","" + ct.getFor_cnpj());
         
         return Banco.getCon().manipular(sql);
     }
@@ -48,15 +47,32 @@ public class DALContaspagar {
         return Banco.getCon().manipular(sql);
     }
     
-    public List<Contaspagar> getContapagar(){
+    public List<Contaspagar> getContapagarNaoPagas(){
         List <Contaspagar> lista = new ArrayList();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar");
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE pag_dtpagamento like ''");
         
         try {
             while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
+                }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return lista;
+    }
+    
+    public List<Contaspagar> getContapagarPagas(){
+        List <Contaspagar> lista = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE pag_dtpagamento not like ''");
+        
+        try {
+            while(rs.next()){
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
                 }
         } catch (Exception e) {
             System.out.println(e);
@@ -70,13 +86,13 @@ public class DALContaspagar {
         DALFornecedores dal = new DALFornecedores();
         List <Fornecedor> forn = dal.getFornecedoresNome(fornecedor);
         for (int i = 0; i < forn.size(); i++) {
-            ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE for_cnpj like '"+forn.get(i).getFor_cnpj()+"'");
+            ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE for_cnpj like '"+forn.get(i).getFor_cnpj()+"' AND pag_dtpagamento like ''");
         
         try {
             while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
                 }
             } catch (Exception e) {
                 System.out.println(e);
@@ -86,43 +102,40 @@ public class DALContaspagar {
         return lista;
     }
     
-    public List<Contaspagar> getContapagarTipo(String tipo){
+    public List<Contaspagar> getContapagarFornecedorPag(String fornecedor){
         List <Contaspagar> lista = new ArrayList();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE pag_tipo like '"+tipo+"'");
+        DALFornecedores dal = new DALFornecedores();
+        List <Fornecedor> forn = dal.getFornecedoresNome(fornecedor);
+        for (int i = 0; i < forn.size(); i++) {
+            ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE for_cnpj like '"+forn.get(i).getFor_cnpj()+"' AND pag_dtpagamento not like ''");
         
         try {
             while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
+                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),
+                        rs.getString("for_cnpj"), (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtvencimento")),
+                        (Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_dtpagamento")),rs.getString("pag_tipo").charAt(0)));
                 }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
-        return lista;
-    }
-    
-    public List<Contaspagar> getContapagarStatus(String status){
-        List <Contaspagar> lista = new ArrayList();
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM contaspagar WHERE pag_status like '"+status+"'");
-        
-        try {
-            while(rs.next()){
-                lista.add(new Contaspagar(Integer.parseInt(rs.getString("pag_parcela")),Double.parseDouble(rs.getString("pag_valor")),rs.getString("pag_contato"),
-                    rs.getString("for_cnpj"),(Date) new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString("pag_vencimento")),
-                        rs.getString("pag_tipo").charAt(0),rs.getString("pag_tipo").charAt(0)));
-                }
-        } catch (Exception e) {
-            System.out.println(e);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
         
         return lista;
     }
     
     public Boolean QuitarConta(int cod){
+        Calendar hoje = Calendar.getInstance();
+        
+        String sql = "UPDATE contaspagar SET pag_dtpagamento = '#1' WHERE pag_cod="+cod;
+        
+        sql = sql.replaceAll("#1","" +hoje);
+
+        return Banco.getCon().manipular(sql);
+    }
+    
+    public Boolean ExtornarConta(int cod){
         String sql = "UPDATE contaspagar SET "
-                + "pag_status ='F' WHERE pag_cod="+cod;
+                + "pag_dtpagamento ='' WHERE pag_cod="+cod;
 
         return Banco.getCon().manipular(sql);
     }

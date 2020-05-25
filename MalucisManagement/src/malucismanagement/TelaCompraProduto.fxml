@@ -30,11 +30,12 @@
             <Pane fx:id="pndados" prefHeight="183.0" prefWidth="798.0">
                <children>
                   <JFXTextField fx:id="txTotal" editable="false" focusColor="BLACK" labelFloat="true" layoutX="88.0" layoutY="36.0" prefHeight="32.0" prefWidth="94.0" unFocusColor="BLACK" />
-                  <JFXDatePicker fx:id="dtCompra" defaultColor="BLACK" layoutX="244.0" layoutY="36.0" prefHeight="32.0" prefWidth="194.0" promptText="Data da Compra*" />
                   <Label fx:id="lbobg" layoutX="653.0" layoutY="153.0" text="* Campos Obrigatorios" textFill="RED" />
-                  <JFXComboBox fx:id="cbFornecedores" focusColor="BLACK" labelFloat="true" layoutX="474.0" layoutY="39.0" prefHeight="25.0" prefWidth="240.0" promptText="Fornecedores" />
+                  <JFXComboBox fx:id="cbFornecedor" focusColor="BLACK" labelFloat="true" layoutX="474.0" layoutY="39.0" prefHeight="25.0" prefWidth="240.0" promptText="Fornecedor" />
                   <Label ellipsisString="" layoutX="40.0" layoutY="44.0" text="TOTAL" />
                   <JFXButton fx:id="btAddItens" layoutX="335.0" layoutY="128.0" onAction="#clkbtAddItem" text="Lista de itens" />
+                  <JFXTextField fx:id="txParcela" focusColor="BLACK" layoutX="88.0" layoutY="92.0" prefHeight="25.0" prefWidth="94.0" promptText="Parcelas" />
+                  <JFXDatePicker fx:id="dtVencimento" defaultColor="BLACK" layoutX="238.0" layoutY="36.0" prefHeight="32.0" prefWidth="194.0" promptText="Vencimento*" />
                </children>
             </Pane>
             <Pane fx:id="pnfiltros" prefHeight="76.0" prefWidth="798.0">
@@ -54,7 +55,7 @@
             <TableView fx:id="tvCompra" onMouseClicked="#clkTabela" prefHeight="310.0" prefWidth="798.0" scaleShape="false">
                <columns>
                   <TableColumn fx:id="ColCod" prefWidth="138.0" text="Codigo" />
-                  <TableColumn fx:id="ColData" prefWidth="264.0" text="Data" />
+                  <TableColumn fx:id="ColData" prefWidth="264.0" text="Data da Compra" />
                   <TableColumn fx:id="ColFornecedor" prefWidth="233.0" text="Fornecedor" />
                   <TableColumn fx:id="ColTotal" prefWidth="162.0" text="Total" />
                </columns>
