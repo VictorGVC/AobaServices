@@ -31,6 +31,18 @@ public class DALProdmarcas {
         return Banco.getCon().manipular(sql);
     }
     
+    public boolean atualizarEstoque(Prodmarcas pm, int qtde, int op) throws SQLException {
+        
+        String sql = null;
+        
+        if(op == 1)
+            sql = "UPDATE prodmarcas SET estoque=" + (pm.getEstoque() - qtde) + " WHERE pro_cod=" + pm.getPro_cod();
+        else if (op == 2)
+            sql = "UPDATE prodmarcas SET estoque=" + (pm.getEstoque() + qtde) + " WHERE pro_cod=" + pm.getPro_cod();
+        
+        return Banco.getCon().manipular(sql);
+    }
+    
     public boolean excluir(int codigo){
         
         String sql = "DELETE FROM prodmarcas WHERE mar_cod ="+codigo;

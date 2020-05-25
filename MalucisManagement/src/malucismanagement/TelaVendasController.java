@@ -7,10 +7,13 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -297,7 +300,10 @@ public class TelaVendasController implements Initializable {
             
             final KeyCombination ENTER = new KeyCodeCombination(KeyCode.ENTER);
             if(ENTER.match(k)) {
-                clkBtAdicionar(null);
+                try {
+                    clkBtAdicionar(null);
+                } 
+                catch (SQLException ex) {}
             }
         });
     }
@@ -521,11 +527,19 @@ public class TelaVendasController implements Initializable {
         Stage stage = (Stage) btvoltar.getScene().getWindow();
         stage.close();
     }
+    
+    private boolean verificaEstoque(){
+        
+        DALProdmarcas dal = new DALProdmarcas();
+        Prodmarcas p = dal.getProdEMarca(tcodigodebarras.getText());
+        
+        return p.getEstoque() >= Integer.parseInt(tqtde.getText());
+    }
 
     @FXML
-    private void clkBtAdicionar(ActionEvent event) {
+    private void clkBtAdicionar(ActionEvent event) throws SQLException {
         
-        int cod;
+        int cod, qtde;
         boolean flag = false;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
@@ -540,6 +554,13 @@ public class TelaVendasController implements Initializable {
             flag = true;
             setCorAlert(tqtde, "RED");
         }
+        else if(!verificaEstoque()){
+            
+            a.setContentText("Estoque insulficiente para a quantidade informada!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
         if(flag){
             
             a.setContentText("Campos obrigatórios não preenchidos!");
@@ -547,7 +568,7 @@ public class TelaVendasController implements Initializable {
             a.setTitle("Alerta");
             a.showAndWait();
         }
-        else{
+        else if(verificaEstoque()){
             
             try {
                 cod = Integer.parseInt(tcodigo.getText());
@@ -556,13 +577,17 @@ public class TelaVendasController implements Initializable {
                 cod = -1;
             }
             
+            qtde = Integer.parseInt(tqtde.getText());
             DALMarcas dalm = new DALMarcas();
             Marcas m = dalm.getMarca(tmarca.getText());
-            ItensVenda i = new ItensVenda(cod, m.getMar_cod(), tcodigodebarras.getText(), Integer.parseInt(tqtde.getText()), Double.parseDouble(tpreco.getText()));
             DALItensVenda dal = new DALItensVenda();
-
+            ItensVenda i = new ItensVenda(cod, m.getMar_cod(), tcodigodebarras.getText(), qtde, Double.parseDouble(tpreco.getText()));
+            DALProdmarcas dalpm = new DALProdmarcas();
+            Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
+            
             if (dal.gravar(i)){
-
+                
+                dalpm.atualizarEstoque(pm, qtde, 1);
                 JFXSnackbar sb = new JFXSnackbar(pndados); 
                 sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Adicionado!")));
             }
@@ -577,8 +602,9 @@ public class TelaVendasController implements Initializable {
     }
 
     @FXML
-    private void clkBtRemover(ActionEvent event) {
+    private void clkBtRemover(ActionEvent event) throws SQLException {
         
+        int qtde;
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType btsim = new ButtonType("Sim");
         ButtonType btnao = new ButtonType("Não");
@@ -592,12 +618,16 @@ public class TelaVendasController implements Initializable {
             a.setContentText("Confirma a remoção?");
             if (a.showAndWait().get() == btsim){
                 
+                qtde = Integer.parseInt(tqtde.getText());
                 DALItensVenda dal = new DALItensVenda();
-                ItensVenda i;
+                ItensVenda i = dal.getItem(tcodigodebarras.getText());
+                DALProdmarcas dalpm = new DALProdmarcas();
+                Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
                 
                 i = tvprodutos.getSelectionModel().getSelectedItem();
                 if(dal.apagarProduto(i)){
                     
+                    dalpm.atualizarEstoque(pm, qtde, 2);
                     JFXSnackbar sb = new JFXSnackbar(pndados); 
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Removido com Sucesso!")));
                 }
@@ -724,7 +754,7 @@ public class TelaVendasController implements Initializable {
         if(pnfiltros.isDisable()){
 
             if (dal.gravar(v)){
-
+                
                 JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
                 sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
             }
@@ -760,7 +790,7 @@ public class TelaVendasController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("TelaGerarRecebimento.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
-        
+
         TelaGerarRecebimentoController.setVenda(Integer.parseInt(tcodigo.getText()));
         stage.initStyle(StageStyle.UTILITY);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
@@ -768,10 +798,10 @@ public class TelaVendasController implements Initializable {
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            
+
             @Override
             public void handle(WindowEvent t) {
-                
+
                 t.consume();
                 stage.close();
                 gravarVenda();

@@ -118,6 +118,9 @@ public class TelaPrincipalController implements Initializable {
             tbatalhos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             
             btvendas.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btrecebimentos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btCompraProduto.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btpagamento.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btfuncionarios.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btclientes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btfornecedores.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
@@ -127,8 +130,10 @@ public class TelaPrincipalController implements Initializable {
         }
         if(p.getFonte() != null){
             
-            btrecebimentos.setFont(new Font(p.getFonte(), 14));
             btvendas.setFont(new Font(p.getFonte(), 14));
+            btrecebimentos.setFont(new Font(p.getFonte(), 14));
+            btCompraProduto.setFont(new Font(p.getFonte(), 14));
+            btpagamento.setFont(new Font(p.getFonte(), 14));
             btfuncionarios.setFont(new Font(p.getFonte(), 14));
             btclientes.setFont(new Font(p.getFonte(), 14));
             btfornecedores.setFont(new Font(p.getFonte(), 14));
@@ -143,8 +148,10 @@ public class TelaPrincipalController implements Initializable {
         }
         if(p.getCorfonte() != null){
             
-            btrecebimentos.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
-            btvendas.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btvendas.setStyle(btvendas.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btrecebimentos.setStyle(btrecebimentos.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btCompraProduto.setStyle(btCompraProduto.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btpagamento.setStyle(btpagamento.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btfuncionarios.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btclientes.setStyle(btclientes.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btfornecedores.setStyle(btfornecedores.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -254,6 +261,24 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
+    private void clkbtPagamento(ActionEvent event) throws IOException {
+        
+        Parent root = FXMLLoader.load(getClass().getResource("TelaPagamentos.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Pagamentos");
+        stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.show();
+    }
+
+    @FXML
+    private void clkbtCompraProduto(ActionEvent event) {
+    }
+
+    @FXML
     private void clkOpenFuncionarios(ActionEvent event) throws IOException {
         
         Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
@@ -319,22 +344,5 @@ public class TelaPrincipalController implements Initializable {
     private void clkRestore(ActionEvent event) {
         
         Banco.realizaBackupRestauracao("restore.bat");
-    }
-
-    @FXML
-    private void clkbtPagamento(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("TelaPagamentos.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
-        stage.setTitle("Pagamentos");
-        stage.setScene(scene);
-        stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.show();
-    }
-
-    @FXML
-    private void clkbtCompraProduto(ActionEvent event) {
     }
 }
