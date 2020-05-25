@@ -22,7 +22,8 @@ public class ContasReceber {
         this.contato = contato;
     }
 
-    public ContasReceber(int ven_cod, double valor, char status, LocalDate dtvencimento, String tipo, String contato) {
+    public ContasReceber(int parcela, int ven_cod, double valor, LocalDate dtvencimento, LocalDate dtpagamento, String tipo, String contato) {
+        this.parcela = parcela;
         this.ven_cod = ven_cod;
         this.valor = valor;
         this.dtvencimento = dtvencimento;
