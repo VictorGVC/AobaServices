@@ -13,7 +13,7 @@ public class DALProduto {
         DALCategoriaProduto dalct = new DALCategoriaProduto();
         
         String sql = "INSERT INTO produto (pro_cod, pro_nome, pro_preco, pro_quantidade, cat_cod) "
-                + "VALUES ('#1',#'2',#3,#4,#5)";
+                + "VALUES ('#1','#2',#3,#4,#5)";
         sql = sql.replaceAll("#1",p.getPro_cod());
         sql = sql.replaceAll("#2",p.getPro_nome());
         sql = sql.replaceAll("#3", "" + p.getPro_preco());
@@ -71,7 +71,7 @@ public class DALProduto {
         try{
             
             if(rs.next())
-                p = new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_nome"),
+                p = new Produto(rs.getString("pro_cod"),Integer.parseInt(rs.getString("pro_quantidade")),rs.getString("cat_cod"),
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome"));
         }
         catch(SQLException e){}

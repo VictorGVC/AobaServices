@@ -5,11 +5,10 @@ import java.sql.Date;
 public class Contaspagar {
     int pag_cod,pag_parcela;
     Double pag_valor;
-    String for_cnpj;
-    Date pag_dtvencimento,pag_dtpagamento;
+    String for_cnpj, pag_dtvencimento,pag_dtpagamento;
     char pag_tipo;
 
-    public Contaspagar(int pag_parcela, Double pag_valor, String for_cnpj, Date pag_dtvencimento, Date pag_dtpagamento, char pag_tipo) {
+    public Contaspagar(int pag_parcela, Double pag_valor, String for_cnpj, String pag_dtvencimento, String pag_dtpagamento, char pag_tipo) {
         this.pag_parcela = pag_parcela;
         this.pag_valor = pag_valor;
         this.for_cnpj = for_cnpj;
@@ -18,7 +17,7 @@ public class Contaspagar {
         this.pag_tipo = pag_tipo;
     }
 
-    public Contaspagar(int pag_cod, int pag_parcela, Double pag_valor, String for_cnpj, Date pag_dtvencimento, Date pag_dtpagamento, char pag_tipo) {
+    public Contaspagar(int pag_cod, int pag_parcela, Double pag_valor, String for_cnpj, String pag_dtvencimento, String pag_dtpagamento, char pag_tipo) {
         this.pag_cod = pag_cod;
         this.pag_parcela = pag_parcela;
         this.pag_valor = pag_valor;
@@ -63,19 +62,19 @@ public class Contaspagar {
         this.for_cnpj = for_cnpj;
     }
 
-    public Date getPag_dtvencimento() {
+    public String getPag_dtvencimento() {
         return pag_dtvencimento;
     }
 
-    public void setPag_dtvencimento(Date pag_dtvencimento) {
+    public void setPag_dtvencimento(String pag_dtvencimento) {
         this.pag_dtvencimento = pag_dtvencimento;
     }
 
-    public Date getPag_dtpagamento() {
+    public String getPag_dtpagamento() {
         return pag_dtpagamento;
     }
 
-    public void setPag_dtpagamento(Date pag_dtpagamento) {
+    public void setPag_dtpagamento(String pag_dtpagamento) {
         this.pag_dtpagamento = pag_dtpagamento;
     }
 

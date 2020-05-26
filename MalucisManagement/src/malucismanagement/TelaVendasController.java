@@ -12,8 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -620,7 +618,7 @@ public class TelaVendasController implements Initializable {
                 
                 qtde = Integer.parseInt(tqtde.getText());
                 DALItensVenda dal = new DALItensVenda();
-                ItensVenda i = dal.getItem(tcodigodebarras.getText());
+                ItensVenda i;
                 DALProdmarcas dalpm = new DALProdmarcas();
                 Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
                 

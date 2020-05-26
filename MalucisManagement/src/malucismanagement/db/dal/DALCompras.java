@@ -56,10 +56,10 @@ public class DALCompras {
         return lista;
     }
     
-    public List<Compras> getComprasFornecedor(String fornecedor){
+    /*ublic List<Compras> getComprasFornecedor(String fornecedor){
         List <Compras> lista = new ArrayList();
         DALFornecedores dal = new DALFornecedores();
-        List <Fornecedor> forn = dal.getFornecedoresNome(fornecedor);
+        List <Fornecedor> forn = dal.getFornecedoresNomes(fornecedor);
         for (int i = 0; i < forn.size(); i++) {
             ResultSet rs = Banco.getCon().consultar("SELECT * FROM compras WHERE for_cnpj like '"+forn.get(i).getFor_cnpj()+"'");
         
@@ -73,5 +73,5 @@ public class DALCompras {
             }
         }
         return lista;
-    }
+    }*/
 }

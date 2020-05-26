@@ -227,8 +227,8 @@ public class TelaCompraProdutoController implements Initializable {
         
         cbFornecedor.getItems().clear();
         DALFornecedores dal = new DALFornecedores();
-        ObservableList<String> lista = FXCollections.observableArrayList(dal.getNomesFornecedores());
-        cbFornecedor.setItems(lista);
+        //ObservableList<String> lista = FXCollections.observableArrayList(dal.getNomesFornecedores());
+        //cbFornecedor.setItems(lista);
     }
     
     @FXML
@@ -406,8 +406,8 @@ public class TelaCompraProdutoController implements Initializable {
         try {
             tvCompra.getItems().clear();
             DALCompras dal = new DALCompras();
-            ObservableList<Compras> lista = FXCollections.observableArrayList(dal.getComprasFornecedor(txFiltro.getText()));
-            tvCompra.setItems(lista);
+            //ObservableList<Compras> lista = FXCollections.observableArrayList(dal.getComprasFornecedor(txFiltro.getText()));
+            //tvCompra.setItems(lista);
             } catch (Exception e) {
             executar = false;
         }

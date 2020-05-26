@@ -33,22 +33,6 @@ public class DALItensVenda {
         return Banco.getCon().manipular("DELETE FROM ItensVenda WHERE ven_cod='" + i.getVen_cod() + "'");
     }
     
-    public ItensVenda getItem(String cod) {
-        
-        ItensVenda aux = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM ItensVenda WHERE pro_cod='" + cod + "'");
-        
-        try{
-            
-            if(rs.next())
-                aux = new ItensVenda(rs.getInt("ven_cod"),rs.getInt("mar_cod"),rs.getString("cli_id"),
-                        rs.getInt("it_qtde"), rs.getDouble("it_preco"));
-        } 
-        catch(SQLException ex) {}
-        
-        return aux;
-    }
-    
     public ItensVenda getVenda(String cod) {
         
         ItensVenda aux = null;

@@ -195,9 +195,6 @@ public class TelaRecebimentosController implements Initializable {
         
         if(p.getCorprimaria() != null){
             
-            tabreceber.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-            tabrecebidas.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-            
             pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             tvrecebimentos.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             

@@ -148,7 +148,7 @@ public class TelaProdutoController implements Initializable {
             a.showAndWait();
             txCodigo.requestFocus();
         }
-        else if(txCodigo.getText().length() < 20)
+        else if(txCodigo.getText().length() > 20)
         {
             txCodigo.setStyle("-fx-background-color: red;");
             aceito = false;
