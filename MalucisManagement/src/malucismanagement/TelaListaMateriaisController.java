@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALListaMateriais;
+import malucismanagement.db.dal.DALProduto;
+import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Cliente;
 import malucismanagement.db.entidades.ListaEscola;
+import malucismanagement.db.entidades.ListaItens;
 import malucismanagement.db.entidades.Produto;
 
 /**
@@ -65,11 +70,11 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private JFXButton btalterar;
     @FXML
-    private TableColumn<ListaEscola, String> coldescricao;
+    private TableColumn<ListaItens, String> coldescricao;
     @FXML
-    private TableColumn<ListaEscola, Integer> colquantidade;
+    private TableColumn<ListaItens, Integer> colquantidade;
     @FXML
-    private TableColumn<ListaEscola, Double> coltotal;
+    private TableColumn<ListaItens, Double> coltotal;
     @FXML
     private Tab tabescolas;
     @FXML
@@ -89,7 +94,7 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private VBox pnpesquisa1;
     @FXML
-    private TableColumn<ListaEscola, Double> colpreco;
+    private TableColumn<ListaItens, Double> colpreco;
     @FXML
     private Label lbltotal1;
     @FXML
@@ -118,6 +123,10 @@ public class TelaListaMateriaisController implements Initializable {
     private TableView<ListaEscola> tvlista;
     @FXML
     private JFXTabPane pntab;
+    @FXML
+    private TableColumn<Produto, String> colcodprod;
+    @FXML
+    private TableColumn<ListaItens, String> colcod;
 
     /**
      * Initializes the controller class.
@@ -133,6 +142,9 @@ public class TelaListaMateriaisController implements Initializable {
         coldescricao.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colescola.setCellValueFactory(new PropertyValueFactory<>("escola"));
         colturma.setCellValueFactory(new PropertyValueFactory<>("serie"));
+        colcodprod.setCellValueFactory(new PropertyValueFactory<>("pro_cod"));
+        coldescprod.setCellValueFactory(new PropertyValueFactory<>("pro_nome"));
+        colprecoprod.setCellValueFactory(new PropertyValueFactory<>("pro_preco"));
     }
     
     private void initCb()
@@ -143,6 +155,10 @@ public class TelaListaMateriaisController implements Initializable {
             l.add(c.getNome());
         
         cbescolas.setItems(FXCollections.observableArrayList(l));
+        
+        DALCategoriaProduto dalc = new DALCategoriaProduto();
+        cbcategoria.setItems(FXCollections.observableArrayList(dalc.getCategoriaProduto()));
+        
     }
 
     @FXML
@@ -169,6 +185,16 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private void clkFiltraEscola(ActionEvent event) {
         carregaTabelaE("c.cli_nome LIKE '%" + cbescolas.getValue() + "%'");
+    }
+    
+    private void carregaTabelaP(String c) throws SQLException {
+        
+        DALProduto dal = new DALProduto();
+        List<Produto> res = dal.getProdutosCategoria(c);
+        ObservableList<Produto> modelo;
+        
+        modelo = FXCollections.observableArrayList(res);
+        tvproduto.setItems(modelo);
     }
     
     private void carregaTabelaE(String filtro) {
@@ -203,6 +229,11 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkBtAdd(ActionEvent event) {
+    }
+
+    @FXML
+    private void clkEditarProduto(ActionEvent event) throws SQLException {
+        carregaTabelaP(cbcategoria.getValue());
     }
     
 }

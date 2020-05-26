@@ -12,7 +12,7 @@ package malucismanagement.db.entidades;
 public class ListaItens 
 {
     int quantidade;
-    double preco;
+    double preco,total;
     String codigo,nome,categoria;
 
     public ListaItens(int quantidade, double preco, String codigo, String nome, String categoria) {
