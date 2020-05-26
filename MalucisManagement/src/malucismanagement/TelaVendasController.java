@@ -18,7 +18,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,7 +45,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import malucismanagement.db.dal.DALItensVenda;
 import malucismanagement.db.dal.DALMarcas;
@@ -64,6 +62,8 @@ import malucismanagement.util.MaskFieldUtil;
 
 public class TelaVendasController implements Initializable {
 
+    private List<ItensVenda> list = new ArrayList();
+    
     @FXML
     private SplitPane pnprincipal;
     @FXML
@@ -241,19 +241,14 @@ public class TelaVendasController implements Initializable {
     private void setMascaras() {
         
         MaskFieldUtil.maxField(tcodigodebarras, 20);
-        MaskFieldUtil.maxField(tproduto, 50);
-        MaskFieldUtil.monetaryField(tpreco);
-        MaskFieldUtil.maxField(tmarca, 50);
-        MaskFieldUtil.numericField(tpreco);
-        dpdatavenda.setValue(LocalDate.now());
     }
     
     private void initColProd(){
         
-        colprod.setCellValueFactory(new PropertyValueFactory("pro_nome"));
-        colpreco.setCellValueFactory(new PropertyValueFactory("pro_preco"));
-        colqtde.setCellValueFactory(new PropertyValueFactory("pro_quantidade"));
-        coltotalprod.setCellValueFactory(new PropertyValueFactory("pro_total"));
+        colprod.setCellValueFactory(new PropertyValueFactory("pro_cod"));
+        colpreco.setCellValueFactory(new PropertyValueFactory("preco"));
+        colqtde.setCellValueFactory(new PropertyValueFactory("qtde"));
+        coltotalprod.setCellValueFactory(new PropertyValueFactory("total"));
     }
     
     private void initColVenda(){
@@ -274,7 +269,7 @@ public class TelaVendasController implements Initializable {
         btalterar.setDisable(!b);
         btnovo.setDisable(!b);
       
-        //carregaTabelaVendas("");
+        carregaTabelaVendas("");
     }
     
     private void codBarrasEnter(){
@@ -364,6 +359,7 @@ public class TelaVendasController implements Initializable {
         ObservableList<ItensVenda> modelo;
         
         modelo = FXCollections.observableArrayList(res);
+        list = dal.getListItVenda(filtro);
         tvprodutos.setItems(modelo);
     }
     
@@ -400,6 +396,10 @@ public class TelaVendasController implements Initializable {
             if (n instanceof TextInputControl)
                 ((TextInputControl)n).setText("");
         }
+        list.clear();
+        tvprodutos.setItems(null);
+        dpdatavenda.setValue(LocalDate.now());
+        ttotal.setText("0");
     }
     
     private void setCorAlert(String cor){
@@ -426,10 +426,23 @@ public class TelaVendasController implements Initializable {
     }
 
     @FXML
-    private void clkBtAlterar(ActionEvent event) {
+    private void clkBtAlterar(ActionEvent event) throws SQLException {
         
         if(tvvendas.getSelectionModel().getSelectedIndex() != -1){
             
+            DALItensVenda daliv = new DALItensVenda();
+            ItensVenda iv = null;
+            for(int i = 0 ; list.isEmpty() ; i++){
+
+                    iv = list.remove(i);
+                    DALProdmarcas dalpm = new DALProdmarcas();
+                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                    if (daliv.gravar(iv)){
+
+                        dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
+                    }
+                }
+            daliv.apagarItens(iv);
             estado(false);
             pnfiltros.setDisable(false);
             tvvendas.setDisable(false);
@@ -437,7 +450,7 @@ public class TelaVendasController implements Initializable {
         else{
             
             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum cliente!")));
+            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione alguma venda!")));
         }
     }
 
@@ -460,7 +473,7 @@ public class TelaVendasController implements Initializable {
                 DALItensVenda dali = new DALItensVenda();
                 ItensVenda i;
                 
-                i = dali.getVenda("" + tvvendas.getSelectionModel().getSelectedItem().getCod());
+                i = dali.getVenda(tvvendas.getSelectionModel().getSelectedItem().getCod());
                 if(dali.apagarItens(i)){
                  
                     DALVenda dal = new DALVenda();
@@ -525,14 +538,6 @@ public class TelaVendasController implements Initializable {
         Stage stage = (Stage) btvoltar.getScene().getWindow();
         stage.close();
     }
-    
-    private boolean verificaEstoque(){
-        
-        DALProdmarcas dal = new DALProdmarcas();
-        Prodmarcas p = dal.getProdEMarca(tcodigodebarras.getText());
-        
-        return p.getEstoque() >= Integer.parseInt(tqtde.getText());
-    }
 
     @FXML
     private void clkBtAdicionar(ActionEvent event) throws SQLException {
@@ -552,13 +557,6 @@ public class TelaVendasController implements Initializable {
             flag = true;
             setCorAlert(tqtde, "RED");
         }
-        else if(!verificaEstoque()){
-            
-            a.setContentText("Estoque insulficiente para a quantidade informada!");
-            a.setHeaderText("Alerta");
-            a.setTitle("Alerta");
-            a.showAndWait();
-        }
         if(flag){
             
             a.setContentText("Campos obrigatórios não preenchidos!");
@@ -566,34 +564,19 @@ public class TelaVendasController implements Initializable {
             a.setTitle("Alerta");
             a.showAndWait();
         }
-        else if(verificaEstoque()){
-            
-            try {
-                cod = Integer.parseInt(tcodigo.getText());
-            } 
-            catch (NumberFormatException e) {
-                cod = -1;
-            }
+        else {
             
             qtde = Integer.parseInt(tqtde.getText());
             DALMarcas dalm = new DALMarcas();
             Marcas m = dalm.getMarca(tmarca.getText());
             DALItensVenda dal = new DALItensVenda();
-            ItensVenda i = new ItensVenda(cod, m.getMar_cod(), tcodigodebarras.getText(), qtde, Double.parseDouble(tpreco.getText()));
-            DALProdmarcas dalpm = new DALProdmarcas();
-            Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
-            
-            if (dal.gravar(i)){
-                
-                dalpm.atualizarEstoque(pm, qtde, 1);
-                JFXSnackbar sb = new JFXSnackbar(pndados); 
-                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Adicionado!")));
-            }
-            else{
-
-                a.setContentText("Problemas ao Adicionar!");
-                a.showAndWait();
-            }
+            ItensVenda i = new ItensVenda(m.getMar_cod(), qtde, Double.parseDouble(tpreco.getText()), (Double.parseDouble(tpreco.getText()) * qtde), tcodigodebarras.getText());
+            ObservableList<ItensVenda> modelo;
+        
+            list.add(i);
+            modelo = FXCollections.observableArrayList(list);
+            tvprodutos.setItems(modelo);
+            ttotal.setText("" + (Double.parseDouble(ttotal.getText()) + Double.parseDouble(tpreco.getText()) * qtde));
             limparCampos1();
             tcodigodebarras.requestFocus();
         }
@@ -616,29 +599,13 @@ public class TelaVendasController implements Initializable {
             a.setContentText("Confirma a remoção?");
             if (a.showAndWait().get() == btsim){
                 
-                qtde = Integer.parseInt(tqtde.getText());
-                DALItensVenda dal = new DALItensVenda();
-                ItensVenda i;
-                DALProdmarcas dalpm = new DALProdmarcas();
-                Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
+                ObservableList<ItensVenda> modelo;
                 
-                i = tvprodutos.getSelectionModel().getSelectedItem();
-                if(dal.apagarProduto(i)){
-                    
-                    dalpm.atualizarEstoque(pm, qtde, 2);
-                    JFXSnackbar sb = new JFXSnackbar(pndados); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Removido com Sucesso!")));
-                }
-                else{
-                    
-                    a.setAlertType(Alert.AlertType.ERROR);
-                    a.setHeaderText("ERRO");
-                    a.setTitle("ERRO!");
-                    a.setContentText("Remoção não realizada!");
-                    a.getButtonTypes().setAll(btok);
-                    a.showAndWait();
-                }
-                carregaTabelaProdutos("");
+                qtde = Integer.parseInt(tqtde.getText());
+                list.remove(tvprodutos.getSelectionModel().getSelectedIndex());
+                modelo = FXCollections.observableArrayList(list);
+                tvprodutos.setItems(modelo);
+                ttotal.setText("" + (Double.parseDouble(ttotal.getText()) - Double.parseDouble(tpreco.getText()) * qtde));
                 limparCampos1();
             }
         }
@@ -655,18 +622,17 @@ public class TelaVendasController implements Initializable {
     @FXML
     private void clkTabelaProdutos(MouseEvent event) {
         
-        DALProduto dal = new DALProduto();
-        DALProdmarcas dalpm = new DALProdmarcas();
-        DALMarcas dalm = new DALMarcas();
-        Produto p = dal.getProdutoCod(tcodigodebarras.getText());
-        Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
-        Marcas m = dalm.getMarca(pm.getMar_cod());
-        
         if(tvprodutos.getSelectionModel().getSelectedIndex() >= 0){
             
             if(tvprodutos.getSelectionModel().getSelectedItem() != null){
                 
                 ItensVenda i = (ItensVenda)tvprodutos.getSelectionModel().getSelectedItem();
+                DALProduto dal = new DALProduto();
+                DALProdmarcas dalpm = new DALProdmarcas();
+                DALMarcas dalm = new DALMarcas();
+                Produto p = dal.getProdutoCod(i.getPro_cod());
+                Prodmarcas pm = dalpm.getProdEMarca(i.getPro_cod());
+                Marcas m = dalm.getMarca(pm.getMar_cod());
                 
                 tcodigodebarras.setText(i.getPro_cod());
                 tproduto.setText(p.getPro_nome());
@@ -734,27 +700,41 @@ public class TelaVendasController implements Initializable {
         }
     }
     
-    private void gravarVenda(){
-        
-        int cod;
+    @FXML
+    private void clkBtConfirmar(ActionEvent event) throws IOException, SQLException {
+            
         Alert a = new Alert(Alert.AlertType.INFORMATION);
 
-        try {
-            cod = Integer.parseInt(tcodigo.getText());
-        } 
-        catch (NumberFormatException e) {
-            cod = -1;
-        }
-
-        Venda v = new Venda(cod, Double.parseDouble(ttotal.getText()), dpdatavenda.getValue(), TelaGerarRecebimentoController.getCliente());
+        Venda v = new Venda(Double.parseDouble(ttotal.getText()), dpdatavenda.getValue(), TelaGerarRecebimentoController.getCliente());
         DALVenda dal = new DALVenda();
 
         if(pnfiltros.isDisable()){
 
             if (dal.gravar(v)){
                 
-                JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
+                for(int i = 0 ; list.isEmpty() ; i++){
+
+                    DALItensVenda daliv = new DALItensVenda();
+                    ItensVenda iv = list.remove(i);
+                    iv.setVen_cod(dal.getUltima().getCod());
+                    DALProdmarcas dalpm = new DALProdmarcas();
+                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                    if (daliv.gravar(iv)){
+
+                        dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
+                    }
+                }
+                
+                Parent root = FXMLLoader.load(getClass().getResource("TelaGerarRecebimento.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+
+                TelaGerarRecebimentoController.setVenda(dal.getUltima().getCod());
+                stage.initStyle(StageStyle.UTILITY);
+                stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+                stage.setTitle("Pagamento");
+                stage.setScene(scene);
+                stage.show();
             }
             else{
 
@@ -765,7 +745,20 @@ public class TelaVendasController implements Initializable {
         else
         {
             if (dal.alterar(v)){
+                
+                for(int i = 0 ; list.isEmpty() ; i++){
 
+                    DALItensVenda daliv = new DALItensVenda();
+                    ItensVenda iv = list.remove(i);
+                    iv.setVen_cod(dal.getUltima().getCod());
+                    DALProdmarcas dalpm = new DALProdmarcas();
+                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                    if (daliv.gravar(iv)){
+
+                        dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
+                    }
+                }
+                
                 JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
                 sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
             }
@@ -780,30 +773,7 @@ public class TelaVendasController implements Initializable {
         limparCampos2();
         pnfiltros.setDisable(false);
         tvvendas.setDisable(false);
-    }
-    
-    @FXML
-    private void clkBtConfirmar(ActionEvent event) throws IOException {
-        
-        Parent root = FXMLLoader.load(getClass().getResource("TelaGerarRecebimento.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
+      
 
-        TelaGerarRecebimentoController.setVenda(Integer.parseInt(tcodigo.getText()));
-        stage.initStyle(StageStyle.UTILITY);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
-        stage.setTitle("Pagamento");
-        stage.setScene(scene);
-        stage.show();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-            @Override
-            public void handle(WindowEvent t) {
-
-                t.consume();
-                stage.close();
-                gravarVenda();
-            }
-        });
     }
 }

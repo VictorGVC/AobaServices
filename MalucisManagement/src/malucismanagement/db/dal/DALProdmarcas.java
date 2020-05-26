@@ -58,7 +58,7 @@ public class DALProdmarcas {
         try{
             
             if(rs.next())
-                p = new Prodmarcas(Integer.parseInt(rs.getString("mar_cod")),rs.getString("pro_cod"),Integer.parseInt(rs.getString("promar_estoque")));
+                p = new Prodmarcas(Integer.parseInt(rs.getString("mar_cod")),rs.getString("pro_cod"),Integer.parseInt(rs.getString("pm_estoque")));
         }
         catch(SQLException e){}
         

@@ -11,21 +11,17 @@ public class DALItensVenda {
     
     public boolean gravar(ItensVenda i) {
         
-        String sql = "INSERT INTO ItensVenda(ven_cod, mar_cod, it_qtde, it_preco, pro_cod"
-                + "VALUES (#1,#2,#3,#4,#5)";
+        String sql = "INSERT INTO ItensVenda(ven_cod, mar_cod, it_qtde, it_preco, it_total, pro_cod)"
+                + "VALUES (#1,#2,#3,#4,#5,#6)";
         
         sql = sql.replaceAll("#1", "" + i.getVen_cod());
         sql = sql.replaceAll("#2", "" + i.getMar_cod());
         sql = sql.replaceAll("#3", "" + i.getQtde());
         sql = sql.replaceAll("#4", "" + i.getPreco());
-        sql = sql.replaceAll("#5", "" + i.getPro_cod());
+        sql = sql.replaceAll("#5", "" + i.getTotal());
+        sql = sql.replaceAll("#6", "" + i.getPro_cod());
         
         return Banco.getCon().manipular(sql);
-    }
-    
-    public boolean apagarProduto(ItensVenda i) {
-        
-        return Banco.getCon().manipular("DELETE FROM ItensVenda WHERE pro_cod='" + i.getPro_cod() + "'");
     }
     
     public boolean apagarItens(ItensVenda i) {
@@ -33,16 +29,16 @@ public class DALItensVenda {
         return Banco.getCon().manipular("DELETE FROM ItensVenda WHERE ven_cod='" + i.getVen_cod() + "'");
     }
     
-    public ItensVenda getVenda(String cod) {
+    public ItensVenda getVenda(int cod) {
         
         ItensVenda aux = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM ItensVenda WHERE ven_cod='" + cod + "'");
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM ItensVenda WHERE ven_cod=" + cod);
         
         try{
             
             if(rs.next())
                 aux = new ItensVenda(rs.getInt("ven_cod"),rs.getInt("mar_cod"),rs.getString("cli_id"),
-                        rs.getInt("it_qtde"), rs.getDouble("it_preco"));
+                        rs.getInt("it_qtde"), rs.getDouble("it_preco"), rs.getDouble("it_total"));
         } 
         catch(SQLException ex) {}
         
@@ -63,7 +59,7 @@ public class DALItensVenda {
             
             while(rs.next())
                 aux.add(new ItensVenda(rs.getInt("ven_cod"),rs.getInt("mar_cod"),rs.getString("cli_id"),
-                        rs.getInt("it_qtde"), rs.getDouble("it_preco")));
+                        rs.getInt("it_qtde"), rs.getDouble("it_preco"), rs.getDouble("it_total")));
         } 
         catch (SQLException ex) {}
         

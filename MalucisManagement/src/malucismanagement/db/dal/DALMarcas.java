@@ -51,7 +51,7 @@ public class DALMarcas {
     public Marcas getMarca(String nome){
         
         Marcas m = null;
-        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Marcas WHERE mar_nome='" + nome + "'");
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM Marcas WHERE mar_nome LIKE '%" + nome + "%'");
         
         try{
             
