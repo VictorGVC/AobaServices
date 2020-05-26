@@ -77,6 +77,28 @@ public class DALCliente {
         return aux;
     }
     
+    public List<Cliente> getEscolas(String filtro)
+    {
+        String sql = "SELECT * FROM Cliente";
+        
+        if(!filtro.isEmpty())
+            sql += " WHERE " + filtro;
+        
+        List <Cliente> aux = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar(sql);
+        
+        try {
+            
+            while(rs.next())
+                if(rs.getString("cli_id").length()>14)
+                    aux.add(new Cliente(rs.getString("cli_nome"), rs.getString("cli_id"), rs.getString("cli_email"), rs.getString("cli_fone"),
+                            rs.getString("cli_cep"), rs.getString("cli_rua"), rs.getString("cli_cidade"), rs.getString("cli_cidade"), rs.getString("cli_uf")));
+        } 
+        catch (SQLException ex) {}
+        
+        return aux;
+    }
+    
     public List<Cliente> getListCli(String filtro) {
         
         String sql = "SELECT * FROM Cliente";

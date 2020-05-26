@@ -345,4 +345,17 @@ public class TelaPrincipalController implements Initializable {
         
         Banco.realizaBackupRestauracao("restore.bat");
     }
+
+    @FXML
+    private void clkLista(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaListaMateriais.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Lista de Materiais");
+        stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.show();
+    }
 }

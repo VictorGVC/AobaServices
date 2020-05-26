@@ -7,24 +7,36 @@ package malucismanagement;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
 import java.net.URL;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.SkinBase;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import malucismanagement.db.dal.DALCliente;
+import malucismanagement.db.dal.DALListaMateriais;
 import malucismanagement.db.entidades.Cliente;
+import malucismanagement.db.entidades.ListaEscola;
 import malucismanagement.db.entidades.Produto;
 
 /**
@@ -53,11 +65,11 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private JFXButton btalterar;
     @FXML
-    private TableColumn<?, ?> coldescricao;
+    private TableColumn<ListaEscola, String> coldescricao;
     @FXML
-    private TableColumn<?, ?> colquantidade;
+    private TableColumn<ListaEscola, Integer> colquantidade;
     @FXML
-    private TableColumn<?, ?> coltotal;
+    private TableColumn<ListaEscola, Double> coltotal;
     @FXML
     private Tab tabescolas;
     @FXML
@@ -71,13 +83,13 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private Label lbobg1;
     @FXML
-    private TableColumn<?, ?> coldescprod;
+    private TableColumn<Produto, String> coldescprod;
     @FXML
-    private TableColumn<?, ?> colprecoprod;
+    private TableColumn<Produto, Double> colprecoprod;
     @FXML
     private VBox pnpesquisa1;
     @FXML
-    private TableColumn<?, ?> colpreco;
+    private TableColumn<ListaEscola, Double> colpreco;
     @FXML
     private Label lbltotal1;
     @FXML
@@ -85,15 +97,15 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private AnchorPane pnescola;
     @FXML
-    private JFXComboBox<?> cbescolas;
+    private JFXComboBox<String> cbescolas;
     @FXML
     private JFXButton btnovo;
     @FXML
-    private TableView<Cliente> tvescolas;
+    private TableView<ListaEscola> tvescolas;
     @FXML
-    private TableColumn<?, ?> colescola;
+    private TableColumn<ListaEscola, String> colescola;
     @FXML
-    private TableColumn<?, ?> colturma;
+    private TableColumn<ListaEscola, String> colturma;
     @FXML
     private BorderPane pntablista;
     @FXML
@@ -103,15 +115,35 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private TableView<Produto> tvproduto;
     @FXML
-    private TableView<?> tvlista;
+    private TableView<ListaEscola> tvlista;
+    @FXML
+    private JFXTabPane pntab;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        initCb();
+        initColunas();
+    }   
+    
+    private void initColunas()
+    {
+        coldescricao.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colescola.setCellValueFactory(new PropertyValueFactory<>("escola"));
+        colturma.setCellValueFactory(new PropertyValueFactory<>("serie"));
+    }
+    
+    private void initCb()
+    {
+        DALCliente dal = new DALCliente();
+        List <String> l = new ArrayList<String>();
+        for (Cliente c : dal.getEscolas("")) 
+            l.add(c.getNome());
+        
+        cbescolas.setItems(FXCollections.observableArrayList(l));
+    }
 
     @FXML
     private void clkBtConfirmar(ActionEvent event) {
@@ -136,14 +168,37 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkFiltraEscola(ActionEvent event) {
+        carregaTabelaE("c.cli_nome LIKE '%" + cbescolas.getValue() + "%'");
+    }
+    
+    private void carregaTabelaE(String filtro) {
+        
+        DALListaMateriais dal = new DALListaMateriais();
+        List<ListaEscola> res = dal.get(filtro);
+        ObservableList<ListaEscola> modelo;
+        
+        modelo = FXCollections.observableArrayList(res);
+        tvescolas.setItems(modelo);
     }
 
     @FXML
     private void clkBtNovaLista(ActionEvent event) {
+        if(cbescolas.getSelectionModel().getSelectedIndex() == -1)
+        {
+            
+        }
+        else
+        {
+            txescola.setText(cbescolas.getValue());
+            tablista.getContent().requestFocus();
+            
+            txturma.requestFocus();
+        }
     }
 
     @FXML
     private void clkBtEditarEscola(MouseEvent event) {
+        
     }
 
     @FXML
