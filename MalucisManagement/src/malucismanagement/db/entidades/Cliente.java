@@ -11,6 +11,18 @@ public class Cliente {
 
     public Cliente() {}
 
+    public Cliente(String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+        this.cep = cep;
+        this.rua = rua;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+    }
+    
     public Cliente(int numero, char sexo, String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf, LocalDate datanasc) {
         this.numero = numero;
         this.sexo = sexo;

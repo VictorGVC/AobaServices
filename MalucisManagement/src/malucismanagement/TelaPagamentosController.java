@@ -7,9 +7,12 @@ import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -30,6 +33,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -77,7 +81,7 @@ public class TelaPagamentosController implements Initializable {
     @FXML
     private TableColumn<Contaspagar, String> colContato;
     @FXML
-    private TableColumn<Contaspagar, Date> colVencimento;
+    private TableColumn<Contaspagar, String> colVencimento;
     @FXML
     private CheckBox ckVencidos;
     @FXML
@@ -85,7 +89,7 @@ public class TelaPagamentosController implements Initializable {
     @FXML
     private JFXButton btLimpar;
     @FXML
-    private TableColumn<Contaspagar, Date> colPag;
+    private TableColumn<Contaspagar, String> colPag;
     @FXML
     private Tab tabNaoPago;
     @FXML
@@ -98,8 +102,6 @@ public class TelaPagamentosController implements Initializable {
     private JFXButton btvoltarPag;
     @FXML
     private Pane pndados1;
-    @FXML
-    private CheckBox ckVencidosPag;
     @FXML
     private JFXTextField txfiltroPag;
     @FXML
@@ -125,24 +127,39 @@ public class TelaPagamentosController implements Initializable {
     @FXML
     private TableColumn<Contaspagar, Double> colValorPag;
     @FXML
-    private TableColumn<Contaspagar, Date> colVencimentoPag;
+    private TableColumn<Contaspagar, String> colVencimentoPag;
     @FXML
-    private TableColumn<Contaspagar, Date> colPagPag;
+    private TableColumn<Contaspagar, String> colPagPag;
     @FXML
     private TableColumn<Contaspagar, Character> colTipoPag;
     @FXML
     private TableColumn<Contaspagar, String> colContatoPag;
+    @FXML
+    private DatePicker dtVencimentoPag;
+    @FXML
+    private Label lbDTVencimentoPag;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*fadeout();
+        fadeout();
         //setParametros();
         initColumn();
         
-        /*try {
+        try {
             if(!CarregaTabela()){
                 Alert a = new Alert(Alert.AlertType.INFORMATION);
-                a.setContentText("Impossível Carregar Contas");
+                a.setContentText("Impossível Carregar Contas não pagas");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            if(!CarregaTabelaPag()){
+                Alert a = new Alert(Alert.AlertType.INFORMATION);
+                a.setContentText("Impossível Carregar Contas pagas");
                 a.setHeaderText("Alerta");
                 a.setTitle("Alerta");
                 a.showAndWait();
@@ -151,7 +168,7 @@ public class TelaPagamentosController implements Initializable {
             Logger.getLogger(TelaProdutoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        CodAux = 0;*/
+        CodAux = 0;
     }    
     
     private void initColumn() {
@@ -192,6 +209,11 @@ public class TelaPagamentosController implements Initializable {
         if(p.getCorprimaria() != null){
             
             pndados.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pnbotoes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pnbotoes1.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pndados1.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pnpesquisa1.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            pnpesquisa.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             tvContas.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             tvContasPag.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
@@ -202,7 +224,7 @@ public class TelaPagamentosController implements Initializable {
         if(p.getFonte() != null){
             
             ckVencidos.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-            ckVencidosPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            dtVencimentoPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txfiltroPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             txfiltro.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             dtPagamentos.setStyle("-fx-font-family: " + p.getFonte()+ ";");
@@ -219,11 +241,12 @@ public class TelaPagamentosController implements Initializable {
             lbFornecedores.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             lbDtPagamentoPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
             lbFornecedoresPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+            lbDTVencimentoPag.setStyle("-fx-font-family: " + p.getFonte()+ ";");
         }
         if(p.getCorfonte() != null){
            
             ckVencidos.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
-            ckVencidosPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            dtVencimentoPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txfiltroPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             txfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             dtPagamentos.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -240,20 +263,22 @@ public class TelaPagamentosController implements Initializable {
             lbFornecedores.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             lbDtPagamentoPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             lbFornecedoresPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            lbDTVencimentoPag.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
         }
     }
     
-    private void LimpaTelaNaoPag() {
-        ckVencidos.setSelected(false);
+    private void LimpaTelaNaoPag() throws SQLException {
         dtPagamentos.getEditor().clear();
+        ckVencidos.setSelected(false);
         txfiltro.clear();
+        CarregaTabela();
     }
     
-    private void LimpaTelaPag() {
-        
-        ckVencidosPag.setSelected(false);
+    private void LimpaTelaPag() throws SQLException {
+        dtVencimentoPag.getEditor().clear();
         dtPagamentosPag.getEditor().clear();
         txfiltroPag.clear();
+        CarregaTabelaPag();
     }
     
     private boolean CarregaTabela() throws SQLException {
@@ -277,7 +302,7 @@ public class TelaPagamentosController implements Initializable {
         boolean executar = true;
        
         try {
-            tvContas.getItems().clear();
+            tvContasPag.getItems().clear();
             DALContaspagar dal = new DALContaspagar();
             ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarPagas());
             tvContasPag.setItems(lista);
@@ -295,7 +320,7 @@ public class TelaPagamentosController implements Initializable {
         try {
             tvContas.getItems().clear();
             DALContaspagar dal = new DALContaspagar();
-            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarFornecedor(txfiltro.getText()));
+            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarFornecedorNaoPag(txfiltro.getText()));
             tvContas.setItems(lista);
             } catch (Exception e) {
             executar = false;
@@ -309,9 +334,9 @@ public class TelaPagamentosController implements Initializable {
         boolean executar = true;
        
         try {
-            tvContas.getItems().clear();
+            tvContasPag.getItems().clear();
             DALContaspagar dal = new DALContaspagar();
-            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarFornecedor(txfiltro.getText()));
+            ObservableList<Contaspagar> lista = FXCollections.observableArrayList(dal.getContapagarFornecedorPag(txfiltroPag.getText()));
             tvContasPag.setItems(lista);
             } catch (Exception e) {
             executar = false;
@@ -333,30 +358,46 @@ public class TelaPagamentosController implements Initializable {
         if(dal.QuitarConta(tvContas.getSelectionModel().getSelectedItem().getPag_cod())){
             LimpaTelaNaoPag();
             if(!CarregaTabela()){
-                a.setContentText("Impossível Carregar Contas");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
+                    a.setContentText("Impossível Carregar Contas Não Pagas");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            if(!CarregaTabelaPag()){
+                    a.setContentText("Impossível Carregar Contas Pagas");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
                 }
             }
     }
 
-
+    public void Filtrar() throws SQLException{
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        if(txfiltro.getText().compareTo("") > 0)
+        {
+            if(!CarregaTabelaFornecedor()){
+                    a.setContentText("Impossível Filtrar Contas Não Pagas");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+        }
+        else 
+            CarregaTabela();
+    }
     @FXML
-    private void clkTabela(MouseEvent event) {
+    private void clkTFiltro(KeyEvent event) throws SQLException {
+       Filtrar();
     }
 
     @FXML
-    private void clkTFiltro(KeyEvent event) {
-    }
-
-    @FXML
-    private void LimparTelaNaoPag(ActionEvent event) {
+    private void LimparTelaNaoPag(ActionEvent event) throws SQLException {
         LimpaTelaNaoPag();
     }
 
     @FXML
-    private void LimparTelaPag(ActionEvent event) {
+    private void LimparTelaPag(ActionEvent event) throws SQLException {
         LimpaTelaPag();
     }
 
@@ -367,16 +408,121 @@ public class TelaPagamentosController implements Initializable {
         if(dal.ExtornarConta(tvContasPag.getSelectionModel().getSelectedItem().getPag_cod())){
             LimpaTelaPag();
             if(!CarregaTabelaPag()){
-                a.setContentText("Impossível Carregar Contas");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
+                    a.setContentText("Impossível Carregar Contas");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            if(!CarregaTabela()){
+                    a.setContentText("Impossível Carregar Contas");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
                 }
             }
     }
 
+
     @FXML
-    private void clkckVencidosPag(ActionEvent event) {
+    private void clickCKVenc(ActionEvent event) throws SQLException, ParseException {
+        Calendar hoje = Calendar.getInstance();
+        String mes;
+        if(hoje.get(hoje.MONTH)+1 > 9)
+            mes = ""+(hoje.get(hoje.MONTH)+1);
+        else
+            mes = "0"+(hoje.get(hoje.MONTH)+1);
+        String today = hoje.get(hoje.YEAR)+"-"+mes+"-"+hoje.get(hoje.DAY_OF_MONTH);
+        if(ckVencidos.isSelected()){
+            ObservableList<Contaspagar> lista = tvContas.getItems();
+            for (int i = 0; i < lista.size(); i++) {
+                if(lista.get(i).getPag_dtvencimento().compareTo(today) > 0 ){
+                    lista.remove(i);
+                    i--;
+                }
+            }
+            try {
+                tvContas.setItems(lista);
+            } catch (Exception e) {
+                System.out.println(e);
+                }
+        }
+        else{
+            CarregaTabela();
+            Filtrar();
+        }     
     }
+
+    @FXML
+    private void clkDTVencimento(ActionEvent event) throws SQLException {
+            LocalDate localDate = dtPagamentos.getValue();
+            ObservableList<Contaspagar> lista = tvContas.getItems();
+            for (int i = 0; i < lista.size(); i++) {
+                if(lista.get(i).getPag_dtvencimento().compareTo(localDate+"") != 0 ){
+                    lista.remove(i);
+                    i--;
+                }
+            }
+            try {
+                tvContas.setItems(lista);
+            } catch (Exception e) {
+                System.out.println(e);
+                }
+    }
+    
+    public void FiltrarPag() throws SQLException{
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        if(txfiltroPag.getText().compareTo("") > 0)
+        {
+            if(!CarregaTabelaFornecedorPag()){
+                    a.setContentText("Impossível Filtrar Contas Pagas");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+        }
+        else 
+            CarregaTabelaPag();
+    }
+
+    @FXML
+    private void clkTFiltroPag(KeyEvent event) throws SQLException {
+        FiltrarPag();
+    }
+
+    @FXML
+    private void clkDTPagamento(ActionEvent event) {
+        LocalDate localDate = dtPagamentosPag.getValue();
+            ObservableList<Contaspagar> lista = tvContasPag.getItems();
+            for (int i = 0; i < lista.size(); i++) {
+                if(lista.get(i).getPag_dtpagamento().compareTo(localDate+"") != 0 ){
+                    lista.remove(i);
+                    i--;
+                }
+            }
+            try {
+                tvContasPag.setItems(lista);
+            } catch (Exception e) {
+                System.out.println(e);
+                }
+    }
+
+    @FXML
+    private void clkDTVencimentoPag(ActionEvent event) {
+        LocalDate localDate = dtVencimentoPag.getValue();
+            ObservableList<Contaspagar> lista = tvContasPag.getItems();
+            for (int i = 0; i < lista.size(); i++) {
+                if(lista.get(i).getPag_dtvencimento().compareTo(localDate+"") != 0 ){
+                    lista.remove(i);
+                    i--;
+                }
+            }
+            try {
+                tvContasPag.setItems(lista);
+            } catch (Exception e) {
+                System.out.println(e);
+                }
+    }
+
+
     
 }

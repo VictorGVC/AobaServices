@@ -18,9 +18,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<JFXTabPane prefHeight="638.0" prefWidth="789.0" stylesheets="@css/ListaEscolas.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaListaMateriaisController">
+<JFXTabPane fx:id="pntab" prefHeight="638.0" prefWidth="789.0" stylesheets="@css/ListaEscolas.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaListaMateriaisController">
    <tabs>
-      <Tab fx:id="tabescolas" text="Escolas">
+      <Tab fx:id="tabescolas" closable="false" text="Escolas">
         <content>
           <AnchorPane fx:id="pntabescolas" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -43,7 +43,7 @@
                </children></AnchorPane>
         </content>
       </Tab>
-      <Tab fx:id="tablista" text="Lista">
+      <Tab fx:id="tablista" closable="false" text="Lista">
          <content>
             <BorderPane fx:id="pntablista" prefHeight="200.0" prefWidth="200.0">
                <center>
@@ -70,18 +70,19 @@
                                     <Label fx:id="lbobg1" layoutX="74.0" layoutY="204.0" text="* Campos Obrigatórios" textFill="RED" />
                                     <JFXTextField fx:id="txescola" editable="false" layoutX="68.0" layoutY="61.0" promptText="Escola *" />
                                     <JFXTextField fx:id="txturma" layoutX="68.0" layoutY="125.0" promptText="Turma *" />
-                                    <Line endX="-51.0" endY="164.0" layoutX="324.0" layoutY="62.0" startX="-51.0" startY="-39.0" />
+                                    <Line endX="-51.0" endY="164.0" layoutX="299.0" layoutY="62.0" startX="-51.0" startY="-39.0" />
                                     <Label fx:id="lblescola" layoutX="92.0" layoutY="14.0" text="Dados da escola" />
-                                    <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="311.0" layoutY="61.0" prefHeight="25.0" prefWidth="141.0" promptText="Categoria" unFocusColor="BLACK" />
+                                    <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="279.0" layoutY="61.0" onAction="#clkEditarProduto" prefHeight="25.0" prefWidth="141.0" promptText="Categoria" unFocusColor="BLACK" />
                                     <Label fx:id="lblproduto" layoutX="475.0" layoutY="14.0" text="Dados do Produto" />
-                                    <JFXTextField fx:id="txqtde" layoutX="356.0" layoutY="125.0" prefHeight="25.0" prefWidth="52.0" promptText="Qtde" />
-                                    <TableView fx:id="tvproduto" layoutX="486.0" layoutY="50.0" prefHeight="174.0" prefWidth="287.0">
+                                    <JFXTextField fx:id="txqtde" layoutX="324.0" layoutY="125.0" prefHeight="25.0" prefWidth="52.0" promptText="Qtde" />
+                                    <TableView fx:id="tvproduto" layoutX="446.0" layoutY="50.0" prefHeight="174.0" prefWidth="327.0">
                                       <columns>
-                                        <TableColumn fx:id="coldescprod" prefWidth="218.0" text="Descrição" />
-                                        <TableColumn fx:id="colprecoprod" minWidth="0.0" prefWidth="68.0" text="Preço" />
+                                          <TableColumn fx:id="colcodprod" prefWidth="82.0" text="codigo" />
+                                        <TableColumn fx:id="coldescprod" prefWidth="189.0" text="Descrição" />
+                                        <TableColumn fx:id="colprecoprod" minWidth="0.0" prefWidth="55.0" text="Preço" />
                                       </columns>
                                     </TableView>
-                                    <JFXTextField editable="false" layoutX="329.0" layoutY="192.0" prefHeight="25.0" prefWidth="105.0" promptText="Total" />
+                                    <JFXTextField editable="false" layoutX="297.0" layoutY="192.0" prefHeight="25.0" prefWidth="105.0" promptText="Total" />
                                  </children>
                               </Pane>
                            </children>
@@ -97,9 +98,10 @@
                               </HBox>
                               <TableView fx:id="tvlista" onMouseClicked="#clkTabela" prefHeight="305.0" prefWidth="708.0">
                                  <columns>
-                                    <TableColumn fx:id="coldescricao" prefWidth="612.0" text="Descrição" />
-                                    <TableColumn fx:id="colpreco" prefWidth="65.0" text="Preço" />
-                                    <TableColumn fx:id="colquantidade" minWidth="0.0" prefWidth="52.0" text="Qtde" />
+                                    <TableColumn fx:id="colcod" prefWidth="101.0" text="Codigo" />
+                                    <TableColumn fx:id="coldescricao" prefWidth="512.0" text="Descrição" />
+                                    <TableColumn fx:id="colpreco" prefWidth="73.0" text="Preço" />
+                                    <TableColumn fx:id="colquantidade" minWidth="0.0" prefWidth="43.0" text="Qtde" />
                                     <TableColumn fx:id="coltotal" prefWidth="59.0" text="Total" />
                                  </columns>
                               </TableView>
