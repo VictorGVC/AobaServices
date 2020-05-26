@@ -118,7 +118,7 @@ public class TelaProdutoController implements Initializable {
     
     private void setMascaras() {
         
-        MaskFieldUtil.monetaryField(txPreco);
+        MaskFieldUtil.numericField(txPreco);
         MaskFieldUtil.maxField(txCodigo, 20);
         MaskFieldUtil.numericField(txQtdEstoque);
         MaskFieldUtil.maxField(txNomeProduto, 50);
@@ -434,6 +434,7 @@ public class TelaProdutoController implements Initializable {
         flag = false;
         Produto linha = tvProdutos.getSelectionModel().getSelectedItem();
         CodAux = linha.getPro_cod();
+        txCodigo.setText(CodAux);
         txNomeProduto.setText(linha.getPro_nome());
         txPreco.setText(""+linha.getPro_preco());
         txQtdEstoque.setText(""+linha.getPro_quantidade());

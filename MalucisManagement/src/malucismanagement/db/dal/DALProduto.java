@@ -30,10 +30,10 @@ public class DALProduto {
                 + "pro_cod ='#1', pro_nome='#2', pro_preco=#3, pro_quantidade=#4, cat_cod=#5 WHERE pro_cod='" + p.getPro_cod() + "'";
         
         sql = sql.replaceAll("#1",p.getPro_cod());
-        sql = sql.replaceAll("#1",p.getPro_nome());
-        sql = sql.replaceAll("#2", "" + p.getPro_preco());
-        sql = sql.replaceAll("#3", "" + p.getPro_quantidade());
-        sql = sql.replaceAll("#4", "" + dalct.getCategoriaProduto(p.getCat_cod()));
+        sql = sql.replaceAll("#2",p.getPro_nome());
+        sql = sql.replaceAll("#3", "" + p.getPro_preco());
+        sql = sql.replaceAll("#4", "" + p.getPro_quantidade());
+        sql = sql.replaceAll("#5", "" + dalct.getCategoriaProduto(p.getCat_cod()));
         
         return Banco.getCon().manipular(sql);
     }

@@ -87,6 +87,8 @@ public class TelaPrincipalController implements Initializable {
     private JFXButton btpagamento;
     @FXML
     private JFXButton btCompraProduto;
+    @FXML
+    private JFXButton btlistademateriais;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -121,6 +123,7 @@ public class TelaPrincipalController implements Initializable {
             btrecebimentos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btCompraProduto.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btpagamento.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btlistademateriais.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btfuncionarios.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btclientes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btfornecedores.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
@@ -134,6 +137,7 @@ public class TelaPrincipalController implements Initializable {
             btrecebimentos.setFont(new Font(p.getFonte(), 14));
             btCompraProduto.setFont(new Font(p.getFonte(), 14));
             btpagamento.setFont(new Font(p.getFonte(), 14));
+            btlistademateriais.setFont(new Font(p.getFonte(), 14));
             btfuncionarios.setFont(new Font(p.getFonte(), 14));
             btclientes.setFont(new Font(p.getFonte(), 14));
             btfornecedores.setFont(new Font(p.getFonte(), 14));
@@ -152,6 +156,7 @@ public class TelaPrincipalController implements Initializable {
             btrecebimentos.setStyle(btrecebimentos.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btCompraProduto.setStyle(btCompraProduto.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btpagamento.setStyle(btpagamento.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
+            btlistademateriais.setStyle(btlistademateriais.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btfuncionarios.setStyle(btfuncionarios.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btclientes.setStyle(btclientes.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btfornecedores.setStyle(btfornecedores.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -279,6 +284,19 @@ public class TelaPrincipalController implements Initializable {
     }
 
     @FXML
+    private void clkLista(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaListaMateriais.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Lista de Materiais");
+        stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.show();
+    }
+
+    @FXML
     private void clkOpenFuncionarios(ActionEvent event) throws IOException {
         
         Parent root = FXMLLoader.load(getClass().getResource("TelaFuncionarios.fxml"));
@@ -344,18 +362,5 @@ public class TelaPrincipalController implements Initializable {
     private void clkRestore(ActionEvent event) {
         
         Banco.realizaBackupRestauracao("restore.bat");
-    }
-
-    @FXML
-    private void clkLista(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("TelaListaMateriais.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
-        stage.setTitle("Lista de Materiais");
-        stage.setScene(scene);
-        stage.resizableProperty().setValue(Boolean.FALSE);
-        stage.show();
     }
 }

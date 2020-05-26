@@ -22,11 +22,11 @@
       </AnchorPane>
       <TableView fx:id="tvProdutos" layoutY="347.0" prefHeight="255.0" prefWidth="800.0">
          <columns>
-            <TableColumn fx:id="ColCod" prefWidth="75.0" text="Codigo" />
-            <TableColumn fx:id="ColProduto" prefWidth="194.0" text="Produto" />
-            <TableColumn fx:id="ColPreco" prefWidth="128.0" text="Preço" />
-            <TableColumn fx:id="ColQtd" prefWidth="128.0" text="Quantidade" />
-            <TableColumn fx:id="ColCat" prefWidth="274.0" text="Categoria" />
+            <TableColumn fx:id="ColCod" prefWidth="150.0" text="Codigo" />
+            <TableColumn fx:id="ColProduto" prefWidth="240.0" text="Produto" />
+            <TableColumn fx:id="ColPreco" prefWidth="100.0" text="Preço" />
+            <TableColumn fx:id="ColQtd" prefWidth="100.0" text="Quantidade" />
+            <TableColumn fx:id="ColCat" prefWidth="210.0" text="Categoria" />
          </columns>
       </TableView>
       <JFXComboBox fx:id="cbFiltro" focusColor="BLACK" layoutX="142.0" layoutY="300.0" prefHeight="38.0" prefWidth="111.0" promptText="Filtro" unFocusColor="BLACK" />
