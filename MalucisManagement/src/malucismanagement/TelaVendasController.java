@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -27,43 +28,58 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import malucismanagement.db.dal.DALCliente;
+import malucismanagement.db.dal.DALContasReceber;
 import malucismanagement.db.dal.DALItensVenda;
 import malucismanagement.db.dal.DALMarcas;
 import malucismanagement.db.dal.DALParametrizacao;
 import malucismanagement.db.dal.DALProdmarcas;
 import malucismanagement.db.dal.DALProduto;
 import malucismanagement.db.dal.DALVenda;
+import malucismanagement.db.entidades.Cliente;
+import malucismanagement.db.entidades.ContasReceber;
 import malucismanagement.db.entidades.ItensVenda;
 import malucismanagement.db.entidades.Marcas;
 import malucismanagement.db.entidades.Parametrizacao;
 import malucismanagement.db.entidades.Prodmarcas;
 import malucismanagement.db.entidades.Produto;
 import malucismanagement.db.entidades.Venda;
+import malucismanagement.util.ManipularCpfCnpj;
 import malucismanagement.util.MaskFieldUtil;
 
 public class TelaVendasController implements Initializable {
 
+    private int venda;
+    private double valortotal;
+    private boolean op;
     private List<ItensVenda> list = new ArrayList();
     
+    @FXML
+    private JFXTabPane pntab;
+    @FXML
+    private Tab tbvenda;
     @FXML
     private SplitPane pnprincipal;
     @FXML
@@ -136,12 +152,33 @@ public class TelaVendasController implements Initializable {
     private JFXDatePicker dpdatavenda;
     @FXML
     private JFXButton btconfirmar;
+    @FXML
+    private Tab tbpagamento;
+    @FXML
+    private AnchorPane pnprincipal1;
+    @FXML
+    private JFXTextField tvalor;
+    @FXML
+    private JFXTextField tparcelas;
+    @FXML
+    private JFXComboBox<String> cbtipo;
+    @FXML
+    private JFXTextField tcliente1;
+    @FXML
+    private JFXDatePicker dpvencimento;
+    @FXML
+    private JFXButton btconfirmarpg;
+    @FXML
+    private ImageView imsave;
+    @FXML
+    private Label lbsave;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         fadeout();
         fixaDivider();
+        selecionaTab(false);
         setParametros();
         setMascaras();
         initColProd();
@@ -238,9 +275,46 @@ public class TelaVendasController implements Initializable {
         }
     }
     
+    private void setParametrosPg() {
+        
+        DALVenda dalv = new DALVenda();
+        Venda v = dalv.getUltima();
+        venda = v.getCod();
+        valortotal = v.getValortotal();
+        tvalor.setText("" + v.getValortotal());
+        
+        
+        DALParametrizacao dal = new DALParametrizacao();
+        Parametrizacao p = dal.getConfig();
+        
+        if(p.getCorsecundaria()!= null){
+            
+            pnprincipal.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+        }
+        if(p.getFonte() != null){
+            
+            tvalor.setFont(new Font(p.getFonte(), 14));
+            tparcelas.setFont(new Font(p.getFonte(), 14));
+            tcliente.setFont(new Font(p.getFonte(), 14));
+            
+            btconfirmarpg.setFont(new Font(p.getFonte(), 12));
+        }
+        if(p.getCorfonte() != null){
+            
+            tvalor.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tparcelas.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            tcliente.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            
+            btconfirmarpg.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+        }
+    }
+    
     private void setMascaras() {
         
         MaskFieldUtil.maxField(tcodigodebarras, 20);
+        MaskFieldUtil.numericField(tparcelas);
+        MaskFieldUtil.cpfField(tcliente1);
+        dpvencimento.setValue(LocalDate.now());
     }
     
     private void initColProd(){
@@ -254,9 +328,9 @@ public class TelaVendasController implements Initializable {
     private void initColVenda(){
         
         colcod.setCellValueFactory(new PropertyValueFactory("cod"));
-        colcliente.setCellValueFactory(new PropertyValueFactory("cliente"));
-        coldata.setCellValueFactory(new PropertyValueFactory("data"));
-        coltotalven.setCellValueFactory(new PropertyValueFactory("total"));
+        colcliente.setCellValueFactory(new PropertyValueFactory("cli_id"));
+        coldata.setCellValueFactory(new PropertyValueFactory("dtvenda"));
+        coltotalven.setCellValueFactory(new PropertyValueFactory("valortotal"));
     }
     
     private void estado(boolean b) {
@@ -270,6 +344,39 @@ public class TelaVendasController implements Initializable {
         btnovo.setDisable(!b);
       
         carregaTabelaVendas("");
+    }
+    
+    private void selecionaTab(boolean b){
+        
+        SingleSelectionModel<Tab> selectionModel = pntab.getSelectionModel();
+        
+        tbvenda.setDisable(b); 
+        tbpagamento.setDisable(!b);
+        if(!b)
+            selectionModel.select(tbvenda);
+        else
+            selectionModel.select(tbpagamento);
+    }
+    
+    private void visivel() {
+        
+        tcliente1.setVisible(op);
+        dpvencimento.setVisible(op);
+    }
+    
+    private void visivel(boolean b) {
+        
+        tvalor.setVisible(b);
+        tparcelas.setVisible(b);
+        cbtipo.setVisible(b);
+        if(op){
+            
+            tcliente1.setVisible(b);
+            dpvencimento.setVisible(b);
+        }    
+        imsave.setVisible(!b);
+        lbsave.setVisible(!b);
+        imsave.setImage(new Image("/icons/save.gif"));
     }
     
     private void codBarrasEnter(){
@@ -376,6 +483,18 @@ public class TelaVendasController implements Initializable {
         cbcategoria.setItems(FXCollections.observableList(list));
     }
     
+    private void listaTipo() {
+        
+        List<String> list = new ArrayList();
+        
+        list.add("");
+        list.add("Cartão de Crédito");
+        list.add("Cartão de Débito");
+        list.add("Dinheiro");
+        
+        cbtipo.setItems(FXCollections.observableArrayList(list));
+    }
+    
     private void limparCampos1() {
         
         ObservableList <Node> componentes = pndados.getChildren();
@@ -412,6 +531,18 @@ public class TelaVendasController implements Initializable {
         
         tf.setFocusColor(Paint.valueOf(cor));
         tf.setUnFocusColor(Paint.valueOf(cor));
+    }
+    
+    private void setCorAlertPg(String cor){
+        
+        setCorAlert(tparcelas, cor);
+        cbtipo.setFocusColor(Paint.valueOf("RED"));
+        cbtipo.setUnFocusColor(Paint.valueOf("RED"));
+        if(op){
+            
+            setCorAlert(tcliente, cor);
+            dpvencimento.setDefaultColor(Paint.valueOf("RED"));
+        }
     }
     
     @FXML
@@ -705,7 +836,7 @@ public class TelaVendasController implements Initializable {
             
         Alert a = new Alert(Alert.AlertType.INFORMATION);
 
-        Venda v = new Venda(Double.parseDouble(ttotal.getText()), dpdatavenda.getValue(), TelaGerarRecebimentoController.getCliente());
+        Venda v = new Venda(Double.parseDouble(ttotal.getText()), dpdatavenda.getValue());
         DALVenda dal = new DALVenda();
 
         if(pnfiltros.isDisable()){
@@ -725,16 +856,20 @@ public class TelaVendasController implements Initializable {
                     }
                 }
                 
-                Parent root = FXMLLoader.load(getClass().getResource("TelaGerarRecebimento.fxml"));
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
+                selecionaTab(true);
+                
+                Alert apg = new Alert(Alert.AlertType.CONFIRMATION);
+                ButtonType btsim = new ButtonType("Sim");
+                ButtonType btnao = new ButtonType("Não");
 
-                TelaGerarRecebimentoController.setVenda(dal.getUltima().getCod());
-                stage.initStyle(StageStyle.UTILITY);
-                stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
-                stage.setTitle("Pagamento");
-                stage.setScene(scene);
-                stage.show();
+                apg.getButtonTypes().setAll(btsim,btnao);
+                apg.setTitle("Pagamento");
+                apg.setContentText("Conta fiada?");
+                op = apg.showAndWait().get() == btsim;
+                setParametrosPg();
+                listaTipo();
+                visivel();
+                visivel(true);
             }
             else{
 
@@ -773,7 +908,98 @@ public class TelaVendasController implements Initializable {
         limparCampos2();
         pnfiltros.setDisable(false);
         tvvendas.setDisable(false);
-      
+    }
 
+    @FXML
+    private void evtCpfDigitado(KeyEvent event) {
+    }
+
+    @FXML
+    private void clkBtConfirmarPg(ActionEvent event) {
+        
+        int parcela = 1, parcelas;
+        boolean flag = false, flag2 = true;
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
+        setCorAlert("BLACK");
+        if(tparcelas.getText().isEmpty()){
+            
+            flag = true;
+            setCorAlert(tparcelas, "RED");
+        }
+        if(cbtipo.getSelectionModel().getSelectedItem().isEmpty()){
+            
+            flag = true;
+            cbtipo.setFocusColor(Paint.valueOf("RED"));
+            cbtipo.setUnFocusColor(Paint.valueOf("RED"));
+        }
+        if(op){
+            
+            if(tcliente1.getText().isEmpty()){
+
+                flag = true;
+                setCorAlert(tcliente1, "RED");
+            }
+            if(!ManipularCpfCnpj.isCpf(tcliente1.getText())){
+            
+                setCorAlert(tcliente1, "RED");
+                a.setContentText("CPF inválido!");
+                a.setHeaderText("Alerta");
+                a.setTitle("Alerta");
+                a.showAndWait();
+            }
+            if(dpvencimento.getValue() == null){
+                
+                flag = true;
+                dpvencimento.setDefaultColor(Paint.valueOf("RED"));
+            }
+        }
+        if(flag){
+            
+            a.setContentText("Campos obrigatórios não preenchidos!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
+        else if((ManipularCpfCnpj.isCpf(tcliente1.getText()) && op) || !op){
+            
+            DALCliente dal = new DALCliente();
+            Cliente c = dal.getCli(tcliente1.getText());
+            
+            parcelas = Integer.parseInt(tparcelas.getText());
+            while(parcela <= parcelas){
+                
+                ContasReceber cr = null;
+                if(op){
+                    
+                    cr = new ContasReceber(parcela, venda, (double)(valortotal / parcelas), 
+                        dpvencimento.getValue().plusMonths(parcela - 1), cbtipo.getSelectionModel().getSelectedItem(), c.getTelefone());
+                    DALContasReceber dalcr = new DALContasReceber();
+
+                    if(!dalcr.gravar1(cr))
+                        flag2 = false;
+                }
+                else{
+                    
+                    cr = new ContasReceber(parcela, venda, (double)(valortotal / parcelas), 
+                        LocalDate.now(), LocalDate.now(), cbtipo.getSelectionModel().getSelectedItem());
+                    DALContasReceber dalcr = new DALContasReceber();
+
+                    if(!dalcr.gravar2(cr))
+                        flag2 = false;
+                }
+                parcela++;
+            }
+            if(flag2){
+                
+                visivel(false);
+                btconfirmarpg.setText("Nova Venda");
+            }
+            else{
+                
+                a.setContentText("Problemas ao Gravar!");
+                a.showAndWait();
+            }
+        }
     }
 }
