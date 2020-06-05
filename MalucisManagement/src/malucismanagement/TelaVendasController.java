@@ -565,14 +565,14 @@ public class TelaVendasController implements Initializable {
             ItensVenda iv = null;
             for(int i = 0 ; list.isEmpty() ; i++){
 
-                    iv = list.remove(i);
-                    DALProdmarcas dalpm = new DALProdmarcas();
-                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
-                    if (daliv.gravar(iv)){
+                iv = list.remove(i);
+                DALProdmarcas dalpm = new DALProdmarcas();
+                Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                if (daliv.gravar(iv)){
 
-                        dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
-                    }
+                    dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
                 }
+            }
             daliv.apagarItens(iv);
             estado(false);
             pnfiltros.setDisable(false);
@@ -789,7 +789,7 @@ public class TelaVendasController implements Initializable {
             switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
                 
                 case 1:
-                    carregaTabelaVendas("UPPER(ven_cod) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabelaVendas("ven_cod = " + Integer.parseInt(tfiltro.getText()));
                     break;
                 case 2:
                     carregaTabelaVendas("UPPER(cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
@@ -798,7 +798,7 @@ public class TelaVendasController implements Initializable {
                     carregaTabelaVendas("UPPER(ven_data) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 4:
-                    carregaTabelaVendas("UPPER(ven_valor) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
+                    carregaTabelaVendas("ven_valor = " + Double.parseDouble(tfiltro.getText()));
                     break;
                 default:
                     break;
@@ -819,7 +819,7 @@ public class TelaVendasController implements Initializable {
                 ttotal.setText("" + v.getValortotal());
                 tcliente.setText(v.getCli_id());
                 dpdatavenda.setValue(v.getDtvenda());
-                carregaTabelaProdutos("UPPER(ven_cod) LIKE '%" + tvvendas.getSelectionModel().getSelectedItem().getCod() + "%'");
+                carregaTabelaProdutos(" ven_cod = " + tvvendas.getSelectionModel().getSelectedItem().getCod());
                 pndados.setDisable(false); 
                 pndados2.setDisable(false); 
                 if(btconfirmar.isDisable()){
@@ -836,78 +836,88 @@ public class TelaVendasController implements Initializable {
             
         Alert a = new Alert(Alert.AlertType.INFORMATION);
 
-        Venda v = new Venda(Double.parseDouble(ttotal.getText()), dpdatavenda.getValue());
-        DALVenda dal = new DALVenda();
-
-        if(pnfiltros.isDisable()){
-
-            if (dal.gravar(v)){
-                
-                for(int i = 0 ; list.isEmpty() ; i++){
-
-                    DALItensVenda daliv = new DALItensVenda();
-                    ItensVenda iv = list.remove(i);
-                    iv.setVen_cod(dal.getUltima().getCod());
-                    DALProdmarcas dalpm = new DALProdmarcas();
-                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
-                    if (daliv.gravar(iv)){
-
-                        dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
-                    }
-                }
-                
-                selecionaTab(true);
-                
-                Alert apg = new Alert(Alert.AlertType.CONFIRMATION);
-                ButtonType btsim = new ButtonType("Sim");
-                ButtonType btnao = new ButtonType("Não");
-
-                apg.getButtonTypes().setAll(btsim,btnao);
-                apg.setTitle("Pagamento");
-                apg.setContentText("Conta fiada?");
-                op = apg.showAndWait().get() == btsim;
-                setParametrosPg();
-                listaTipo();
-                visivel();
-                visivel(true);
-            }
-            else{
-
-                a.setContentText("Problemas ao Gravar!");
-                a.showAndWait();
-            }
+        if(list.isEmpty()){
+            
+            a.setContentText("Nenhum produto adicionado!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
         }
-        else
-        {
-            if (dal.alterar(v)){
-                
-                for(int i = 0 ; list.isEmpty() ; i++){
+        else{
+            
+            Venda v = new Venda(Double.parseDouble(ttotal.getText()), dpdatavenda.getValue());
+            DALVenda dal = new DALVenda();
 
-                    DALItensVenda daliv = new DALItensVenda();
-                    ItensVenda iv = list.remove(i);
-                    iv.setVen_cod(dal.getUltima().getCod());
-                    DALProdmarcas dalpm = new DALProdmarcas();
-                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
-                    if (daliv.gravar(iv)){
+            if(pnfiltros.isDisable()){
 
-                        dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
+                if (dal.gravar(v)){
+
+                    for(int i = 0 ; i < list.size() ; i++){
+
+                        DALItensVenda daliv = new DALItensVenda();
+                        ItensVenda iv = list.get(i);
+                        iv.setVen_cod(dal.getUltima().getCod());
+                        DALProdmarcas dalpm = new DALProdmarcas();
+                        Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                        if (daliv.gravar(iv)){
+
+                            dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
+                        }
                     }
-                }
-                
-                JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
-            }
-            else{
 
-                a.setContentText("Problemas ao Alterar!");
-                a.showAndWait();
+                    selecionaTab(true);
+
+                    Alert apg = new Alert(Alert.AlertType.CONFIRMATION);
+                    ButtonType btsim = new ButtonType("Sim");
+                    ButtonType btnao = new ButtonType("Não");
+
+                    apg.getButtonTypes().setAll(btsim,btnao);
+                    apg.setTitle("Pagamento");
+                    apg.setContentText("Conta fiada?");
+                    op = apg.showAndWait().get() == btsim;
+                    setParametrosPg();
+                    listaTipo();
+                    visivel();
+                    visivel(true);
+                }
+                else{
+
+                    a.setContentText("Problemas ao Gravar!");
+                    a.showAndWait();
+                }
             }
+            else
+            {
+                if (dal.alterar(v)){
+
+                    for(int i = 0 ; i < list.size() ; i++){
+
+                        DALItensVenda daliv = new DALItensVenda();
+                        ItensVenda iv = list.get(i);
+                        iv.setVen_cod(dal.getUltima().getCod());
+                        DALProdmarcas dalpm = new DALProdmarcas();
+                        Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                        if (daliv.gravar(iv)){
+
+                            dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
+                        }
+                    }
+
+                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
+                }
+                else{
+
+                    a.setContentText("Problemas ao Alterar!");
+                    a.showAndWait();
+                }
+            }
+            estado(true);
+            limparCampos1();
+            limparCampos2();
+            pnfiltros.setDisable(false);
+            tvvendas.setDisable(false);
         }
-        estado(true);
-        limparCampos1();
-        limparCampos2();
-        pnfiltros.setDisable(false);
-        tvvendas.setDisable(false);
     }
 
     @FXML
@@ -992,6 +1002,11 @@ public class TelaVendasController implements Initializable {
             }
             if(flag2){
                 
+                if(op){
+                    
+                    DALVenda dalv = new DALVenda();
+                    dalv.alterar(c, venda);
+                }
                 visivel(false);
                 btconfirmarpg.setText("Nova Venda");
             }

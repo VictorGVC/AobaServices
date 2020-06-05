@@ -105,10 +105,10 @@
                   <JFXTextField fx:id="tcliente1" focusColor="BLACK" labelFloat="true" layoutX="228.0" layoutY="330.0" onKeyTyped="#evtCpfDigitado" prefHeight="30.0" prefWidth="170.0" promptText="Cliente *" unFocusColor="BLACK" />
                   <JFXDatePicker fx:id="dpvencimento" defaultColor="BLACK" layoutX="403.0" layoutY="330.0" prefHeight="30.0" prefWidth="170.0" promptText="Data de Vencimento *" />
                   <JFXButton fx:id="btconfirmarpg" layoutX="369.0" layoutY="387.0" onAction="#clkBtConfirmarPg" text="Confirmar" />
-                  <ImageView fx:id="imsave" fitHeight="43.75" fitWidth="43.75" layoutX="73.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-                  <Label fx:id="lbsave" layoutX="125.0" layoutY="86.0" text="Salvo Com Sucesso!" visible="false">
+                  <ImageView fx:id="imsave" fitHeight="43.75" fitWidth="43.75" layoutX="270.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+                  <Label fx:id="lbsave" layoutX="327.0" layoutY="263.0" text="Salvo Com Sucesso!" visible="false">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
                </children>
