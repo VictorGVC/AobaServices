@@ -11,7 +11,7 @@ public class DALItensVenda {
     
     public boolean gravar(ItensVenda i) {
         
-        String sql = "INSERT INTO ItensVenda(ven_cod, mar_cod, it_qtde, it_preco, it_total, pro_cod)"
+        String sql = "INSERT INTO ItensVenda(ven_cod, mar_cod, it_quantidade, it_preco, it_total, pro_cod)"
                 + "VALUES (#1,#2,#3,#4,#5,#6)";
         
         sql = sql.replaceAll("#1", "" + i.getVen_cod());
@@ -26,7 +26,7 @@ public class DALItensVenda {
     
     public boolean apagarItens(ItensVenda i) {
         
-        return Banco.getCon().manipular("DELETE FROM ItensVenda WHERE ven_cod='" + i.getVen_cod() + "'");
+        return Banco.getCon().manipular("DELETE FROM ItensVenda WHERE ven_cod=" + i.getVen_cod());
     }
     
     public ItensVenda getVenda(int cod) {
@@ -37,8 +37,8 @@ public class DALItensVenda {
         try{
             
             if(rs.next())
-                aux = new ItensVenda(rs.getInt("ven_cod"),rs.getInt("mar_cod"),rs.getString("cli_id"),
-                        rs.getInt("it_qtde"), rs.getDouble("it_preco"), rs.getDouble("it_total"));
+                aux = new ItensVenda(rs.getInt("ven_cod"),rs.getInt("mar_cod"), rs.getString("pro_cod"),
+                        rs.getInt("it_quantidade"), rs.getDouble("it_preco"), rs.getDouble("it_total"));
         } 
         catch(SQLException ex) {}
         
@@ -58,8 +58,8 @@ public class DALItensVenda {
         try {
             
             while(rs.next())
-                aux.add(new ItensVenda(rs.getInt("ven_cod"),rs.getInt("mar_cod"),rs.getString("cli_id"),
-                        rs.getInt("it_qtde"), rs.getDouble("it_preco"), rs.getDouble("it_total")));
+                aux.add(new ItensVenda(rs.getInt("ven_cod"),rs.getInt("mar_cod"),rs.getString("pro_cod"),
+                        rs.getInt("it_quantidade"), rs.getDouble("it_preco"), rs.getDouble("it_total")));
         } 
         catch (SQLException ex) {}
         

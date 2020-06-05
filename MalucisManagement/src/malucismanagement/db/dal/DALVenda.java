@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
+import malucismanagement.db.entidades.Cliente;
 import malucismanagement.db.entidades.Venda;
 
 public class DALVenda {
@@ -22,12 +23,19 @@ public class DALVenda {
     
     public boolean alterar(Venda v) {
         
-        String sql = "UPDATE Vendas SET ven_tota=#2, ven_datavenda='#3', cli_id='#4' "
-                + "WHERE ven_cod='" + v.getCod()+ "'";
+        String sql = "UPDATE Vendas SET ven_total=#2, ven_datavenda='#3', cli_id='#4' "
+                + "WHERE ven_cod=" + v.getCod();
         
         sql = sql.replaceAll("#2", "" + v.getValortotal());
         sql = sql.replaceAll("#3", "" + v.getDtvenda().toString());
         sql = sql.replaceAll("#4", "" + v.getCli_id());
+        
+        return Banco.getCon().manipular(sql);
+    }
+    
+    public boolean alterar(Cliente c, int v) {
+        
+        String sql = "UPDATE Vendas SET cli_id='" + c.getCpf() + "' WHERE ven_cod=" + v;
         
         return Banco.getCon().manipular(sql);
     }

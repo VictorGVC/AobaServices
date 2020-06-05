@@ -317,6 +317,7 @@ public class TelaClientesController implements Initializable {
     private void clkBtNovo(ActionEvent event) {
         
         estado(false);
+        tcpf.setDisable(false);
         limparCampos();
         pnpesquisa.setDisable(true);
     }
