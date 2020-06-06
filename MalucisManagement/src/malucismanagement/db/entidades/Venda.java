@@ -24,6 +24,11 @@ public class Venda {
         this.cli_id = cli_id;
     }
 
+    public Venda(double valortotal, LocalDate dtvenda) {
+        this.valortotal = valortotal;
+        this.dtvenda = dtvenda;
+    }
+    
     public int getCod() {
         return cod;
     }

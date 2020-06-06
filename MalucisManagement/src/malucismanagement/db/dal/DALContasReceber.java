@@ -9,18 +9,32 @@ import malucismanagement.db.entidades.ContasReceber;
 
 public class DALContasReceber {
     
-    public boolean gravar(ContasReceber c) {
+    public boolean gravar1(ContasReceber c) {
         
-        String sql = "INSERT INTO ContasReceber(rec_parcela, rec_dtvencimento, rec_dtpagamento, rec_tipo, rec_contato, "
-                + "rec_valor, ven_cod) VALUES (#1,'#2','#3','#4','#5',#6,'#7')";
+        String sql = "INSERT INTO ContasReceber(rec_parcela, rec_dtvencimento, rec_tipo, rec_contato, "
+                + "rec_valor, ven_cod) VALUES (#1,'#2','#3','#4',#5,#6)";
+        
+        sql = sql.replaceAll("#1", "" + c.getParcela());
+        sql = sql.replaceAll("#2", c.getDtvencimento().toString());
+        sql = sql.replaceAll("#3", c.getTipo());
+        sql = sql.replaceAll("#4", c.getContato());
+        sql = sql.replaceAll("#5", "" + c.getValor());
+        sql = sql.replaceAll("#6", "" + c.getVen_cod());
+        
+        return Banco.getCon().manipular(sql);
+    }
+    
+    public boolean gravar2(ContasReceber c) {
+        
+        String sql = "INSERT INTO ContasReceber(rec_parcela, rec_dtvencimento, rec_dtpagamento, rec_tipo, "
+                + "rec_valor, ven_cod) VALUES (#1,'#2','#3','#4',#5,'#6')";
         
         sql = sql.replaceAll("#1", "" + c.getParcela());
         sql = sql.replaceAll("#2", "" + c.getDtvencimento().toString());
         sql = sql.replaceAll("#3", "" + c.getDtpagamento().toString());
         sql = sql.replaceAll("#4", c.getTipo());
-        sql = sql.replaceAll("#5", c.getContato());
-        sql = sql.replaceAll("#6", "" + c.getValor());
-        sql = sql.replaceAll("#7", "" + c.getVen_cod());
+        sql = sql.replaceAll("#5", "" + c.getValor());
+        sql = sql.replaceAll("#6", "" + c.getVen_cod());
         
         return Banco.getCon().manipular(sql);
     }

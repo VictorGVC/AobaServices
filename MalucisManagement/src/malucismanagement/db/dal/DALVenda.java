@@ -5,16 +5,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
+import malucismanagement.db.entidades.Cliente;
 import malucismanagement.db.entidades.Venda;
 
 public class DALVenda {
     
     public boolean gravar(Venda v) {
         
-        String sql = "INSERT INTO Vendas(ven_cod, ven_total, ven_dtvenda, cli_id)"
-                + "VALUES (#1,#2,'#3',#4)";
+        String sql = "INSERT INTO Vendas(ven_total, ven_dtvenda)"
+                + "VALUES (#1,'#2')";
         
-        sql = sql.replaceAll("#1", "" + v.getCod());
+        sql = sql.replaceAll("#1", "" + v.getValortotal());
+        sql = sql.replaceAll("#2", v.getDtvenda().toString());
+        
+        return Banco.getCon().manipular(sql);
+    }
+    
+    public boolean alterar(Venda v) {
+        
+        String sql = "UPDATE Vendas SET ven_total=#2, ven_datavenda='#3', cli_id='#4' "
+                + "WHERE ven_cod=" + v.getCod();
+        
         sql = sql.replaceAll("#2", "" + v.getValortotal());
         sql = sql.replaceAll("#3", "" + v.getDtvenda().toString());
         sql = sql.replaceAll("#4", "" + v.getCli_id());
@@ -22,15 +33,9 @@ public class DALVenda {
         return Banco.getCon().manipular(sql);
     }
     
-    public boolean alterar(Venda v) {
+    public boolean alterar(Cliente c, int v) {
         
-        String sql = "UPDATE Vendas SET ven_cod=#1, ven_tota=#2, ven_datavenda='#3', cli_id='#4' "
-                + "WHERE ven_cod='" + v.getCod()+ "'";
-        
-        sql = sql.replaceAll("#1", "" + v.getCod());
-        sql = sql.replaceAll("#2", "" + v.getValortotal());
-        sql = sql.replaceAll("#3", "" + v.getDtvenda().toString());
-        sql = sql.replaceAll("#4", "" + v.getCli_id());
+        String sql = "UPDATE Vendas SET cli_id='" + c.getCpf() + "' WHERE ven_cod=" + v;
         
         return Banco.getCon().manipular(sql);
     }
@@ -49,7 +54,7 @@ public class DALVenda {
             
             if(rs.next())
                 aux = new Venda(rs.getInt("ven_cod"),rs.getDouble("ven_total"),
-                        rs.getDate("ven_datavenda").toLocalDate(), rs.getString("cli_id"));
+                        rs.getDate("ven_dtvenda").toLocalDate(), rs.getString("cli_id"));
         } 
         catch(SQLException ex) {}
         
@@ -65,7 +70,7 @@ public class DALVenda {
             
             if(rs.next())
                 aux = new Venda(rs.getInt("ven_cod"),rs.getDouble("ven_total"),
-                        rs.getDate("ven_datavenda").toLocalDate(), rs.getString("cli_id"));
+                        rs.getDate("ven_dtvenda").toLocalDate(), rs.getString("cli_id"));
         } 
         catch(SQLException ex) {}
         
@@ -86,7 +91,7 @@ public class DALVenda {
             
             while(rs.next())
                 aux.add(new Venda(rs.getInt("ven_cod"),rs.getDouble("ven_total"),
-                        rs.getDate("ven_datavenda").toLocalDate(), rs.getString("cli_id")));
+                        rs.getDate("ven_dtvenda").toLocalDate(), rs.getString("cli_id")));
         } 
         catch (SQLException ex) {}
         
