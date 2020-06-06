@@ -565,15 +565,13 @@ public class TelaVendasController implements Initializable {
             
             DALItensVenda daliv = new DALItensVenda();
             ItensVenda iv = null;
+            
             for(int i = 0 ; i < list.size() ; i++){
 
                 iv = list.get(i);
                 DALProdmarcas dalpm = new DALProdmarcas();
                 Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
-                if (daliv.gravar(iv)){
-
-                    dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
-                }
+                dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
             }
             daliv.apagarItens(iv);
             estado(false);
@@ -588,7 +586,7 @@ public class TelaVendasController implements Initializable {
     }
 
     @FXML
-    private void clkBtApagar(ActionEvent event) {
+    private void clkBtApagar(ActionEvent event) throws SQLException {
         
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType btsim = new ButtonType("Sim");
@@ -604,39 +602,59 @@ public class TelaVendasController implements Initializable {
             if (a.showAndWait().get() == btsim){
                 
                 DALItensVenda dali = new DALItensVenda();
-                ItensVenda i;
+                ItensVenda iv;
                 
-                i = dali.getVenda(tvvendas.getSelectionModel().getSelectedItem().getCod());
-                if(dali.apagarItens(i)){
-                 
-                    DALVenda dal = new DALVenda();
-                    Venda v;
+                iv = dali.getVenda(tvvendas.getSelectionModel().getSelectedItem().getCod());
+                for(int i = 0 ; i < list.size() ; i++){
 
-                    v = tvvendas.getSelectionModel().getSelectedItem();
-                    if(dal.apagar(v)){
+                    iv = list.get(i);
+                    DALProdmarcas dalpm = new DALProdmarcas();
+                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                    dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
+                }
+                if(dali.apagarItens(iv)){
+                    
+                    DALContasReceber dalrec = new DALContasReceber();
+                    if(dalrec.apagar(tvvendas.getSelectionModel().getSelectedItem().getCod())){
+                        
+                        DALVenda dal = new DALVenda();
+                        Venda v;
 
-                        JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                        sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Excluído com Sucesso!")));
+                        v = tvvendas.getSelectionModel().getSelectedItem();
+                        if(dal.apagar(v)){
+
+                            JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                            sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Excluído com Sucesso!")));
+                        }
+                        else{
+
+                            a.setAlertType(Alert.AlertType.ERROR);
+                            a.setHeaderText("ERRO");
+                            a.setTitle("ERRO!");
+                            a.setContentText("Exclusão da venda não realizada!");
+                            a.getButtonTypes().setAll(btok);
+                            a.showAndWait();
+                        }
+                        carregaTabelaVendas("");
+                        limparCampos1();
+                        limparCampos2();
                     }
                     else{
 
                         a.setAlertType(Alert.AlertType.ERROR);
                         a.setHeaderText("ERRO");
                         a.setTitle("ERRO!");
-                        a.setContentText("Exclusão da venda não realizada!");
+                        a.setContentText("Exclusão de recebimentos dessa venda não realizada!");
                         a.getButtonTypes().setAll(btok);
                         a.showAndWait();
                     }
-                    carregaTabelaVendas("");
-                    limparCampos1();
-                    limparCampos2();
                 }
                 else{
 
                     a.setAlertType(Alert.AlertType.ERROR);
                     a.setHeaderText("ERRO");
                     a.setTitle("ERRO!");
-                    a.setContentText("Exclusão de itens não realizada!");
+                    a.setContentText("Exclusão dos itens de venda não realizada!");
                     a.getButtonTypes().setAll(btok);
                     a.showAndWait();
                 }
@@ -653,8 +671,24 @@ public class TelaVendasController implements Initializable {
     }
 
     @FXML
-    private void clkBtCancelar(ActionEvent event) {
+    private void clkBtCancelar(ActionEvent event) throws SQLException {
         
+        if(!pnfiltros.isDisable()){
+            
+            DALVenda dal = new DALVenda();
+            for(int i = 0 ; i < list.size() ; i++){
+
+                DALItensVenda daliv = new DALItensVenda();
+                ItensVenda iv = list.get(i);
+                iv.setVen_cod(dal.getUltima().getCod());
+                DALProdmarcas dalpm = new DALProdmarcas();
+                Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                if (daliv.gravar(iv)){
+
+                    dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
+                }
+            }
+        }
         if (!pndados.isDisabled() && !pndados2.isDisabled()){
             
             estado(true);
@@ -850,69 +884,43 @@ public class TelaVendasController implements Initializable {
             Venda v = new Venda(Double.parseDouble(ttotal.getText()), dpdatavenda.getValue());
             DALVenda dal = new DALVenda();
 
-            if(pnfiltros.isDisable()){
+            if(!pnfiltros.isDisable()){
 
-                if (dal.gravar(v)){
-
-                    for(int i = 0 ; i < list.size() ; i++){
-
-                        DALItensVenda daliv = new DALItensVenda();
-                        ItensVenda iv = list.get(i);
-                        iv.setVen_cod(dal.getUltima().getCod());
-                        DALProdmarcas dalpm = new DALProdmarcas();
-                        Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
-                        if (daliv.gravar(iv)){
-
-                            dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
-                        }
-                    }
-
-                    Alert apg = new Alert(Alert.AlertType.CONFIRMATION);
-                    ButtonType btsim = new ButtonType("Sim");
-                    ButtonType btnao = new ButtonType("Não");
-
-                    apg.getButtonTypes().setAll(btsim,btnao);
-                    apg.setTitle("Pagamento");
-                    apg.setContentText("Conta fiada?");
-                    op = apg.showAndWait().get() == btsim;
-                    setParametrosPg();
-                    visivel();
-                    visivel(true);
-                    selecionaTab(true);
-                }
-                else{
-
-                    a.setContentText("Problemas ao Gravar!");
-                    a.showAndWait();
-                }
+                //Apagar contas a receber
             }
-            else
-            {
-                if (dal.alterar(v)){
+            if (dal.gravar(v)){
 
-                    for(int i = 0 ; i < list.size() ; i++){
+                for(int i = 0 ; i < list.size() ; i++){
 
-                        DALItensVenda daliv = new DALItensVenda();
-                        ItensVenda iv = list.get(i);
-                        iv.setVen_cod(dal.getUltima().getCod());
-                        DALProdmarcas dalpm = new DALProdmarcas();
-                        Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
-                        if (daliv.gravar(iv)){
+                    DALItensVenda daliv = new DALItensVenda();
+                    ItensVenda iv = list.get(i);
+                    iv.setVen_cod(dal.getUltima().getCod());
+                    DALProdmarcas dalpm = new DALProdmarcas();
+                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                    if (daliv.gravar(iv)){
 
-                            dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
-                        }
+                        dalpm.atualizarEstoque(pm, iv.getQtde(), 1);
                     }
-
-                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
                 }
-                else{
 
-                    a.setContentText("Problemas ao Alterar!");
-                    a.showAndWait();
-                }
+                Alert apg = new Alert(Alert.AlertType.CONFIRMATION);
+                ButtonType btsim = new ButtonType("Sim");
+                ButtonType btnao = new ButtonType("Não");
+
+                apg.getButtonTypes().setAll(btsim,btnao);
+                apg.setTitle("Pagamento");
+                apg.setContentText("Conta fiada?");
+                op = apg.showAndWait().get() == btsim;
+                setParametrosPg();
+                visivel();
+                visivel(true);
+                selecionaTab(true);
             }
+            else{
 
+                a.setContentText("Problemas ao Gravar!");
+                a.showAndWait();
+            }
         }
         estado(true);
         limparCampos1();
@@ -934,12 +942,23 @@ public class TelaVendasController implements Initializable {
                 @Override
                 protected Void call() {
                     
+                    DALCliente dal = new DALCliente();
+                    Cliente c = dal.getCli(tcliente1.getText());
+                    
                     if(!ManipularCpfCnpj.isCpf(tcliente1.getText())){
                         
                         setCorAlert(tcliente1, "RED");
                         a.setTitle("Atenção!");
                         a.setHeaderText("CPF");
                         a.setContentText("CPF inválido!");
+                    }
+                    else if(c == null){
+
+                        setCorAlert(tcliente1, "RED");
+                        a.setContentText("Cliente não encontrado!");
+                        a.setHeaderText("Alerta");
+                        a.setTitle("Alerta");
+                        a.showAndWait();
                     }
                     
                     return null;
@@ -960,7 +979,7 @@ public class TelaVendasController implements Initializable {
         else{
             
             int parcela = 1, parcelas;
-            boolean flag = false, flag2 = true;
+            boolean flag = false, flag2 = true, valido = true;
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             DALCliente dal = new DALCliente();
             Cliente c = dal.getCli(tcliente1.getText());
@@ -986,6 +1005,7 @@ public class TelaVendasController implements Initializable {
                 }
                 else if(!ManipularCpfCnpj.isCpf(tcliente1.getText())){
 
+                    valido = false;
                     setCorAlert(tcliente1, "RED");
                     a.setContentText("CPF inválido!");
                     a.setHeaderText("Alerta");
@@ -994,6 +1014,7 @@ public class TelaVendasController implements Initializable {
                 }
                 else if(c == null){
                     
+                    valido = false;
                     setCorAlert(tcliente1, "RED");
                     a.setContentText("Cliente não encontrado!");
                     a.setHeaderText("Alerta");
@@ -1006,14 +1027,17 @@ public class TelaVendasController implements Initializable {
                     dpvencimento.setDefaultColor(Paint.valueOf("RED"));
                 }
             }
-            if(flag){
-
-                a.setContentText("Campos obrigatórios não preenchidos!");
-                a.setHeaderText("Alerta");
-                a.setTitle("Alerta");
-                a.showAndWait();
+            if(flag || !valido){
+                
+                if(flag){
+                    
+                    a.setContentText("Campos obrigatórios não preenchidos!");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
             }
-            else if((ManipularCpfCnpj.isCpf(tcliente1.getText()) && op) && (c == null && op) || !op){
+            else{
 
                 parcelas = Integer.parseInt(tparcelas.getText());
                 while(parcela <= parcelas){

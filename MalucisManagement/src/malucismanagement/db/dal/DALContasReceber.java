@@ -55,9 +55,9 @@ public class DALContasReceber {
         return Banco.getCon().manipular(sql);
     }
     
-    public boolean apagar(ContasReceber c) {
+    public boolean apagar(int v) {
         
-        return Banco.getCon().manipular("DELETE FROM ContasReceber WHERE rec_cod=" + c.getCod());
+        return Banco.getCon().manipular("DELETE FROM ContasReceber WHERE ven_cod=" + v);
     }
     
     public ContasReceber getCon(int cod) {
