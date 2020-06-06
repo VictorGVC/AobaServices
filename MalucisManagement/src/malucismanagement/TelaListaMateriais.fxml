@@ -74,7 +74,7 @@
                                     <Label fx:id="lblescola" layoutX="92.0" layoutY="14.0" text="Dados da escola" />
                                     <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="279.0" layoutY="61.0" onAction="#clkEditarProduto" prefHeight="25.0" prefWidth="141.0" promptText="Categoria" unFocusColor="BLACK" />
                                     <Label fx:id="lblproduto" layoutX="475.0" layoutY="14.0" text="Dados do Produto" />
-                                    <JFXTextField fx:id="txqtde" layoutX="324.0" layoutY="125.0" prefHeight="25.0" prefWidth="52.0" promptText="Qtde" />
+                                    <JFXTextField fx:id="txqtde" layoutX="324.0" layoutY="179.0" prefHeight="25.0" prefWidth="52.0" promptText="Qtde" />
                                     <TableView fx:id="tvproduto" layoutX="446.0" layoutY="50.0" prefHeight="174.0" prefWidth="327.0">
                                       <columns>
                                           <TableColumn fx:id="colcodprod" prefWidth="82.0" text="codigo" />
@@ -82,7 +82,6 @@
                                         <TableColumn fx:id="colprecoprod" minWidth="0.0" prefWidth="55.0" text="Preço" />
                                       </columns>
                                     </TableView>
-                                    <JFXTextField editable="false" layoutX="297.0" layoutY="192.0" prefHeight="25.0" prefWidth="105.0" promptText="Total" />
                                  </children>
                               </Pane>
                            </children>

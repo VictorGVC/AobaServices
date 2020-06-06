@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SkinBase;
 import javafx.scene.control.SplitPane;
@@ -28,6 +29,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -127,6 +130,8 @@ public class TelaListaMateriaisController implements Initializable {
     private TableColumn<Produto, String> colcodprod;
     @FXML
     private TableColumn<ListaItens, String> colcod;
+    @FXML
+    private JFXTextField txtotal;
 
     /**
      * Initializes the controller class.
@@ -229,11 +234,36 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkBtAdd(ActionEvent event) {
+        
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
+        if(txqtde.getText().isEmpty())
+        {
+            a.setContentText("quantidade deve ser informada!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txqtde.requestFocus();
+        }
+        else if(tvproduto.getSelectionModel().getSelectedIndex() == -1)
+        {
+            a.setContentText("Selecione um produto!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txqtde.requestFocus();
+        }
+        else
+        {
+            
+        }
     }
 
     @FXML
     private void clkEditarProduto(ActionEvent event) throws SQLException {
         carregaTabelaP(cbcategoria.getValue());
-    }
+    } 
+    
+    
     
 }
