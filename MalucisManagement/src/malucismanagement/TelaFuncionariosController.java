@@ -378,7 +378,6 @@ public class TelaFuncionariosController implements Initializable {
             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
             sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum funcionario!")));
         }
-        
     }
 
     @FXML
