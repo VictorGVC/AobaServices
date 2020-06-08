@@ -19,7 +19,25 @@ public class ListaEscola
     private String escola,serie,descricao,cnpj;
     private Date data;
     private double total;
-    private ArrayList<Produto> produtos = new ArrayList<Produto>();
+    private int codigo;
+    private ArrayList<ListaItens> produtos = new ArrayList<ListaItens>();
+
+    public ArrayList<ListaItens> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(ArrayList<ListaItens> produtos) {
+        this.produtos = produtos;
+    }
+    
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+    
 
     @Override
     public String toString() {

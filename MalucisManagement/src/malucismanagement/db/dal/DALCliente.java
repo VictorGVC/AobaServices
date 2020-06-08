@@ -100,24 +100,6 @@ public class DALCliente {
         return aux;
     }
     
-    public ListaEscola getEscolaProdutos(String cod)
-    {
-        ListaEscola aux = null;
-        
-        String sql = "SELECT * FROM ListaEscola WHERE cli_id = '" + "';";
-        
-        ResultSet rs = Banco.getCon().consultar(sql);
-        
-//        try
-//        {
-//            if(rs.next())
-//                aux = new ListaEscola
-//        }
-//        catch(SQLException ex){}
-        
-        return aux;
-    }
-    
     public List<Cliente> getListCli(String filtro) {
         
         String sql = "SELECT * FROM Cliente";

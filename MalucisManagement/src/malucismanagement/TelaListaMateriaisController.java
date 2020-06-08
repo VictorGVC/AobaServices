@@ -133,6 +133,8 @@ public class TelaListaMateriaisController implements Initializable {
     private TableColumn<ListaItens, String> colcod;
     @FXML
     private JFXTextField txano;
+    
+    private ListaEscola escolaatual;
 
     /**
      * Initializes the controller class.
@@ -141,6 +143,7 @@ public class TelaListaMateriaisController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initCb();
         initColunas();
+        
     }   
     
     private void initColunas()
@@ -233,6 +236,13 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkBtEditarEscola(MouseEvent event) {
+        pntab.getSelectionModel().selectNext();
+        txescola.setText(tvescolas.getSelectionModel().getSelectedItem().getEscola());
+        txturma.setText(tvescolas.getSelectionModel().getSelectedItem().getSerie());
+        
+        DALListaMateriais dal = new DALListaMateriais();
+        
+        escolaatual = dal.getEscolaProdutos(tvescolas.getSelectionModel().getSelectedItem().getCodigo());
         
     }
 

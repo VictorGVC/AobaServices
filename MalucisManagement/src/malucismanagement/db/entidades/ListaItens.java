@@ -11,17 +11,33 @@ package malucismanagement.db.entidades;
  */
 public class ListaItens 
 {
-    int quantidade;
+    int quantidade, codigo;
     double preco,total;
-    String codigo,nome,categoria;
+    String nome,categoria;
 
-    public ListaItens(int quantidade, double preco, String codigo, String nome, String categoria) {
+    public ListaItens(int quantidade, double preco, int codigo, String nome, String categoria) {
         this.quantidade = quantidade;
         this.preco = preco;
         this.codigo = codigo;
         this.nome = nome;
         this.categoria = categoria;
     }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public ListaItens(int quantidade, int codigo, String nome) {
+        this.quantidade = quantidade;
+        this.codigo = codigo;
+        this.nome = nome;
+    }
+    
+    
 
     public ListaItens() {
     }
@@ -50,11 +66,11 @@ public class ListaItens
         this.preco = preco;
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.ListaEscola;
+import malucismanagement.db.entidades.ListaItens;
+import malucismanagement.db.entidades.Produto;
 
 /**
  *
@@ -37,6 +39,40 @@ public class DALListaMateriais
             }     
         } 
         catch (SQLException ex) {}
+        
+        return aux;
+    }
+    
+    public ListaEscola getEscolaProdutos(int cod)
+    {
+        ListaEscola aux = null;
+        
+        String sql = "SELECT * FROM ListaEscola l INNER JOIN cliente c ON l.cli_id = c.cli_id WHERE l.lis_cod = '" +cod+ "'";
+        
+        ResultSet rs = Banco.getCon().consultar(sql);
+        
+        try
+        {
+            if(rs.next())
+                aux = new ListaEscola(rs.getString("cli_nome"), rs.getString("lis_serie"), 
+                        rs.getString("lis_desc"), rs.getString("cli_id"), 
+                        rs.getDouble("lis_total"), rs.getDate("lis_data"));
+        }
+        catch(SQLException ex){}
+        
+        sql = "SELECT * FROM  listaescola le INNER JOIN listamateriais lm ON lm.liscod = le.lis_cod "
+                + "INNER JOIN produto p ON lm.pro_cod = p.pro_cod";
+        
+        rs = Banco.getCon().consultar(sql);
+        ArrayList<ListaItens> prod = new ArrayList<>();
+        try
+        {
+            if(rs.next())
+                prod.add(new ListaItens(rs.getInt("lis_quantidade"), rs.getInt("pro_cod"), rs.getString("pro_nome")));
+        }
+        catch(SQLException ex){}
+        
+        aux.setProdutos(prod);
         
         return aux;
     }
