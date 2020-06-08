@@ -38,7 +38,7 @@
                             <TableColumn fx:id="colturma" prefWidth="99.0" text="Turma" />
                           </columns>
                         </TableView>
-                        <JFXTextField fx:id="txano" layoutX="256.0" layoutY="72.0" prefHeight="25.0" prefWidth="79.0" promptText="        Ano" />
+                        <JFXTextField fx:id="txano" layoutX="256.0" layoutY="72.0" onKeyTyped="#clkFiltraAno" prefHeight="25.0" prefWidth="79.0" promptText="        Ano" />
                      </children>
                   </AnchorPane>
                </children></AnchorPane>

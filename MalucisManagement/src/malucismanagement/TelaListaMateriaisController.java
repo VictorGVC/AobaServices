@@ -132,7 +132,7 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private TableColumn<ListaItens, String> colcod;
     @FXML
-    private JFXTextField txtotal;
+    private JFXTextField txano;
 
     /**
      * Initializes the controller class.
@@ -189,7 +189,10 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkFiltraEscola(ActionEvent event) {
-        carregaTabelaE("c.cli_nome LIKE '%" + cbescolas.getValue() + "%'");
+        if(txano.getText().isEmpty())
+            carregaTabelaE("c.cli_id = '" + cbescolas.getValue().getCpf() + "'");
+        else
+            carregaTabelaE("c.cli_id = '" + cbescolas.getValue().getCpf() + "' AND lis_anoreferencia LIKE '%" +txano.getText()+ "%'");
     }
     
     private void carregaTabelaP(String c) throws SQLException {
@@ -220,6 +223,7 @@ public class TelaListaMateriaisController implements Initializable {
         }
         else
         {
+            pntab.getSelectionModel().selectNext();
             txescola.setText(cbescolas.getValue().getNome());
             tablista.getContent().requestFocus();
             
@@ -263,6 +267,15 @@ public class TelaListaMateriaisController implements Initializable {
     private void clkEditarProduto(ActionEvent event) throws SQLException {
         carregaTabelaP(cbcategoria.getValue());
     } 
+
+    @FXML
+    private void clkFiltraAno(KeyEvent event) 
+    {
+        if(!txano.getText().isEmpty() && cbescolas.getSelectionModel().getSelectedIndex() == -1)
+            carregaTabelaE("lis_anoreferencia LIKE '%" +txano.getText()+ "%'");
+        else if(!txano.getText().isEmpty() && cbescolas.getSelectionModel().getSelectedIndex() != -1)
+            carregaTabelaE("c.cli_id = '" + cbescolas.getValue().getCpf() + "' AND lis_anoreferencia LIKE '%" +txano.getText()+ "%'");
+    }
     
     
     
