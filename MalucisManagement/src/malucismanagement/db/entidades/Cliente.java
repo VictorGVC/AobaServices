@@ -9,6 +9,11 @@ public class Cliente {
     private String nome, cpf, email, telefone, cep, rua, bairro, cidade, uf; 
     private LocalDate datanasc;
 
+    @Override
+    public String toString() {
+        return this.getNome();
+    }
+    
     public Cliente() {}
 
     public Cliente(String nome, String cpf, String email, String telefone, String cep, String rua, String bairro, String cidade, String uf) {

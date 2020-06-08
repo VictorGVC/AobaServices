@@ -13,12 +13,19 @@ import java.util.List;
  *
  * @author HITRON
  */
-public class ListaEscola {
+public class ListaEscola 
+{
+    
     private String escola,serie,descricao,cnpj;
     private Date data;
     private double total;
     private ArrayList<Produto> produtos = new ArrayList<Produto>();
 
+    @Override
+    public String toString() {
+        return this.getEscola();
+    }
+    
     public String getEscola() {
         return escola;
     }

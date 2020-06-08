@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Cliente;
+import malucismanagement.db.entidades.ListaEscola;
 
 public class DALCliente {
     
@@ -95,6 +96,24 @@ public class DALCliente {
                             rs.getString("cli_cep"), rs.getString("cli_rua"), rs.getString("cli_cidade"), rs.getString("cli_cidade"), rs.getString("cli_uf")));
         } 
         catch (SQLException ex) {}
+        
+        return aux;
+    }
+    
+    public ListaEscola getEscolaProdutos(String cod)
+    {
+        ListaEscola aux = null;
+        
+        String sql = "SELECT * FROM ListaEscola WHERE cli_id = '" + "';";
+        
+        ResultSet rs = Banco.getCon().consultar(sql);
+        
+//        try
+//        {
+//            if(rs.next())
+//                aux = new ListaEscola
+//        }
+//        catch(SQLException ex){}
         
         return aux;
     }

@@ -37,6 +37,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALListaMateriais;
@@ -105,7 +106,7 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private AnchorPane pnescola;
     @FXML
-    private JFXComboBox<String> cbescolas;
+    private JFXComboBox<Cliente> cbescolas;
     @FXML
     private JFXButton btnovo;
     @FXML
@@ -152,14 +153,13 @@ public class TelaListaMateriaisController implements Initializable {
         colprecoprod.setCellValueFactory(new PropertyValueFactory<>("pro_preco"));
     }
     
+    
+    
     private void initCb()
     {
         DALCliente dal = new DALCliente();
-        List <String> l = new ArrayList<String>();
-        for (Cliente c : dal.getEscolas("")) 
-            l.add(c.getNome());
         
-        cbescolas.setItems(FXCollections.observableArrayList(l));
+        cbescolas.setItems(FXCollections.observableArrayList(dal.getEscolas("")));
         
         DALCategoriaProduto dalc = new DALCategoriaProduto();
         cbcategoria.setItems(FXCollections.observableArrayList(dalc.getCategoriaProduto()));
@@ -220,7 +220,7 @@ public class TelaListaMateriaisController implements Initializable {
         }
         else
         {
-            txescola.setText(cbescolas.getValue());
+            txescola.setText(cbescolas.getValue().getNome());
             tablista.getContent().requestFocus();
             
             txturma.requestFocus();
