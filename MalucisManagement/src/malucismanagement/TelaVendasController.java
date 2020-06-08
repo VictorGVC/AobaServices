@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -76,6 +77,7 @@ public class TelaVendasController implements Initializable {
     private double valortotal;
     private boolean op;
     private List<ItensVenda> list = new ArrayList();
+    private List<ItensVenda> listaux = new ArrayList();
     
     @FXML
     private JFXTabPane pntab;
@@ -131,6 +133,14 @@ public class TelaVendasController implements Initializable {
     private JFXComboBox<String> cbcategoria;
     @FXML
     private JFXTextField tfiltro;
+    @FXML
+    private JFXDatePicker dpdatainicial;
+    @FXML
+    private JFXDatePicker dpdatafinal;
+    @FXML
+    private JFXButton btlimpar;
+    @FXML
+    private JFXButton btfiltrar;
     @FXML
     private TableView<Venda> tvvendas;
     @FXML
@@ -189,6 +199,7 @@ public class TelaVendasController implements Initializable {
         estado(true);
         codBarrasEnter();
         qtdeEnter();
+        esperaLista();
     }    
 
     private void fadeout() {
@@ -249,6 +260,8 @@ public class TelaVendasController implements Initializable {
             lbobg.setFont(new Font(p.getFonte(), 12));
             
             tfiltro.setFont(new Font(p.getFonte(), 14));
+            btlimpar.setFont(new Font(p.getFonte(), 12));
+            btfiltrar.setFont(new Font(p.getFonte(), 12));
             
             tcodigo.setFont(new Font(p.getFonte(), 14));
             ttotal.setFont(new Font(p.getFonte(), 14));
@@ -271,6 +284,8 @@ public class TelaVendasController implements Initializable {
             btremover.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             tfiltro.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btlimpar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+            btfiltrar.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             
             tcodigo.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             ttotal.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -343,6 +358,7 @@ public class TelaVendasController implements Initializable {
         btapagar.setDisable(!b);
         btalterar.setDisable(!b);
         btnovo.setDisable(!b);
+        tfiltro.setDisable(b);
       
         carregaTabelaVendas("");
     }
@@ -468,7 +484,7 @@ public class TelaVendasController implements Initializable {
         ObservableList<ItensVenda> modelo;
         
         modelo = FXCollections.observableArrayList(res);
-        list = res;
+        list = listaux = res;
         tvprodutos.setItems(modelo);
     }
     
@@ -479,10 +495,41 @@ public class TelaVendasController implements Initializable {
         list.add("");
         list.add("Código");
         list.add("Cliente");
-        list.add("Data");
         list.add("Valor");
         
         cbcategoria.setItems(FXCollections.observableList(list));
+    }
+    
+    private void esperaLista(){
+        
+        cbcategoria.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                
+                switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
+
+                    case 0:
+                        carregaTabelaVendas("");
+                        tfiltro.setDisable(true);
+                        break;
+                    case 1:
+                        MaskFieldUtil.numericField(tfiltro);
+                        tfiltro.setDisable(false);
+                        break;
+                    case 2:
+                        MaskFieldUtil.cpfField(tfiltro);
+                        tfiltro.setDisable(false);
+                        break;
+                    case 3:
+                        MaskFieldUtil.numericField(tfiltro);
+                        tfiltro.setDisable(false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
     
     private void listaTipo() {
@@ -676,10 +723,10 @@ public class TelaVendasController implements Initializable {
         if(!pnfiltros.isDisable()){
             
             DALVenda dal = new DALVenda();
-            for(int i = 0 ; i < list.size() ; i++){
+            for(int i = 0 ; i < listaux.size() ; i++){
 
                 DALItensVenda daliv = new DALItensVenda();
-                ItensVenda iv = list.get(i);
+                ItensVenda iv = listaux.get(i);
                 iv.setVen_cod(dal.getUltima().getCod());
                 DALProdmarcas dalpm = new DALProdmarcas();
                 Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
@@ -700,8 +747,10 @@ public class TelaVendasController implements Initializable {
     }
 
     @FXML
-    private void clkBtVoltar(ActionEvent event) {
+    private void clkBtVoltar(ActionEvent event) throws SQLException {
         
+        if(!pnfiltros.isDisable())
+            clkBtCancelar(event);
         Stage stage = (Stage) btvoltar.getScene().getWindow();
         stage.close();
     }
@@ -825,20 +874,100 @@ public class TelaVendasController implements Initializable {
             switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
                 
                 case 1:
-                    carregaTabelaVendas("UPPER(ven_cod) LIKE %" + tfiltro.getText().toUpperCase() + "%");
+                    if(!"".equals(tfiltro.getText()))
+                        carregaTabelaVendas("ven_cod = " + Integer.parseInt(tfiltro.getText()) + " OR ven_cod >= " + (Integer.parseInt(tfiltro.getText()) * 10) + " AND ven_cod <= " + (Integer.parseInt(tfiltro.getText()) * 10 + 9));
+                    else
+                        carregaTabelaVendas("");
                     break;
                 case 2:
                     carregaTabelaVendas("UPPER(cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
                     break;
                 case 3:
-                    carregaTabelaVendas("UPPER(ven_dtvenda) LIKE '%" + tfiltro.getText().toUpperCase() + "%'");
-                    break;
-                case 4:
-                    carregaTabelaVendas("UPPER(ven_valor) LIKE %" + tfiltro.getText().toUpperCase() + "%");
+                    if(!"".equals(tfiltro.getText()))
+                        carregaTabelaVendas("ven_total = " + Double.parseDouble(tfiltro.getText()) + " OR ven_total >= " + (Double.parseDouble(tfiltro.getText()) * 10) + " AND ven_total <= " + (Double.parseDouble(tfiltro.getText()) * 10 + 9));
+                    else
+                        carregaTabelaVendas("");
                     break;
                 default:
                     break;
             }
+        }
+    }
+    
+    private String auxSql(){
+        
+        String sql = "";
+        
+        if(cbcategoria.getSelectionModel().getSelectedIndex() != -1){
+
+                switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
+
+                    case 1:
+                        if(!"".equals(tfiltro.getText()))
+                            sql = "(ven_cod = " + Integer.parseInt(tfiltro.getText()) + " OR ven_cod >= " + (Integer.parseInt(tfiltro.getText()) * 10) + " AND ven_cod <= " + (Integer.parseInt(tfiltro.getText()) * 10 + 9) + ")";
+                        else
+                            sql = "";
+                        break;
+                    case 2:
+                        sql = "UPPER(cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'";
+                        break;
+                    case 3:
+                        if(!"".equals(tfiltro.getText()))
+                            sql = "(ven_total = " + Double.parseDouble(tfiltro.getText()) + " OR ven_total >= " + (Double.parseDouble(tfiltro.getText()) * 10) + " AND ven_total <= " + (Double.parseDouble(tfiltro.getText()) * 10 + 9) + ")";
+                        else
+                            sql = "";
+                        break;
+                    default:
+                        break;
+                }
+            }
+        
+        return sql;
+    }
+    
+    @FXML
+    private void clkBtLimpar(ActionEvent event) {
+        
+        String sql = auxSql();
+        
+        dpdatainicial.setValue(null);
+        dpdatafinal.setValue(null);
+        carregaTabelaVendas(sql);
+    }
+
+    @FXML
+    private void clkBtFiltrar(ActionEvent event) {
+        
+        String sql = auxSql();
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
+        if(dpdatafinal.getValue() == null && dpdatainicial.getValue() != null){
+            
+            if("".equals(sql))
+                carregaTabelaVendas("ven_dtvenda >= '" + dpdatainicial.getValue() + "'");
+            else
+                carregaTabelaVendas(sql + " AND ven_dtvenda >= '" + dpdatainicial.getValue() + "'");
+        } 
+        else if(dpdatainicial.getValue() == null && dpdatafinal.getValue() != null){
+            
+            if("".equals(sql))
+                carregaTabelaVendas("ven_dtvenda <= '" + dpdatafinal.getValue() + "'");
+            else
+                carregaTabelaVendas(sql + "AND ven_dtvenda <= '" + dpdatafinal.getValue() + "'");
+        }  
+        else if(dpdatainicial.getValue() != null && dpdatafinal.getValue() != null){
+            
+            if("".equals(sql))
+                carregaTabelaVendas("ven_dtvenda >= '" + dpdatainicial.getValue() + "' AND ven_dtvenda <= '" + dpdatafinal.getValue() + "'");    
+            else
+                carregaTabelaVendas(sql + "AND ven_dtvenda >= '" + dpdatainicial.getValue() + "' AND ven_dtvenda <= '" + dpdatafinal.getValue() + "'");
+        }  
+        else{
+            
+            a.setContentText("Selecione um período!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
         }
     }
     
@@ -886,7 +1015,8 @@ public class TelaVendasController implements Initializable {
 
             if(!pnfiltros.isDisable()){
 
-                //Apagar contas a receber
+                DALContasReceber dalc = new DALContasReceber();
+                dalc.apagar(venda);
             }
             if (dal.gravar(v)){
 
@@ -973,6 +1103,7 @@ public class TelaVendasController implements Initializable {
         
         if(btconfirmarpg.getText().equals("Nova Venda")){
             
+            carregaTabelaVendas("");
             selecionaTab(false);
             btconfirmarpg.setText("Confirmar");
         }

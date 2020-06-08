@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -127,6 +128,7 @@ public class TelaClientesController implements Initializable {
         listaSexo();
         listaCategoria();
         estado(true);
+        esperaLista();
     }    
 
     private void fadeout() {
@@ -246,6 +248,7 @@ public class TelaClientesController implements Initializable {
         btapagar.setDisable(!b);
         btalterar.setDisable(!b);
         btnovo.setDisable(!b);
+        tfiltro.setDisable(b);
       
         carregaTabela("");
     }
@@ -283,6 +286,47 @@ public class TelaClientesController implements Initializable {
         list.add("Rua");
         
         cbcategoria.setItems(FXCollections.observableArrayList(list));
+    }
+    
+    private void esperaLista(){
+        
+        cbcategoria.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                
+                switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
+
+                    case 0:
+                        carregaTabela("");
+                        tfiltro.setDisable(true);
+                        break;
+                    case 1:
+                        MaskFieldUtil.cpfField(tfiltro);
+                        tfiltro.setDisable(false);
+                        break;
+                    case 2:
+                        tfiltro.setDisable(false);
+                        break;
+                    case 3:
+                        tfiltro.setDisable(false);
+                        break;
+                    case 4:
+                        MaskFieldUtil.foneField(tfiltro);
+                        tfiltro.setDisable(false);
+                        break;
+                    case 5:
+                        MaskFieldUtil.cepField(tfiltro);
+                        tfiltro.setDisable(false);
+                        break;
+                    case 6:
+                        tfiltro.setDisable(false);
+                        break;    
+                    default:
+                        break;
+                }
+            }
+        });
     }
     
     private void limparCampos() {
