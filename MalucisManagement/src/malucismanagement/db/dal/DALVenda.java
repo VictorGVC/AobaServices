@@ -21,18 +21,6 @@ public class DALVenda {
         return Banco.getCon().manipular(sql);
     }
     
-    public boolean alterar(Venda v) {
-        
-        String sql = "UPDATE Vendas SET ven_total=#2, ven_datavenda='#3', cli_id='#4' "
-                + "WHERE ven_cod=" + v.getCod();
-        
-        sql = sql.replaceAll("#2", "" + v.getValortotal());
-        sql = sql.replaceAll("#3", "" + v.getDtvenda().toString());
-        sql = sql.replaceAll("#4", "" + v.getCli_id());
-        
-        return Banco.getCon().manipular(sql);
-    }
-    
     public boolean alterar(Cliente c, int v) {
         
         String sql = "UPDATE Vendas SET cli_id='" + c.getCpf() + "' WHERE ven_cod=" + v;

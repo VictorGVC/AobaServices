@@ -60,12 +60,16 @@
                      <children>
                         <Pane fx:id="pnfiltros" prefHeight="83.0" prefWidth="798.0">
                            <children>
-                              <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="93.0" layoutY="8.0" prefHeight="38.0" prefWidth="145.0" promptText="Categoria" unFocusColor="BLACK" />
-                              <JFXTextField fx:id="tfiltro" focusColor="BLACK" labelFloat="true" layoutX="272.0" layoutY="8.0" onKeyPressed="#clkTFiltro" onKeyReleased="#clkTFiltro" onKeyTyped="#clkTFiltro" prefHeight="38.0" prefWidth="433.0" unFocusColor="BLACK">
+                              <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="8.0" prefHeight="38.0" prefWidth="90.0" promptText="Categoria" unFocusColor="BLACK" />
+                              <JFXTextField fx:id="tfiltro" focusColor="BLACK" labelFloat="true" layoutX="113.0" layoutY="8.0" onKeyPressed="#clkTFiltro" onKeyReleased="#clkTFiltro" onKeyTyped="#clkTFiltro" prefHeight="38.0" prefWidth="224.0" unFocusColor="BLACK">
                                  <font>
                                     <Font size="17.0" />
                                  </font>
                               </JFXTextField>
+                              <JFXDatePicker fx:id="dpdatainicial" defaultColor="BLACK" editable="false" layoutX="344.0" layoutY="8.0" prefHeight="38.0" prefWidth="110.0" promptText="Data Inicial" />
+                              <JFXDatePicker fx:id="dpdatafinal" defaultColor="BLACK" editable="false" layoutX="465.0" layoutY="8.0" prefHeight="38.0" prefWidth="110.0" promptText="Data Final" />
+                              <JFXButton fx:id="btlimpar" layoutX="581.0" layoutY="15.0" onAction="#clkBtLimpar" prefHeight="25.0" prefWidth="100.0" text="Limpar Período" />
+                              <JFXButton fx:id="btfiltrar" layoutX="687.0" layoutY="15.0" onAction="#clkBtFiltrar" prefHeight="25.0" prefWidth="97.0" text="Filtrar Período" />
                            </children>
                         </Pane>
                         <Pane prefHeight="302.0" prefWidth="798.0">
@@ -81,7 +85,7 @@
                               <Pane fx:id="pndados2" layoutX="501.0" layoutY="2.0" prefHeight="272.0" prefWidth="305.0">
                                  <children>
                                     <JFXTextField fx:id="tcodigo" disable="true" focusColor="BLACK" labelFloat="true" layoutX="14.0" layoutY="23.0" prefHeight="32.0" prefWidth="121.0" promptText="Código" unFocusColor="BLACK" />
-                                    <JFXDatePicker fx:id="dpdatavenda" defaultColor="BLACK" layoutX="81.0" layoutY="155.0" prefHeight="32.0" prefWidth="135.0" promptText="Data da Venda" />
+                                    <JFXDatePicker fx:id="dpdatavenda" defaultColor="BLACK" editable="false" layoutX="81.0" layoutY="155.0" prefHeight="32.0" prefWidth="135.0" promptText="Data da Venda" />
                                     <JFXButton fx:id="btconfirmar" layoutX="114.0" layoutY="220.0" onAction="#clkBtConfirmar" text="Confirmar" />
                                     <JFXTextField fx:id="ttotal" disable="true" focusColor="BLACK" labelFloat="true" layoutX="170.0" layoutY="23.0" prefHeight="32.0" prefWidth="121.0" promptText="Valor Total" unFocusColor="BLACK" />
                                     <JFXTextField fx:id="tcliente" disable="true" focusColor="BLACK" labelFloat="true" layoutX="81.0" layoutY="92.0" promptText="Cliente" unFocusColor="BLACK" />

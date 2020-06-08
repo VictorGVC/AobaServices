@@ -36,9 +36,9 @@ public class DALProdmarcas {
         String sql = null;
         
         if(op == 1)
-            sql = "UPDATE prodmarcas SET estoque=" + (pm.getEstoque() - qtde) + " WHERE pro_cod=" + pm.getPro_cod();
+            sql = "UPDATE prodmarcas SET pm_estoque=" + (pm.getEstoque() - qtde) + " WHERE pro_cod='" + pm.getPro_cod() + "'";
         else if (op == 2)
-            sql = "UPDATE prodmarcas SET estoque=" + (pm.getEstoque() + qtde) + " WHERE pro_cod=" + pm.getPro_cod();
+            sql = "UPDATE prodmarcas SET pm_estoque=" + (pm.getEstoque() + qtde) + " WHERE pro_cod='" + pm.getPro_cod() + "'";
         
         return Banco.getCon().manipular(sql);
     }

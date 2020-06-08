@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="pnprincipal" dividerPositions="0.52" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaClientesController">
+<SplitPane fx:id="pnprincipal" dividerPositions="0.52" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaClientesController">
    <items>
       <VBox prefHeight="200.0" prefWidth="798.0">
          <children>
@@ -50,8 +50,8 @@
          <children>
             <Pane fx:id="pnfiltros" prefHeight="130.0" prefWidth="798.0">
                <children>
-                  <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="93.0" layoutY="8.0" prefHeight="38.0" prefWidth="145.0" promptText="Categoria" unFocusColor="BLACK" />
-                  <JFXTextField fx:id="tfiltro" focusColor="BLACK" labelFloat="true" layoutX="272.0" layoutY="8.0" onKeyPressed="#clkTFiltro" onKeyReleased="#clkTFiltro" onKeyTyped="#clkTFiltro" prefHeight="17.0" prefWidth="433.0" unFocusColor="BLACK">
+                  <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="92.0" layoutY="4.0" prefHeight="38.0" prefWidth="145.0" promptText="Categoria" unFocusColor="BLACK" />
+                  <JFXTextField fx:id="tfiltro" focusColor="BLACK" labelFloat="true" layoutX="273.0" layoutY="4.0" onKeyPressed="#clkTFiltro" onKeyReleased="#clkTFiltro" onKeyTyped="#clkTFiltro" prefHeight="38.0" prefWidth="433.0" unFocusColor="BLACK">
                      <font>
                         <Font size="17.0" />
                      </font>
