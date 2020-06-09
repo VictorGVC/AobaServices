@@ -12,7 +12,6 @@ import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.ListaEscola;
 import malucismanagement.db.entidades.ListaItens;
-import malucismanagement.db.entidades.Produto;
 
 /**
  *
@@ -72,7 +71,8 @@ public class DALListaMateriais
         }
         catch(SQLException ex){}
         
-        aux.setProdutos(prod);
+        if(aux != null)
+            aux.setProdutos(prod);
         
         return aux;
     }

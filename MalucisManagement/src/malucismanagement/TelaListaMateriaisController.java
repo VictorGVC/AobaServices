@@ -9,11 +9,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
-import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.AbstractList;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -23,13 +20,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.SkinBase;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -37,12 +32,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALListaMateriais;
 import malucismanagement.db.dal.DALProduto;
-import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Cliente;
 import malucismanagement.db.entidades.ListaEscola;
 import malucismanagement.db.entidades.ListaItens;
@@ -78,8 +71,6 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private TableColumn<ListaItens, Integer> colquantidade;
     @FXML
-    private TableColumn<ListaItens, Double> coltotal;
-    @FXML
     private Tab tabescolas;
     @FXML
     private Tab tablista;
@@ -97,10 +88,6 @@ public class TelaListaMateriaisController implements Initializable {
     private TableColumn<Produto, Double> colprecoprod;
     @FXML
     private VBox pnpesquisa1;
-    @FXML
-    private TableColumn<ListaItens, Double> colpreco;
-    @FXML
-    private Label lbltotal1;
     @FXML
     private AnchorPane pntabescolas;
     @FXML

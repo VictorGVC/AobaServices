@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Compras;
-import malucismanagement.db.entidades.Fornecedor;
 
 public class DALCompras {
     public boolean gravar(Compras c) throws SQLException {

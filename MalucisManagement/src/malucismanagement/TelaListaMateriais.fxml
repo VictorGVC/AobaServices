@@ -99,28 +99,10 @@
                               <TableView fx:id="tvlista" onMouseClicked="#clkTabela" prefHeight="305.0" prefWidth="708.0">
                                  <columns>
                                     <TableColumn fx:id="colcod" prefWidth="101.0" text="Codigo" />
-                                    <TableColumn fx:id="coldescricao" prefWidth="512.0" text="Descrição" />
-                                    <TableColumn fx:id="colpreco" prefWidth="73.0" text="Preço" />
-                                    <TableColumn fx:id="colquantidade" minWidth="0.0" prefWidth="43.0" text="Qtde" />
-                                    <TableColumn fx:id="coltotal" prefWidth="59.0" text="Total" />
+                                    <TableColumn fx:id="coldescricao" prefWidth="617.0" text="Descrição" />
+                                    <TableColumn fx:id="colquantidade" minWidth="0.0" prefWidth="70.0" text="Qtde" />
                                  </columns>
                               </TableView>
-                              <HBox alignment="CENTER_RIGHT" prefHeight="82.0" prefWidth="708.0">
-                                 <children>
-                                    <Label alignment="CENTER_RIGHT" text="Total:">
-                                       <padding>
-                                          <Insets right="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label fx:id="lbltotal1" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets right="30.0" />
-                                 </padding>
-                              </HBox>
                            </children>
                         </VBox>
                      </items>

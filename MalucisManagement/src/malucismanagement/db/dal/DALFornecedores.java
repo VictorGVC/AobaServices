@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.ObservableList;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Fornecedor;
 

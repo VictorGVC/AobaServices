@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Cliente;
-import malucismanagement.db.entidades.ListaEscola;
 
 public class DALCliente {
     

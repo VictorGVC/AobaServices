@@ -1,15 +1,12 @@
 package malucismanagement.db.dal;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
 import malucismanagement.db.entidades.Contaspagar;
-import malucismanagement.db.entidades.Fornecedor;
 
 public class DALContaspagar {
     public boolean gravar(Contaspagar ct) throws SQLException {
