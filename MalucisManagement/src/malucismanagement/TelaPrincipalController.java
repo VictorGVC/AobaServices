@@ -24,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javax.imageio.ImageIO;
 import malucismanagement.db.banco.Banco;
@@ -247,7 +248,7 @@ public class TelaPrincipalController implements Initializable {
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
         stage.setTitle("Vendas");
         stage.setScene(scene);
-        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
     }
 

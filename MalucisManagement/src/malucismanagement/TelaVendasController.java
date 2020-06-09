@@ -759,7 +759,7 @@ public class TelaVendasController implements Initializable {
     private void clkBtAdicionar(ActionEvent event) throws SQLException {
         
         int cod, qtde;
-        boolean flag = false;
+        boolean flag = false, add = true;
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
         setCorAlert("BLACK");
@@ -782,19 +782,53 @@ public class TelaVendasController implements Initializable {
         }
         else {
             
-            qtde = Integer.parseInt(tqtde.getText());
-            DALMarcas dalm = new DALMarcas();
-            Marcas m = dalm.getMarca(tmarca.getText());
-            DALItensVenda dal = new DALItensVenda();
-            ItensVenda i = new ItensVenda(m.getMar_cod(), qtde, Double.parseDouble(tpreco.getText()), (Double.parseDouble(tpreco.getText()) * qtde), tcodigodebarras.getText());
-            ObservableList<ItensVenda> modelo;
-        
-            list.add(i);
-            modelo = FXCollections.observableArrayList(list);
-            tvprodutos.setItems(modelo);
-            ttotal.setText("" + (Double.parseDouble(ttotal.getText()) + Double.parseDouble(tpreco.getText()) * qtde));
-            limparCampos1();
-            tcodigodebarras.requestFocus();
+            for(int i = 0 ; i < list.size() && add; i++){
+                
+                if(list.get(i).getPro_cod().equals(tcodigodebarras.getText())){
+                    
+                    add = false;
+                    a.setContentText("Produto já adicionado!");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                }
+            }
+            if(add){
+                
+                DALProdmarcas dalpm = new DALProdmarcas();
+                Prodmarcas pm = dalpm.getProdEMarca(tcodigodebarras.getText());
+
+                qtde = Integer.parseInt(tqtde.getText());
+                if(qtde <= pm.getEstoque()){
+
+                    DALMarcas dalm = new DALMarcas();
+                    Marcas m = dalm.getMarca(tmarca.getText());
+                    DALItensVenda dal = new DALItensVenda();
+                    ItensVenda i = new ItensVenda(m.getMar_cod(), qtde, Double.parseDouble(tpreco.getText()), (Double.parseDouble(tpreco.getText()) * qtde), tcodigodebarras.getText());
+                    ObservableList<ItensVenda> modelo;
+
+                    list.add(i);
+                    modelo = FXCollections.observableArrayList(list);
+                    tvprodutos.setItems(modelo);
+                    ttotal.setText("" + (Double.parseDouble(ttotal.getText()) + Double.parseDouble(tpreco.getText()) * qtde));
+                    limparCampos1();
+                    tcodigodebarras.requestFocus();
+                }
+                else{
+
+                    a.setContentText("Estoque indisponivel!, só existem " + pm.getEstoque() + " unidades.");
+                    a.setHeaderText("Alerta");
+                    a.setTitle("Alerta");
+                    a.showAndWait();
+                    tqtde.setText("");
+                    tqtde.requestFocus();
+                }
+            }
+            else{
+                
+                limparCampos1();
+                tcodigodebarras.requestFocus();
+            }
         }
     }
 
