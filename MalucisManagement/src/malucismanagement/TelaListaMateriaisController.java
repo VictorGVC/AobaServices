@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -18,12 +19,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -110,17 +113,21 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private TableView<Produto> tvproduto;
     @FXML
-    private TableView<ListaEscola> tvlista;
+    private TableView<ListaItens> tvlista;
     @FXML
     private JFXTabPane pntab;
     @FXML
     private TableColumn<Produto, String> colcodprod;
     @FXML
-    private TableColumn<ListaItens, String> colcod;
+    private TableColumn<ListaItens, Integer> colcod;
     @FXML
     private JFXTextField txano;
     
     private ListaEscola escolaatual;
+    
+    private List<ListaItens> itens;
+    
+    private ListaItens itematual;
 
     /**
      * Initializes the controller class.
@@ -129,7 +136,7 @@ public class TelaListaMateriaisController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         initCb();
         initColunas();
-        
+        itens = new ArrayList<>();
     }   
     
     private void initColunas()
@@ -158,23 +165,50 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkBtConfirmar(ActionEvent event) {
+        
     }
 
     @FXML
     private void clkBtCancelar(ActionEvent event) {
+        ObservableList <Node> componentes = pntablista.getChildren();
+        
+        for(Node n : componentes) {
+            
+            if (n instanceof TextInputControl)
+                ((TextInputControl)n).setText("");
+            cbcategoria.getSelectionModel().select(-1);
+            itens.clear();
+        }
     }
 
 
     @FXML
     private void clkBtApagar(ActionEvent event) {
+        itens.remove(itematual);
+        
+        ObservableList<ListaItens> modelo;
+
+        modelo = FXCollections.observableArrayList(itens);
+        tvlista.setItems(modelo);
+        tvlista.refresh();
     }
 
     @FXML
     private void clkBtAlterar(ActionEvent event) {
+        txqtde.setText(""+itens.get(itens.indexOf(itematual)).getQuantidade());
+        
+        itens.remove(itematual);
+        
+        ObservableList<ListaItens> modelo;
+
+        modelo = FXCollections.observableArrayList(itens);
+        tvlista.setItems(modelo);
+        tvlista.refresh();
     }
 
     @FXML
     private void clkTabela(MouseEvent event) {
+        itematual = tvlista.getSelectionModel().getSelectedItem();
     }
 
     @FXML
@@ -206,10 +240,17 @@ public class TelaListaMateriaisController implements Initializable {
     }
 
     @FXML
-    private void clkBtNovaLista(ActionEvent event) {
+    private void clkBtNovaLista(ActionEvent event) 
+    {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
         if(cbescolas.getSelectionModel().getSelectedIndex() == -1)
         {
-            
+            a.setContentText("escola deve ser selecionada");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            cbescolas.requestFocus();
         }
         else
         {
@@ -229,7 +270,7 @@ public class TelaListaMateriaisController implements Initializable {
         txescola.setText(escolaatual.getEscola());
         txturma.setText(escolaatual.getSerie());
         
-        ObservableList<ListaEscola> modelo;
+        ObservableList<ListaItens> modelo;
         
         modelo = FXCollections.observableArrayList((List)escolaatual.getProdutos());
         tvlista.setItems(modelo);
@@ -258,7 +299,25 @@ public class TelaListaMateriaisController implements Initializable {
         }
         else
         {
+            boolean b = true;
+            ListaItens aux = new ListaItens(Integer.parseInt(txqtde.getText()), Integer.parseInt(tvproduto.getSelectionModel().getSelectedItem().getPro_cod()), tvproduto.getSelectionModel().getSelectedItem().getPro_nome());
+            for (ListaItens i : itens) 
+            {
+                if(i.getCodigo() == aux.getCodigo())
+                {
+                    i.setQuantidade(i.getQuantidade() + aux.getQuantidade());
+                    b = false;
+                }
+            }
             
+            if(b)
+                itens.add(aux);
+                        
+            ObservableList<ListaItens> modelo;
+        
+            modelo = FXCollections.observableArrayList(itens);
+            tvlista.setItems(modelo);
+            tvlista.refresh();
         }
     }
 
