@@ -59,7 +59,7 @@ public class DALListaMateriais
         }
         catch(SQLException ex){}
         
-        sql = "SELECT * FROM  listaescola le INNER JOIN listamateriais lm ON lm.liscod = le.lis_cod "
+        sql = "SELECT * FROM  listaescola le INNER JOIN listamateriais lm ON lm.lis_cod = le.lis_cod "
                 + "INNER JOIN produto p ON lm.pro_cod = p.pro_cod";
         
         rs = Banco.getCon().consultar(sql);

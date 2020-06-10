@@ -4,6 +4,11 @@ public class CategoriaProduto {
     int cat_cod;
     String cat_nome;
 
+    @Override
+    public String toString() {
+        return this.getCat_nome();
+    }
+    
     public CategoriaProduto() {
     }
 

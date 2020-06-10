@@ -36,6 +36,7 @@ import malucismanagement.db.dal.DALCategoriaProduto;
 import malucismanagement.db.dal.DALCliente;
 import malucismanagement.db.dal.DALListaMateriais;
 import malucismanagement.db.dal.DALProduto;
+import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Cliente;
 import malucismanagement.db.entidades.ListaEscola;
 import malucismanagement.db.entidades.ListaItens;
@@ -57,7 +58,7 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private JFXTextField txturma;
     @FXML
-    private JFXComboBox<String> cbcategoria;
+    private JFXComboBox<CategoriaProduto> cbcategoria;
     @FXML
     private JFXTextField txqtde;
     @FXML
@@ -84,8 +85,6 @@ public class TelaListaMateriaisController implements Initializable {
     private Label lbobg1;
     @FXML
     private TableColumn<Produto, String> coldescprod;
-    @FXML
-    private TableColumn<Produto, Double> colprecoprod;
     @FXML
     private VBox pnpesquisa1;
     @FXML
@@ -135,12 +134,13 @@ public class TelaListaMateriaisController implements Initializable {
     
     private void initColunas()
     {
+        colcod.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         coldescricao.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colquantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         colescola.setCellValueFactory(new PropertyValueFactory<>("escola"));
         colturma.setCellValueFactory(new PropertyValueFactory<>("serie"));
         colcodprod.setCellValueFactory(new PropertyValueFactory<>("pro_cod"));
         coldescprod.setCellValueFactory(new PropertyValueFactory<>("pro_nome"));
-        colprecoprod.setCellValueFactory(new PropertyValueFactory<>("pro_preco"));
     }
     
     
@@ -152,7 +152,7 @@ public class TelaListaMateriaisController implements Initializable {
         cbescolas.setItems(FXCollections.observableArrayList(dal.getEscolas("")));
         
         DALCategoriaProduto dalc = new DALCategoriaProduto();
-        cbcategoria.setItems(FXCollections.observableArrayList(dalc.getCategoriaProduto()));
+        cbcategoria.setItems(FXCollections.observableArrayList(dalc.getCategoriaProdutoItens("")));
         
     }
 
@@ -185,7 +185,7 @@ public class TelaListaMateriaisController implements Initializable {
             carregaTabelaE("c.cli_id = '" + cbescolas.getValue().getCpf() + "' AND lis_anoreferencia LIKE '%" +txano.getText()+ "%'");
     }
     
-    private void carregaTabelaP(String c) throws SQLException {
+    private void carregaTabelaP(CategoriaProduto c) throws SQLException {
         
         DALProduto dal = new DALProduto();
         List<Produto> res = dal.getProdutosCategoria(c);
@@ -215,7 +215,6 @@ public class TelaListaMateriaisController implements Initializable {
         {
             pntab.getSelectionModel().selectNext();
             txescola.setText(cbescolas.getValue().getNome());
-            tablista.getContent().requestFocus();
             
             txturma.requestFocus();
         }
@@ -224,13 +223,16 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private void clkBtEditarEscola(MouseEvent event) {
         pntab.getSelectionModel().selectNext();
-        txescola.setText(tvescolas.getSelectionModel().getSelectedItem().getEscola());
-        txturma.setText(tvescolas.getSelectionModel().getSelectedItem().getSerie());
-        
         DALListaMateriais dal = new DALListaMateriais();
         
         escolaatual = dal.getEscolaProdutos(tvescolas.getSelectionModel().getSelectedItem().getCodigo());
+        txescola.setText(escolaatual.getEscola());
+        txturma.setText(escolaatual.getSerie());
         
+        ObservableList<ListaEscola> modelo;
+        
+        modelo = FXCollections.observableArrayList((List)escolaatual.getProdutos());
+        tvlista.setItems(modelo);
     }
 
     @FXML

@@ -78,9 +78,8 @@
                                     <JFXTextField fx:id="txqtde" layoutX="324.0" layoutY="179.0" prefHeight="25.0" prefWidth="52.0" promptText="Qtde" />
                                     <TableView fx:id="tvproduto" layoutX="446.0" layoutY="50.0" prefHeight="174.0" prefWidth="327.0">
                                       <columns>
-                                          <TableColumn fx:id="colcodprod" prefWidth="82.0" text="codigo" />
-                                        <TableColumn fx:id="coldescprod" prefWidth="189.0" text="Descrição" />
-                                        <TableColumn fx:id="colprecoprod" minWidth="0.0" prefWidth="55.0" text="Preço" />
+                                          <TableColumn fx:id="colcodprod" prefWidth="87.0" text="codigo" />
+                                        <TableColumn fx:id="coldescprod" prefWidth="239.0" text="Descrição" />
                                       </columns>
                                     </TableView>
                                  </children>

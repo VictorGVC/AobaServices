@@ -68,4 +68,28 @@ public class DALCategoriaProduto {
         
         return lista;
     }
+    
+    /**
+     *
+     * @param filtro
+     * @return
+     */
+    public List<CategoriaProduto> getCategoriaProdutoItens(String filtro)
+    {
+        List <CategoriaProduto> lista = new ArrayList();
+        String sql = "SELECT * FROM CategoriaProduto";
+        
+        if(!filtro.isEmpty())
+            sql += " WHERE " + filtro;
+        
+        ResultSet rs = Banco.getCon().consultar(sql);
+        try {
+            while(rs.next()){
+                lista.add(new CategoriaProduto(rs.getInt("cat_cod"),rs.getString("cat_nome")));
+            }
+        } catch (SQLException e) {
+        }
+        
+        return lista;
+    }
 }

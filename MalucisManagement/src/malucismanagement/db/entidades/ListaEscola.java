@@ -20,13 +20,13 @@ public class ListaEscola
     private Date data;
     private double total;
     private int codigo;
-    private ArrayList<ListaItens> produtos = new ArrayList<ListaItens>();
+    private List<ListaItens> produtos = new ArrayList<ListaItens>();
 
-    public ArrayList<ListaItens> getProdutos() {
+    public List<ListaItens> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(ArrayList<ListaItens> produtos) {
+    public void setProdutos(List<ListaItens> produtos) {
         this.produtos = produtos;
     }
     

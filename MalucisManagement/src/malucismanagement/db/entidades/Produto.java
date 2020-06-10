@@ -8,6 +8,11 @@ public class Produto {
     public Produto() {
     }
 
+    public Produto(String pro_cod, String pro_nome) {
+        this.pro_cod = pro_cod;
+        this.pro_nome = pro_nome;
+    }
+    
     public Produto(String pro_cod, int pro_quantidade, String cat_cod, double pro_preco, String pro_nome) {
         this.pro_cod = pro_cod;
         this.pro_quantidade = pro_quantidade;

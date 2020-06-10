@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
+import malucismanagement.db.entidades.CategoriaProduto;
 import malucismanagement.db.entidades.Produto;
 
 public class DALProduto {
@@ -146,6 +147,24 @@ public class DALProduto {
                         Double.parseDouble(rs.getString("pro_preco")),rs.getString("pro_nome")));
             }
         } catch (Exception e) {
+                System.out.println(e);
+        }
+        
+        return lista;
+    }
+    
+    public List<Produto> getProdutosCategoria(CategoriaProduto categoria) throws SQLException{
+        
+        List <Produto> lista = new ArrayList();
+        DALCategoriaProduto ctdal = new DALCategoriaProduto();
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM produto p INNER JOIN CategoriaProduto ct ON"
+                + " ct.cat_cod = p.cat_cod and ct.cat_cod ="+categoria.getCat_cod());
+        
+        try {
+            while(rs.next()){
+                lista.add(new Produto(rs.getString("pro_cod"),rs.getString("pro_nome")));
+            }
+        } catch (SQLException e) {
                 System.out.println(e);
         }
         
