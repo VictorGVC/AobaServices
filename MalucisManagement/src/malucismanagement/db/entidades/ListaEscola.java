@@ -48,6 +48,11 @@ public class ListaEscola
         return escola;
     }
 
+    public ListaEscola(String serie, String cnpj) {
+        this.serie = serie;
+        this.cnpj = cnpj;
+    }
+
     public ListaEscola(String escola, String serie, String descricao, double total) {
         this.escola = escola;
         this.serie = serie;

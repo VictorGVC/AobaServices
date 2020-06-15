@@ -164,8 +164,41 @@ public class TelaListaMateriaisController implements Initializable {
     }
 
     @FXML
-    private void clkBtConfirmar(ActionEvent event) {
+    private void clkBtConfirmar(ActionEvent event) throws SQLException 
+    {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
         
+        if(txturma.getText().isEmpty())
+        {
+            a.setContentText("Turma deve ser informada!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txturma.requestFocus();
+        }
+        else if(itens.isEmpty())
+        {
+            a.setContentText("Pelo menos um produto deve ser adicionado!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+        }
+        else
+        {
+            escolaatual = new ListaEscola(txturma.getText(), cbescolas.getValue().getCpf());
+            escolaatual.setProdutos(itens);
+            DALListaMateriais dal = new DALListaMateriais();
+            
+            if(dal.salvar(escolaatual))
+            {
+                
+            }
+            else
+            {
+                
+            }
+            
+        }
     }
 
     @FXML

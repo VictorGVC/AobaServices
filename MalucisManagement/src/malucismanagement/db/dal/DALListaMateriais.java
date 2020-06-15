@@ -76,4 +76,65 @@ public class DALListaMateriais
         
         return aux;
     }
+    
+    public boolean salvar(ListaEscola escola) throws SQLException
+    {
+        boolean b = true;
+        
+        try
+        {
+            Banco.getCon().getConnect().setAutoCommit(false);
+            
+            String sql;
+            
+            sql = "INSERT INTO listaescola (cli_id, lis_data, lis_serie, lis_anoreferencia)"
+                    + "VALUES ('#1', current_date, '#2', date_trunc('year',current_date))";
+            
+            sql = sql.replaceAll("#1",escola.getCnpj());
+            sql = sql.replaceAll("#2",escola.getSerie());
+            
+            try{
+                //p.executeUpdate();
+                Banco.getCon().manipular(sql);
+            }
+            catch(Exception e)
+            {
+                b = false;
+                System.out.println(e);
+            }
+            
+            int id = Banco.getCon().getMaxPK("listaescola", "lis_cod");
+
+            try
+            {
+                //laço para insert dos itens da comanda
+                //caso deu erro: ok=false;
+                for (ListaItens item : escola.getProdutos()) 
+                {
+                    sql = "INSERT INTO listamateriais (lis_cod,pro_cod,lis_quantidade)"
+                            + "VALUES (#1,#2,#3)";
+                    sql = sql.replace("#1",""+id);
+                    sql = sql.replace("#2",""+item.getCodigo());
+                    sql = sql.replace("#3",""+item.getQuantidade());
+                    Banco.getCon().manipular(sql);
+                }   
+            }
+            catch(Exception e)
+            {
+                b = false;
+            }
+            
+        }
+        catch(SQLException ex)
+        {
+            System.out.println(ex);
+        }
+        
+        if(b)
+            Banco.getCon().getConnect().commit();
+        else
+            Banco.getCon().getConnect().rollback();
+        
+        return b;
+    }
 }
