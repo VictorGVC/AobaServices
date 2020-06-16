@@ -570,6 +570,17 @@ public class TelaVendasController implements Initializable {
         ttotal.setText("0");
     }
     
+    private void limparCamposPg() {
+        
+        ObservableList <Node> componentes = pnprincipal1.getChildren();
+        
+        for(Node n : componentes) {
+            
+            if (n instanceof TextInputControl)
+                ((TextInputControl)n).setText("");
+        }
+    }
+    
     private void setCorAlert(String cor){
         
         setCorAlert(tcodigodebarras, cor);
@@ -956,27 +967,27 @@ public class TelaVendasController implements Initializable {
         
         if(cbcategoria.getSelectionModel().getSelectedIndex() != -1){
 
-                switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
+            switch (cbcategoria.getSelectionModel().getSelectedIndex()) {
 
-                    case 1:
-                        if(!"".equals(tfiltro.getText()))
-                            sql = "(ven_cod = " + Integer.parseInt(tfiltro.getText()) + " OR ven_cod >= " + (Integer.parseInt(tfiltro.getText()) * 10) + " AND ven_cod <= " + (Integer.parseInt(tfiltro.getText()) * 10 + 9) + ")";
-                        else
-                            sql = "";
-                        break;
-                    case 2:
-                        sql = "UPPER(cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'";
-                        break;
-                    case 3:
-                        if(!"".equals(tfiltro.getText()))
-                            sql = "(ven_total = " + Double.parseDouble(tfiltro.getText()) + " OR ven_total >= " + (Double.parseDouble(tfiltro.getText()) * 10) + " AND ven_total <= " + (Double.parseDouble(tfiltro.getText()) * 10 + 9) + ")";
-                        else
-                            sql = "";
-                        break;
-                    default:
-                        break;
-                }
+                case 1:
+                    if(!"".equals(tfiltro.getText()))
+                        sql = "(ven_cod = " + Integer.parseInt(tfiltro.getText()) + " OR ven_cod >= " + (Integer.parseInt(tfiltro.getText()) * 10) + " AND ven_cod <= " + (Integer.parseInt(tfiltro.getText()) * 10 + 9) + ")";
+                    else
+                        sql = "";
+                    break;
+                case 2:
+                    sql = "UPPER(cli_id) LIKE '%" + tfiltro.getText().toUpperCase() + "%'";
+                    break;
+                case 3:
+                    if(!"".equals(tfiltro.getText()))
+                        sql = "(ven_total = " + Double.parseDouble(tfiltro.getText()) + " OR ven_total >= " + (Double.parseDouble(tfiltro.getText()) * 10) + " AND ven_total <= " + (Double.parseDouble(tfiltro.getText()) * 10 + 9) + ")";
+                    else
+                        sql = "";
+                    break;
+                default:
+                    break;
             }
+        }
         
         return sql;
     }
@@ -1159,6 +1170,7 @@ public class TelaVendasController implements Initializable {
         
         if(btconfirmarpg.getText().equals("Nova Venda")){
             
+            limparCamposPg();
             carregaTabelaVendas("");
             selecionaTab(false);
             btconfirmarpg.setText("Confirmar");

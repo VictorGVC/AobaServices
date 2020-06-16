@@ -53,7 +53,7 @@ public abstract class MaskFieldUtil {
             }
         });
     }
-
+    
     public static void dateField(final TextField textField) {
         
         MaskFieldUtil.maxField(textField, 10);
