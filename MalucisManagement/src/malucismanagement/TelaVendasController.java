@@ -635,6 +635,7 @@ public class TelaVendasController implements Initializable {
     @FXML
     private void clkBtApagar(ActionEvent event) throws SQLException {
         
+        boolean flag = true;
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         ButtonType btsim = new ButtonType("Sim");
         ButtonType btnao = new ButtonType("Não");
@@ -645,24 +646,45 @@ public class TelaVendasController implements Initializable {
             
             a.setHeaderText("Exclusão!");
             a.setTitle("Exclusão");
-            a.setContentText("Confirma a exclusão?");
+            a.setContentText("Confirma a exclusão da venda?");
             if (a.showAndWait().get() == btsim){
                 
                 DALItensVenda dali = new DALItensVenda();
                 ItensVenda iv;
                 
                 iv = dali.getVenda(tvvendas.getSelectionModel().getSelectedItem().getCod());
-                for(int i = 0 ; i < list.size() ; i++){
+                a.setHeaderText("Exclusão!");
+                a.setTitle("Atualizar Estoque");
+                a.setContentText("Estornar produtos?");
+                if (a.showAndWait().get() == btsim){
+                    
+                    for(int i = 0 ; i < list.size() ; i++){
 
-                    iv = list.get(i);
-                    DALProdmarcas dalpm = new DALProdmarcas();
-                    Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
-                    dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
+                        iv = list.get(i);
+                        DALProdmarcas dalpm = new DALProdmarcas();
+                        Prodmarcas pm = dalpm.getProdEMarca(iv.getPro_cod());
+                        dalpm.atualizarEstoque(pm, iv.getQtde(), 2);
+                    }
+                    if(!dali.apagarItens(iv))
+                        flag = false;
                 }
-                if(dali.apagarItens(iv)){
+                else if(!dali.manterItens(iv))
+                    flag = false;
+                if(flag){
                     
                     DALContasReceber dalrec = new DALContasReceber();
-                    if(dalrec.apagar(tvvendas.getSelectionModel().getSelectedItem().getCod())){
+                    
+                    a.setHeaderText("Exclusão!");
+                    a.setTitle("Contas a receber");
+                    a.setContentText("Manter contas a receber?");
+                    if (a.showAndWait().get() == btsim){
+                        
+                        if(!dalrec.manter(tvvendas.getSelectionModel().getSelectedItem().getCod()))
+                            flag = false;
+                    }
+                    else if(!dalrec.apagar(tvvendas.getSelectionModel().getSelectedItem().getCod()))
+                        flag = false;
+                    if(flag){
                         
                         DALVenda dal = new DALVenda();
                         Venda v;

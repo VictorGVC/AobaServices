@@ -60,6 +60,11 @@ public class DALContasReceber {
         return Banco.getCon().manipular("DELETE FROM ContasReceber WHERE ven_cod=" + v);
     }
     
+     public boolean manter(int v) {
+        
+        return Banco.getCon().manipular("UPDATE ContasReceber SET ven_cod=null WHERE ven_cod=" + v);
+    }
+    
     public ContasReceber getCon(int cod) {
         
         ContasReceber aux = null;
