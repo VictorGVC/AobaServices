@@ -53,7 +53,9 @@ public class ListaEscola
         this.cnpj = cnpj;
     }
 
-    public ListaEscola(String escola, String serie, String descricao, double total) {
+    public ListaEscola(int codigo, String escola, String serie, String descricao, double total) 
+    {
+        this.codigo = codigo;
         this.escola = escola;
         this.serie = serie;
         this.descricao = descricao;
@@ -68,7 +70,9 @@ public class ListaEscola
         this.data = data;
     }
 
-    public ListaEscola(String escola, String serie, String descricao, String cnpj, double total, Date data) {
+    public ListaEscola(int codigo, String escola, String serie, String descricao, String cnpj, double total, Date data) 
+    {
+        this.codigo = codigo;
         this.escola = escola;
         this.serie = serie;
         this.descricao = descricao;
