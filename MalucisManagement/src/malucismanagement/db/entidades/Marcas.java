@@ -1,6 +1,12 @@
 package malucismanagement.db.entidades;
 
 public class Marcas {
+    
+    @Override
+    public String toString() {
+        return this.getMar_nome();
+    }
+    
     int mar_cod;
     String mar_nome;
 

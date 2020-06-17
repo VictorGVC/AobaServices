@@ -158,12 +158,10 @@ public class TelaListaMateriaisController implements Initializable {
     private void initCb()
     {
         DALCliente dal = new DALCliente();
-        
         cbescolas.setItems(FXCollections.observableArrayList(dal.getEscolas("")));
         
         DALCategoriaProduto dalc = new DALCategoriaProduto();
         cbcategoria.setItems(FXCollections.observableArrayList(dalc.getCategoriaProdutoItens("")));
-        
     }
 
     @FXML

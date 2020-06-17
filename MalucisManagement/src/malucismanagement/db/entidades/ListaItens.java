@@ -13,7 +13,25 @@ public class ListaItens
 {
     int quantidade, codigo;
     double preco,total;
-    String nome,categoria;
+    String nome,categoria,marca;
+
+    public ListaItens(int quantidade, int codigo, double preco, double total, String nome, String categoria, String marca) {
+        this.quantidade = quantidade;
+        this.codigo = codigo;
+        this.preco = preco;
+        this.total = total;
+        this.nome = nome;
+        this.categoria = categoria;
+        this.marca = marca;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
 
     public ListaItens(int quantidade, double preco, int codigo, String nome, String categoria) {
         this.quantidade = quantidade;

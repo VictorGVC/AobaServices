@@ -19,7 +19,6 @@ import malucismanagement.db.entidades.ListaItens;
  */
 public class DALListaMateriais 
 {
-    
     public List<ListaEscola> get(String filtro)
     {
         String sql = "SELECT * FROM Cliente c RIGHT JOIN listaescola l ON c.cli_id = l.cli_id";
