@@ -137,6 +137,9 @@ public class TelaListaMateriaisController implements Initializable {
         initCb();
         initColunas();
         itens = new ArrayList<>();
+        escolaatual = new ListaEscola();
+        escolaatual.setCodigo(-1);
+        tablista.setDisable(true);
     }   
     
     private void initColunas()
@@ -185,17 +188,36 @@ public class TelaListaMateriaisController implements Initializable {
         }
         else
         {
-            escolaatual = new ListaEscola(txturma.getText(), cbescolas.getValue().getCpf());
-            escolaatual.setProdutos(itens);
-            DALListaMateriais dal = new DALListaMateriais();
-            
-            if(dal.salvar(escolaatual))
+            if(escolaatual.getCodigo() == -1)
             {
-                
+                escolaatual = new ListaEscola(txturma.getText(), cbescolas.getValue().getCpf());
+                escolaatual.setProdutos(itens);
+                DALListaMateriais dal = new DALListaMateriais();
+
+                if(dal.salvar(escolaatual))
+                {
+
+                }
+                else
+                {
+
+                }
             }
             else
             {
-                
+                escolaatual.setSerie(txturma.getText());
+                escolaatual.setCnpj(cbescolas.getValue().getCpf());
+                escolaatual.setProdutos(itens);
+                DALListaMateriais dal = new DALListaMateriais();
+
+                if(dal.alterar(escolaatual))
+                {
+
+                }
+                else
+                {
+
+                }
             }
             
         }
@@ -203,15 +225,13 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkBtCancelar(ActionEvent event) {
-        ObservableList <Node> componentes = pntablista.getChildren();
         
-        for(Node n : componentes) {
-            
-            if (n instanceof TextInputControl)
-                ((TextInputControl)n).setText("");
-            cbcategoria.getSelectionModel().select(-1);
-            itens.clear();
-        }
+        txturma.clear();
+        txqtde.clear();
+        cbcategoria.getSelectionModel().select(-1);
+        pntab.selectionModelProperty().get().selectPrevious();
+        tablista.setDisable(true);
+        tvlista.getItems().clear();
     }
 
 
@@ -275,6 +295,7 @@ public class TelaListaMateriaisController implements Initializable {
     @FXML
     private void clkBtNovaLista(ActionEvent event) 
     {
+        tablista.setDisable(false);
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         
         if(cbescolas.getSelectionModel().getSelectedIndex() == -1)
@@ -296,9 +317,11 @@ public class TelaListaMateriaisController implements Initializable {
 
     @FXML
     private void clkBtEditarEscola(MouseEvent event) {
+        tablista.setDisable(false);
         pntab.getSelectionModel().selectNext();
         DALListaMateriais dal = new DALListaMateriais();
         
+        tvescolas.getSelectionModel().getSelectedIndex();
         escolaatual = dal.getEscolaProdutos(tvescolas.getSelectionModel().getSelectedItem().getCodigo());
         txescola.setText(escolaatual.getEscola());
         txturma.setText(escolaatual.getSerie());
@@ -307,6 +330,7 @@ public class TelaListaMateriaisController implements Initializable {
         
         modelo = FXCollections.observableArrayList((List)escolaatual.getProdutos());
         tvlista.setItems(modelo);
+        itens = escolaatual.getProdutos();
     }
 
     @FXML
@@ -367,7 +391,5 @@ public class TelaListaMateriaisController implements Initializable {
         else if(!txano.getText().isEmpty() && cbescolas.getSelectionModel().getSelectedIndex() != -1)
             carregaTabelaE("c.cli_id = '" + cbescolas.getValue().getCpf() + "' AND lis_anoreferencia LIKE '%" +txano.getText()+ "%'");
     }
-    
-    
     
 }
