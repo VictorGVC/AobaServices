@@ -2,6 +2,7 @@ package malucismanagement.db.dal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import malucismanagement.db.banco.Banco;
@@ -60,7 +61,22 @@ public class DALContasReceber {
         return Banco.getCon().manipular("DELETE FROM ContasReceber WHERE ven_cod=" + v);
     }
     
-    public ContasReceber getCon(int cod) {
+    public boolean manter(int v) {
+        
+        return Banco.getCon().manipular("UPDATE ContasReceber SET ven_cod=null WHERE ven_cod=" + v);
+    }
+    
+    public boolean quitar(ContasReceber cr) {
+        
+        return Banco.getCon().manipular("UPDATE ContasReceber SET rec_dtpagamento='" + LocalDate.now() + "' WHERE rec_cod=" + cr.getCod());
+    }
+    
+    public boolean estornar(ContasReceber cr) {
+        
+        return Banco.getCon().manipular("UPDATE ContasReceber SET rec_dtpagamento=null WHERE rec_cod=" + cr.getCod());
+    }
+    
+    public ContasReceber getCon1(int cod) {
         
         ContasReceber aux = null;
         ResultSet rs = Banco.getCon().consultar("SELECT * FROM ContasReceber WHERE rec_cod=" + cod);
@@ -69,20 +85,37 @@ public class DALContasReceber {
             
             if(rs.next())
                 aux = new ContasReceber(rs.getInt("rec_cod"),rs.getInt("rec_parcela"),rs.getInt("ven_cod"),
-                        rs.getDouble("rec_valor"),rs.getDate("rec_datavencimento").toLocalDate(), 
-                        rs.getDate("rec_datapagamento").toLocalDate(),rs.getString("rec_tipo"),rs.getString("rec_contato"));
+                        rs.getDouble("rec_valor"),rs.getDate("rec_dtvencimento").toLocalDate(), 
+                        rs.getString("rec_tipo"),rs.getString("rec_contato"));
         } 
         catch(SQLException ex) {}
         
         return aux;
     }
     
-    public List<ContasReceber> getListRec(String filtro) {
+    public ContasReceber getCon2(int cod) {
         
-        String sql = "SELECT * FROM ContasReceber";
+        ContasReceber aux = null;
+        ResultSet rs = Banco.getCon().consultar("SELECT * FROM ContasReceber WHERE rec_cod=" + cod);
+        
+        try{
+            
+            if(rs.next())
+                aux = new ContasReceber(rs.getInt("rec_cod"),rs.getInt("rec_parcela"),rs.getInt("ven_cod"),
+                        rs.getDouble("rec_valor"),rs.getDate("rec_dtvencimento").toLocalDate(), 
+                        rs.getDate("rec_dtpagamento").toLocalDate(),rs.getString("rec_tipo"),rs.getString("rec_contato"));
+        } 
+        catch(SQLException ex) {}
+        
+        return aux;
+    }
+    
+    public List<ContasReceber> getListRec1(String filtro) {
+        
+        String sql = "SELECT * FROM ContasReceber WHERE rec_dtpagamento is null";
         
         if(!filtro.isEmpty())
-            sql += " WHERE " + filtro;
+            sql += " AND " + filtro;
         
         List <ContasReceber> aux = new ArrayList();
         ResultSet rs = Banco.getCon().consultar(sql);
@@ -91,8 +124,30 @@ public class DALContasReceber {
             
             while(rs.next())
                 aux.add(new ContasReceber(rs.getInt("rec_cod"),rs.getInt("rec_parcela"),rs.getInt("ven_cod"),
-                        rs.getDouble("rec_valor"),rs.getDate("rec_datavencimento").toLocalDate(), 
-                        rs.getDate("rec_datapagamento").toLocalDate(),rs.getString("rec_tipo"),rs.getString("rec_contato")));
+                        rs.getDouble("rec_valor"),rs.getDate("rec_dtvencimento").toLocalDate(), 
+                        rs.getString("rec_tipo"),rs.getString("rec_contato")));
+        } 
+        catch (SQLException ex) {}
+        
+        return aux;
+    }
+    
+    public List<ContasReceber> getListRec2(String filtro) {
+        
+        String sql = "SELECT * FROM ContasReceber WHERE rec_dtpagamento is not null";
+        
+        if(!filtro.isEmpty())
+            sql += " AND " + filtro;
+        
+        List <ContasReceber> aux = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar(sql);
+        
+        try {
+            
+            while(rs.next())
+                aux.add(new ContasReceber(rs.getInt("rec_cod"),rs.getInt("rec_parcela"),rs.getInt("ven_cod"),
+                        rs.getDouble("rec_valor"),rs.getDate("rec_dtpagamento").toLocalDate(),
+                        rs.getString("rec_tipo"),rs.getString("rec_contato")));
         } 
         catch (SQLException ex) {}
         

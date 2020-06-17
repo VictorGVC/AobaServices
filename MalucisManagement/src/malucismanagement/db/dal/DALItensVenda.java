@@ -29,6 +29,11 @@ public class DALItensVenda {
         return Banco.getCon().manipular("DELETE FROM ItensVenda WHERE ven_cod=" + i.getVen_cod());
     }
     
+    public boolean manterItens(ItensVenda i) {
+        
+        return Banco.getCon().manipular("UPDATE ItensVenda SET ven_cod=null WHERE ven_cod=" + i.getVen_cod());
+    }
+    
     public ItensVenda getVenda(int cod) {
         
         ItensVenda aux = null;

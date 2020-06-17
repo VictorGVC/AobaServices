@@ -32,15 +32,6 @@ public class ContasReceber {
         this.contato = contato;
     }
 
-    public ContasReceber(int parcela, int ven_cod, double valor, LocalDate dtvencimento, String tipo, String contato) {
-        this.parcela = parcela;
-        this.ven_cod = ven_cod;
-        this.valor = valor;
-        this.dtvencimento = dtvencimento;
-        this.tipo = tipo;
-        this.contato = contato;
-    }
-    
     public ContasReceber(int parcela, int ven_cod, double valor, LocalDate dtvencimento, LocalDate dtpagamento, String tipo) {
         this.parcela = parcela;
         this.ven_cod = ven_cod;
@@ -50,6 +41,24 @@ public class ContasReceber {
         this.tipo = tipo;
     }
     
+    public ContasReceber(int cod, int parcela, int ven_cod, double valor, LocalDate dtvencimento, String tipo, String contato) {
+        this.cod = cod;
+        this.parcela = parcela;
+        this.ven_cod = ven_cod;
+        this.valor = valor;
+        this.dtvencimento = dtvencimento;
+        this.tipo = tipo;
+        this.contato = contato;
+    }
+
+    public ContasReceber(int parcela, int ven_cod, double valor, LocalDate dtvencimento, String tipo, String contato) {
+        this.parcela = parcela;
+        this.ven_cod = ven_cod;
+        this.valor = valor;
+        this.dtvencimento = dtvencimento;
+        this.tipo = tipo;
+        this.contato = contato;
+    }
     
     public int getCod() {
         return cod;
