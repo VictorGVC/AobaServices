@@ -507,7 +507,9 @@ public class TelaRecebimentosController implements Initializable {
                     
                     carregaTabelaReceber("");
                     carregaTabelaRecebidas("");
+                    
                     JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Conta quitada com Sucesso!")));
                 }
                 else{
@@ -656,8 +658,10 @@ public class TelaRecebimentosController implements Initializable {
                     
                     carregaTabelaReceber("");
                     carregaTabelaRecebidas("");
-                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
-                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Conta quitada com Sucesso!")));
+                    
+                    JFXSnackbar sb = new JFXSnackbar(pnpesquisa1);
+                    
+                    sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Conta estornada com Sucesso!")));
                 }
                 else{
 

@@ -16,15 +16,15 @@ public class DALParametrizacao {
                 + "(par_cprimaria, par_csecundaria, par_fonte, par_cfonte, par_fone, par_cep, par_rua, par_cidade, par_uf) "
                 + "VALUES('#1','#2','#3','#4','#5','#6','#7','#8','#9')";
         
-        sql = sql.replaceAll("#1", "" + p.getCorprimaria());
-        sql = sql.replaceAll("#2", "" + p.getCorsecundaria());
-        sql = sql.replaceAll("#3", "" + p.getFonte());
-        sql = sql.replaceAll("#4", "" + p.getCorfonte());
-        sql = sql.replaceAll("#5", "" + p.getTelefone());
-        sql = sql.replaceAll("#6", "" + p.getCep());
-        sql = sql.replaceAll("#7", "" + p.getRua());
-        sql = sql.replaceAll("#8", "" + p.getCidade());
-        sql = sql.replaceAll("#9", "" + p.getUf());
+        sql = sql.replaceAll("#1", p.getCorprimaria());
+        sql = sql.replaceAll("#2", p.getCorsecundaria());
+        sql = sql.replaceAll("#3", p.getFonte());
+        sql = sql.replaceAll("#4", p.getCorfonte());
+        sql = sql.replaceAll("#5", p.getTelefone());
+        sql = sql.replaceAll("#6", p.getCep());
+        sql = sql.replaceAll("#7", p.getRua());
+        sql = sql.replaceAll("#8", p.getCidade());
+        sql = sql.replaceAll("#9", p.getUf());
         
         return Banco.getCon().manipular(sql);
     }
@@ -35,15 +35,15 @@ public class DALParametrizacao {
                 + "par_cprimaria='#1', par_csecundaria='#2', par_fonte='#3', par_cfonte='#4', par_fone='#5' ,"
                 + "par_cep='#6' ,par_rua='#7', par_cidade='#8', par_uf='#9'";
         
-        sql = sql.replaceAll("#1", "" + p.getCorprimaria());
-        sql = sql.replaceAll("#2", "" + p.getCorsecundaria());
-        sql = sql.replaceAll("#3", "" + p.getFonte());
-        sql = sql.replaceAll("#4", "" + p.getCorfonte());
-        sql = sql.replaceAll("#5", "" + p.getTelefone());
-        sql = sql.replaceAll("#6", "" + p.getCep());
-        sql = sql.replaceAll("#7", "" + p.getRua());
-        sql = sql.replaceAll("#8", "" + p.getCidade());
-        sql = sql.replaceAll("#9", "" + p.getUf());
+        sql = sql.replaceAll("#1", p.getCorprimaria());
+        sql = sql.replaceAll("#2", p.getCorsecundaria());
+        sql = sql.replaceAll("#3", p.getFonte());
+        sql = sql.replaceAll("#4", p.getCorfonte());
+        sql = sql.replaceAll("#5", p.getTelefone());
+        sql = sql.replaceAll("#6", p.getCep());
+        sql = sql.replaceAll("#7", p.getRua());
+        sql = sql.replaceAll("#8", p.getCidade());
+        sql = sql.replaceAll("#9", p.getUf());
         
         return Banco.getCon().manipular(sql);
     }
