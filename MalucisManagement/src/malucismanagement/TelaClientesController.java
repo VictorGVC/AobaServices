@@ -378,6 +378,7 @@ public class TelaClientesController implements Initializable {
         else{
             
             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+            
             sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione algum cliente!")));
         }
     }
@@ -405,6 +406,7 @@ public class TelaClientesController implements Initializable {
                 if(dal.apagar(c)){
                     
                     JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Excluído com Sucesso!")));
                 }
                 else{
@@ -519,6 +521,7 @@ public class TelaClientesController implements Initializable {
                 if (dal.gravar(c)){
                     
                     JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
                 }
                 else{
@@ -532,6 +535,7 @@ public class TelaClientesController implements Initializable {
                 if (dal.alterar(c)){
                     
                     JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
                 }
                 else{

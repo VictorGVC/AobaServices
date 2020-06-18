@@ -287,11 +287,12 @@ public class TelaConfigController implements Initializable {
     @FXML
     private void clkBtSalvar(ActionEvent event) {
         
+        String corp = "#" + cpprimaria.getValue().toString().substring(2, 8);
+        String cors = "#" + cpsecundaria.getValue().toString().substring(2, 8);
+        String corf = "#" + cpfonte.getValue().toString().substring(2, 8);
         DALParametrizacao dal = new DALParametrizacao();
-        Parametrizacao p = new Parametrizacao("#" + cpprimaria.getValue().toString().substring(2, 8), 
-                "#" + cpsecundaria.getValue().toString().substring(2, 8), cbfonte.getValue(), 
-                "#" + cpfonte.getValue().toString().substring(2, 8), ttelefone.getText(), trua.getText(), 
-                tcep.getText(), tuf.getText(), tcidade.getText());
+        Parametrizacao p = new Parametrizacao(corp, cors, cbfonte.getValue(), corf, 
+                ttelefone.getText(), trua.getText(), tcep.getText(), tuf.getText(), tcidade.getText());
         Parametrizacao paux = dal.getConfig();
         BufferedImage bimg = null;
         
@@ -304,11 +305,13 @@ public class TelaConfigController implements Initializable {
                 if(dal.gravarFoto(p)){
                     
                     JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Salvo com Sucesso!")));
                 }
                 else{
                     
                     JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Salvar!")));
                 }
             }
@@ -320,11 +323,13 @@ public class TelaConfigController implements Initializable {
                 if(dal.gravarFoto(p)){
                     
                     JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Alterado com Sucesso!")));
                 }
                 else{
                     
                     JFXSnackbar sb = new JFXSnackbar(pnprincipal); 
+                    
                     sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Erro ao Alterar!")));
                 }
             }

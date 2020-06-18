@@ -25,6 +25,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -79,22 +80,21 @@ public class TelaLogin_CadastroController implements Initializable {
             
             if(p.getCorprimaria() != null)
             {
-                
+                pnlogin.setStyle("-fx-background-color: " + p.getCorprimaria()+ ";");
             }
             if(p.getCorsecundaria()!= null)
             {
                 btlogin.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
-                pnlogin.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
             }
             if(p.getFonte() != null)
             {
-                txsenha.setStyle("-fx-font-family: " + p.getFonte()+ ";");
-                txusuario.setStyle("-fx-font-family: " + p.getFonte()+ ";");
+                txsenha.setFont(new Font(p.getFonte(), 14));
+                txusuario.setFont(new Font(p.getFonte(), 14));
             }
             if(p.getCorfonte() != null)
             {
-                txsenha.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
-                txusuario.setStyle("-fx-font-family: " + p.getCorfonte()+ ";");
+                txsenha.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
+                txusuario.setStyle("-fx-text-fill: " + p.getCorfonte()+ ";");
             }
         }
     }

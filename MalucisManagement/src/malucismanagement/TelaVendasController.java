@@ -639,6 +639,7 @@ public class TelaVendasController implements Initializable {
         else{
             
             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+            
             sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Selecione alguma venda!")));
         }
     }
@@ -704,6 +705,7 @@ public class TelaVendasController implements Initializable {
                         if(dal.apagar(v)){
 
                             JFXSnackbar sb = new JFXSnackbar(pnpesquisa); 
+                            
                             sb.enqueue(new JFXSnackbar.SnackbarEvent(new Label("Excluído com Sucesso!")));
                         }
                         else{
