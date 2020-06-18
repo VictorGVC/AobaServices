@@ -13,14 +13,14 @@
                 <input type="text" name="nome" placeholder="Nome*" id="nome"/>
                 <label name="lbservico">Serviço*:</label>
                 <select name="servico" id="sevico">
-                  <option value="A">Preencher com o banco</option><br>
+                  <option value="A">Pedreiro</option>
+                  <option value="A">Mecânico</option>
                 </select><br><br><label>Anúncio</label><br><br>
                 <input type="text" name="titulo" placeholder="Título*" id="titulo"/>
                 <input type="number" name="preco" placeholder="Preço*" id="preco"/><br>
                 <input type="number" name="telefone" placeholder="Telefone" id="telefone"/>
                 <label>Categoria*:</label>
                 <select name="categoria" id="categoria">
-                  <option value="A">Preencher com o banco</option>
                 </select><br>
                 <textarea id="conteudo"  name="conteudo" cols="80" placeholder="Descrição"></textarea><br><br>
                 <label id="lbdescricao">Imagem Principal:</label><input type="file" id="imgprincipal" name="imgprincipal"><br><br>

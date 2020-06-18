@@ -30,9 +30,9 @@ public class DALCategoria {
         return new Conexao().manipular(sql);
     }
     
-    public boolean apagar(Categoria c){
+    public boolean apagar(String c){
         
-        String sql = "DELETE FROM categoria WHERE cat_cod ="+c.getCat_cod();
+        String sql = "DELETE FROM categoria WHERE cat_cod ="+c;
         
         return new Conexao().manipular(sql);
     }

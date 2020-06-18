@@ -6,39 +6,61 @@ var modal = document.getElementById('id01');
 }
 
 function PreencheCBCategoria(){
-    
-    var cbcategoria = document.getElementById("categoria");
-    
-    while (cbcategoria.length > 0) 
-        cbcategoria.remove(0);
-
-    for (var i = 0; i < Variaveldobanco.length; i++) {
-        var elem = document.createElement('tag')
-        elem.text  = Variaveldobanco.Descricao;
-    
-        cbcategoria.add(elem, cbcategoria.options[i]);
-    }
-    
+    var monta;
+    const URL = "categoria?opcao=atualiza";
+    fetch(URL).then(response => {
+        return response.text();
+    }).then(result => {
+       return document.querySelector('#Bcat').innerHTML = result; 
+    }).catch(err => {
+        console.log(err);
+    });
 }
 
 function PreencheCBServicos(){
     
-    var cbservicos = document.getElementById("servicos");
-    
-    while (cbservicos.length > 0) 
-        cbservicos.remove(0);
+}
 
-    for (var i = 0; i < Variaveldobanco.length; i++) {
-        var elem = document.createElement('tag')
-        elem.text  = Variaveldobanco.Descricao;
-    
-        cbservicos.add(elem, cbservicos.options[i]);
-    }
-    
+function showToast(msg){
+    var toast = document.getElementById("snackbar");
+    toast.className = "show";
+    toast.innerText = msg;
+    setTimeout(function(){
+        toast.className = toast.className.replace("show", "");
+        toast.innerText = "";
+    }, 3000);
 }
 
 function SalvarAnuncio(){
     
+}
+
+function SalvarCategoria(){
+    var form = document.getElementById("id_do_formulario");
+    const URL_TO_FETCH = 'categoria';
+    event.preventDefault();
+
+    const data = new URLSearchParams();
+    for (const pair of new FormData(form)) {
+        data.append(pair[0], pair[1]);
+    }
+    
+    data.append("opcao", "novo");
+    
+    if(form.categoria.value !== "") {
+
+        fetch(URL, {method: "post", body: data}).then(response => {
+            return response.text();
+        }).then(result => {
+                showToast(result);
+                form.reset();
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    else
+        showToast("todos campos são obrigatórios");
+    carregaTabela();
 }
 
 function SalvarPrestador(){
