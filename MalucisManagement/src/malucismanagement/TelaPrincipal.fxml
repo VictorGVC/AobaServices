@@ -73,9 +73,9 @@
             </VBox>
             <AnchorPane fx:id="apbotoesfull" layoutX="330.0" prefHeight="413.0" prefWidth="470.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane fx:id="apbotoes1" prefHeight="424.0" prefWidth="235.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox fx:id="apbotoes" alignment="CENTER" prefHeight="424.0" prefWidth="470.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="431.0" prefWidth="235.0" spacing="15.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" prefHeight="431.0" prefWidth="235.0" spacing="15.0">
                            <children>
                               <JFXButton fx:id="btvendas" alignment="CENTER" onAction="#clkOpenVendas" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Vendas">
                                  <font>
@@ -104,11 +104,7 @@
                               </JFXButton>
                            </children>
                         </VBox>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="apbotoes" layoutX="235.0" prefHeight="424.0" prefWidth="235.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="235.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <VBox alignment="CENTER" prefHeight="431.0" prefWidth="235.0" spacing="15.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" prefHeight="431.0" prefWidth="235.0" spacing="15.0">
                            <children>
                               <JFXButton fx:id="btfuncionarios" alignment="CENTER" onAction="#clkOpenFuncionarios" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Gerenciar Funcionarios" textAlignment="CENTER">
                                  <font>
@@ -136,7 +132,7 @@
                            </opaqueInsets>
                         </VBox>
                      </children>
-                  </AnchorPane>
+                  </HBox>
                </children>
             </AnchorPane>
          </children>

@@ -62,7 +62,7 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private AnchorPane apbotoesfull;
     @FXML
-    private AnchorPane apbotoes;
+    private HBox apbotoes;
     @FXML
     private JFXButton btfuncionarios;
     @FXML
@@ -85,8 +85,6 @@ public class TelaPrincipalController implements Initializable {
     private Label lbuf;
     @FXML
     private Label lbtelefone;
-    @FXML
-    private AnchorPane apbotoes1;
     @FXML
     private JFXButton btvendas;
     @FXML
@@ -121,8 +119,6 @@ public class TelaPrincipalController implements Initializable {
             
             pnimg.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
             apbotoesfull.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-            apbotoes1.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-            apbotoes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
