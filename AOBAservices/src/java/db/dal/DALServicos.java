@@ -1,7 +1,7 @@
-package dal;
+package db.dal;
 
-import util.Conexao;
-import entidades.Servicos;
+import db.util.Conexao;
+import db.entidades.Servicos;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;

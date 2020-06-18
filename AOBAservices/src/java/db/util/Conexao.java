@@ -1,4 +1,4 @@
-package util;
+package db.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,10 +36,11 @@ public class Conexao {
     
     public Conexao() {
 
-            this("org.postgresql.Driver", "jdbc:postgresql://localhost/", "AOBAservices", "postgres", "postgres123");
+            this("org.postgresql.Driver", "jdbc:postgresql://localhost/", "aobadb", "postgres", "postgres123");
     }
     
-    public boolean manipular (String sql) { // inserir, alterar ou excluir
+    public 
+        boolean manipular (String sql) { // inserir, alterar ou excluir
         
         try {
             Statement statement = this.connect.createStatement();

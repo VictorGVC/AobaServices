@@ -1,31 +1,38 @@
-package servlet;
+package db.servlet;
 
-import dal.DALCategoria;
-import entidades.Categoria;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import db.dal.DALCategoria;
+import db.entidades.Categoria;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "categoria", urlPatterns = {"/categoria"})
-public class categoria extends HttpServlet {
+@WebServlet(name = "CategoriaServ", urlPatterns = {"/CategoriaServ"})
+public class CategoriaServ extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String opcao = request.getParameter("aopcao");
+            String opcao = request.getParameter("opcao");
             
             switch(opcao.toLowerCase())
             {
                 case "atualiza": 
                     
-                    response.getWriter().print(atualiza());
+                    DALCategoria cat = new DALCategoria();
+                    List<Categoria> lista = cat.getCategorias();
+                    String str = "";
+                    for(Categoria c: lista)
+                    {
+                        str+="<tr onclick ='paunoseucu()'><td>"+c.getCat_cod()+"</td><td>"+c.getCat_descricao()+"</td></tr>";
+                    }                    
+                    response.getWriter().print(str);
                     break;
                     
                 case "novo": 
@@ -67,20 +74,6 @@ public class categoria extends HttpServlet {
             else
                 ans = "Problemas ao alterar";
         }
-        return ans;
-    }
-    
-    private String atualiza()
-    {
-        DALCategoria cat = new DALCategoria();
-        List<Categoria> lista = cat.getProdutos();
-        String ans = "";
-        ans = "<select name='categoria' id='categoria'>";
-        for(Categoria c: lista)
-        {
-            ans+="<option value="+c.getCat_cod()+">"+c.getCat_descricao()+"</option>";
-        }
-        ans += "</select><br>";
         return ans;
     }
     

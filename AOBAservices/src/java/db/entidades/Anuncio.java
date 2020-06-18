@@ -1,4 +1,4 @@
-package entidades;
+package db.entidades;
 
 public class Anuncio {
     int anu_cod,fot_cod,cat_cod;

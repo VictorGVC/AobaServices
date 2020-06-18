@@ -1,10 +1,10 @@
-package dal;
+package db.dal;
 
-import entidades.Anuncio;
+import db.entidades.Anuncio;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import util.Conexao;
+import db.util.Conexao;
 
 public class DALAnuncio {
      public boolean salvar(Anuncio a){

@@ -1,4 +1,4 @@
-package entidades;
+package db.entidades;
 
 public class Categoria {
     String cat_descricao;

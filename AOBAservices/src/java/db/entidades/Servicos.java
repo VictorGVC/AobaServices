@@ -1,4 +1,4 @@
-package entidades;
+package db.entidades;
 
 public class Servicos {
     int ser_cod;
