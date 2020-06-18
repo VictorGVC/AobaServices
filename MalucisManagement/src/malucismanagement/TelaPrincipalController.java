@@ -20,6 +20,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -37,6 +38,10 @@ public class TelaPrincipalController implements Initializable {
     static Funcionario sessao = new Funcionario();
     
     @FXML
+    private AnchorPane pntotal;
+    @FXML
+    private VBox pncabecalho;
+    @FXML
     private MenuBar mnbar;
     @FXML
     private MenuItem mifornecedores;
@@ -49,11 +54,15 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private ToolBar tbatalhos;
     @FXML
+    private AnchorPane pnmeio;
+    @FXML
     private VBox pnimg;
     @FXML
     private ImageView ivlogo;
     @FXML
-    private VBox pnbotoes;
+    private AnchorPane apbotoesfull;
+    @FXML
+    private AnchorPane apbotoes;
     @FXML
     private JFXButton btfuncionarios;
     @FXML
@@ -77,9 +86,7 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private Label lbtelefone;
     @FXML
-    private VBox pntotal;
-    @FXML
-    private VBox pnbotoes2;
+    private AnchorPane apbotoes1;
     @FXML
     private JFXButton btvendas;
     @FXML
@@ -113,8 +120,9 @@ public class TelaPrincipalController implements Initializable {
         if(p.getCorprimaria() != null){
             
             pnimg.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-            pnbotoes2.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
-            pnbotoes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            apbotoesfull.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            apbotoes1.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
+            apbotoes.setStyle("-fx-background-color: " + p.getCorprimaria() + ";");
         }
         if(p.getCorsecundaria()!= null){
             
@@ -179,7 +187,7 @@ public class TelaPrincipalController implements Initializable {
         if(p.getCidade() != null)
             lbcidade.setText("Cidade: " + p.getCidade());
         if(p.getUf() != null)
-            lbcep.setText(p.getUf());
+            lbuf.setText(p.getUf());
         if(p.getTelefone() != null)
             lbtelefone.setText("Fone: " + p.getTelefone());
     }
