@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pntotal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
+<AnchorPane fx:id="pntotal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaPrincipalController">
    <children>
       <VBox fx:id="pncabecalho" alignment="TOP_CENTER" prefHeight="65.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -98,6 +98,11 @@
                                  </font>
                               </JFXButton>
                               <JFXButton fx:id="btlistademateriais" onAction="#clkLista" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Lista de Materiais">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btorcamento" onAction="#clkOrcamento" prefHeight="40.0" prefWidth="180.0" ripplerFill="WHITE" text="Orçamentos">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

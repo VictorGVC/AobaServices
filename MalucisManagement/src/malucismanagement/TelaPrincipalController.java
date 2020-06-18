@@ -95,6 +95,8 @@ public class TelaPrincipalController implements Initializable {
     private JFXButton btCompraProduto;
     @FXML
     private JFXButton btlistademateriais;
+    @FXML
+    private JFXButton btorcamento;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -133,6 +135,7 @@ public class TelaPrincipalController implements Initializable {
             btclientes.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btfornecedores.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             btprodutos.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
+            btorcamento.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
             
             pnrodape.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
         }
@@ -147,6 +150,7 @@ public class TelaPrincipalController implements Initializable {
             btclientes.setFont(new Font(p.getFonte(), 14));
             btfornecedores.setFont(new Font(p.getFonte(), 14));
             btprodutos.setFont(new Font(p.getFonte(), 14));
+            btorcamento.setFont(new Font(p.getFonte(), 14));
             
             lbnome.setFont(new Font(p.getFonte(), 12));
             lbrua.setFont(new Font(p.getFonte(), 12));
@@ -156,7 +160,7 @@ public class TelaPrincipalController implements Initializable {
             lbtelefone.setFont(new Font(p.getFonte(), 12));
         }
         if(p.getCorfonte() != null){
-            
+            btorcamento.setStyle(btvendas.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btvendas.setStyle(btvendas.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btrecebimentos.setStyle(btrecebimentos.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
             btCompraProduto.setStyle(btCompraProduto.getStyle() + "-fx-text-fill: " + p.getCorfonte()+ ";");
@@ -367,5 +371,18 @@ public class TelaPrincipalController implements Initializable {
     private void clkRestore(ActionEvent event) {
         
         Banco.realizaBackupRestauracao("restore.bat");
+    }
+
+    @FXML
+    private void clkOrcamento(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("TelaOrcamento.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/icons/icon.png")));
+        stage.setTitle("Produtos");
+        stage.setScene(scene);
+        stage.resizableProperty().setValue(Boolean.FALSE);
+        stage.show();
     }
 }

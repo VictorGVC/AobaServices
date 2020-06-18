@@ -207,6 +207,8 @@ public class TelaOrcamentoController implements Initializable {
     @FXML
     private void clkBtEditarEscola(MouseEvent event) {
         tablista.setDisable(false);
+        String aoba;
+        aoba = txcpf.getText();
         pntab.getSelectionModel().selectLast();
         DALListaMateriais dal = new DALListaMateriais();
         

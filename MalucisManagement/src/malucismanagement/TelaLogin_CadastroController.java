@@ -24,6 +24,7 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -51,6 +52,8 @@ public class TelaLogin_CadastroController implements Initializable {
     private FlowPane pnlogin;
     @FXML
     private JFXButton btlogin;
+    @FXML
+    private Pane pndadoslogin;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,10 +83,11 @@ public class TelaLogin_CadastroController implements Initializable {
             
             if(p.getCorprimaria() != null)
             {
-                pnlogin.setStyle("-fx-background-color: " + p.getCorprimaria()+ ";");
+                pndadoslogin.setStyle("-fx-background-color: " + p.getCorprimaria()+ ";");
             }
             if(p.getCorsecundaria()!= null)
             {
+                pnlogin.setStyle("-fx-background-color: " + p.getCorsecundaria()+ ";");
                 btlogin.setStyle("-fx-background-color: " + p.getCorsecundaria() + ";");
             }
             if(p.getFonte() != null)

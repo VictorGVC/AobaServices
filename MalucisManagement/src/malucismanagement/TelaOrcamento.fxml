@@ -115,7 +115,7 @@
                               </Pane>
                            </children>
                         </VBox>
-                        <VBox fx:id="pnpesquisa1" prefHeight="297.0" prefWidth="798.0">
+                        <VBox fx:id="pnpesquisa1" prefHeight="262.0" prefWidth="789.0">
                            <children>
                               <HBox alignment="CENTER" prefHeight="29.0" prefWidth="789.0" spacing="40.0">
                                  <children>
@@ -124,7 +124,7 @@
                                     <JFXButton fx:id="btalterar" onAction="#clkBtAlterar" text="Alterar" />
                                  </children>
                               </HBox>
-                              <TableView fx:id="tvlista" onMouseClicked="#clkTabela" prefHeight="227.0" prefWidth="789.0">
+                              <TableView fx:id="tvlista" onMouseClicked="#clkTabela" prefHeight="239.0" prefWidth="789.0">
                                  <columns>
                                     <TableColumn fx:id="colcod" prefWidth="101.0" text="Codigo" />
                                     <TableColumn fx:id="coldescricao" prefWidth="431.0" text="Descrição" />
@@ -133,7 +133,7 @@
                                     <TableColumn fx:id="coltotal" prefWidth="106.0" text="Total" />
                                  </columns>
                               </TableView>
-                              <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="789.0">
+                              <HBox alignment="CENTER_RIGHT" prefHeight="23.0" prefWidth="789.0">
                                  <children>
                                     <Label text="Total: ">
                                        <HBox.margin>

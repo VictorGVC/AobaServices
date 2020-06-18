@@ -5,3 +5,9 @@
 .jfx-tab-pane .tab-selected-line{
     -fx-border-color: lightgreen;
 }
+
+.tab
+{
+    -fx-pref-width: 389;
+    -fx-pref-height: 40;
+}
