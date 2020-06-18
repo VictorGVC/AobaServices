@@ -1,0 +1,102 @@
+package db.util;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ *
+ * @author joao
+ */
+public class Conexao {
+    
+    private Connection connect;
+    private String erro = "";
+    
+    public Conexao(String driver, String local, String banco, String usuario, String senha) {
+       
+        try {
+            
+            Class.forName(driver); //"org.postgresql.Driver");
+            String url = local + banco; //"jdbc:postgresql://localhost/"+banco;
+            this.connect = DriverManager.getConnection(url, usuario, senha);
+        } 
+        catch (ClassNotFoundException cnfex) {
+            this.erro = "Falha ao ler o driver JDBC: " + cnfex.toString();
+        } 
+        catch (SQLException sqlex) {
+            this.erro = "Impossivel conectar com a base de dados: " + sqlex.toString();
+        } 
+        catch (Exception ex) {
+            this.erro = "Outro erro: " + ex.toString();
+        }
+    }
+    
+    public Conexao() {
+
+            this("org.postgresql.Driver", "jdbc:postgresql://localhost/", "aobadb", "postgres", "postgres123");
+    }
+    
+    public 
+        boolean manipular (String sql) { // inserir, alterar ou excluir
+        
+        try {
+            Statement statement = this.connect.createStatement();
+            int result = statement.executeUpdate(sql);
+            statement.close();
+            
+            if(result >= 1)
+                return true;
+        }
+        catch (SQLException sqlEx) {
+            this.erro = "Erro: "+sqlEx.toString();
+            return false;
+        }
+        return false;
+    }
+    
+    public ResultSet consultar (String sql) {
+        
+        ResultSet rs = null;
+        try {
+            Statement statement = this.connect.createStatement();
+            rs = statement.executeQuery(sql);
+        }
+        catch (SQLException sqlEx) {
+            this.erro = "Erro: "+sqlEx.toString();
+            return null;
+        } 
+        return rs;
+    }
+    
+    public int getMaxPK(String tabela, String chave) {
+        
+        String sql = "select max("+chave+") from "+tabela;
+        int max = 0;
+        ResultSet rs = consultar(sql);
+        
+        try {
+            if(rs.next())
+                max = rs.getInt(1);
+        }
+        catch (SQLException sqlEx) {
+            this.erro = "Erro: "+sqlEx.toString();
+            return -1;
+        }
+        return max;
+    }
+    
+    public Connection getConnect() {
+        return this.connect;
+    }
+    
+    public String getMensagemErro() {
+        return this.erro;
+    }
+    
+     public boolean getEstadoConexao() {
+        return this.connect != null;
+    }
+}
