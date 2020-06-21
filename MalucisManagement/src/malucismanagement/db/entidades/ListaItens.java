@@ -13,7 +13,7 @@ public class ListaItens
 {
     int quantidade, codigo;
     double preco,total;
-    String nome,categoria,marca;
+    String nome,categoria,marca, codigobarras;
 
     public ListaItens(int quantidade, int codigo, double preco, double total, String nome, String categoria, String marca) {
         this.quantidade = quantidade;
@@ -39,6 +39,32 @@ public class ListaItens
         this.codigo = codigo;
         this.nome = nome;
         this.categoria = categoria;
+    }
+    
+    public ListaItens(int quantidade, double preco, String codigo, String nome, double total, String marca) 
+    {
+        this.quantidade = quantidade;
+        this.preco = preco;
+        this.codigobarras = codigo;
+        this.nome = nome;
+        this.total = total;
+        this.marca = marca;
+    }
+    
+    public ListaItens(double preco, String codigo, String nome, String marca) 
+    {
+        this.preco = preco;
+        this.codigobarras = codigo;
+        this.nome = nome;
+        this.marca = marca;
+    }
+
+    public String getCodigobarras() {
+        return codigobarras;
+    }
+
+    public void setCodigobarras(String codigobarras) {
+        this.codigobarras = codigobarras;
     }
 
     public double getTotal() {
@@ -67,7 +93,8 @@ public class ListaItens
         this.categoria = categoria;
     }
     
-
+    
+    
     public int getQuantidade() {
         return quantidade;
     }

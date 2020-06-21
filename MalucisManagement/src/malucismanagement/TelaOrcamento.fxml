@@ -70,7 +70,7 @@
             </AnchorPane>
         </content>
       </Tab>
-      <Tab fx:id="tablista" closable="false" text="Lista">
+      <Tab fx:id="tablista" closable="false" text="Nova Lista">
          <content>
             <BorderPane fx:id="pntablista" prefHeight="200.0" prefWidth="200.0">
                <center>
@@ -95,8 +95,7 @@
                               <Pane fx:id="pndados1" prefHeight="259.0" prefWidth="789.0">
                                  <children>
                                     <Label fx:id="lbobg1" layoutX="74.0" layoutY="204.0" text="* Campos Obrigatórios" textFill="RED" />
-                                    <JFXTextField fx:id="txcpf" editable="false" layoutX="68.0" layoutY="61.0" promptText="CPF *" />
-                                    <JFXTextField fx:id="txturma" layoutX="68.0" layoutY="125.0" promptText="Turma *" />
+                                    <JFXTextField fx:id="txcpf" layoutX="68.0" layoutY="61.0" promptText="CPF" />
                                     <Line endX="-51.0" endY="164.0" layoutX="299.0" layoutY="62.0" startX="-51.0" startY="-39.0" />
                                     <Label fx:id="lblescola" layoutX="92.0" layoutY="14.0" text="Dados da escola" />
                                     <JFXComboBox fx:id="cbcategoria" focusColor="BLACK" labelFloat="true" layoutX="279.0" layoutY="61.0" onAction="#clkEditarProduto" prefHeight="25.0" prefWidth="141.0" promptText="Categoria" unFocusColor="BLACK" />
@@ -106,11 +105,12 @@
                                        <columns>
                                           <TableColumn fx:id="colcodprod" prefWidth="54.0" text="codigo" />
                                           <TableColumn fx:id="coldescprod" prefWidth="145.0" text="Descrição" />
-                                          <TableColumn fx:id="colmarca" prefWidth="77.0" text="Marca" />
+                                          <TableColumn fx:id="colmarcaprod" prefWidth="77.0" text="Marca" />
                                           <TableColumn fx:id="colprecop" prefWidth="50.0" text="Preço" />
                                        </columns>
                                     </TableView>
-                                    <JFXComboBox fx:id="cbmarcas" layoutX="279.0" layoutY="125.0" prefHeight="25.0" prefWidth="142.0" promptText="Marca" />
+                                    <JFXComboBox fx:id="cbmarcas" layoutX="279.0" layoutY="125.0" onAction="#clkEditarProdutoM" prefHeight="25.0" prefWidth="142.0" promptText="Marca" />
+                                    <JFXTextField fx:id="txnome" layoutX="68.0" layoutY="125.0" promptText="Nome *" />
                                  </children>
                               </Pane>
                            </children>
@@ -127,10 +127,11 @@
                               <TableView fx:id="tvlista" onMouseClicked="#clkTabela" prefHeight="239.0" prefWidth="789.0">
                                  <columns>
                                     <TableColumn fx:id="colcod" prefWidth="101.0" text="Codigo" />
-                                    <TableColumn fx:id="coldescricao" prefWidth="431.0" text="Descrição" />
-                                    <TableColumn fx:id="colpreco" prefWidth="75.0" text="Preço" />
-                                    <TableColumn fx:id="colquantidade" minWidth="0.0" prefWidth="75.0" text="Qtde" />
-                                    <TableColumn fx:id="coltotal" prefWidth="106.0" text="Total" />
+                                    <TableColumn fx:id="coldescricao" prefWidth="356.0" text="Descrição" />
+                                    <TableColumn fx:id="colmarca" prefWidth="106.0" text="Marca" />
+                                    <TableColumn fx:id="colpreco" prefWidth="81.0" text="Preço" />
+                                    <TableColumn fx:id="colquantidade" minWidth="0.0" prefWidth="51.0" text="Qtde" />
+                                    <TableColumn fx:id="coltotal" prefWidth="93.0" text="Total" />
                                  </columns>
                               </TableView>
                               <HBox alignment="CENTER_RIGHT" prefHeight="23.0" prefWidth="789.0">
@@ -140,7 +141,7 @@
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label />
+                                    <Label fx:id="txtotal" />
                                  </children>
                                  <padding>
                                     <Insets right="20.0" />

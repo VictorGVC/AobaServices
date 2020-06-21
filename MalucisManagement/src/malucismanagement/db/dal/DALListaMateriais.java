@@ -206,4 +206,38 @@ public class DALListaMateriais
         
         return b;
     }
+    
+    public boolean alterarOrcamento(ListaEscola e)
+    {
+        return true;
+    }
+    
+    public boolean salvarOrcamento(ListaEscola e)
+    {
+        return true;
+    }
+    
+    public List<ListaItens> getListaOrcamento(String filtro)
+    {
+        String sql = "SELECT * FROM prodmarcas pm INNER JOIN produto p ON p.pro_cod = pm.pro_cod "
+                + "INNER JOIN categoriaproduto c ON p.cat_cod = c.cat_cod "
+                + "INNER JOIN  marcas m ON m.mar_cod = pm.mar_cod";
+        
+        if(!filtro.isEmpty())
+            sql += " WHERE " + filtro;
+        
+        List <ListaItens> aux = new ArrayList();
+        ResultSet rs = Banco.getCon().consultar(sql);
+        
+        try {
+            
+            while(rs.next())
+            {
+                aux.add(new ListaItens(rs.getDouble("pro_precovenda"), rs.getString("pro_codigobarras"), rs.getString("pro_nome"), rs.getString("mar_nome")));
+            }     
+        } 
+        catch (SQLException ex) {}
+        
+        return aux;
+    }
 }

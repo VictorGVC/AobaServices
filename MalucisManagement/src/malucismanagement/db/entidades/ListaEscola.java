@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class ListaEscola 
 {
+
+    public ListaEscola(String escola) {
+        this.escola = escola;
+    }
     
     private String escola,serie,descricao,cnpj;
     private Date data;
@@ -22,6 +26,8 @@ public class ListaEscola
     private int codigo;
     private List<ListaItens> produtos = new ArrayList<ListaItens>();
 
+    
+    
     public List<ListaItens> getProdutos() {
         return produtos;
     }

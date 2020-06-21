@@ -11,6 +11,9 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,6 +22,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
@@ -41,7 +45,6 @@ import malucismanagement.db.entidades.Cliente;
 import malucismanagement.db.entidades.ListaEscola;
 import malucismanagement.db.entidades.ListaItens;
 import malucismanagement.db.entidades.Marcas;
-import malucismanagement.db.entidades.Produto;
 
 /**
  * FXML Controller class
@@ -54,8 +57,6 @@ public class TelaOrcamentoController implements Initializable {
     private JFXButton btconfirmar;
     @FXML
     private JFXButton btcancelar;
-    @FXML
-    private JFXTextField txturma;
     @FXML
     private JFXComboBox<CategoriaProduto> cbcategoria;
     @FXML
@@ -113,7 +114,7 @@ public class TelaOrcamentoController implements Initializable {
     @FXML
     private TableColumn<ListaItens, String> colcodprod;
     @FXML
-    private TableColumn<ListaItens, Integer> colcod;
+    private TableColumn<ListaItens, String> colcod;
     @FXML
     private JFXTextField txano;
     @FXML
@@ -144,21 +145,36 @@ public class TelaOrcamentoController implements Initializable {
     private ListaEscola escolaatual;
     
     private List<ListaItens> itens;
+    @FXML
+    private TableColumn<ListaItens, String> colmarcaprod;
+    @FXML
+    private Label txtotal;
 
+    private ListaItens itematual;
+    
+    double total;
+    @FXML
+    private JFXTextField txnome;
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        tablista.setDisable(true);
+    public void initialize(URL url, ResourceBundle rb) 
+    {
         initCb();
         initColunas();
+        dpde.setValue(LocalDate.ofEpochDay(2018));
+        dpate.setValue(LocalDate.now());
+        itens = new ArrayList<ListaItens>();
+        total = 0;
+        escolaatual = new ListaEscola();
+        escolaatual.setCodigo(-1);
     }    
     
     private void initColunas()
     {
-        colcod.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colcodprod.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colcod.setCellValueFactory(new PropertyValueFactory<>("codigobarras"));
+        colcodprod.setCellValueFactory(new PropertyValueFactory<>("codigobarras"));
         coldescprod.setCellValueFactory(new PropertyValueFactory<>("nome"));
         coldescricao.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colescola.setCellValueFactory(new PropertyValueFactory<>("escola"));
@@ -166,6 +182,7 @@ public class TelaOrcamentoController implements Initializable {
         collisnome.setCellValueFactory(new PropertyValueFactory<>("escola"));
         collisserie.setCellValueFactory(new PropertyValueFactory<>("serie"));
         colmarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        colmarcaprod.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colpreco.setCellValueFactory(new PropertyValueFactory<>("preco"));
         colprecop.setCellValueFactory(new PropertyValueFactory<>("preco"));
         colquantidade.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
@@ -195,6 +212,16 @@ public class TelaOrcamentoController implements Initializable {
         tvescolas.setItems(modelo);
     }
     
+    private void carregaTabelaP(String filtro) throws SQLException {
+        
+        DALListaMateriais dal = new DALListaMateriais();
+        List<ListaItens> res = dal.getListaOrcamento(filtro);
+        ObservableList<ListaItens> modelo;
+        
+        modelo = FXCollections.observableArrayList(res);
+        tvproduto.setItems(modelo);
+    }
+    
     @FXML
     private void clkFiltraEscola(ActionEvent event) 
     {
@@ -215,7 +242,6 @@ public class TelaOrcamentoController implements Initializable {
         tvescolas.getSelectionModel().getSelectedIndex();
         escolaatual = dal.getEscolaProdutos(tvescolas.getSelectionModel().getSelectedItem().getCodigo());
         txcpf.setText(escolaatual.getCnpj());
-        txturma.setText(escolaatual.getSerie());
         
         ObservableList<ListaItens> modelo;
         
@@ -226,34 +252,175 @@ public class TelaOrcamentoController implements Initializable {
 
     @FXML
     private void clkFiltraAno(KeyEvent event) {
+        if(!txano.getText().isEmpty() && cbescolas.getSelectionModel().getSelectedIndex() == -1)
+            carregaTabelaE("lis_anoreferencia LIKE '%" +txano.getText()+ "%'");
+        else if(!txano.getText().isEmpty() && cbescolas.getSelectionModel().getSelectedIndex() != -1)
+            carregaTabelaE("c.cli_id = '" + cbescolas.getValue().getCpf() + "' AND lis_anoreferencia LIKE '%" +txano.getText()+ "%'");
     }
 
     @FXML
-    private void clkBtConfirmar(ActionEvent event) {
+    private void clkBtConfirmar(ActionEvent event) throws SQLException 
+    {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
+        if(txnome.getText().isEmpty())
+        {
+            a.setContentText("Turma deve ser informada!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txnome.requestFocus();
+        }
+        else
+        {
+            if(escolaatual.getCodigo() == -1)
+            {
+                escolaatual = new ListaEscola();
+                escolaatual.setCnpj(txcpf.getText());
+                escolaatual.setEscola(txnome.getText());
+                escolaatual.setProdutos(itens);
+                DALListaMateriais dal = new DALListaMateriais();
+
+                if(dal.salvar(escolaatual))
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            else 
+            {
+                escolaatual.setEscola(txnome.getText());
+                escolaatual.setCnpj(txcpf.getText());
+                escolaatual.setProdutos(itens);
+                DALListaMateriais dal = new DALListaMateriais();
+
+                if(dal.alterar(escolaatual))
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            
+        }
     }
 
     @FXML
-    private void clkBtCancelar(ActionEvent event) {
+    private void clkBtCancelar(ActionEvent event) 
+    {
+        pntab.getSelectionModel().selectFirst();
     }
 
     @FXML
-    private void clkEditarProduto(ActionEvent event) {
+    private void clkEditarProduto(ActionEvent event) throws SQLException 
+    {
+        if(cbmarcas.getSelectionModel().getSelectedIndex() == -1)
+            carregaTabelaP("p.cat_cod = "+cbcategoria.getSelectionModel().getSelectedItem().getCat_cod());
+        else
+            carregaTabelaP("p.cat_cod = "+cbcategoria.getSelectionModel().getSelectedItem().getCat_cod()+
+                    " AND pm.mar_cod = "+ cbmarcas.getSelectionModel().getSelectedItem().getMar_cod());
     }
 
     @FXML
-    private void clkBtAdd(ActionEvent event) {
+    private void clkBtAdd(ActionEvent event) 
+    {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        
+        if(txqtde.getText().isEmpty())
+        {
+            a.setContentText("quantidade deve ser informada!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txqtde.requestFocus();
+        }
+        else if(tvproduto.getSelectionModel().getSelectedIndex() == -1)
+        {
+            a.setContentText("Selecione um produto!");
+            a.setHeaderText("Alerta");
+            a.setTitle("Alerta");
+            a.showAndWait();
+            txqtde.requestFocus();
+        }
+        else
+        {
+            
+            boolean b = true;
+            ListaItens aux = new ListaItens(Integer.parseInt(txqtde.getText()), tvproduto.getSelectionModel().getSelectedItem().getPreco(), 
+                    tvproduto.getSelectionModel().getSelectedItem().getCodigobarras(), tvproduto.getSelectionModel().getSelectedItem().getNome(), 
+                    tvproduto.getSelectionModel().getSelectedItem().getPreco() * Integer.parseInt(txqtde.getText()), 
+                    tvproduto.getSelectionModel().getSelectedItem().getMarca());
+            total += aux.getTotal();
+            txtotal.setText(""+(total));
+            for (ListaItens i : itens) 
+            {
+                if(i.getCodigo() == aux.getCodigo())
+                {
+                    i.setQuantidade(i.getQuantidade() + aux.getQuantidade());
+                    i.setTotal(i.getPreco() * i.getQuantidade());
+                    b = false;
+                }
+            }
+            
+            if(b)
+                itens.add(aux);
+                        
+            ObservableList<ListaItens> modelo;
+        
+            modelo = FXCollections.observableArrayList(itens);
+            tvlista.setItems(modelo);
+            tvlista.refresh();
+        }
     }
 
     @FXML
-    private void clkBtApagar(ActionEvent event) {
+    private void clkBtApagar(ActionEvent event) 
+    {
+        total -= itematual.getTotal();
+        itens.remove(itematual);
+        txtotal.setText(""+total);
+        ObservableList<ListaItens> modelo;
+        itematual = null;
+        modelo = FXCollections.observableArrayList(itens);
+        tvlista.setItems(modelo);
+        tvlista.refresh();
     }
 
     @FXML
-    private void clkBtAlterar(ActionEvent event) {
+    private void clkBtAlterar(ActionEvent event) 
+    {
+        txqtde.setText(""+itens.get(itens.indexOf(itematual)).getQuantidade());
+        total -= itematual.getTotal();
+        itens.remove(itematual);
+        txtotal.setText(""+total);
+        itens.remove(itematual);
+        itematual = null;
+        ObservableList<ListaItens> modelo;
+
+        modelo = FXCollections.observableArrayList(itens);
+        tvlista.setItems(modelo);
+        tvlista.refresh();
     }
 
     @FXML
-    private void clkTabela(MouseEvent event) {
+    private void clkTabela(MouseEvent event) 
+    {
+        itematual = tvlista.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    private void clkEditarProdutoM(ActionEvent event) throws SQLException 
+    {
+        if(cbcategoria.getSelectionModel().getSelectedIndex() == -1)
+            carregaTabelaP("pm.mar_cod = "+ cbmarcas.getSelectionModel().getSelectedItem().getMar_cod());
+        else
+            carregaTabelaP("p.cat_cod = "+cbcategoria.getSelectionModel().getSelectedItem().getCat_cod()+
+                " AND pm.mar_cod = "+ cbmarcas.getSelectionModel().getSelectedItem().getMar_cod());
     }
     
 }
