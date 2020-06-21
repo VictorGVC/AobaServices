@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pnprincipal" prefHeight="530.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaLogin_CadastroController">
+   <children>
+      <FlowPane fx:id="pnlogin" alignment="CENTER" prefHeight="530.0" prefWidth="670.0" style="-fx-background-color: #7681B3; -fx-border-radius: 200px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <FlowPane prefHeight="327.0" prefWidth="306.0" style="-fx-border-radius: 5px; -fx-border-color: white; -fx-background-radius: 5px; -fx-background-color: white;">
+               <children>
+                  <VBox fx:id="painel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="310.0" style="-fx-border-radius: 50px;">
+                     <children>
+                        <Pane fx:id="pndadoslogin" prefHeight="294.0" prefWidth="425.0" style="-fx-border-radius: 25; -fx-background-radius: 25px;">
+                           <children>
+                              <ImageView fitHeight="52.0" fitWidth="43.0" layoutX="134.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/login.png" />
+                                 </image>
+                              </ImageView>
+                              <JFXTextField fx:id="txusuario" layoutX="88.0" layoutY="118.0" promptText="Usuário" />
+                              <JFXPasswordField fx:id="txsenha" layoutX="88.0" layoutY="197.0" promptText="Senha" />
+                           </children>
+                        </Pane>
+                        <JFXButton fx:id="btlogin" alignment="CENTER" onAction="#clkBtLogin" prefHeight="26.0" prefWidth="526.0" style="-fx-background-position: left center; -fx-background-repeat: no-repeat; -fx-background-color: #6F73D2;" text=" " textAlignment="CENTER">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="34.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icons/verifica.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+               </children>
+            </FlowPane>
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>

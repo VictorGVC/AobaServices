@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="pnprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaFornecedorController">
+   <children>
+      <AnchorPane fx:id="pnsecundario" layoutY="60.0" prefHeight="232.0" prefWidth="800.0">
+         <children>
+            <JFXTextField fx:id="txNomeForcenedor" focusColor="BLACK" labelFloat="true" layoutX="170.0" layoutY="23.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Fornecedor*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txCNPJ" focusColor="BLACK" labelFloat="true" layoutX="170.0" layoutY="88.0" prefHeight="25.0" prefWidth="220.0" promptText="CNPJ*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txIE" focusColor="BLACK" labelFloat="true" layoutX="170.0" layoutY="154.0" prefHeight="25.0" prefWidth="220.0" promptText="Inscrição Estadual*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txTelefone" focusColor="BLACK" labelFloat="true" layoutX="410.0" layoutY="88.0" prefHeight="25.0" prefWidth="220.0" promptText="Telefone" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txEmail" focusColor="BLACK" labelFloat="true" layoutX="410.0" layoutY="23.0" prefHeight="25.0" prefWidth="220.0" promptText="Email*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txTipo" focusColor="BLACK" labelFloat="true" layoutX="410.0" layoutY="154.0" prefHeight="25.0" prefWidth="220.0" promptText="Tipo" unFocusColor="BLACK" />
+            <Label fx:id="lbobg" layoutX="664.0" layoutY="201.0" text="* Campos Obrigatorios" textFill="RED" />
+
+         </children>
+      </AnchorPane>
+      <TableView fx:id="tvFornecedores" layoutY="345.0" prefHeight="255.0" prefWidth="800.0">
+         <columns>
+            <TableColumn fx:id="ColFornecedor" prefWidth="201.0" text="Fornecedor" />
+            <TableColumn fx:id="ColCNPJ" prefWidth="188.0" text="CNPJ" />
+            <TableColumn fx:id="ColIE" prefWidth="218.0" text="Inscrição Estadual" />
+            <TableColumn fx:id="ColTelefone" prefWidth="192.0" text="Telefone" />
+            <TableColumn fx:id="ColEmail" minWidth="3.0" prefWidth="158.0" text="Email" />
+            <TableColumn fx:id="ColTipo" minWidth="0.0" prefWidth="94.0" text="Tipo" />
+         </columns>
+      </TableView>
+      <JFXButton fx:id="btSalvarFonecedor" layoutX="109.0" layoutY="14.0" onAction="#NovoFornecedor" prefHeight="38.0" prefWidth="48.0" text="Novo" />
+      <JFXButton fx:id="btEditarFornecedor" layoutX="207.0" layoutY="14.0" onAction="#EditarFornecedor" prefHeight="38.0" prefWidth="52.0" text="Alterar" />
+      <JFXButton fx:id="btRemoverFornecedor" layoutX="311.0" layoutY="14.0" onAction="#RemoverFornecedor" prefHeight="38.0" prefWidth="55.0" text="Apagar" />
+      <JFXButton fx:id="btAddFornecedor" layoutX="418.0" layoutY="14.0" onAction="#SalvarFornecedor" prefHeight="38.0" prefWidth="69.0" text="Confirmar" />
+      <JFXButton fx:id="btCancelarFornecedor" layoutX="532.0" layoutY="14.0" onAction="#CancelarFornecedor" prefHeight="38.0" prefWidth="69.0" text="Cancelar" />
+      <JFXButton fx:id="btExit" layoutX="634.0" layoutY="21.0" onAction="#clkbtExit" text="Voltar" />
+      <JFXComboBox fx:id="cbFiltro" focusColor="BLACK" layoutX="102.0" layoutY="300.0" prefHeight="38.0" prefWidth="111.0" promptText="Filtro" unFocusColor="BLACK" />
+      <JFXTextField fx:id="txPesquisar" focusColor="BLACK" layoutX="245.0" layoutY="300.0" onKeyPressed="#FiltrarFornecedor" onKeyReleased="#FiltrarFornecedor" onKeyTyped="#FiltrarFornecedor" prefHeight="38.0" prefWidth="455.0" promptText="Pesquisar" unFocusColor="BLACK" />
+   </children>
+</AnchorPane>
