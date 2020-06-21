@@ -89,3 +89,17 @@ function buscaLogin(){
         console.error(error);
     });
 }
+
+function carregaAnuncios()
+{   
+    var filtro=document.getElementById("filtro").value;
+    const URL_TO_FETCH='AnunciosServ?acao=consultar&filtro='+filtro;
+    fetch(URL_TO_FETCH,{method:'get'}).then(function(response)
+    {
+        response.text().then(function(result)
+        {
+            document.getElementById('preview').innerHTML = result;
+        });
+    }).catch (function(err) {console.error(err);});
+
+}

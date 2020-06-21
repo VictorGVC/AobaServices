@@ -35,7 +35,7 @@
                     </form>
                 </div>
             </form>
-            <div class="painelanuncios">
+            <div id="preview" onload="carregaAnuncios()" class="painelanuncios">
                 <div class="anuncio">
                     <label>Anunciante:&nbsp;</label><td>Indian</td><br>
                     <label>Título:&nbsp;</label><td>Zarabatana</td><br>
