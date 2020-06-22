@@ -25,31 +25,32 @@ public class CategoriaServ extends HttpServlet {
             {
                 case "atualiza": 
                     
+                    int id = 0;
                     DALCategoria cat = new DALCategoria();
                     List<Categoria> lista = cat.getCategorias();
                     String str = "";
                     for(Categoria c: lista)
                     {
-                        str+="<tr onclick ='paunoseucu()'><td>"+c.getCat_cod()+"</td><td>"+c.getCat_descricao()+"</td></tr>";
+                        str+="<tr class='selecionado' onclick='("+(id++)+")'><td>"+c.getCat_cod()+"</td><td>"+c.getCat_descricao()+"</td></tr>";
                     }                    
                     response.getWriter().print(str);
                     break;
                     
                 case "novo": 
                     
-                    response.getWriter().print(novo(request.getParameter("cod"),request.getParameter("descricao")));
+                    response.getWriter().print(novo(request.getParameter("codigo"),request.getParameter("categoria")));
                     break;
                     
                 case "excluir": 
                     
-                    response.getWriter().print(excluir(request.getParameter("cod")));
+                    response.getWriter().print(excluir(request.getParameter("codigo")));
                     break;
             }
         }
     }
     
     private String novo(String cods, String categoria){
-        String ans;
+        String str;
         DALCategoria dal = new DALCategoria();
         Categoria c = new Categoria();
         c.setCat_descricao(categoria);
@@ -62,19 +63,19 @@ public class CategoriaServ extends HttpServlet {
         if(cod == 0)
         {
             if(dal.salvar(c))
-                ans = "Gravado com sucesso!";
+                str = "Gravado!";
             else
-                ans = "Problemas ao cadastrar";
+                str = "Problemas";
         }
         else
         {
             c.setCat_cod(cod);
             if(dal.alterar(c))
-                ans = "Alterado com sucesso!";
+                str = "Alterado com sucesso!";
             else
-                ans = "Problemas ao alterar";
+                str = "Problemas ao alterar";
         }
-        return ans;
+        return str;
     }
     
      private String excluir(String cod)

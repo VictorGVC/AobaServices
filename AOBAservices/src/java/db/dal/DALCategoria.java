@@ -12,9 +12,8 @@ public class DALCategoria {
     
     public boolean salvar(Categoria c){
         
-        String sql = "INSERT INTO categoria(cat_cod,cat_desc) VALUES(#1,'#2')";
+        String sql = "INSERT INTO categoria(cat_desc) VALUES('#2')";
         
-        sql = sql.replaceAll("#1", "" + c.getCat_cod());
         sql = sql.replaceAll("#2", "" + c.getCat_descricao());
         
         return new Conexao().manipular(sql);

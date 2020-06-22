@@ -20,7 +20,6 @@
             <div id="head" class="head">
                 <button class="btnCabecalho" id="novo" onclick="novo()">novo</button>
                 <button class="btnCabecalho" id="salvar" onclick="salvar()">salvar</button>
-                <button class="btnCabecalho" id="alterar" onclick="altera()">alterar</button>
                 <button class="btnCabecalho" id="apagar" onclick="apagar()">apagar</button>
                 <button class="btnCabecalho" id="cancelar" onclick="cancelar()">cancelar</button>
                 <a class="btnCabecalho" href='homeA.jsp'>voltar</a>
@@ -29,9 +28,9 @@
             <div class="maingrid">
                 <%-- crud --%>
                 <div>
-                    <form class="form-input" id="dados">
+                    <form class="form-input" id="data">
                         <label class="label-input">
-                            <input type="text" name="cod" id="cod" placeholder="Código">
+                            <input type="text" name="codigo" id="codigo" placeholder="Código">
                         </label>
                         <label class="label-input">
                             <i class="fas fa-clipboard-list"></i>

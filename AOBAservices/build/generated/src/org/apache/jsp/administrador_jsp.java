@@ -59,7 +59,6 @@ public final class administrador_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("            <div id=\"head\" class=\"head\">\n");
       out.write("                <button class=\"btnCabecalho\" id=\"novo\" onclick=\"novo()\">novo</button>\n");
       out.write("                <button class=\"btnCabecalho\" id=\"salvar\" onclick=\"salvar()\">salvar</button>\n");
-      out.write("                <button class=\"btnCabecalho\" id=\"alterar\" onclick=\"altera()\">alterar</button>\n");
       out.write("                <button class=\"btnCabecalho\" id=\"apagar\" onclick=\"apagar()\">apagar</button>\n");
       out.write("                <button class=\"btnCabecalho\" id=\"cancelar\" onclick=\"cancelar()\">cancelar</button>\n");
       out.write("                <a class=\"btnCabecalho\" href='homeA.jsp'>voltar</a>\n");
@@ -70,9 +69,9 @@ public final class administrador_jsp extends org.apache.jasper.runtime.HttpJspBa
       out.write("                ");
       out.write("\n");
       out.write("                <div>\n");
-      out.write("                    <form class=\"form-input\" id=\"dados\">\n");
+      out.write("                    <form class=\"form-input\" id=\"data\">\n");
       out.write("                        <label class=\"label-input\">\n");
-      out.write("                            <input type=\"text\" name=\"cod\" id=\"cod\" placeholder=\"Código\">\n");
+      out.write("                            <input type=\"text\" name=\"codigo\" id=\"codigo\" placeholder=\"Código\">\n");
       out.write("                        </label>\n");
       out.write("                        <label class=\"label-input\">\n");
       out.write("                            <i class=\"fas fa-clipboard-list\"></i>\n");
