@@ -22,7 +22,7 @@
                 <button class="btnCabecalho" id="salvar" onclick="salvar()">salvar</button>
                 <button class="btnCabecalho" id="apagar" onclick="apagar()">apagar</button>
                 <button class="btnCabecalho" id="cancelar" onclick="cancelar()">cancelar</button>
-                <a class="btnCabecalho" href='homeA.jsp'>voltar</a>
+                <a href="index.jsp">Voltar</a>
             </div>
             <%-- main --%>
             <div class="maingrid">

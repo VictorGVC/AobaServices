@@ -36,6 +36,7 @@
                 </div>
             </form>
             <div id="preview" onload="carregaAnuncios()" class="painelanuncios">
+                <a href="administrador.jsp">Modulo Administrador</a>
                 <div class="anuncio">
                     <label>Anunciante:&nbsp;</label><td>Indian</td><br>
                     <label>Título:&nbsp;</label><td>Zarabatana</td><br>
