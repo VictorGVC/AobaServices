@@ -18,7 +18,7 @@
                 </div>
                 <button class="botaologin" onclick="document.getElementById('id01').style.display='block'">Login</button>
                 <div id="id01" class="modal">
-                    <form class="modal-content animate" action="" method="post">
+                    <form id="fdados" class="modal-content animate" action="" method="post" onsubmit="buscaLogin()">
                         <div class="imgcontainer">
                             <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                         </div>
@@ -35,7 +35,7 @@
                     </form>
                 </div>
             </form>
-            <div class="painelanuncios">
+            <div id="preview" onload="carregaAnuncios()" class="painelanuncios">
                 <div class="anuncio">
                     <label>Anunciante:&nbsp;</label><td>Indian</td><br>
                     <label>Título:&nbsp;</label><td>Zarabatana</td><br>

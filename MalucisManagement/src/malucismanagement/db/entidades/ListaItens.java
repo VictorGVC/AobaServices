@@ -1,0 +1,138 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package malucismanagement.db.entidades;
+
+/**
+ *
+ * @author HITRON
+ */
+public class ListaItens 
+{
+    int quantidade, codigo;
+    double preco,total;
+    String nome,categoria,marca, codigobarras;
+
+    public ListaItens(int quantidade, int codigo, double preco, double total, String nome, String categoria, String marca) {
+        this.quantidade = quantidade;
+        this.codigo = codigo;
+        this.preco = preco;
+        this.total = total;
+        this.nome = nome;
+        this.categoria = categoria;
+        this.marca = marca;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public ListaItens(int quantidade, double preco, int codigo, String nome, String categoria) {
+        this.quantidade = quantidade;
+        this.preco = preco;
+        this.codigo = codigo;
+        this.nome = nome;
+        this.categoria = categoria;
+    }
+    
+    public ListaItens(int quantidade, double preco, String codigo, String nome, double total, String marca) 
+    {
+        this.quantidade = quantidade;
+        this.preco = preco;
+        this.codigobarras = codigo;
+        this.nome = nome;
+        this.total = total;
+        this.marca = marca;
+    }
+    
+    public ListaItens(double preco, String codigo, String nome, String marca) 
+    {
+        this.preco = preco;
+        this.codigobarras = codigo;
+        this.nome = nome;
+        this.marca = marca;
+    }
+
+    public String getCodigobarras() {
+        return codigobarras;
+    }
+
+    public void setCodigobarras(String codigobarras) {
+        this.codigobarras = codigobarras;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public ListaItens(int quantidade, int codigo, String nome) {
+        this.quantidade = quantidade;
+        this.codigo = codigo;
+        this.nome = nome;
+    }
+    
+    
+
+    public ListaItens() {
+    }
+
+    public ListaItens(int quantidade, double preco, String nome, String categoria) {
+        this.quantidade = quantidade;
+        this.preco = preco;
+        this.nome = nome;
+        this.categoria = categoria;
+    }
+    
+    
+    
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    
+}

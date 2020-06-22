@@ -44,10 +44,14 @@ public class DALAnuncio {
         return new Conexao().manipular(sql);
     }
     
-    public List<Anuncio> getProdutos(){
+    public List<Anuncio> getProdutos(String filtro){
         
+        String sql = "SELECT * FROM anuncio";
         List<Anuncio> lista = new ArrayList();
-        ResultSet rs = new Conexao().consultar("SELECT * FROM anuncio");
+        
+        if(!filtro.isEmpty())
+            sql += " WHERE " + filtro;
+        ResultSet rs = new Conexao().consultar(sql);
         
         try {
             while(rs.next()){

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="pnprincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="malucismanagement.TelaProdutoController">
+   <children>
+      <AnchorPane fx:id="pnsecundario" layoutY="67.0" prefHeight="215.0" prefWidth="800.0">
+         <children>
+            <JFXTextField fx:id="txNomeProduto" focusColor="BLACK" labelFloat="true" layoutX="164.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="Nome do Produto*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txPreco" focusColor="BLACK" labelFloat="true" layoutX="164.0" layoutY="172.0" prefHeight="25.0" prefWidth="220.0" promptText="Preço*" unFocusColor="BLACK" />
+            <JFXTextField fx:id="txQtdEstoque" focusColor="BLACK" labelFloat="true" layoutX="416.0" layoutY="100.0" prefHeight="25.0" prefWidth="220.0" promptText="Quantidade em Estoque*" unFocusColor="BLACK" />
+            <JFXComboBox fx:id="cbCategoria" focusColor="BLACK" labelFloat="true" layoutX="416.0" layoutY="172.0" prefHeight="25.0" prefWidth="220.0" promptText="Categoria*" unFocusColor="BLACK" />
+            <Label fx:id="lbobg" layoutX="664.0" layoutY="197.0" text="* Campos Obrigatorios" textFill="RED" />
+            <JFXTextField fx:id="txCodigo" focusColor="BLACK" labelFloat="true" layoutX="290.0" layoutY="52.0" prefHeight="25.0" prefWidth="220.0" promptText="Código de Barras*" />
+         </children>
+      </AnchorPane>
+      <TableView fx:id="tvProdutos" layoutY="347.0" prefHeight="255.0" prefWidth="800.0">
+         <columns>
+            <TableColumn fx:id="ColCod" prefWidth="150.0" text="Codigo" />
+            <TableColumn fx:id="ColProduto" prefWidth="240.0" text="Produto" />
+            <TableColumn fx:id="ColPreco" prefWidth="100.0" text="Preço" />
+            <TableColumn fx:id="ColQtd" prefWidth="100.0" text="Quantidade" />
+            <TableColumn fx:id="ColCat" prefWidth="210.0" text="Categoria" />
+         </columns>
+      </TableView>
+      <JFXComboBox fx:id="cbFiltro" focusColor="BLACK" layoutX="142.0" layoutY="300.0" prefHeight="38.0" prefWidth="111.0" promptText="Filtro" unFocusColor="BLACK" />
+      <JFXTextField fx:id="txPesquisar" focusColor="BLACK" layoutX="271.0" layoutY="300.0" onKeyPressed="#FiltrarProduto" onKeyReleased="#FiltrarProduto" onKeyTyped="#FiltrarProduto" prefHeight="38.0" prefWidth="423.0" promptText="Pesquisar" unFocusColor="BLACK" />
+      <JFXButton fx:id="btRemoverProduto" layoutX="311.0" layoutY="25.0" onAction="#RemoverProduto" text="Apagar" />
+      <JFXButton fx:id="btEditarFornecedor" layoutX="207.0" layoutY="25.0" onAction="#EditarProduto" text="Alterar" />
+      <JFXButton fx:id="btaddProduto" layoutX="418.0" layoutY="25.0" onAction="#SalvarProduto" text="Confirmar" />
+      <JFXButton fx:id="btSalvarProduto" layoutX="109.0" layoutY="25.0" onAction="#NovoProd" prefHeight="25.0" prefWidth="48.0" text="Novo" />
+      <JFXButton fx:id="btEditarFornecedor" layoutX="207.0" layoutY="25.0" onAction="#EditarProduto" text="Alterar" />
+      <JFXButton fx:id="btRemoverProduto" layoutX="311.0" layoutY="25.0" onAction="#RemoverProduto" text="Apagar" />
+      <JFXButton fx:id="btaddProduto" layoutX="418.0" layoutY="25.0" onAction="#SalvarProduto" text="Confirmar" />
+      <JFXButton fx:id="btCancelarProduto" layoutX="532.0" layoutY="25.0" onAction="#CancelarProduto" prefHeight="25.0" prefWidth="69.0" text="Cancelar" />
+      <JFXButton fx:id="btExit" layoutX="648.0" layoutY="25.0" onAction="#clkbtExit" text="Voltar" />
+   </children>
+</AnchorPane>

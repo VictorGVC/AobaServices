@@ -68,3 +68,38 @@ function SalvarPrestador(){
     
     
 }
+
+function buscaLogin(){
+    
+    event.preventDefault();
+
+    const URL_TO_FETCH = 'PrestadorServ';
+    
+    const data = new URLSearchParams();
+    for (const pair of new FormData(document.getElementById('fdados'))) {
+        data.append(pair[0], pair[1]);
+    }
+    data.append('acao', 'login');
+    fetch(URL_TO_FETCH, { method: 'post', body: data 
+    }).then(function (response) {
+        return response.text();
+    }).then(function (retorno) {
+         
+    }).catch(function (error) {
+        console.error(error);
+    });
+}
+
+function carregaAnuncios()
+{   
+    var filtro=document.getElementById("filtro").value;
+    const URL_TO_FETCH='AnunciosServ?acao=consultar&filtro='+filtro;
+    fetch(URL_TO_FETCH,{method:'get'}).then(function(response)
+    {
+        response.text().then(function(result)
+        {
+            document.getElementById('preview').innerHTML = result;
+        });
+    }).catch (function(err) {console.error(err);});
+
+}
